@@ -1,3 +1,4 @@
+package ca.uqam.casinotopia;
 public class Case {
 	private int numero;
 	private String couleur;

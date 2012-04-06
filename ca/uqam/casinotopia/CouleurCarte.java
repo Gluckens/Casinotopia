@@ -1,3 +1,4 @@
+package ca.uqam.casinotopia;
 public enum CouleurCarte {
 	private Object pique;
 	private Object coeur;

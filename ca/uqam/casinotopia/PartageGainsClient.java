@@ -1,3 +1,4 @@
+package ca.uqam.casinotopia;
 public class PartageGainsClient {
 	private int pourcentage;
 	public Client unnamed_Client_;

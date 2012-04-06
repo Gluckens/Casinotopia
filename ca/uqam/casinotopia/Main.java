@@ -1,5 +1,6 @@
+package ca.uqam.casinotopia;
 import java.util.Vector;
 
-public class JeuCartes {
+public class Main {
 	private Vector<Carte> cartes = new Vector<Carte>();
 }

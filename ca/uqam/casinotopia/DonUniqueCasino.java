@@ -1,5 +1,6 @@
-public class PartageGainsCasino {
-	private int pourcentage;
+package ca.uqam.casinotopia;
+public class DonUniqueCasino {
+	private int montant;
 	public CompteCasino unnamed_CompteCasino_;
 	public Fondation unnamed_Fondation_;
 

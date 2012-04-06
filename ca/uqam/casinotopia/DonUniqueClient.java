@@ -1,3 +1,4 @@
+package ca.uqam.casinotopia;
 public class DonUniqueClient {
 	private int montant;
 	public Client unnamed_Client_;

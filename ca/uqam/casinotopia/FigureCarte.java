@@ -1,3 +1,4 @@
+package ca.uqam.casinotopia;
 public enum FigureCarte {
 	private Object deux;
 	private Object trois;

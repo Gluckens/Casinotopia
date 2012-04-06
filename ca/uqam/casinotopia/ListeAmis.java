@@ -1,3 +1,4 @@
+package ca.uqam.casinotopia;
 import java.util.Vector;
 
 public class ListeAmis {
