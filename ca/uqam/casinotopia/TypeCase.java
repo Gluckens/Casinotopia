@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia;
-public enum TypeCase {
+public class TypeCase {
+	
 	private Object chiffre;
 	private Object couleur;
 	private Object pairImpair;
