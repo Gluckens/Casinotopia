@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.console.CInput;
 
-public class EnvoyerUsername implements Command, Serializable{
+public class AfficherMenu implements Command, Serializable {
 
-	
-	private static final long serialVersionUID = 5070620890972462689L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2456319886577648875L;
 
 	@Override
 	public void action() {
-
-		System.out.println("Quel est ton nom?");
-		
+		System.out.println("Que veut tu faire\n 1. afficher les autres users");
 	}
 
 	@Override
@@ -28,9 +28,7 @@ public class EnvoyerUsername implements Command, Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	
-	
 }

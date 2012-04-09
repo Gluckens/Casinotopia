@@ -13,7 +13,10 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ca.uqam.casinotopia.command.AfficherMenu;
 import ca.uqam.casinotopia.command.Command;
+import ca.uqam.casinotopia.command.EnvoyerListeUser;
+import ca.uqam.casinotopia.command.EnvoyerMessage;
 import ca.uqam.casinotopia.command.EnvoyerUsername;
 
 public class ServerThread implements Runnable {
@@ -39,7 +42,7 @@ public class ServerThread implements Runnable {
 			
 			ois = new ObjectInputStream(is);
 			oos = new ObjectOutputStream(os);
-
+			
 			dis = new DataInputStream(is);
 			dos = new DataOutputStream(os);
 			
@@ -49,6 +52,101 @@ public class ServerThread implements Runnable {
 		}
 	}
 	
+	@Override
+	public void run() {
+		try {
+			System.out.println("client no "+number+" connecté");
+			while(clientConnected){
+				try{
+					username = demanderUsername();
+					int choix = 0;
+					while(choix != -1){
+						choix = Integer.parseInt(afficherMenu());
+						switch (choix) {
+						case 1:
+							envoyerListeUser();
+							break;
+	
+						default:
+							envoyerMessage();
+							break;
+						}
+					}
+				}catch (EOFException e) {
+					System.err.println(e.getStackTrace());
+				}
+				Thread.sleep(1);//sauve du cpu
+			}
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			System.out.println("déconnexion du client "+number);
+			try {
+				oos.close();
+				ois.close();
+				dos.close();
+				dis.close();
+				clientSocket.close();
+				clientConnected = false;
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
+	private void envoyerMessage() throws IOException {
+
+		oos.writeObject(new EnvoyerMessage("Option invalide"));
+		oos.reset();
+
+		System.out.println("client "+number+" s'est trompé");
+		
+	}
+
+	private void envoyerListeUser() throws IOException {
+
+		EnvoyerListeUser lst = new EnvoyerListeUser();
+		String liste = "";
+		for (int i = 0; i < MainServeur.NUMCONNEXION; i++) {
+			if(MainServeur.thread[i] != null && MainServeur.thread[i].isAlive() && MainServeur.serverThread[i].username != null){
+				liste += " "+i+": "+MainServeur.serverThread[i].username+"\n";
+			}
+		}
+		lst.setListe(liste);
+		oos.writeObject(lst);
+		oos.reset();
+		System.out.println("client "+number+" a eu une liste de user");
+	}
+
+	private String afficherMenu() throws IOException {
+
+		oos.writeObject(new AfficherMenu());
+		oos.reset();
+		String reponse = ois.readUTF();
+		System.out.println("client "+number+" choisit "+ reponse);
+		return reponse;
+		
+	}
+
+	public String demanderUsername() throws IOException{
+
+		oos.writeObject(new EnvoyerUsername());
+		oos.reset();
+		String reponse = ois.readUTF();
+		System.out.println("le client "+number+" s'appel "+ reponse);
+		return reponse;
+		
+	}
+	/*
 	@Override
 	public void run() {
 		try {
@@ -168,6 +266,6 @@ public class ServerThread implements Runnable {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
 }
