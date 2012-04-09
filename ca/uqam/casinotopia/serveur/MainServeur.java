@@ -1,8 +1,10 @@
 package ca.uqam.casinotopia.serveur;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 
 public class MainServeur {
@@ -15,6 +17,15 @@ public class MainServeur {
 	private static Boolean actif = true; 
 	
 	public static void main(String[] args) {
+		
+
+	    try {
+	      InetAddress address = InetAddress.getLocalHost();
+	      System.out.println("Ton ip est surement : "+address.getHostAddress());
+	    }
+	    catch (UnknownHostException e) {
+	      System.out.println("Could not find this computer's address.");
+	    }
 		try {
 			System.out.println("création du server");
 			server = new ServerSocket(7777);
@@ -33,6 +44,7 @@ public class MainServeur {
 						break;
 					}
 				}
+				//indiquer au client que le serveur est plein
 			}
 			
 		} catch (IOException e) {

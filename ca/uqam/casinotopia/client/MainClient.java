@@ -47,11 +47,19 @@ public class MainClient {
             dis = new DataInputStream(input);
 
             while(true){
-	            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-				System.out.println("serveur:\n"+ois.readUTF());
-				String message = in.readLine();
-				oos.writeUTF(message);
-				oos.reset();
+	            Command cmd = null;
+	            try {
+					cmd = (Command) ois.readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            if(cmd != null){
+					cmd.action();
+					cmd.repondre(oos);
+	            }else{
+	            	System.err.println("la commande envoyé n'est pas valide");
+	            }
             }
 
         } catch (IOException e) {
