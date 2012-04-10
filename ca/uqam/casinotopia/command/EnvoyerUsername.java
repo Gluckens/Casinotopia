@@ -1,36 +1,34 @@
 package ca.uqam.casinotopia.command;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import ca.uqam.casinotopia.console.CInput;
+public class EnvoyerUsername implements Serializable, Command {
 
-public class EnvoyerUsername implements Command, Serializable{
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7775344224886698483L;
+	private String username;
 	
-	private static final long serialVersionUID = 5070620890972462689L;
+	public EnvoyerUsername(String username) {
+		this.username = username;
+	}
 
 	@Override
 	public void action() {
+		System.out.println("le client a envoyer le username "+username+" mais je sais pas comment l'affecter ptete avec un model?");
 
-		System.out.println("Quel est ton nom?");
-		
 	}
 
 	@Override
 	public void repondre(ObjectOutputStream oos) {
-		String message = CInput.readline();
-		try {
-			oos.writeUTF(message);
-			oos.reset();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		// TODO Auto-generated method stub
+
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 
-	
-	
 }

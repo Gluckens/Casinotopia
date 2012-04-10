@@ -17,7 +17,7 @@ public class MainServeur {
 	private static Boolean actif = true; 
 	
 	public static void main(String[] args) {
-		
+		//TODO modifier la création de thread en bag
 
 	    try {
 	      InetAddress address = InetAddress.getLocalHost();

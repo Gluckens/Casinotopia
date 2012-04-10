@@ -1,22 +1,13 @@
 package ca.uqam.casinotopia.serveur;
 
-import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Random;
-
 import ca.uqam.casinotopia.command.AfficherMenu;
 import ca.uqam.casinotopia.command.Command;
 import ca.uqam.casinotopia.command.EnvoyerListeUser;
 import ca.uqam.casinotopia.command.EnvoyerMessage;
-import ca.uqam.casinotopia.command.EnvoyerUsername;
+import ca.uqam.casinotopia.command.DemanderUsername;
 import ca.uqam.casinotopia.connexion.Connexion;
 
 public class ServerThread implements Runnable {
@@ -36,24 +27,24 @@ public class ServerThread implements Runnable {
 		try {
 			System.out.println("client no "+number+" connecté");
 			while(connexion.isConnected()){
-				try{
-					username = demanderUsername();
-					int choix = 0;
-					while(choix != -1){
-						choix = Integer.parseInt(afficherMenu());
-						switch (choix) {
-						case 1:
-							envoyerListeUser();
-							break;
-	
-						default:
-							envoyerMessage();
-							break;
-						}
-					}
-				}catch (EOFException e) {
-					System.err.println(e.getStackTrace());
+				premiereAction(new DemanderUsername());
+				Command cmd = null;
+	            try {
+					cmd = (Command) connexion.getObjectInputStream().readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            if(cmd != null){
+					cmd.action();
+					cmd.repondre(connexion.getObjectOutputStream());
+	            }else{
+	            	System.err.println("la commande envoyé n'est pas valide");
+	            }
 				Thread.sleep(1);//sauve du cpu
 			}
 		} catch (SocketException e) {
@@ -106,13 +97,10 @@ public class ServerThread implements Runnable {
 		
 	}
 
-	public String demanderUsername() throws IOException{
+	public void premiereAction(Command cmd) throws IOException{
 
-		connexion.getObjectOutputStream().writeObject(new EnvoyerUsername());
+		connexion.getObjectOutputStream().writeObject(cmd);
 		connexion.getObjectOutputStream().reset();
-		String reponse = connexion.getObjectInputStream().readUTF();
-		System.out.println("le client "+number+" s'appel "+ reponse);
-		return reponse;
 		
 	}
 	
