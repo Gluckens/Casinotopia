@@ -10,14 +10,14 @@ import java.net.UnknownHostException;
 public class MainServeur {
 
 
-	static final int NUMCONNEXION = 10;
+	public static final int NUMCONNEXION = 10;
 	static ServerSocket server;
-	static Thread[] thread = new Thread[NUMCONNEXION];
-	static ServerThread[] serverThread = new ServerThread[NUMCONNEXION];
+	public static Thread[] thread = new Thread[NUMCONNEXION];
+	public static ServerThread[] serverThread = new ServerThread[NUMCONNEXION];
 	private static Boolean actif = true; 
 	
 	public static void main(String[] args) {
-		
+		//TODO modifier la création de thread en bag
 
 	    try {
 	      InetAddress address = InetAddress.getLocalHost();

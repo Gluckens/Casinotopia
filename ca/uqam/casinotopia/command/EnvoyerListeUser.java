@@ -1,25 +1,25 @@
 package ca.uqam.casinotopia.command;
 
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import ca.uqam.casinotopia.controleur.Controleur;
 
 public class EnvoyerListeUser implements Command, Serializable {
 
-	private static final long serialVersionUID = -8255491512871662438L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -267352953213711411L;
 	private String liste;
 	
-	@Override
-	public void action() {
-		System.out.println("les user connecté sont : \n"+liste);
-	}
 
 	@Override
-	public void repondre(ObjectOutputStream oos) {
+	public void action(Controleur controleur) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	/**
 	 * @return the liste
 	 */
@@ -33,5 +33,6 @@ public class EnvoyerListeUser implements Command, Serializable {
 	public void setListe(String liste) {
 		this.liste = liste;
 	}
+
 
 }
