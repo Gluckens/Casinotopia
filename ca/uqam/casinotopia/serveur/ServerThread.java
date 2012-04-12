@@ -3,11 +3,8 @@ package ca.uqam.casinotopia.serveur;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
-import ca.uqam.casinotopia.command.AfficherMenu;
 import ca.uqam.casinotopia.command.Command;
-import ca.uqam.casinotopia.command.EnvoyerListeUser;
-import ca.uqam.casinotopia.command.EnvoyerMessage;
-import ca.uqam.casinotopia.command.DemanderUsername;
+import ca.uqam.casinotopia.command.DemanderInformation;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.model.ServeurClientModel;
@@ -29,7 +26,7 @@ public class ServerThread extends Controleur implements Runnable {
 	public void run() {
 		try {
 			System.out.println("client no "+number+" connecté");
-			premiereAction(new DemanderUsername());
+			premiereAction(new DemanderInformation());
 			while(getConnexion().isConnected()){
 				Command cmd = null;
 	            try {

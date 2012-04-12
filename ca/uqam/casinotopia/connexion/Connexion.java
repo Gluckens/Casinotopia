@@ -35,7 +35,7 @@ public class Connexion {
 	
 	public Connexion(String ip, int port) {
 	    System.out.println("Connection à "+ip);
-		int essaie = 5;
+		int essaie = 2;
 		while(essaie != 0){
 			try {
 				socket = new Socket(ip, port);

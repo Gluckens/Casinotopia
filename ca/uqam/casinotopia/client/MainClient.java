@@ -5,12 +5,13 @@ import java.io.IOException;
 import ca.uqam.casinotopia.command.Command;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.vue.ConnexionFrame;
 
 public class MainClient extends Controleur {
 
 	//private Connexion connexion;
 
-	
+	ConnexionFrame connexionFrame;
 	public static void main(String[] args) {
 		new MainClient();
 	}
@@ -48,5 +49,15 @@ public class MainClient extends Controleur {
         
         System.out.println("fermeture du programme...");
 	}
+
+	
+	public ConnexionFrame getConnexionFrame() {
+		return connexionFrame;
+	}
+
+	public void setConnexionFrame(ConnexionFrame connexionFrame) {
+		this.connexionFrame = connexionFrame;
+	}
+
 
 }

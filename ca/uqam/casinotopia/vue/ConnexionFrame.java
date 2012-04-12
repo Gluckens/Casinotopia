@@ -14,9 +14,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+
+import ca.uqam.casinotopia.Utilisateur;
+import ca.uqam.casinotopia.command.Command;
+import ca.uqam.casinotopia.command.EnvoyerInformation;
+import ca.uqam.casinotopia.controleur.Controleur;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class ConnexionFrame extends JFrame {
 
@@ -27,8 +34,12 @@ public class ConnexionFrame extends JFrame {
 	private JTextField txtNomUtilisateur;
 	private JPasswordField txtMotDePasse;
 
-	JButton btnConnexion;
-	JButton btnCrerUnCompte;
+	private JButton btnConnexion;
+	private JButton btnCrerUnCompte;
+
+
+	private Controleur controleur;
+	private JLabel lblInformations;
 	
 	/**
 	 * Launch the application.
@@ -46,6 +57,22 @@ public class ConnexionFrame extends JFrame {
 		});
 	}
 
+	public ConnexionFrame(Controleur ctrl){
+		this();
+		this.controleur = ctrl;
+		btnConnexion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				connexion(controleur);
+			}
+		});
+
+		txtMotDePasse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				connexion(controleur);
+			}
+		});
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -71,39 +98,29 @@ public class ConnexionFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		txtNomUtilisateur = new JTextField();
-		txtNomUtilisateur.setBounds(82, 202, 227, 20);
+		txtNomUtilisateur.setBounds(82, 209, 227, 20);
 		contentPane.add(txtNomUtilisateur);
 		txtNomUtilisateur.setColumns(10);
 		
 		JLabel lblNomUtilisateur = new JLabel("Nom d'utilisateur");
 		lblNomUtilisateur.setLabelFor(txtNomUtilisateur);
 		lblNomUtilisateur.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblNomUtilisateur.setBounds(82, 187, 227, 14);
+		lblNomUtilisateur.setBounds(82, 194, 227, 14);
 		contentPane.add(lblNomUtilisateur);
 		
 		txtMotDePasse = new JPasswordField();
-		txtMotDePasse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("txt");
-			}
-		});
 		txtMotDePasse.setEchoChar('\u263B');
 		txtMotDePasse.setBounds(82, 249, 227, 20);
 		contentPane.add(txtMotDePasse);
 		txtMotDePasse.setColumns(10);
 		
-		JLabel lblMotDePasse = new JLabel("Mot de passe");
+		JLabel lblMotDePasse = new JLabel("Mot de passe (même affaire!)");
 		lblMotDePasse.setLabelFor(txtMotDePasse);
 		lblMotDePasse.setFont(new Font("Calibri", Font.PLAIN, 14));
 		lblMotDePasse.setBounds(82, 233, 227, 14);
 		contentPane.add(lblMotDePasse);
 		
 		btnConnexion = new JButton("Connexion");
-		btnConnexion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("btn");
-			}
-		});
 		btnConnexion.setFont(new Font("Calibri", Font.PLAIN, 14));
 		btnConnexion.setBounds(82, 280, 113, 23);
 		contentPane.add(btnConnexion);
@@ -112,5 +129,27 @@ public class ConnexionFrame extends JFrame {
 		btnCrerUnCompte.setFont(new Font("Calibri", Font.PLAIN, 14));
 		btnCrerUnCompte.setBounds(253, 366, 137, 23);
 		contentPane.add(btnCrerUnCompte);
+		
+		lblInformations = new JLabel("informations");
+		lblInformations.setForeground(new Color(255, 0, 0));
+		lblInformations.setBounds(82, 177, 227, 14);
+		lblInformations.setVisible(false);
+		contentPane.add(lblInformations);
+	}
+	
+	public void connexion(Controleur controleur){
+		
+		
+		Utilisateur utilisateur = new Utilisateur(this.txtNomUtilisateur.getText(),this.txtMotDePasse.getPassword());
+		Command cmd = new EnvoyerInformation(utilisateur);
+		controleur.getConnexion().envoyerCommand(cmd);
+	}
+
+	public JLabel getLblInformations() {
+		return lblInformations;
+	}
+
+	public void setLblInformations(JLabel lblInformations) {
+		this.lblInformations = lblInformations;
 	}
 }

@@ -6,8 +6,11 @@ import ca.uqam.casinotopia.controleur.Controleur;
 
 public class EnvoyerListeUser implements Command, Serializable {
 
-	private static final long serialVersionUID = -8255491512871662438L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -267352953213711411L;
 	private String liste;
 	
 
