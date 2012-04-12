@@ -1,34 +1,35 @@
 package ca.uqam.casinotopia.command;
 
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.serveur.ServerThread;
+
 public class EnvoyerUsername implements Serializable, Command {
+
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7775344224886698483L;
-	private String username;
+	private static final long serialVersionUID = 3765448763609654187L;
+	private String utilisateur;
 	
-	public EnvoyerUsername(String username) {
-		this.username = username;
+	public EnvoyerUsername(String utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
 	@Override
-	public void action() {
-		System.out.println("le client a envoyer le username "+username+" mais je sais pas comment l'affecter ptete avec un model?");
+	public void action(Controleur controleur) {
+		System.out.println("le client a envoyer le username "+utilisateur+"!");
+		((ServerThread)controleur).getModel().getUtilisateur().setNomUtilisateur(utilisateur);
+
+		controleur.getConnexion().envoyerCommand(new AfficherMenu());
 
 	}
 
-	@Override
-	public void repondre(ObjectOutputStream oos) {
-		// TODO Auto-generated method stub
-
-	}
 	
-	public String getUsername() {
-		return username;
+	public String getUtilisateur() {
+		return utilisateur;
 	}
 
 }

@@ -2,8 +2,8 @@ package ca.uqam.casinotopia;
 
 public class Utilisateur {
 	
-	private String nomUtilisateur;
-	private String motDePasse;
+	private String nomUtilisateur = null;
+	private String motDePasse = null;
 	
 	/**
 	 * @return the nomUtilisateur

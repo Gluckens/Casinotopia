@@ -1,34 +1,37 @@
 package ca.uqam.casinotopia.command;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import ca.uqam.casinotopia.console.CInput;
+import ca.uqam.casinotopia.controleur.Controleur;
 
 public class AfficherMenu implements Command, Serializable {
+
+
+
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2456319886577648875L;
+	private static final long serialVersionUID = 4336497254946189604L;
 
 	@Override
-	public void action() {
+	public void action(Controleur controleur) {
 		System.out.println("Que veut tu faire\n 1. afficher les autres users");
-	}
+		
+		int choix = Integer.parseInt(CInput.readline());
+		switch (choix) {
+		case 1:
+			controleur.getConnexion().envoyerCommand(new VoirListeUtilisateur());
+			break;
 
-	@Override
-	public void repondre(ObjectOutputStream oos) {
-		String message = CInput.readline();
-		try {
-			oos.writeUTF(message);
-			oos.reset();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		default:
+			System.out.println("choix indisponible");
+			break;
 		}
-
+		
+		
 	}
+
 
 }

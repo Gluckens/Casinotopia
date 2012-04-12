@@ -1,9 +1,10 @@
 package ca.uqam.casinotopia.model;
 
+
 import ca.uqam.casinotopia.Utilisateur;
 
 public class ServeurClientModel implements Model {
-	private Utilisateur utilisateur;
+	private Utilisateur utilisateur = new Utilisateur();
 	
 	
 	public ServeurClientModel() {
@@ -12,19 +13,20 @@ public class ServeurClientModel implements Model {
 
 
 	/**
-	 * @return the user
+	 * @return the utilisateur
 	 */
-	public Utilisateur getUser() {
+	public Utilisateur getUtilisateur() {
 		return utilisateur;
 	}
 
 
 	/**
-	 * @param user the user to set
+	 * @param utilisateur the utilisateur to set
 	 */
-	public void setUser(Utilisateur user) {
-		this.utilisateur = user;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
+
 	
 	
 	

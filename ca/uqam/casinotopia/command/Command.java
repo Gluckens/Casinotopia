@@ -1,10 +1,10 @@
 package ca.uqam.casinotopia.command;
 
-import java.io.ObjectOutputStream;
+import ca.uqam.casinotopia.controleur.Controleur;
+
 
 public interface Command {
 
-	public void action();
+	public void action(Controleur controleur);
 
-	public void repondre(ObjectOutputStream oos);
 }

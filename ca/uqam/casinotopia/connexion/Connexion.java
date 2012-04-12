@@ -11,11 +11,13 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import ca.uqam.casinotopia.command.Command;
+
 
 public class Connexion {
 	
 	private Socket socket;
-	private boolean connected;
+	private boolean connected = false;
 	
 	private InputStream input;
 	private OutputStream output;
@@ -27,16 +29,24 @@ public class Connexion {
 	private DataInputStream dInputStream;
 
 	public Connexion(String ip, int port) {
-		try {
-			socket = new Socket(ip, port);
-		} catch (UnknownHostException e) {
-            System.out.println("Unable to connect to server, UnknownHostException");
-            connected = false;
-		} catch (IOException e) {
-            System.out.println("Unable to connect to server, IOException");
-            connected = false;
+		int essaie = 10;
+		while(essaie != 0){
+			System.out.println("essaie no "+essaie);
+			try {
+				socket = new Socket(ip, port);
+				init();
+	            essaie = 0;
+	    	    System.out.println("Connecté");
+			} catch (UnknownHostException e) {
+	            System.out.println("Unable to connect to server, UnknownHostException");
+	            connected = false;
+	            essaie--;
+			} catch (IOException e) {
+	            System.out.println("Incapable de se connecter au serveur");
+	            connected = false;
+	            essaie--;
+			}
 		}
-		init();
 	}
 
 	public Connexion(Socket socket) {
@@ -49,8 +59,7 @@ public class Connexion {
         try {
 			socket.setTcpNoDelay(true);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.close();
 		}
         
         try {
@@ -99,6 +108,17 @@ public class Connexion {
 			connected = false;
 		} catch (IOException e) {
 			System.err.println("On ne peut pas fermer la connexion");
+			e.printStackTrace();
+		}
+	}
+	
+	public void envoyerCommand(Command cmd){
+		
+		try {
+			this.getObjectOutputStream().writeObject(cmd);
+			this.getObjectOutputStream().reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

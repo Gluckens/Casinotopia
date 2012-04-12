@@ -1,7 +1,8 @@
 package ca.uqam.casinotopia.command;
 
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import ca.uqam.casinotopia.controleur.Controleur;
 
 public class EnvoyerListeUser implements Command, Serializable {
 
@@ -9,17 +10,13 @@ public class EnvoyerListeUser implements Command, Serializable {
 	
 	private String liste;
 	
-	@Override
-	public void action() {
-		System.out.println("les user connecté sont : \n"+liste);
-	}
 
 	@Override
-	public void repondre(ObjectOutputStream oos) {
+	public void action(Controleur controleur) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	/**
 	 * @return the liste
 	 */
@@ -33,5 +30,6 @@ public class EnvoyerListeUser implements Command, Serializable {
 	public void setListe(String liste) {
 		this.liste = liste;
 	}
+
 
 }
