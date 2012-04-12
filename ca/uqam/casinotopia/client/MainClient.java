@@ -17,31 +17,36 @@ public class MainClient extends Controleur {
 	
 	public MainClient() {
 		
-		System.out.println("connection au serveur...");
+		System.out.println("recherche de serveur...");
         
-		setConnexion(new Connexion("oli.dnsd.me", 7777));
-		
+		String[] serveurs = {"localhost","oli.dnsd.me","dan.dnsd.me"};
+		int i = 0;
+		while(getConnexion().isConnected() == false && i < 3){
+			setConnexion(new Connexion(serveurs[i], 7777));
+			i++;
+		}
     
         while(getConnexion().isConnected()){
             Command cmd = null;
             try {
 				cmd = (Command) getConnexion().getObjectInputStream().readObject();
+	            if(cmd != null){
+					cmd.action(this);
+	            }else{
+	            	System.err.println("la commande envoyé n'est pas valide");
+	            }
+	       
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+            	System.err.println("le serveur ne répond plus");
+            	getConnexion().close();
 			}
-            if(cmd != null){
-				cmd.action(this);
-            }else{
-            	System.err.println("la commande envoyé n'est pas valide");
-            }
         }
         
-        System.out.println("fermeture...");
+        System.out.println("fermeture du programme...");
 	}
 
 }

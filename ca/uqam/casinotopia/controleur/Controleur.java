@@ -4,7 +4,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 
 public abstract class Controleur {
 
-	private Connexion connexion;
+	private Connexion connexion = new Connexion();
 
 	/**
 	 * @return the connexion

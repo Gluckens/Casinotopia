@@ -28,15 +28,20 @@ public class Connexion {
 	private DataOutputStream dOutputStream;
 	private DataInputStream dInputStream;
 
+	
+	public Connexion() {
+		connected = false;
+	}
+	
 	public Connexion(String ip, int port) {
-		int essaie = 10;
+	    System.out.println("Connection à "+ip);
+		int essaie = 5;
 		while(essaie != 0){
-			System.out.println("essaie no "+essaie);
 			try {
 				socket = new Socket(ip, port);
 				init();
 	            essaie = 0;
-	    	    System.out.println("Connecté");
+	    	    System.out.println("Connecté a "+ip);
 			} catch (UnknownHostException e) {
 	            System.out.println("Unable to connect to server, UnknownHostException");
 	            connected = false;
@@ -99,16 +104,15 @@ public class Connexion {
 	
 	public void close(){
 
+		connected = false;
 		try {
 			oOutputStream.close();
 			oInputStream.close();
 			dOutputStream.close();
 			dInputStream.close();
 			socket.close();
-			connected = false;
 		} catch (IOException e) {
-			System.err.println("On ne peut pas fermer la connexion");
-			e.printStackTrace();
+			System.err.println("erreur lors de la fermeture de la connexion");
 		}
 	}
 	
@@ -118,8 +122,7 @@ public class Connexion {
 			this.getObjectOutputStream().writeObject(cmd);
 			this.getObjectOutputStream().reset();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("la commande n'a pas pu être envoyé car le serveur ne répond pas");
 		}
 	}
 	
