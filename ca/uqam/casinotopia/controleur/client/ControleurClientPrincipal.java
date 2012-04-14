@@ -113,3 +113,32 @@ public class ControleurClientPrincipal extends ControleurClient{
 	}
 	
 }
+
+/*
+ * 	private FrameApplication frameApplication; 
+		//Utile de mettre sa dans un if? si on est ici = on est connecté?
+		if(this.getConnexion().isConnected()) {
+			this.frameApplication = new FrameApplication();
+			EventQueue.invokeLater(this.frameApplication);
+		}        
+		while(this.getConnexion().isConnected()){
+            Commande cmd = null;
+            try {
+				cmd = (Commande) getConnexion().getObjectInputStream().readObject();
+	            if(cmd != null){
+	            	if(cmd instanceof CommandeClient) {
+		            	if(cmd instanceof CommandeClientControleurClient) {
+		            		cmd.action(new ControleurClientClient(this.getConnexion()), this.frameApplication);
+		            	}
+		            	else if(cmd instanceof CommandeClientControleurRoulette) {
+		            		cmd.action(new ControleurRouletteClient(this.getConnexion()), this.frameApplication);
+		            	}
+	            	}
+	            	else {
+	            		System.err.println("Seulement des commandes destinées aux clients sont recevables!");
+	            	}
+	            }
+	            else{
+	            	System.err.println("Un problème est survenu (commande nulle).");
+	            }
+	            */
