@@ -3,8 +3,13 @@ package ca.uqam.casinotopia.serveur;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+
+import javax.swing.JFrame;
+
 import ca.uqam.casinotopia.command.Command;
 import ca.uqam.casinotopia.command.DemanderInformation;
+import ca.uqam.casinotopia.commande.CmdUpdateMisesRoulette;
+import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.model.ServeurClientModel;
@@ -26,14 +31,16 @@ public class ServerThread extends Controleur implements Runnable {
 	public void run() {
 		try {
 			System.out.println("client no "+number+" connecté");
-			premiereAction(new DemanderInformation());
-			while(getConnexion().isConnected()){
-				Command cmd = null;
+			//premiereAction(new DemanderInformation());
+			this.envoyerCommande(new CmdUpdateMisesRoulette());
+			while(getConnexion().isConnected()) {
+				Commande cmd = null;
 	            try {
-					cmd = (Command) getConnexion().getObjectInputStream().readObject();
-		            if(cmd != null){
-						cmd.action(this);
-		            }else{
+					cmd = (Commande) this.getConnexion().getObjectInputStream().readObject();
+		            if(cmd != null) {
+						cmd.action(this, new JFrame());
+		            }
+		            else{
 		            	System.err.println("la commande envoyé n'est pas valide");
 		            }
 				} catch (ClassNotFoundException e) {
@@ -64,10 +71,10 @@ public class ServerThread extends Controleur implements Runnable {
 	}
 
 
-	public void premiereAction(Command cmd) throws IOException{
+	public void envoyerCommande(Commande cmd) throws IOException {
 
-		getConnexion().getObjectOutputStream().writeObject(cmd);
-		getConnexion().getObjectOutputStream().reset();
+		this.getConnexion().getObjectOutputStream().writeObject(cmd);
+		this.getConnexion().getObjectOutputStream().reset();
 		
 	}
 

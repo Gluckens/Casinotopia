@@ -1,5 +1,9 @@
 package ca.uqam.casinotopia.controleur;
 
-public class ControleurClient extends Controleur {
+import ca.uqam.casinotopia.connexion.Connexion;
 
+public abstract class ControleurClient extends Controleur {
+	public ControleurClient(Connexion connexion) {
+		super(connexion);
+	}
 }

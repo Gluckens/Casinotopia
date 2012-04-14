@@ -1,9 +1,12 @@
 package ca.uqam.casinotopia.commande;
 
+import java.io.Serializable;
 
-public interface Commande {
+import javax.swing.JFrame;
 
-	public void action();
+import ca.uqam.casinotopia.controleur.Controleur;
 
-	public void repondre();
+public interface Commande extends Serializable {
+	
+	public void action(Controleur controleur, JFrame frame);
 }
