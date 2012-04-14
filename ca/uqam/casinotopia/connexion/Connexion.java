@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import ca.uqam.casinotopia.command.Command;
+import ca.uqam.casinotopia.commande.Commande;
 
 
 public class Connexion {
@@ -116,7 +116,7 @@ public class Connexion {
 		}
 	}
 	
-	public void envoyerCommand(Command cmd){
+	public void envoyerCommand(Commande cmd){
 		
 		try {
 			this.getObjectOutputStream().writeObject(cmd);

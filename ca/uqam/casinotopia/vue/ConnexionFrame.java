@@ -1,6 +1,5 @@
 package ca.uqam.casinotopia.vue;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -16,15 +15,17 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import ca.uqam.casinotopia.Utilisateur;
-import ca.uqam.casinotopia.command.Command;
-import ca.uqam.casinotopia.command.EnvoyerInformation;
-import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
+import ca.uqam.casinotopia.controleur.ControleurClient;
+import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
+@SuppressWarnings("serial")
 public class ConnexionFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -38,7 +39,7 @@ public class ConnexionFrame extends JFrame {
 	private JButton btnCrerUnCompte;
 
 
-	private Controleur controleur;
+	private ControleurClientPrincipal controleur;
 	private JLabel lblInformations;
 	
 	/**
@@ -57,18 +58,18 @@ public class ConnexionFrame extends JFrame {
 		});
 	}
 
-	public ConnexionFrame(Controleur ctrl){
+	public ConnexionFrame(ControleurClientPrincipal ctrl){
 		this();
 		this.controleur = ctrl;
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				connexion(controleur);
+				controleur.connexionAuServeur();
 			}
 		});
 
 		txtMotDePasse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				connexion(controleur);
+				controleur.connexionAuServeur();
 			}
 		});
 	}
@@ -131,20 +132,11 @@ public class ConnexionFrame extends JFrame {
 		contentPane.add(btnCrerUnCompte);
 		
 		lblInformations = new JLabel("informations");
-		lblInformations.setForeground(new Color(255, 0, 0));
 		lblInformations.setBounds(82, 177, 227, 14);
 		lblInformations.setVisible(false);
 		contentPane.add(lblInformations);
 	}
 	
-	public void connexion(Controleur controleur){
-		
-		
-		Utilisateur utilisateur = new Utilisateur(this.txtNomUtilisateur.getText(),this.txtMotDePasse.getPassword());
-		Command cmd = new EnvoyerInformation(utilisateur);
-		controleur.getConnexion().envoyerCommand(cmd);
-	}
-
 	public JLabel getLblInformations() {
 		return lblInformations;
 	}
@@ -152,4 +144,39 @@ public class ConnexionFrame extends JFrame {
 	public void setLblInformations(JLabel lblInformations) {
 		this.lblInformations = lblInformations;
 	}
+	
+	public void setMessage(String message){
+		lblInformations.setForeground(new Color(0, 0, 0));
+		this.lblInformations.setText(message);
+		lblInformations.setVisible(true);
+	}
+	
+	public void setMessageErreur(String message){
+		lblInformations.setForeground(new Color(255, 0, 0));
+		this.lblInformations.setText(message);
+		lblInformations.setVisible(true);
+	}
+	
+	
+	
+	
+	
+	
+	
+	public JTextField getTxtNomUtilisateur() {
+		return txtNomUtilisateur;
+	}
+
+	public void setTxtNomUtilisateur(JTextField txtNomUtilisateur) {
+		this.txtNomUtilisateur = txtNomUtilisateur;
+	}
+
+	public JPasswordField getTxtMotDePasse() {
+		return txtMotDePasse;
+	}
+
+	public void setTxtMotDePasse(JPasswordField txtMotDePasse) {
+		this.txtMotDePasse = txtMotDePasse;
+	}
+
 }

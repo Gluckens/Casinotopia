@@ -1,6 +1,6 @@
 package ca.uqam.casinotopia.commande;
 
 
-public interface CommandeServeur {
+public interface CommandeServeur extends Commande {
 
 }

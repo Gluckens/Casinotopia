@@ -1,10 +1,11 @@
-package ca.uqam.casinotopia.command;
+package ca.uqam.casinotopia.commande.client;
 
 import java.io.Serializable;
 
+import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.controleur.Controleur;
 
-public class EnvoyerListeUser implements Command, Serializable {
+public class EnvoyerListeUser implements Commande, Serializable {
 
 	
 	/**
