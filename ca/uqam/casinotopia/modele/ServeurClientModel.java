@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.model;
+package ca.uqam.casinotopia.modele;
 
 
 import ca.uqam.casinotopia.Utilisateur;

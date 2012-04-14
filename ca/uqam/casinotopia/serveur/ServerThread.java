@@ -12,7 +12,7 @@ import ca.uqam.casinotopia.commande.CmdUpdateMisesRoulette;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.model.ServeurClientModel;
+import ca.uqam.casinotopia.modele.ServeurClientModel;
 
 public class ServerThread extends Controleur implements Runnable {
 	
@@ -68,14 +68,6 @@ public class ServerThread extends Controleur implements Runnable {
 			e.printStackTrace();
 		}
 
-	}
-
-
-	public void envoyerCommande(Commande cmd) throws IOException {
-
-		this.getConnexion().getObjectOutputStream().writeObject(cmd);
-		this.getConnexion().getObjectOutputStream().reset();
-		
 	}
 
 	/**
