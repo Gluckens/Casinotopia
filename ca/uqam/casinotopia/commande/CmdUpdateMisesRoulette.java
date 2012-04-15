@@ -16,9 +16,14 @@ public class CmdUpdateMisesRoulette implements CommandeClientControleurRoulette 
 	 */
 	private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
 
-	@Override
 	public void action(Controleur controleur, JFrame frame) {
 		((ControleurRouletteClient)controleur).updateTableJeu(this.mises, frame);
+	}
+
+	@Override
+	public void action(Controleur controleur) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

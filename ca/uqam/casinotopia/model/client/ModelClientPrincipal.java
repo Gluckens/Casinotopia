@@ -1,6 +1,6 @@
 package ca.uqam.casinotopia.model.client;
 
-import ca.uqam.casinotopia.model.Model;
+import ca.uqam.casinotopia.modele.Model;
 
 public class ModelClientPrincipal implements Model {
 

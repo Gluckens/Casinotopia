@@ -33,6 +33,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	
 	public ControleurClientPrincipal() {
+		super(null);
 		
 		initModel();
 		

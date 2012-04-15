@@ -6,8 +6,6 @@ import java.net.SocketException;
 
 import javax.swing.JFrame;
 
-import ca.uqam.casinotopia.command.Command;
-import ca.uqam.casinotopia.command.DemanderInformation;
 import ca.uqam.casinotopia.commande.CmdUpdateMisesRoulette;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -38,7 +36,7 @@ public class ServerThread extends Controleur implements Runnable {
 	            try {
 					cmd = (Commande) this.getConnexion().getObjectInputStream().readObject();
 		            if(cmd != null) {
-						cmd.action(this, new JFrame());
+						cmd.action(this);//, new JFrame());
 		            }
 		            else{
 		            	System.err.println("la commande envoyé n'est pas valide");

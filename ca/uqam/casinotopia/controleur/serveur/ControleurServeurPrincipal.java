@@ -9,7 +9,7 @@ public class ControleurServeurPrincipal extends ControleurServeur {
 	
 	
 	public ControleurServeurPrincipal() {
-		
+		super(null);
 		initModel();
 		
 		

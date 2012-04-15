@@ -2,6 +2,7 @@ package ca.uqam.casinotopia.model;
 
 
 import ca.uqam.casinotopia.Utilisateur;
+import ca.uqam.casinotopia.modele.Model;
 
 public class ModelServeurClient implements Model {
 

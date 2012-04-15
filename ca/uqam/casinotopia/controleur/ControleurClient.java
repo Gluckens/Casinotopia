@@ -6,7 +6,7 @@ public abstract class ControleurClient extends Controleur {
 	public ControleurClient(Connexion connexion) {
 		super(connexion);
 	}
-	private Connexion connexion = new Connexion();
+	protected Connexion connexion = new Connexion();
 
 	/**
 	 * @return the connexion
