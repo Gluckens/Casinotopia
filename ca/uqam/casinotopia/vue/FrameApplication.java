@@ -37,10 +37,10 @@ public class FrameApplication extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public FrameApplication() {
+		setTitle("Casinotopia");
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		//this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 450, 300);
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.contentPane.setLayout(new BorderLayout(0, 0));
@@ -57,11 +57,15 @@ public class FrameApplication extends JFrame implements Runnable {
 	}
 	
 	public void addOrReplace(JPanel panel, String name) {
+		this.setContentPane(panel);
 		//Si je retourne le panel directement et que je le modifie, sa va pas modifier le vrai dans le frame?
 		Component component = this.getComponentByName(name);
+		System.out.println("remplacer le panel1");
 		if(component != null) {
+			System.out.println("remplacer le panel2");
 			if(component instanceof JPanel) {
 				//... remplacer le panel
+				System.out.println("remplacer le panel3");
 			}
 		}
 	}

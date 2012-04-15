@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import ca.uqam.casinotopia.Utilisateur;
-import ca.uqam.casinotopia.commande.client.AfficherMenu;
+import ca.uqam.casinotopia.commande.client.AfficherPagePrincipal;
 import ca.uqam.casinotopia.commande.client.InformationNomValide;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
@@ -37,7 +37,7 @@ public class AuthentifierClient implements Serializable, CommandeServeur {
 		
 		if(Arrays.equals(utilisateur.getMotDePasse(), utilisateur.getNomUtilisateur().toCharArray())){
 			((ControleurServeurThread)controleur).getModel().setUtilisateur(utilisateur);
-			((ControleurServeurThread)controleur).getConnexion().envoyerCommand(new AfficherMenu());
+			((ControleurServeurThread)controleur).getConnexion().envoyerCommand(new AfficherPagePrincipal());
 		}else{
 			((ControleurServeurThread)controleur).getConnexion().envoyerCommand(new InformationNomValide("les données sont incorrecte"));
 		}

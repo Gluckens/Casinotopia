@@ -3,10 +3,13 @@ package ca.uqam.casinotopia.controleur.serveur;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.model.ModelServeurClient;
+import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 		
@@ -52,13 +55,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	}
 
 
-	public void premiereAction(Commande cmd) throws IOException{
-
-		getConnexion().getObjectOutputStream().writeObject(cmd);
-		getConnexion().getObjectOutputStream().reset();
-		
-	}
-
 	/**
 	 * @return the model
 	 */
@@ -73,5 +69,26 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.model = model;
 	}
 	
-
+	public ArrayList<String> getAllUtilisateurs(){
+		ArrayList<String> liste = new ArrayList<String>();
+		for (int i = 0; i < MainServeur.NUMCONNEXION; i++) {
+			if(MainServeur.thread[i] != null && 
+					MainServeur.thread[i].isAlive() && 
+					MainServeur.serverThread[i].getModel().getUtilisateur().getNomUtilisateur() != null){
+				liste.add( MainServeur.serverThread[i].getModel().getUtilisateur().getNomUtilisateur());
+			}
+		}
+		return liste;
+	}
+	
+	public void envoyerCommandATous(Commande cmd){
+		for (int i = 0; i < MainServeur.NUMCONNEXION; i++) {
+			if(MainServeur.thread[i] != null && 
+					MainServeur.thread[i].isAlive() && 
+					MainServeur.serverThread[i].getModel().getUtilisateur().getNomUtilisateur() != null){
+				MainServeur.serverThread[i].getConnexion().envoyerCommand(cmd);
+			}
+		}
+	}
+	
 }

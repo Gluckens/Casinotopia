@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
+import ca.uqam.casinotopia.model.ModelServeurPrincipal;
 
 
 public class MainServeur {
@@ -17,6 +18,8 @@ public class MainServeur {
 	public static Thread[] thread = new Thread[NUMCONNEXION];
 	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
 	private static Boolean actif = true; 
+	
+	public static ModelServeurPrincipal model = new ModelServeurPrincipal();
 	
 	public static void main(String[] args) {
 		//TODO modifier la création de thread en bag ?

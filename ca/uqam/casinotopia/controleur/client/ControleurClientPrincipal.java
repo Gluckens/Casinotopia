@@ -1,6 +1,11 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollBar;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.*;
@@ -9,6 +14,8 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.model.client.ClientThread;
 import ca.uqam.casinotopia.model.client.ModelClientPrincipal;
 import ca.uqam.casinotopia.vue.ConnexionFrame;
+import ca.uqam.casinotopia.vue.FrameApplication;
+import ca.uqam.casinotopia.vue.PanelChat;
 import ca.uqam.casinotopia.Utilisateur;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
@@ -18,9 +25,14 @@ public class ControleurClientPrincipal extends ControleurClient{
 
 
 	/**
-	 * vue
+	 * vues
 	 */
 	ConnexionFrame vueConnexionFrame;
+	
+	FrameApplication vueFrameApplication;
+	PanelChat pnlChat;
+	
+
 
 	/**
 	 * model
@@ -113,7 +125,75 @@ public class ControleurClientPrincipal extends ControleurClient{
 		this.vueConnexionFrame.setMessage(message);
 	}
 	
+	
+	public void afficherFrameApplication(){
+		this.vueFrameApplication = new FrameApplication();
+		pnlChat = new PanelChat(this);
+		this.vueFrameApplication.addOrReplace(pnlChat, "chat");
+		this.vueFrameApplication.setVisible(true);
+	}
+	
+	public PanelChat getPnlChat() {
+		return pnlChat;
+	}
+
+
+	public void setPnlChat(PanelChat pnlChat) {
+		this.pnlChat = pnlChat;
+	}
+
+
+	public void setPnlChatList(List<String> listeUtilisateur, List<String> listeMessages){
+		DefaultListModel model = (DefaultListModel) pnlChat.lstConnecte.getModel();
+		model.clear();
+		for (int i = 0; i < listeUtilisateur.size(); i++) {
+			model.add(i, listeUtilisateur.get(i));
+		}
+		
+		String messages = "";
+		for (int i = 0; i < listeMessages.size(); i++) {
+			if(!listeMessages.get(i).isEmpty()){
+				messages += listeMessages.get(i)+"\n";
+			}
+		}
+		pnlChat.txtChat.setText(messages);
+
+		JScrollBar jsb = this.pnlChat.scrollPane.getVerticalScrollBar() ;
+		jsb.setValue(jsb.getMaximum());
+	}
+
+
+
+
+	public void seConnecterAuChat() {
+		connexion.envoyerCommand(new SeConnecterAuChat());
+	}
+	
+	public void envoyerMessageChat(String message){
+		if(!message.isEmpty()){
+			connexion.envoyerCommand(new EnvoyerMessageChat(message));
+			this.pnlChat.txtMessage.setText("");
+			this.pnlChat.txtMessage.setFocusable(true);
+		}
+	}
+
+
+
+
+	public void ajouterMessageChat(String message) {
+		this.pnlChat.txtChat.setText(this.pnlChat.txtChat.getText()+"\n"+message);
+		this.pnlChat.txtChat.setCaretPosition(this.pnlChat.txtChat.getText().length());
+		JScrollBar jsb = this.pnlChat.scrollPane.getVerticalScrollBar();
+		jsb.setValue(jsb.getMaximum());
+
+	}
+	
 }
+
+
+
+
+
 
 /*
  * 	private FrameApplication frameApplication; 
