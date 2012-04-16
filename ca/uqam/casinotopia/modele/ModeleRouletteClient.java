@@ -8,34 +8,36 @@ import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.observateur.BaseSujet;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModeleRouletteServeur extends Partie implements Modele {
+public class ModeleRouletteClient extends Partie implements Modele {
 
 	private Case resultat;
-	private ModeleTableJeuServeur tableJeu;
+	private ModeleTableJeuClient tableJeu;
 	private BaseSujet sujet = new BaseSujet(this);
 
 	
-	public ModeleRouletteServeur(int id, boolean optionArgent, boolean optionMultijoueur, Clavardage clavardage) {
+	public ModeleRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Clavardage clavardage) {
 		super(id, optionArgent, optionMultijoueur, clavardage);
 		
-		this.tableJeu = new ModeleTableJeuServeur();
+		this.tableJeu = new ModeleTableJeuClient();
 	}
 	
-	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
-		this.tableJeu.effectuerMises(mises);
+	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
+		this.tableJeu.updateTableJeu(cases);
+
+		this.notifierObservateur();
 	}
 	
 	
 	/**
 	 * @return the tableJeu
 	 */
-	public ModeleTableJeuServeur getTableJeu() {
+	public ModeleTableJeuClient getTableJeu() {
 		return tableJeu;
 	}
 	/**
 	 * @param tableJeu the tableJeu to set
 	 */
-	public void setTableJeu(ModeleTableJeuServeur tableJeu) {
+	public void setTableJeu(ModeleTableJeuClient tableJeu) {
 		this.tableJeu = tableJeu;
 	}
 
@@ -58,4 +60,5 @@ public class ModeleRouletteServeur extends Partie implements Modele {
 	public void notifierObservateur() {
 		this.sujet.notifierObservateur();
 	}
+
 }

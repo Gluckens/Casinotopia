@@ -10,7 +10,7 @@ public class ModeleClientClient implements Modele {
 	private String nom;	
 	private int solde;
 	
-	private BaseSujet sujet = new BaseSujet();
+	private BaseSujet sujet = new BaseSujet(this);
 	
 	
 	public void initDefault() {
@@ -90,6 +90,11 @@ public class ModeleClientClient implements Modele {
 	@Override
 	public void retirerObservateur(Observateur obs) {
 		this.sujet.retirerObservateur(obs);
+	}
+
+	@Override
+	public boolean estObserveePar(Observateur obs) {
+		return this.sujet.estObserveePar(obs);
 	}
 
 	@Override

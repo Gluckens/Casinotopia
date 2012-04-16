@@ -32,8 +32,6 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		
 		Commande cmd = new CmdUpdateCasesRoulette(cases);
 		
-		System.out.println("Avant envoyer UPDATE CASES ROULETTE");
-		
 		this.envoyerCommande(cmd);
 	}
 

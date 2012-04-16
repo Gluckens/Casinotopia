@@ -48,8 +48,6 @@ public class Case implements Serializable {
 			noPaire = "1";
 		}
 		
-		//System.out.println(noNumero+noCouleur+noPaire);
-		
 		return Integer.parseInt(noNumero+noCouleur+noPaire);
 	}
 }

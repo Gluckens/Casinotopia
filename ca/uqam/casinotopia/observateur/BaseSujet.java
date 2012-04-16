@@ -6,6 +6,12 @@ import java.util.Set;
 public class BaseSujet implements Sujet {
 	
 	Set<Observateur> observateurs = new HashSet<Observateur>();
+	
+	Sujet sujetConcret;
+	
+	public BaseSujet(Sujet sujetConcret) {
+		this.sujetConcret = sujetConcret;
+	}
 
 	@Override
 	public void ajouterObservateur(Observateur obs) {
@@ -18,9 +24,14 @@ public class BaseSujet implements Sujet {
 	}
 
 	@Override
+	public boolean estObserveePar(Observateur obs) {
+		return this.observateurs.contains(obs);
+	}
+
+	@Override
 	public void notifierObservateur() {
 		for(Observateur obs : this.observateurs) {
-			obs.update(this);
+			obs.update(sujetConcret);
 		}
 	}
 

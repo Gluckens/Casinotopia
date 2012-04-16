@@ -15,8 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import ca.uqam.casinotopia.Utilisateur;
-import ca.uqam.casinotopia.command.Command;
-import ca.uqam.casinotopia.command.EnvoyerInformation;
+/*import ca.uqam.casinotopia.command.Command;
+import ca.uqam.casinotopia.command.EnvoyerInformation;*/
 import ca.uqam.casinotopia.controleur.Controleur;
 
 import java.awt.Font;
@@ -140,8 +140,8 @@ public class ConnexionFrame extends JFrame {
 		
 		
 		Utilisateur utilisateur = new Utilisateur(this.txtNomUtilisateur.getText(),this.txtMotDePasse.getPassword());
-		Command cmd = new EnvoyerInformation(utilisateur);
-		controleur.getConnexion().envoyerCommand(cmd);
+		/*Command cmd = new EnvoyerInformation(utilisateur);
+		controleur.getConnexion().envoyerCommand(cmd);*/
 	}
 
 	public JLabel getLblInformations() {

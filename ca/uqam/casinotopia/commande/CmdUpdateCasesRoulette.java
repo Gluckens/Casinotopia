@@ -27,7 +27,6 @@ public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette 
 
 	@Override
 	public void action(Controleur controleur, JFrame frame) {
-		System.out.println("UPDATE TABLE JEU CLIENT");
 		((ControleurRouletteClient)controleur).updateTableJeu(this.cases, frame);
 	}
 

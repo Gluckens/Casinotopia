@@ -22,7 +22,6 @@ public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 
 	@Override
 	public void action(Controleur controleur, JFrame frame) {
-		System.out.println("cmd ACTION MISER");
 		((ControleurRouletteServeur)controleur).actionEffectuerMises(this.mises);
 	}
 

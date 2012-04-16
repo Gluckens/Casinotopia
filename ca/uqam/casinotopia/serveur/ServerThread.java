@@ -6,21 +6,15 @@ import java.net.SocketException;
 
 import javax.swing.JFrame;
 
-import ca.uqam.casinotopia.command.Command;
-import ca.uqam.casinotopia.command.DemanderInformation;
-import ca.uqam.casinotopia.commande.CmdUpdateCasesRoulette;
+/*import ca.uqam.casinotopia.command.Command;
+import ca.uqam.casinotopia.command.DemanderInformation;*/
 import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.commande.CommandeClient;
-import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
-import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.ControleurClientClient;
 import ca.uqam.casinotopia.controleur.ControleurClientServeur;
-import ca.uqam.casinotopia.controleur.ControleurRouletteClient;
 import ca.uqam.casinotopia.controleur.ControleurRouletteServeur;
 import ca.uqam.casinotopia.modele.ServeurClientModel;
 
@@ -52,9 +46,9 @@ public class ServerThread extends Controleur implements Runnable {
 			while(getConnexion().isConnected()) {
 				Commande cmd = null;
 	            try {
-	            	System.out.println("Avant de bloquer en attente SERVEUR");
+	            	System.out.println("ATTENTE DE COMMANDE DU CLIENT");
 					cmd = (Commande) this.getConnexion().getObjectInputStream().readObject();
-					System.out.println("J'ai recu une commande sul SERVEUR");
+					System.out.println("COMMANDE CLIENT OBTENUE");
 		            if(cmd != null) {
 		            	if(cmd instanceof CommandeServeur) {
 			            	if(cmd instanceof CommandeServeurControleurClient) {

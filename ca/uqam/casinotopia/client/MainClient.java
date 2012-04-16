@@ -47,11 +47,13 @@ public class MainClient extends Controleur {
 		//Utile de mettre sa dans un if? si on est ici = on est connecté?
 		if(this.getConnexion().isConnected()) {
 			this.frameApplication = new FrameApplication();
-			this.frameApplication.changeContentPane(new VueRoulette());
+			VueRoulette vueRoulette = new VueRoulette();
+			this.frameApplication.changeContentPane(vueRoulette);
 			EventQueue.invokeLater(this.frameApplication);
 			
 			this.ctrlClientClient = new ControleurClientClient(this.getConnexion());
 			this.ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
+			this.ctrlRouletteClient.ajouterVue(vueRoulette);
 		}
 		
     
@@ -68,9 +70,9 @@ public class MainClient extends Controleur {
         	
             Commande cmd = null;
             try {
-            	System.out.println("Avant de bloquer en attente CLIENT");
+            	System.out.println("ATTENTE DE COMMANDE DU SERVEUR");
 				cmd = (Commande) getConnexion().getObjectInputStream().readObject();
-				System.out.println("J'ai recu une commande sul CLIENT");
+				System.out.println("COMMANDE SERVEUR OBTENUE");
 	            if(cmd != null){
 	            	if(cmd instanceof CommandeClient) {
 		            	if(cmd instanceof CommandeClientControleurClient) {

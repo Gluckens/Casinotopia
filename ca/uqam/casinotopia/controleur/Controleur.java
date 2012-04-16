@@ -55,22 +55,18 @@ public abstract class Controleur {
 	
 	
 	public void ajouterModele(Modele modele) {
-		System.out.println(modele.getClass().getSimpleName());
 		this.lstModeles.put(modele.getClass().getSimpleName(), modele);
 	}
 	
 	public void retirerModele(Modele modele) {
-		System.out.println(modele.getClass().getSimpleName());
 		this.lstModeles.remove(modele.getClass().getSimpleName());
 	}
 	
 	public void ajouterVue(Vue vue) {
-		System.out.println(vue.getClass().getSimpleName());
 		this.lstVues.put(vue.getClass().getSimpleName(), vue);
 	}
 	
 	public void retirerVue(Vue vue) {
-		System.out.println(vue.getClass().getSimpleName());
 		this.lstVues.remove(vue.getClass().getSimpleName());
 	}
 	

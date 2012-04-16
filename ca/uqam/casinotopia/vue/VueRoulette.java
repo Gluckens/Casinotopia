@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.modele.ModeleRouletteClient;
 import ca.uqam.casinotopia.observateur.Sujet;
 
 
@@ -57,12 +58,8 @@ public class VueRoulette extends Vue {
 
 	@Override
 	public void update(Sujet sujet) {
-		//boolean test = Sujet.getClass(). .isAssignableFrom(sujet);
-		
-		String name = "Sujet";
-		
-		Class<? extends Sujet> c = sujet.getClass();
-			
-		System.out.println(c.getSimpleName());
+		if(sujet instanceof ModeleRouletteClient) {
+			this.updateTableJeu(((ModeleRouletteClient)sujet).getTableJeu().getCases());
+		}
 	}
 }
