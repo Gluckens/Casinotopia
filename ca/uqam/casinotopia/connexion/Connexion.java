@@ -116,7 +116,7 @@ public class Connexion {
 		}
 	}
 	
-	public void envoyerCommand(Commande cmd){
+	public void envoyerCommande(Commande cmd){
 		
 		try {
 			this.getObjectOutputStream().writeObject(cmd);

@@ -4,10 +4,11 @@ import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public abstract class Vue extends JPanel {
+import ca.uqam.casinotopia.observateur.Observateur;
+
+public abstract class Vue extends JPanel implements Observateur {
 
 	/**
 	 * 

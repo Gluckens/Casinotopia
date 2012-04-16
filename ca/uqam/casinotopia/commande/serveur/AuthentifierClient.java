@@ -37,9 +37,9 @@ public class AuthentifierClient implements Serializable, CommandeServeur {
 		
 		if(Arrays.equals(utilisateur.getMotDePasse(), utilisateur.getNomUtilisateur().toCharArray())){
 			((ControleurServeurThread)controleur).getModel().setUtilisateur(utilisateur);
-			((ControleurServeurThread)controleur).getConnexion().envoyerCommand(new AfficherPagePrincipal());
+			((ControleurServeurThread)controleur).getConnexion().envoyerCommande(new AfficherPagePrincipal());
 		}else{
-			((ControleurServeurThread)controleur).getConnexion().envoyerCommand(new InformationNomValide("les données sont incorrecte"));
+			((ControleurServeurThread)controleur).getConnexion().envoyerCommande(new InformationNomValide("les données sont incorrecte"));
 		}
 		 
 
