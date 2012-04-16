@@ -8,5 +8,6 @@ import ca.uqam.casinotopia.controleur.Controleur;
 
 public interface Commande extends Serializable {
 	
-	public void action(Controleur controleur, JFrame frame);
+	//TODO pourquoi ya JFrame
+	public void action(Controleur controleur);//, JFrame frame);
 }

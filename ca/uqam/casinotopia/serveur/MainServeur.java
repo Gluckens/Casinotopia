@@ -6,6 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
+import ca.uqam.casinotopia.model.ModelServeurPrincipal;
+
 
 public class MainServeur {
 
@@ -13,11 +16,13 @@ public class MainServeur {
 	public static final int NUMCONNEXION = 10;
 	static ServerSocket server;
 	public static Thread[] thread = new Thread[NUMCONNEXION];
-	public static ServerThread[] serverThread = new ServerThread[NUMCONNEXION];
+	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
 	private static Boolean actif = true; 
 	
+	public static ModelServeurPrincipal model = new ModelServeurPrincipal();
+	
 	public static void main(String[] args) {
-		//TODO modifier la création de thread en bag
+		//TODO modifier la création de thread en bag ?
 
 	    try {
 	      InetAddress address = InetAddress.getLocalHost();
@@ -37,7 +42,7 @@ public class MainServeur {
 						thread[i] = null;
 					}
 					if(thread[i] == null){
-						serverThread[i] = new ServerThread(skt,i);
+						serverThread[i] = new ControleurServeurThread(skt,i);
 						thread[i] = new Thread(serverThread[i]);
 						thread[i].start();
 						System.out.println("client "+i+" connecté");

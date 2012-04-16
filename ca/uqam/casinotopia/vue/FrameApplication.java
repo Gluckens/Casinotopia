@@ -2,6 +2,8 @@ package ca.uqam.casinotopia.vue;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.Frame;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,19 +26,13 @@ public class FrameApplication extends JFrame implements Runnable {
 	
 	public Component getComponentByName(String name) {
 		return this.componentMap.get(name);
-		
-		/*if (this.componentMap.containsKey(name)) {
-            return this.componentMap.get(name);
-	    }
-	    else {
-	    	return null;
-	    }*/
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public FrameApplication() {
+		setTitle("Casinotopia");
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		//this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

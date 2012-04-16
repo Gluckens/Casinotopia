@@ -20,9 +20,14 @@ public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 		this.mises = mises;
 	}
 
-	@Override
 	public void action(Controleur controleur, JFrame frame) {
 		((ControleurRouletteServeur)controleur).actionEffectuerMises(this.mises);
+	}
+
+	@Override
+	public void action(Controleur controleur) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
