@@ -3,6 +3,9 @@ package ca.uqam.casinotopia.model.client;
 import java.io.IOException;
 
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeClient;
+import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
+import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 public class ClientThread implements Runnable {
@@ -21,11 +24,24 @@ public class ClientThread implements Runnable {
         while(this.controleur.getConnexion().isConnected()){
             Commande cmd = null;
             try {
+            	System.out.println("ATTENTE DE COMMANDE DU SERVEUR");
 				cmd = (Commande) this.controleur.getConnexion().getObjectInputStream().readObject();
-	            if(cmd != null){
-					cmd.action(this.controleur);
-	            }else{
-	            	System.err.println("la commande envoyé n'est pas valide");
+				System.out.println("COMMANDE SERVEUR OBTENUE");
+				if(cmd != null){
+	            	if(cmd instanceof CommandeClient) {
+		            	if(cmd instanceof CommandeClientControleurClient) {
+		            		cmd.action(this.controleur.getCtrlClientClient());
+		            	}
+		            	else if(cmd instanceof CommandeClientControleurRoulette) {
+		            		cmd.action(this.controleur.getCtrlRouletteClient());
+		            	}
+	            	}
+	            	else {
+	            		System.err.println("Seulement des commandes destinées aux clients sont recevables!");
+	            	}
+	            }
+	            else{
+	            	System.err.println("Un problème est survenu (commande nulle).");
 	            }
 	       
 			} catch (ClassNotFoundException e) {

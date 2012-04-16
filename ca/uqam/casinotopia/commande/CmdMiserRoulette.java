@@ -7,17 +7,21 @@ import javax.swing.JFrame;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.ControleurRouletteClient;
+import ca.uqam.casinotopia.controleur.ControleurRouletteServeur;
 
 
-public class CmdMiserRoulette implements CommandeClientControleurRoulette {
+public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 	/**
 	 * Map<idJoueur, Map<CaseMisee, NbrJetonsMises>>
 	 */
 	private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
+	
+	public CmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
+		this.mises = mises;
+	}
 
 	public void action(Controleur controleur, JFrame frame) {
-		((ControleurRouletteClient)controleur).updateTableJeu(mises, frame);
+		((ControleurRouletteServeur)controleur).actionEffectuerMises(this.mises);
 	}
 
 	@Override

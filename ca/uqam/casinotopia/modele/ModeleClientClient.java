@@ -1,11 +1,16 @@
 package ca.uqam.casinotopia.modele;
 
-public class ModeleClientClient extends Modele {
+import ca.uqam.casinotopia.observateur.BaseSujet;
+import ca.uqam.casinotopia.observateur.Observateur;
+
+public class ModeleClientClient implements Modele {
 	
 	private String username;
 	private String prenom;
 	private String nom;	
 	private int solde;
+	
+	private BaseSujet sujet = new BaseSujet(this);
 	
 	
 	public void initDefault() {
@@ -75,6 +80,25 @@ public class ModeleClientClient extends Modele {
 	public void setSolde(int solde) {
 		this.solde = solde;
 	}
-	
-	
+
+
+	@Override
+	public void ajouterObservateur(Observateur obs) {
+		this.sujet.ajouterObservateur(obs);
+	}
+
+	@Override
+	public void retirerObservateur(Observateur obs) {
+		this.sujet.retirerObservateur(obs);
+	}
+
+	@Override
+	public boolean estObserveePar(Observateur obs) {
+		return this.sujet.estObserveePar(obs);
+	}
+
+	@Override
+	public void notifierObservateur() {
+		this.sujet.notifierObservateur();
+	}
 }

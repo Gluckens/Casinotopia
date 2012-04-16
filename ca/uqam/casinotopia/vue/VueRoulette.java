@@ -1,13 +1,18 @@
 package ca.uqam.casinotopia.vue;
-import java.awt.Component;
+
 import java.awt.Dimension;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+
+import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.modele.ModeleRouletteClient;
+import ca.uqam.casinotopia.observateur.Sujet;
 
 
 public class VueRoulette extends Vue {
@@ -43,7 +48,18 @@ public class VueRoulette extends Vue {
 		this.add(btnTest);
 	}
 	
-	public void updateTableJeu(String arg) {
-		String toto = arg;
+	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
+		JTextField txt = (JTextField) this.getComponentByName("txtDefault");
+		Calendar cal = Calendar.getInstance();
+	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	    String time = sdf.format(cal.getTime());
+		txt.setText(String.valueOf(cases.size()) + " " + time);
+	}
+
+	@Override
+	public void update(Sujet sujet) {
+		if(sujet instanceof ModeleRouletteClient) {
+			this.updateTableJeu(((ModeleRouletteClient)sujet).getTableJeu().getCases());
+		}
 	}
 }
