@@ -16,7 +16,7 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 
 	//public void updateTableJeu(Map<Integer, Map<Case, Integer>> mises, JFrame frame) {
-	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases, JFrame frame) {
+	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		/*if(!this.lstVues.containsKey("VueRoulette")) {
 			VueRoulette vueRoulette = new VueRoulette();
 			this.ajouterVue(vueRoulette);

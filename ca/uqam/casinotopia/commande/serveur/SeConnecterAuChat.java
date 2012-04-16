@@ -27,7 +27,7 @@ public class SeConnecterAuChat implements Commande {
 			if(MainServeur.thread[i] != null && 
 					MainServeur.thread[i].isAlive() && 
 					MainServeur.serverThread[i].getModel().getUtilisateur().getNomUtilisateur() != null){
-				MainServeur.serverThread[i].getConnexion().envoyerCommand(cmd);
+				MainServeur.serverThread[i].getConnexion().envoyerCommande(cmd);
 			}
 		}
 		

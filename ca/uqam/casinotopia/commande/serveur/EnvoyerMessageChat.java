@@ -21,7 +21,7 @@ public class EnvoyerMessageChat implements Commande {
 	@Override
 	public void action(Controleur controleur) {
 		MainServeur.model.getChat().addMessage(message);
-		((ControleurServeurThread)controleur).envoyerCommandATous(new AjouterMessageChat(message));
+		((ControleurServeurThread)controleur).envoyerCommandeATous(new AjouterMessageChat(message));
 	}
 
 }

@@ -52,10 +52,10 @@ public class ServerThread extends Controleur implements Runnable {
 		            if(cmd != null) {
 		            	if(cmd instanceof CommandeServeur) {
 			            	if(cmd instanceof CommandeServeurControleurClient) {
-			            		cmd.action(this.ctrlClientServeur, new JFrame());
+			            		//cmd.action(this.ctrlClientServeur, new JFrame());
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurRoulette) {
-			            		cmd.action(this.ctrlRouletteServeur, new JFrame());
+			            		//cmd.action(this.ctrlRouletteServeur, new JFrame());
 			            	}
 		            	}
 		            	else {
