@@ -15,11 +15,6 @@ public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 	 * Map<idJoueur, Map<CaseMisee, NbrJetonsMises>>
 	 */
 	private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-	//private List<Case> mises;
-	
-	/*public CmdMiserRoulette(List<Case> mises) {
-		this.mises = mises;
-	}*/
 	
 	public CmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
 		this.mises = mises;

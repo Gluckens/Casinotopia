@@ -7,7 +7,6 @@ import ca.uqam.casinotopia.commande.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.ModeleRouletteServeur;
-import ca.uqam.casinotopia.vue.VueRoulette;
 
 public class ControleurRouletteServeur extends ControleurServeur {
 
@@ -32,6 +31,10 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		//TODO Rechercher les joueurs de la partie et mettre à jour leur table de jeu
 		
 		Commande cmd = new CmdUpdateCasesRoulette(cases);
+		
+		System.out.println("Avant envoyer UPDATE CASES ROULETTE");
+		
+		this.envoyerCommande(cmd);
 	}
 
 }

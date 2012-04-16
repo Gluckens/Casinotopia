@@ -28,8 +28,8 @@ public class MainClient extends Controleur {
 	private FrameApplication frameApplication;
 	private ConnexionFrame connexionFrame;
 	
-	private ControleurClientClient ctrlClientClient = new ControleurClientClient(this.getConnexion());
-	private ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
+	private ControleurClientClient ctrlClientClient;
+	private ControleurRouletteClient ctrlRouletteClient;
 	
 	
 	
@@ -53,62 +53,10 @@ public class MainClient extends Controleur {
 			this.frameApplication = new FrameApplication();
 			this.frameApplication.changeContentPane(new VueRoulette());
 			EventQueue.invokeLater(this.frameApplication);
+			
+			this.ctrlClientClient = new ControleurClientClient(this.getConnexion());
+			this.ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
 		}
-		
-		/*Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-		
-		int joueurId = 4;
-		
-		Map<Case, Integer> misesCases = new HashMap<Case, Integer>();
-		
-		misesCases.put(new Case(1, "noire", false), 5);
-		misesCases.put(new Case(2, "rouge", true), 2);
-		misesCases.put(new Case(3, "rouge", false), 8);
-		misesCases.put(new Case(4, "noire", true), 8);
-		misesCases.put(new Case(5, "noire", false), 1);
-		misesCases.put(new Case(6, "rouge", true), 3);
-		
-		mises.put(joueurId, misesCases);
-		
-		Map<Integer, Map<Case, Integer>> mises2 = new HashMap<Integer, Map<Case, Integer>>();
-		
-		int joueurId2 = 9;
-		
-		Map<Case, Integer> misesCases2 = new HashMap<Case, Integer>();
-		
-		misesCases2.put(new Case(1, "noire", false), 2);
-		misesCases2.put(new Case(2, "rouge", true), 7);
-		misesCases2.put(new Case(5, "noire", false), 6);
-		
-		mises2.put(joueurId2, misesCases2);
-		
-		
-		/*System.out.println("mises client --> ");
-		System.out.println(mises);*/
-		
-		/*for(Map.Entry<Integer, Map<Case, Integer>> m1 : mises.entrySet()) {
-			for(Map.Entry<Case, Integer> m2 : m1.getValue().entrySet()) {
-				System.out.println(m2.getKey().hashCode());
-			}
-		}*/
-		
-		/*try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		this.envoyerCommande(new CmdMiserRoulette(mises));
-		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		this.envoyerCommande(new CmdMiserRoulette(mises2));*/
 		
     
 		int k = 0;
@@ -130,11 +78,9 @@ public class MainClient extends Controleur {
 	            if(cmd != null){
 	            	if(cmd instanceof CommandeClient) {
 		            	if(cmd instanceof CommandeClientControleurClient) {
-		            		//cmd.action(new ControleurClientClient(this.getConnexion()), this.frameApplication);
 		            		cmd.action(ctrlClientClient, this.frameApplication);
 		            	}
 		            	else if(cmd instanceof CommandeClientControleurRoulette) {
-		            		//cmd.action(new ControleurRouletteClient(this.getConnexion()), this.frameApplication);
 		            		cmd.action(ctrlRouletteClient, this.frameApplication);
 		            	}
 	            	}

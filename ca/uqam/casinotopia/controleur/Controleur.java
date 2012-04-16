@@ -12,8 +12,6 @@ import ca.uqam.casinotopia.vue.Vue;
 public abstract class Controleur {
 	
 	//Possiblement que chaque controleur aurait une seule vue... qui contiendrais plusieurs panel donc ce serait a la vue de gérer la mise a jour de certaine sections...
-	//Autrement je vois pas comment faire pour retrouver un jpanel en particulier...
-	//À part de faire une recherche dans le contentPane du FrameApplication, et avec les setName des panel, retrouver le bon et le remplacer... possible solution.
 	protected Map<String, Modele> lstModeles = new HashMap<String, Modele>();
 	protected Map<String, Vue> lstVues = new HashMap<String, Vue>();
 

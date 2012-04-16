@@ -2,8 +2,6 @@ package ca.uqam.casinotopia.vue;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Frame;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +23,14 @@ public class FrameApplication extends JFrame implements Runnable {
 	}
 	
 	public Component getComponentByName(String name) {
-		if (this.componentMap.containsKey(name)) {
+		return this.componentMap.get(name);
+		
+		/*if (this.componentMap.containsKey(name)) {
             return this.componentMap.get(name);
 	    }
 	    else {
 	    	return null;
-	    }
+	    }*/
 	}
 
 	/**
@@ -56,13 +56,19 @@ public class FrameApplication extends JFrame implements Runnable {
 		this.setVisible(true);
 	}
 	
-	public void addOrReplace(JPanel panel, String name) {
+	public void addOrReplace(String name, JPanel panel) {
 		//Si je retourne le panel directement et que je le modifie, sa va pas modifier le vrai dans le frame?
+		//Comment positionner les vues dans le frame quand on les ajoutent?
 		Component component = this.getComponentByName(name);
 		if(component != null) {
 			if(component instanceof JPanel) {
-				//... remplacer le panel
+				//remplacer le panel
+				component = panel;
 			}
+		}
+		else {
+			this.componentMap.put(name, panel);
+			this.contentPane.add(panel);
 		}
 	}
 

@@ -30,14 +30,17 @@ public class ServerThread extends Controleur implements Runnable {
 	
 	private int number = 0;
 	
-	private ControleurClientServeur ctrlClientServeur = new ControleurClientServeur(this.getConnexion());
-	private ControleurRouletteServeur ctrlRouletteServeur = new ControleurRouletteServeur(this.getConnexion());
+	private ControleurClientServeur ctrlClientServeur;
+	private ControleurRouletteServeur ctrlRouletteServeur;
 	
 	private ServeurClientModel model = new ServeurClientModel();
 	
 	public ServerThread(Socket clientSocket, int number) {
-		setConnexion(new Connexion(clientSocket));
+		this.setConnexion(new Connexion(clientSocket));
 		this.number = number;
+		
+		this.ctrlClientServeur = new ControleurClientServeur(this.getConnexion());
+		this.ctrlRouletteServeur = new ControleurRouletteServeur(this.getConnexion());
 	}
 	
 	@Override
@@ -55,11 +58,9 @@ public class ServerThread extends Controleur implements Runnable {
 		            if(cmd != null) {
 		            	if(cmd instanceof CommandeServeur) {
 			            	if(cmd instanceof CommandeServeurControleurClient) {
-			            		//cmd.action(new ControleurClientServeur(this.getConnexion()), new JFrame());
 			            		cmd.action(this.ctrlClientServeur, new JFrame());
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurRoulette) {
-			            		//cmd.action(new ControleurRouletteServeur(this.getConnexion()), new JFrame());
 			            		cmd.action(this.ctrlRouletteServeur, new JFrame());
 			            	}
 		            	}
