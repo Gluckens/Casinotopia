@@ -1,22 +1,61 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ca.uqam.casinotopia;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author Alexei
+ */
 public class DonUniqueClient {
+        private int id;
 	private int montant;
-	public Client unnamed_Client_;
-	public Fondation unnamed_Fondation_;
+	private Client unClient;
+	private Fondation uneFondation;
+        private Date dateDon;
 
-	public void setUnnamed_Client_(Client unnamed_Client_) {
-		this.unnamed_Client_ = unnamed_Client_;
+	public void setClient_(Client unnamed_Client_) {
+		this.unClient = unnamed_Client_;
 	}
 
-	public Client getUnnamed_Client_() {
-		return this.unnamed_Client_;
+	public Client getClient_() {
+		return this.unClient;
 	}
 
-	public void setUnnamed_Fondation_(Fondation unnamed_Fondation_) {
-		this.unnamed_Fondation_ = unnamed_Fondation_;
+	public void setFondation_(Fondation unnamed_Fondation_) {
+		this.uneFondation = unnamed_Fondation_;
 	}
 
-	public Fondation getUnnamed_Fondation_() {
-		return this.unnamed_Fondation_;
+	public Fondation getFondation_() {
+		return this.uneFondation;
 	}
+
+    public int getId() {
+        return id;
+    }
+
+    public Date getDateDon() {
+        return dateDon;
+    }
+
+    public int getMontant() {
+        return montant;
+    }
+
+    public void setDateDon(Date dateDon) {
+        this.dateDon = dateDon;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMontant(int montant) {
+        this.montant = montant;
+    }
+        
+        
 }

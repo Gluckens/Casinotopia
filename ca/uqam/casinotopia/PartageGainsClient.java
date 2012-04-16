@@ -1,4 +1,13 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ca.uqam.casinotopia;
+
+/**
+ *
+ * @author Alexei
+ */
 public class PartageGainsClient {
 	private int pourcentage;
 	public Client unnamed_Client_;
@@ -19,4 +28,20 @@ public class PartageGainsClient {
 	public Fondation getUnnamed_Fondation_() {
 		return this.unnamed_Fondation_;
 	}
+
+    public int getPourcentage() {
+        return pourcentage;
+    }
+
+    public void setPourcentage(int pourcentage) {
+        this.pourcentage = pourcentage;
+    }
+
+    @Override
+    public String toString() {
+        return this.getUnnamed_Client_().getPrenom() + " " + this.getUnnamed_Fondation_().getNom() + " : " + this.getPourcentage();
+    }
+    
+    
+        
 }
