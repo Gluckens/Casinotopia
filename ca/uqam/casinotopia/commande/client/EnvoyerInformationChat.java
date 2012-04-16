@@ -25,7 +25,7 @@ public class EnvoyerInformationChat implements Commande {
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).setPnlChatList(listeUtilisateurs,messages);
+		((ControleurClientPrincipal)controleur).setChatList(listeUtilisateurs,messages);
 
 	}
 
