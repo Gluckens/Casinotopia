@@ -4,15 +4,19 @@ import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public abstract class Vue extends JPanel {
+import ca.uqam.casinotopia.observateur.Observateur;
+
+public abstract class Vue extends JPanel implements Observateur {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4498865400974010365L;
+	
+	
+	
 	
 	
 	protected Map<String, Component> componentMap = new HashMap<String, Component>();

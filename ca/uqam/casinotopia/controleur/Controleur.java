@@ -41,9 +41,18 @@ public abstract class Controleur {
 		this.connexion = connexion;
 	}
 	
-	public void envoyerCommande(Commande cmd) throws IOException {
-		this.connexion.getObjectOutputStream().writeObject(cmd);
-		this.connexion.getObjectOutputStream().reset();
+	public void envoyerCommande(Commande cmd) {
+		try {
+			this.connexion.getObjectOutputStream().writeObject(cmd);
+			this.connexion.getObjectOutputStream().reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Modele getModele(String nom) {
+		return lstModeles.get(nom);
 	}
 	
 	
@@ -52,7 +61,7 @@ public abstract class Controleur {
 		this.lstModeles.put(modele.getClass().getSimpleName(), modele);
 	}
 	
-	public void retirerrModele(Modele modele) {
+	public void retirerModele(Modele modele) {
 		System.out.println(modele.getClass().getSimpleName());
 		this.lstModeles.remove(modele.getClass().getSimpleName());
 	}
@@ -62,7 +71,7 @@ public abstract class Controleur {
 		this.lstVues.put(vue.getClass().getSimpleName(), vue);
 	}
 	
-	public void retirerrVue(Vue vue) {
+	public void retirerVue(Vue vue) {
 		System.out.println(vue.getClass().getSimpleName());
 		this.lstVues.remove(vue.getClass().getSimpleName());
 	}

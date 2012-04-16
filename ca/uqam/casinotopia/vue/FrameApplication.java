@@ -37,7 +37,7 @@ public class FrameApplication extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public FrameApplication() {
-		this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		//this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 450, 300);

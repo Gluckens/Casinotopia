@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
+import ca.uqam.casinotopia.observateur.Sujet;
+
 
 public class VueRoulette extends Vue {
 
@@ -45,5 +47,16 @@ public class VueRoulette extends Vue {
 	
 	public void updateTableJeu(String arg) {
 		String toto = arg;
+	}
+
+	@Override
+	public void update(Sujet sujet) {
+		//boolean test = Sujet.getClass(). .isAssignableFrom(sujet);
+		
+		String name = "Sujet";
+		
+		Class<? extends Sujet> c = sujet.getClass();
+			
+		System.out.println(c.getSimpleName());
 	}
 }
