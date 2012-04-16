@@ -3,13 +3,14 @@ package ca.uqam.casinotopia.commande.serveur;
 import java.util.ArrayList;
 
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.client.EnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.MettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 import ca.uqam.casinotopia.serveur.MainServeur;
 
-public class SeConnecterAuChat implements Commande {
+public class SeConnecterAuChat implements CommandeServeurControleurPrincipal {
 
 	
 	

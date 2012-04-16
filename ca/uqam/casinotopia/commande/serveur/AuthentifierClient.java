@@ -9,8 +9,9 @@ import ca.uqam.casinotopia.commande.client.InformationNomValide;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 import ca.uqam.casinotopia.commande.CommandeServeur;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 
-public class AuthentifierClient implements Serializable, CommandeServeur {
+public class AuthentifierClient implements CommandeServeurControleurPrincipal {
 
 
 	/**

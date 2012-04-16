@@ -13,6 +13,7 @@ public class ControleurRouletteClient extends ControleurClient {
 	
 	public ControleurRouletteClient(Connexion connexion) {
 		super(connexion);
+		System.out.println(connexion.getObjectOutputStream());
 	}
 
 	//public void updateTableJeu(Map<Integer, Map<Case, Integer>> mises, JFrame frame) {

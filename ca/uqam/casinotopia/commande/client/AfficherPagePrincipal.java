@@ -1,17 +1,17 @@
 package ca.uqam.casinotopia.commande.client;
 
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
-public class AfficherPagePrincipal implements Commande {
+public class AfficherPagePrincipal implements CommandeClientControleurChat {
 
-	
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8906289790821965654L;
+	private static final long serialVersionUID = -3623151295646193586L;
 
 	@Override
 	public void action(Controleur controleur) {

@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClientServeur;
@@ -42,9 +43,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			while(getConnexion().isConnected()) {
 				Commande cmd = null;
 	            try {
-	            	System.out.println("ATTENTE DE COMMANDE DU CLIENT");
 					cmd = (Commande) this.getConnexion().getObjectInputStream().readObject();
-					System.out.println("COMMANDE CLIENT OBTENUE");
 		            if(cmd != null) {
 		            	if(cmd instanceof CommandeServeur) {
 			            	if(cmd instanceof CommandeServeurControleurClient) {
@@ -52,6 +51,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurRoulette) {
 			            		cmd.action(this.ctrlRouletteServeur);
+			            	}
+			            	else if(cmd instanceof CommandeServeurControleurPrincipal) {
+			            		cmd.action(this);
 			            	}
 		            	}
 		            	else {

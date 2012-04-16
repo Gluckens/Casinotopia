@@ -55,7 +55,6 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	
 	public ControleurClientPrincipal() {
-		super(null);
 		
 		this.initModel();
 		
@@ -97,15 +96,11 @@ public class ControleurClientPrincipal extends ControleurClient{
 			setMessageConnexion("connecté!");
 			
 			this.initControleur();
-			
-			this.afficherFrameApplicationRoulette();
-			
-			this.envoyerCommandeTest1();
-	    	this.envoyerCommandeTest2();
 
 			Utilisateur utilisateur = new Utilisateur(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
 			Commande cmd = new AuthentifierClient(utilisateur);
 			this.getConnexion().envoyerCommande(cmd);
+			
 			
 			receptionCommandes();
 			
@@ -191,7 +186,10 @@ public class ControleurClientPrincipal extends ControleurClient{
 		String messages = "";
 		for (int i = 0; i < listeMessages.size(); i++) {
 			if(!listeMessages.get(i).isEmpty()){
-				messages += listeMessages.get(i)+"\n";
+				messages += listeMessages.get(i);
+				if(i != listeMessages.size()-1){
+					messages += "\n";
+				}
 			}
 		}
 		pnlChat.txtChat.setText(messages);
@@ -247,12 +245,6 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	public void envoyerCommandeTest2() {
 		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
 		
