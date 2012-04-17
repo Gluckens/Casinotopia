@@ -11,11 +11,12 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
+import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
-import ca.uqam.casinotopia.controleur.ControleurClientServeur;
-import ca.uqam.casinotopia.controleur.ControleurRouletteServeur;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.model.ModelServeurClient;
+import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
 import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
@@ -24,12 +25,11 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	private ControleurClientServeur ctrlClientServeur;
 	private ControleurRouletteServeur ctrlRouletteServeur;
 	
-	private ModelServeurClient model = new ModelServeurClient();
+	private ModeleUtilisateurServeur modele = new ModeleUtilisateurServeur();
 	
 	public ControleurServeurThread(Socket clientSocket, int number) {
-		super(null);
-		setConnexion(new Connexion(clientSocket));
-		this.model.number = number;
+		this.setConnexion(new Connexion(clientSocket));
+		this.modele.number = number;
 		
 		this.ctrlClientServeur = new ControleurClientServeur(this.getConnexion());
 		this.ctrlRouletteServeur = new ControleurRouletteServeur(this.getConnexion());
@@ -38,7 +38,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	@Override
 	public void run() {
 		try {
-			System.out.println("client no "+this.model.number+" connecté");
+			System.out.println("client no "+this.modele.number+" connecté");
 			while(getConnexion().isConnected()) {
 				Commande cmd = null;
 	            try {
@@ -47,15 +47,19 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 					System.out.println("COMMANDE CLIENT OBTENUE");
 		            if(cmd != null) {
 		            	if(cmd instanceof CommandeServeur) {
+		            		System.out.println("COMMANDE RECU DE TYPE COMMANDE_SERVEUR");
 			            	if(cmd instanceof CommandeServeurControleurClient) {
 			            		cmd.action(this.ctrlClientServeur);
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurRoulette) {
 			            		cmd.action(this.ctrlRouletteServeur);
 			            	}
+			            	else if(cmd instanceof CommandeServeurControleurThread) {
+			            		cmd.action(this);
+			            	}
 		            	}
 		            	else {
-		            		System.err.println("Seulement des commandes destinées aux clients sont recevables!");
+		            		System.err.println("Seulement des commandes destinées au serveur sont recevables!");
 		            	}
 		            }
 		            else{
@@ -66,7 +70,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 					e.printStackTrace();
 				} catch (SocketException e) {
 					// TODO Auto-generated catch block
-					System.out.println("Déconnexion du client " + this.model.number);
+					System.out.println("Déconnexion du client " + this.modele.number);
 					getConnexion().close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -80,20 +84,32 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 
 	}
+	
+	public void actionAjouterJoueurDansRoulette() {
+		//TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
+		
+		int idPartie = 3;
+		
+		this.cmdAfficherJeuRoulette(idPartie);
+	}
+	
+	public void cmdAfficherJeuRoulette(int idPartie) {
+		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(idPartie));
+	}
 
 
 	/**
-	 * @return the model
+	 * @return the modele
 	 */
-	public ModelServeurClient getModel() {
-		return model;
+	public ModeleUtilisateurServeur getModel() {
+		return modele;
 	}
 
 	/**
-	 * @param model the model to set
+	 * @param modele the modele to set
 	 */
-	public void setModel(ModelServeurClient model) {
-		this.model = model;
+	public void setModel(ModeleUtilisateurServeur model) {
+		this.modele = model;
 	}
 	
 	public ArrayList<String> getAllUtilisateurs(){

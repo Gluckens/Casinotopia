@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.commande;
+package ca.uqam.casinotopia.commande.serveur;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,11 +6,16 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.ControleurRouletteServeur;
+import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
 
 public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3728163550640486131L;
 	/**
 	 * Map<idJoueur, Map<CaseMisee, NbrJetonsMises>>
 	 */
@@ -20,14 +25,9 @@ public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 		this.mises = mises;
 	}
 
-	public void action(Controleur controleur, JFrame frame) {
-		((ControleurRouletteServeur)controleur).actionEffectuerMises(this.mises);
-	}
-
-	@Override
 	public void action(Controleur controleur) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("ACTION DE LA COMMANDE CMD_MISER_ROULETTE");
+		((ControleurRouletteServeur)controleur).actionEffectuerMises(this.mises);
 	}
 
 }

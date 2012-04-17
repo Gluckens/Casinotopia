@@ -1,12 +1,13 @@
-package ca.uqam.casinotopia.controleur;
+package ca.uqam.casinotopia.controleur.serveur;
 
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.commande.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
-import ca.uqam.casinotopia.modele.ModeleRouletteServeur;
+import ca.uqam.casinotopia.controleur.ControleurServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleRouletteServeur;
 
 public class ControleurRouletteServeur extends ControleurServeur {
 
@@ -20,6 +21,7 @@ public class ControleurRouletteServeur extends ControleurServeur {
 	}
 	
 	public void actionEffectuerMises(Map<Integer, Map<Case, Integer>> mises) {
+		System.out.println("ACTION_EFFECTUER_MISES");
 		ModeleRouletteServeur modele = (ModeleRouletteServeur) this.getModele(ModeleRouletteServeur.class.getSimpleName());
 		modele.effectuerMises(mises);
 		
@@ -32,7 +34,9 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		
 		Commande cmd = new CmdUpdateCasesRoulette(cases);
 		
-		this.envoyerCommande(cmd);
+		System.out.println("AVANT ENVOI UPDATE ROULLETE");
+		
+		this.getConnexion().envoyerCommande(cmd);
 	}
 
 }
