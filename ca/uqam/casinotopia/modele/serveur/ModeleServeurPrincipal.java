@@ -1,10 +1,9 @@
-package ca.uqam.casinotopia.model;
+package ca.uqam.casinotopia.modele.serveur;
 
 import ca.uqam.casinotopia.Clavardage;
-import ca.uqam.casinotopia.modele.Model;
 
 
-public class ModelServeurPrincipal implements Model {
+public class ModeleServeurPrincipal {
 
 	Clavardage chat = new Clavardage();
 

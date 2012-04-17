@@ -8,20 +8,16 @@ import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollBar;
 
-import ca.uqam.casinotopia.commande.CmdMiserRoulette;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.*;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
-import ca.uqam.casinotopia.controleur.ControleurClientClient;
-import ca.uqam.casinotopia.controleur.ControleurRouletteClient;
-import ca.uqam.casinotopia.model.client.ClientThread;
-import ca.uqam.casinotopia.model.client.ModelClientPrincipal;
+import ca.uqam.casinotopia.modele.client.InfoClientPrincipal;
 import ca.uqam.casinotopia.vue.ConnexionFrame;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.PanelChat;
+import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 import ca.uqam.casinotopia.vue.VueRoulette;
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Utilisateur;
 import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
 
@@ -45,9 +41,9 @@ public class ControleurClientPrincipal extends ControleurClient{
 
 
 	/**
-	 * model
+	 * modele
 	 */
-	ModelClientPrincipal model;
+	InfoClientPrincipal modele;
 	
 	
 	
@@ -55,23 +51,25 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	
 	public ControleurClientPrincipal() {
-		super(null);
+		this.initModele();
 		
-		this.initModel();
+		this.frameApplication = new FrameApplication();
 		
 		this.afficherInterface();
-		
 	}
 	
 	
 	private void initControleur() {
 		this.ctrlClientClient = new ControleurClientClient(this.getConnexion());
 		this.ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
+		
+		System.out.println("OS ctrlRoulette : ");
+		System.out.println(this.ctrlRouletteClient.getConnexion().getObjectOutputStream());
 	}
 	
 	
-	private void initModel() {
-		model = new ModelClientPrincipal();
+	private void initModele() {
+		modele = new InfoClientPrincipal();
 	}
 	
 	/**
@@ -87,8 +85,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 			System.out.println("recherche de serveur...");
 			setMessageConnexion("recherche de serveur...");
 			int i = 0;
-			while(getConnexion().isConnected() == false && i < model.listeServeur.length){
-				setConnexion(new Connexion(model.listeServeur[i], 7777));
+			while(getConnexion().isConnected() == false && i < modele.listeServeur.length){
+				setConnexion(new Connexion(modele.listeServeur[i], 7777));
 				i++;
 			}
 		}
@@ -98,16 +96,17 @@ public class ControleurClientPrincipal extends ControleurClient{
 			
 			this.initControleur();
 			
-			this.afficherFrameApplicationRoulette();
+			//this.afficherFrameApplicationRoulette();
 			
-			this.envoyerCommandeTest1();
-	    	this.envoyerCommandeTest2();
+			this.afficherMenuPrincipal();
 
 			Utilisateur utilisateur = new Utilisateur(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
 			Commande cmd = new AuthentifierClient(utilisateur);
 			this.getConnexion().envoyerCommande(cmd);
 			
 			receptionCommandes();
+			
+			System.out.println("FIN DE CONNEXION");
 			
 		}
 	}
@@ -141,7 +140,6 @@ public class ControleurClientPrincipal extends ControleurClient{
 		this.vueConnexionFrame.setMessage(message);
 	}
 	
-	
 	public void afficherFrameApplication() {
 		this.frameApplication = new FrameApplication();
 		pnlChat = new PanelChat(this);
@@ -150,11 +148,39 @@ public class ControleurClientPrincipal extends ControleurClient{
 	}
 	
 	public void afficherFrameApplicationRoulette() {
-		this.frameApplication = new FrameApplication();
-		VueRoulette vueRoulette = new VueRoulette();
-		//this.frameApplication.addOrReplace("VueRoulette", vueRoulette);
-		this.frameApplication.changeContentPane(vueRoulette);
+		VueRoulette vueRoulette = new VueRoulette(this.ctrlRouletteClient);
+		this.frameApplication.addOrReplace("VueRoulette", vueRoulette);
+		//this.frameApplication.changeContentPane(vueRoulette);
 		EventQueue.invokeLater(this.frameApplication);
+		
+		this.ctrlRouletteClient.ajouterVue(vueRoulette);
+	}
+	
+	public void afficherMenuPrincipal() {
+		this.vueConnexionFrame.dispose();
+		VueMenuPrincipal vueMenuPrincipal = new VueMenuPrincipal(this);
+		this.frameApplication.addOrReplace("VueMenuPrincipal", vueMenuPrincipal);
+		//this.frameApplication.changeContentPane(vueRoulette);
+		EventQueue.invokeLater(this.frameApplication);
+		
+		this.ctrlRouletteClient.ajouterVue(vueMenuPrincipal);
+	}
+	
+	public void cmdJouerRoulette() {
+		System.out.println("Envoyer Commande Jouer Roulette");
+		this.connexion.envoyerCommande(new CmdJouerRoulette());
+	}
+	
+	public void actionAfficherJeuRoulette(int idPartie) {
+		System.out.println("AFFICHER ROULETTE CHEZ CLIENT");
+		
+		VueRoulette vueRoulette = new VueRoulette(this.ctrlRouletteClient);
+		this.frameApplication.removeAll();
+		this.frameApplication.addOrReplace("VueRoulette", vueRoulette);
+		//this.frameApplication.changeContentPane(vueRoulette);
+		//EventQueue.invokeLater(this.frameApplication);
+		
+		System.out.println(this.frameApplication.getComponentMap());
 		
 		this.ctrlRouletteClient.ajouterVue(vueRoulette);
 	}
@@ -212,52 +238,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 		JScrollBar jsb = this.pnlChat.scrollPane.getVerticalScrollBar();
 		jsb.setValue(jsb.getMaximum());
 
-	}
-	
-	
-	public void envoyerCommandeTest1() {
-		Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-		
-		int joueurId = 4;
-		
-		Map<Case, Integer> misesCases = new HashMap<Case, Integer>();
-		
-		misesCases.put(new Case(1, "noire", false), 5);
-		misesCases.put(new Case(2, "rouge", true), 2);
-		misesCases.put(new Case(3, "rouge", false), 8);
-		misesCases.put(new Case(4, "noire", true), 8);
-		misesCases.put(new Case(5, "noire", false), 1);
-		misesCases.put(new Case(6, "rouge", true), 3);
-		
-		mises.put(joueurId, misesCases);
-		
-		this.getConnexion().envoyerCommande(new CmdMiserRoulette(mises));
-	}
-	
-	public void envoyerCommandeTest2() {
-		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-		
-		int joueurId2 = 9;
-		
-		Map<Case, Integer> misesCases = new HashMap<Case, Integer>();
-		
-		misesCases.put(new Case(1, "noire", false), 2);
-		misesCases.put(new Case(2, "rouge", true), 7);
-		misesCases.put(new Case(5, "noire", false), 6);
-		
-		mises.put(joueurId2, misesCases);
-		
-		this.getConnexion().envoyerCommande(new CmdMiserRoulette(mises));
-	}
-	
+	}	
 	
 	public ControleurClientClient getCtrlClientClient() {
 		return this.ctrlClientClient;

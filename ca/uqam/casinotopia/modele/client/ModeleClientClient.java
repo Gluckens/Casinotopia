@@ -1,5 +1,6 @@
-package ca.uqam.casinotopia.modele;
+package ca.uqam.casinotopia.modele.client;
 
+import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseSujet;
 import ca.uqam.casinotopia.observateur.Observateur;
 

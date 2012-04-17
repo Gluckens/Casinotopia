@@ -53,6 +53,10 @@ public class FrameApplication extends JFrame implements Runnable {
 	}
 	
 	public void addOrReplace(String name, JPanel panel) {
+		System.out.println("Frame contient avant add : " + this.getComponentCount());
+		System.out.println("ContentPane contient avant add : " + this.getContentPane().getComponentCount());
+		
+		
 		//Si je retourne le panel directement et que je le modifie, sa va pas modifier le vrai dans le frame?
 		//Comment positionner les vues dans le frame quand on les ajoutent?
 		Component component = this.getComponentByName(name);
@@ -66,6 +70,36 @@ public class FrameApplication extends JFrame implements Runnable {
 			this.componentMap.put(name, panel);
 			this.contentPane.add(panel);
 		}
+		
+		/*this.setVisible(true);
+		this.invalidate();
+
+		this.repaint();*/
+		
+		this.contentPane.revalidate();
+		this.contentPane.repaint();
+		
+		this.setVisible(true);
+		
+		System.out.println("Frame contient apres add : " + this.getComponentCount());
+		System.out.println("ContentPane contient apres add : " + this.getContentPane().getComponentCount());
+	}
+	
+	public Map<String, Component> getComponentMap() {
+		return this.componentMap;
+	}
+	
+	@Override
+	public void removeAll() {
+		//super.removeAll();
+		
+		this.contentPane.removeAll();
+		this.componentMap.clear();
+		
+		/*this.contentPane = new JPanel();
+		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.contentPane.setLayout(new BorderLayout(0, 0));
+		this.setContentPane(contentPane);*/
 	}
 
 }

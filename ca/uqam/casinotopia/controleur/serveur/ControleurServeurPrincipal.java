@@ -1,22 +1,21 @@
 package ca.uqam.casinotopia.controleur.serveur;
 
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.model.ModelServeurPrincipal;
+import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
 
 public class ControleurServeurPrincipal extends ControleurServeur {
 
-	ModelServeurPrincipal model;
+	ModeleServeurPrincipal modele;
 	
 	
 	public ControleurServeurPrincipal() {
-		super(null);
-		initModel();
+		initModele();
 		
 		
 	}
 
-	public void initModel() {
-		model = new ModelServeurPrincipal();
+	public void initModele() {
+		modele = new ModeleServeurPrincipal();
 		
 	}
 	
