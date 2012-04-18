@@ -111,7 +111,6 @@ public class ControleurClientPrincipal extends ControleurClient{
 		}
 	}
 	
-	
 	private void receptionCommandes() {
 		if(!enReceptionDeCommande){
 			enReceptionDeCommande = true;
@@ -136,6 +135,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	public void setMessageConnexionErreur(String message) {
 		this.vueConnexionFrame.setMessageErreur(message);
 	}
+	
 	public void setMessageConnexion(String message){
 		this.vueConnexionFrame.setMessage(message);
 	}
@@ -195,13 +195,25 @@ public class ControleurClientPrincipal extends ControleurClient{
 	}
 
 
-	public void setPnlChatList(List<String> listeUtilisateur, List<String> listeMessages) {
+	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages){
+		setChatUtilisateur(listeUtilisateur);
+		
+		setChatMessages(listeMessages);
+	}
+
+
+	public void setChatUtilisateur(List<String> listeUtilisateur){
+
 		DefaultListModel model = (DefaultListModel) pnlChat.lstConnecte.getModel();
 		model.clear();
 		for (int i = 0; i < listeUtilisateur.size(); i++) {
 			model.add(i, listeUtilisateur.get(i));
 		}
 		
+	}
+	
+
+	public void setChatMessages(List<String> listeMessages){
 		String messages = "";
 		for (int i = 0; i < listeMessages.size(); i++) {
 			if(!listeMessages.get(i).isEmpty()){
@@ -214,8 +226,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 		jsb.setValue(jsb.getMaximum());
 	}
 
-
-
+		
 
 	public void seConnecterAuChat() {
 		connexion.envoyerCommande(new SeConnecterAuChat());
