@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
-import ca.uqam.casinotopia.model.ModelServeurPrincipal;
+import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
 
 
 public class MainServeur {
@@ -20,17 +20,17 @@ public class MainServeur {
 	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
 	private static Boolean actif = true; 
 	
-	public static ModelServeurPrincipal model = new ModelServeurPrincipal();
+	public static ModeleServeurPrincipal model = new ModeleServeurPrincipal();
 	
 	public static void main(String[] args) {
 		//TODO modifier la création de thread en bag ?
 
 	    try {
 	      InetAddress address = InetAddress.getLocalHost();
-	      System.out.println("Ton ip est surement : "+address.getHostAddress());
+	      	System.out.println("Ton ip est surement : "+address.getHostAddress());
 	    }
 	    catch (UnknownHostException e) {
-	      System.out.println("Could not find this computer's address.");
+	    	System.out.println("Could not find this computer's address.");
 	    }
 		try {
 			System.out.println("création du server");

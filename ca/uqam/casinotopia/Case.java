@@ -12,10 +12,29 @@ public class Case implements Serializable {
 	private boolean boolPaires;
 	private TypeCase type;
 	
-	public Case (int numero, String couleur, boolean boolPaires) {
+	public Case (int numero, String couleur, boolean boolPaires, TypeCase type) {
 		this.numero = numero;
 		this.couleur = couleur;
 		this.boolPaires = boolPaires;
+		
+		this.type = type;
+	}
+	
+	public String toString() {
+		String retour = "";
+		switch(this.type) {
+			case CHIFFRE :
+				retour = String.valueOf(this.numero);
+				break;
+			case COULEUR :
+				retour = this.couleur;
+				break;
+			case PAIR_IMPAIR :
+				retour = (this.boolPaires ? "paires" : "impaires");
+				break;
+		}
+		
+		return retour;
 	}
 	
 	

@@ -1,12 +1,19 @@
-package ca.uqam.casinotopia.model.client;
+package ca.uqam.casinotopia.controleur.client;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClient;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
+import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
+import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 public class ClientThread implements Runnable {
@@ -20,10 +27,8 @@ public class ClientThread implements Runnable {
 	
 	@Override
 	public void run() {
-
-    	System.out.println("enReceptionDeCommande");
-        while(this.controleur.getConnexion().isConnected()){
-            Commande cmd = null;
+        while(this.controleur.getConnexion().isConnected()) {
+        	Commande cmd = null;
             try {
 				cmd = (Commande) this.controleur.getConnexion().getObjectInputStream().readObject();
 				if(cmd != null){
@@ -35,6 +40,9 @@ public class ClientThread implements Runnable {
 		            		cmd.action(this.controleur.getCtrlRouletteClient());
 		            	}
 		            	else if(cmd instanceof CommandeClientControleurChat) {
+		            		cmd.action(this.controleur);
+		            	}
+		            	else if(cmd instanceof CommandeClientControleurPrincipal) {
 		            		cmd.action(this.controleur);
 		            	}
 	            	}
@@ -57,5 +65,4 @@ public class ClientThread implements Runnable {
         }
 
 	}
-
 }

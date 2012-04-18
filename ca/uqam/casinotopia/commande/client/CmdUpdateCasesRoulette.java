@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.commande;
+package ca.uqam.casinotopia.commande.client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,8 +6,9 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.ControleurRouletteClient;
+import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 
 public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette {
 	
@@ -27,7 +28,7 @@ public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette 
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurRouletteClient)controleur).updateTableJeu(this.cases);
+		((ControleurRouletteClient)controleur).actionUpdateTableJeu(this.cases);
 	}
 
 }

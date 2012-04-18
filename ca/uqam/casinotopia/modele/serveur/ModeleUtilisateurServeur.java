@@ -1,13 +1,14 @@
-package ca.uqam.casinotopia.modele;
+package ca.uqam.casinotopia.modele.serveur;
 
 
 import ca.uqam.casinotopia.Utilisateur;
 
-public class ServeurClientModel implements Model {
+public class ModeleUtilisateurServeur {
+
+	public int number = 0;
 	private Utilisateur utilisateur = new Utilisateur();
 	
-	
-	public ServeurClientModel() {
+	public ModeleUtilisateurServeur() {
 		// TODO Auto-generated constructor stub
 	}
 

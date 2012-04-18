@@ -1,13 +1,12 @@
-package ca.uqam.casinotopia.model;
+package ca.uqam.casinotopia.modele.serveur;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Clavardage;
-import ca.uqam.casinotopia.modele.Model;
 
 
-public class ModelServeurPrincipal implements Model {
+public class ModeleServeurPrincipal {
 
 	Map<String, Clavardage> chats = new HashMap<String, Clavardage>();
 

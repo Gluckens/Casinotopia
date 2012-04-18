@@ -29,7 +29,7 @@ public abstract class Controleur {
 	 * @return the connexion
 	 */
 	public Connexion getConnexion() {
-		return connexion;
+		return this.connexion;
 	}
 
 	/**
@@ -37,16 +37,6 @@ public abstract class Controleur {
 	 */
 	public void setConnexion(Connexion connexion) {
 		this.connexion = connexion;
-	}
-	
-	public void envoyerCommande(Commande cmd) {
-		try {
-			this.connexion.getObjectOutputStream().writeObject(cmd);
-			this.connexion.getObjectOutputStream().reset();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public Modele getModele(String nom) {
