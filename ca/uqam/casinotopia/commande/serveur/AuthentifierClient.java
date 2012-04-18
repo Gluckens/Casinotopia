@@ -36,7 +36,7 @@ public class AuthentifierClient implements CommandeServeurControleurPrincipal {
 		System.out.println("le client "+no+" a envoyer le username "+this.nomUtilisateur+"!");
 		
 		if(Arrays.equals(this.motDePasse, this.nomUtilisateur.toCharArray())){
-			((ControleurServeurThread)controleur).getModel().setUtilisateur(this.nomUtilisateur,((ControleurServeurThread)controleur).getConnexion());
+			((ControleurServeurThread)controleur).getModel().setUtilisateur(new Utilisateur(this.nomUtilisateur,((ControleurServeurThread)controleur).getConnexion()));
 			((ControleurServeurThread)controleur).getConnexion().envoyerCommande(new AfficherPagePrincipal());
 		}else{
 			((ControleurServeurThread)controleur).getConnexion().envoyerCommande(new InformationNomValide("les données sont incorrecte"));

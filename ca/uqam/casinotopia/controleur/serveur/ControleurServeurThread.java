@@ -16,11 +16,8 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
-import ca.uqam.casinotopia.controleur.ControleurClientServeur;
-import ca.uqam.casinotopia.controleur.ControleurRouletteServeur;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
-import ca.uqam.casinotopia.model.ModelServeurClient;
 import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {

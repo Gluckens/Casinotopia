@@ -100,8 +100,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 			//this.afficherFrameApplicationRoulette();
 			this.afficherMenuPrincipal();
 
-			Utilisateur utilisateur = new Utilisateur(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
-			Commande cmd = new AuthentifierClient(utilisateur);
+			Commande cmd = new AuthentifierClient(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
 			this.getConnexion().envoyerCommande(cmd);
 			
 			
