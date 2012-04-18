@@ -27,6 +27,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	
 	private ModelServeurClient model = new ModelServeurClient();
 	
+	
 	public ControleurServeurThread(Socket clientSocket, int number) {
 		super(null);
 		setConnexion(new Connexion(clientSocket));

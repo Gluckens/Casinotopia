@@ -26,8 +26,10 @@ public class PanelChat extends JPanel {
 	public JTextArea txtChat;
 	public JTextField txtMessage;
 	public JList lstConnecte;
-	private JButton btnSeConnecter;
+	public JButton btnSeConnecter;
 	public JScrollPane scrollPane;
+	public JTextField txtSeConnecterA;
+	public JLabel lblTitre;
 
 	public PanelChat(ControleurClientPrincipal ctrl){
 		this();
@@ -69,10 +71,10 @@ public class PanelChat extends JPanel {
 		add(txtMessage);
 		txtMessage.setColumns(10);
 		
-		JLabel lblLesAutresGens = new JLabel("Les autres gens");
-		lblLesAutresGens.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
-		lblLesAutresGens.setBounds(10, 11, 142, 15);
-		add(lblLesAutresGens);
+		lblTitre = new JLabel("Les autres gens");
+		lblTitre.setFont(new Font("Comic Sans MS", Font.BOLD, 11));
+		lblTitre.setBounds(10, 11, 142, 15);
+		add(lblTitre);
 		
 		DefaultListModel model = new DefaultListModel();
 		lstConnecte = new JList(model);
@@ -88,8 +90,14 @@ public class PanelChat extends JPanel {
 		add(lblToi);
 		
 		btnSeConnecter = new JButton("Se connecter au chat");
-		btnSeConnecter.setBounds(10, 295, 430, 23);
+		btnSeConnecter.setBounds(263, 295, 177, 23);
 		add(btnSeConnecter);
+		
+		txtSeConnecterA = new JTextField();
+		txtSeConnecterA.setText("salle1");
+		txtSeConnecterA.setBounds(10, 296, 243, 22);
+		add(txtSeConnecterA);
+		txtSeConnecterA.setColumns(10);
 
 	}
 }

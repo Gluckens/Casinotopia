@@ -2,6 +2,7 @@ package ca.uqam.casinotopia.model;
 
 
 import ca.uqam.casinotopia.Utilisateur;
+import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.Model;
 
 public class ModelServeurClient implements Model {
@@ -25,8 +26,8 @@ public class ModelServeurClient implements Model {
 	/**
 	 * @param utilisateur the utilisateur to set
 	 */
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
+	public void setUtilisateur(String nomUtilisateur, Connexion connexion) {
+		this.utilisateur = new Utilisateur(nomUtilisateur, connexion);
 	}
 
 	

@@ -2,22 +2,21 @@ package ca.uqam.casinotopia;
 
 import java.io.Serializable;
 
-public class Utilisateur implements Serializable{
+import ca.uqam.casinotopia.connexion.Connexion;
+
+public class Utilisateur{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8754627405172607798L;
 	private String nomUtilisateur = null;
-	private char[] motDePasse = null;
+	
+	private Connexion connexion;
 	
 	public Utilisateur() {
 		
 	}
 	
-	public Utilisateur(String nomUtilisateur, char[] motDePasse) {
+	public Utilisateur(String nomUtilisateur, Connexion connexion) {
 		this.nomUtilisateur = nomUtilisateur;
-		this.motDePasse = motDePasse;
+		this.connexion = connexion;
 	}
 
 	/**
@@ -33,22 +32,9 @@ public class Utilisateur implements Serializable{
 	public void setNomUtilisateur(String nomUtilisateur) {
 		this.nomUtilisateur = nomUtilisateur;
 	}
-
-	/**
-	 * @return the motDePasse
-	 */
-	public char[] getMotDePasse() {
-		return motDePasse;
+	
+	public Connexion getConnexion() {
+		return connexion;
 	}
-
-	/**
-	 * @param motDePasse the motDePasse to set
-	 */
-	public void setMotDePasse(char[] motDePasse) {
-		this.motDePasse = motDePasse;
-	}
-	
-	
-	
 	
 }

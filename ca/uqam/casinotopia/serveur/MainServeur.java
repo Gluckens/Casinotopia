@@ -1,6 +1,7 @@
 package ca.uqam.casinotopia.serveur;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -45,14 +46,15 @@ public class MainServeur {
 						serverThread[i] = new ControleurServeurThread(skt,i);
 						thread[i] = new Thread(serverThread[i]);
 						thread[i].start();
-						System.out.println("client "+i+" connecté");
+						System.err.println("client "+i+" connecté");
 						break;
 					}
 				}
 				//indiquer au client que le serveur est plein
 			}
-			
-		} catch (IOException e) {
+		} catch (BindException e) {
+			System.out.println("Il y a déjà un serveur sur même port");
+		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
