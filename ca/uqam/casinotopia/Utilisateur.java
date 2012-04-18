@@ -1,54 +1,46 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
 
-public class Utilisateur implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8754627405172607798L;
-	private String nomUtilisateur = null;
-	private char[] motDePasse = null;
-	
-	public Utilisateur() {
-		
-	}
-	
-	public Utilisateur(String nomUtilisateur, char[] motDePasse) {
-		this.nomUtilisateur = nomUtilisateur;
-		this.motDePasse = motDePasse;
-	}
+/**
+ *
+ * @author Alexei
+ */
+public class Utilisateur {
+    private int idUtilisateur;
+	private String nomUtilisateur;
+	private String motDePasse;
 
-	/**
-	 * @return the nomUtilisateur
-	 */
-	public String getNomUtilisateur() {
-		return nomUtilisateur;
-	}
-	
-	/**
-	 * @param nomUtilisateur the nomUtilisateur to set
-	 */
-	public void setNomUtilisateur(String nomUtilisateur) {
-		this.nomUtilisateur = nomUtilisateur;
-	}
+    public Utilisateur(String text, char[] password) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 
-	/**
-	 * @return the motDePasse
-	 */
-	public char[] getMotDePasse() {
-		return motDePasse;
-	}
+    public Utilisateur() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 
-	/**
-	 * @param motDePasse the motDePasse to set
-	 */
-	public void setMotDePasse(char[] motDePasse) {
-		this.motDePasse = motDePasse;
-	}
-	
-	
-	
-	
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public String getNomUtilisateur() {
+        return nomUtilisateur;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    public void setNomUtilisateur(String nomUtilisateur) {
+        this.nomUtilisateur = nomUtilisateur;
+    }
+
+    public int getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(int id) {
+        this.idUtilisateur = id;
+    }
+    
+        
 }
