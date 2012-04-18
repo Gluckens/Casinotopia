@@ -2,39 +2,33 @@ package ca.uqam.casinotopia.commande.serveur;
 
 import java.util.ArrayList;
 
+import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.client.EnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.MettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 import ca.uqam.casinotopia.serveur.MainServeur;
 
-public class SeConnecterAuChat implements Commande {
+public class SeConnecterAuChat implements CommandeServeurControleurPrincipal {
 
-	
-	
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7826595255979222031L;
-
+	private static final long serialVersionUID = 2161362831188083377L;
+	private String salle;
+	
+	public SeConnecterAuChat(String salle) {
+		this.salle = salle;
+	}
+	
 	@Override
 	public void action(Controleur controleur) {
 
-		EnvoyerInformationChat cmd = new EnvoyerInformationChat(((ControleurServeurThread)controleur).getAllUtilisateurs(),MainServeur.model.getChat().getMessage());
-		((ControleurServeurThread)controleur).getConnexion().envoyerCommande(cmd);
-		
-		MettreAJourUtilisateurChat cmd2 = new MettreAJourUtilisateurChat(((ControleurServeurThread)controleur).getAllUtilisateurs());
-		
-		for (int i = 0; i < MainServeur.NUMCONNEXION; i++) {
-			if(MainServeur.thread[i] != null && 
-					MainServeur.thread[i].isAlive() && 
-					MainServeur.serverThread[i].getModel().getUtilisateur().getNomUtilisateur() != null &&
-					!MainServeur.serverThread[i].equals(controleur)){
-				MainServeur.serverThread[i].getConnexion().envoyerCommande(cmd2);
-			}
-		}
+		Clavardage chat = MainServeur.model.getChat(salle);
+		chat.connect(((ControleurServeurThread)controleur).getModel().getUtilisateur());
 		
 	}
 

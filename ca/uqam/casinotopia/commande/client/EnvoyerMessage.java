@@ -7,7 +7,6 @@ import ca.uqam.casinotopia.controleur.Controleur;
 
 public class EnvoyerMessage implements Commande, Serializable {
 
-
 	
 	
 	/**

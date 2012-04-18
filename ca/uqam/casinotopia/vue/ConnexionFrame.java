@@ -30,7 +30,7 @@ public class ConnexionFrame extends JFrame {
 
 	private JPanel contentPane;
 	
-	private Image img = new ImageIcon("src/img/splash.jpg").getImage();
+	private Image img = new ImageIcon(ConnexionFrame.class.getResource("/img/splash.jpg")).getImage();
 	
 	private JTextField txtNomUtilisateur;
 	private JPasswordField txtMotDePasse;

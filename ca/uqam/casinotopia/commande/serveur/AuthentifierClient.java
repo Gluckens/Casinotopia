@@ -9,8 +9,9 @@ import ca.uqam.casinotopia.commande.client.InformationNomValide;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 import ca.uqam.casinotopia.commande.CommandeServeur;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 
-public class AuthentifierClient implements Serializable, CommandeServeur {
+public class AuthentifierClient implements CommandeServeurControleurPrincipal {
 
 
 	/**
@@ -18,14 +19,13 @@ public class AuthentifierClient implements Serializable, CommandeServeur {
 	 */
 	private static final long serialVersionUID = 4957505453240402020L;
 	
-	private Utilisateur utilisateur;
+	private String nomUtilisateur;
+	private char[] motDePasse;
 	
-	public AuthentifierClient(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
 	
 	public AuthentifierClient(String nomUtilisateur, char[] motDePasse) {
-		this.utilisateur = new Utilisateur(nomUtilisateur, motDePasse);
+		this.nomUtilisateur = nomUtilisateur;
+		this.motDePasse = motDePasse;
 	}
 	
 	
@@ -33,21 +33,16 @@ public class AuthentifierClient implements Serializable, CommandeServeur {
 	@Override
 	public void action(Controleur controleur) {
 		int no = ((ControleurServeurThread)controleur).getModel().number;
-		System.out.println("le client "+no+" a envoyer le username "+utilisateur.getNomUtilisateur()+"!");
+		System.out.println("le client "+no+" a envoyer le username "+this.nomUtilisateur+"!");
 		
-		if(Arrays.equals(utilisateur.getMotDePasse(), utilisateur.getNomUtilisateur().toCharArray())){
-			((ControleurServeurThread)controleur).getModel().setUtilisateur(utilisateur);
+		if(Arrays.equals(this.motDePasse, this.nomUtilisateur.toCharArray())){
+			((ControleurServeurThread)controleur).getModel().setUtilisateur(new Utilisateur(this.nomUtilisateur,((ControleurServeurThread)controleur).getConnexion()));
 			((ControleurServeurThread)controleur).getConnexion().envoyerCommande(new AfficherPagePrincipal());
 		}else{
 			((ControleurServeurThread)controleur).getConnexion().envoyerCommande(new InformationNomValide("les données sont incorrecte"));
 		}
 		 
 
-	}
-
-	
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
 	}
 
 

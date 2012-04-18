@@ -4,15 +4,16 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.client.MainClient;
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
-public class InformationNomValide implements Commande,Serializable {
+public class InformationNomValide implements CommandeClientControleurClient {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4235256780277562517L;
+	private static final long serialVersionUID = 8911438224598458768L;
 	String message = "";
 	
 	public InformationNomValide(String message) {

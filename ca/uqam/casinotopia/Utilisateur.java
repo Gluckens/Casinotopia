@@ -1,46 +1,40 @@
 package ca.uqam.casinotopia;
 
+import java.io.Serializable;
 
-/**
- *
- * @author Alexei
- */
-public class Utilisateur {
-    private int idUtilisateur;
-	private String nomUtilisateur;
-	private String motDePasse;
+import ca.uqam.casinotopia.connexion.Connexion;
 
-    public Utilisateur(String text, char[] password) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+public class Utilisateur{
+	
+	private String nomUtilisateur = null;
+	
+	private Connexion connexion;
+	
+	public Utilisateur() {
+		
+	}
+	
+	public Utilisateur(String nomUtilisateur, Connexion connexion) {
+		this.nomUtilisateur = nomUtilisateur;
+		this.connexion = connexion;
+	}
 
-    public Utilisateur() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public String getMotDePasse() {
-        return motDePasse;
-    }
-
-    public String getNomUtilisateur() {
-        return nomUtilisateur;
-    }
-
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
-    }
-
-    public void setNomUtilisateur(String nomUtilisateur) {
-        this.nomUtilisateur = nomUtilisateur;
-    }
-
-    public int getIdUtilisateur() {
-        return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(int id) {
-        this.idUtilisateur = id;
-    }
-    
-        
+	/**
+	 * @return the nomUtilisateur
+	 */
+	public String getNomUtilisateur() {
+		return nomUtilisateur;
+	}
+	
+	/**
+	 * @param nomUtilisateur the nomUtilisateur to set
+	 */
+	public void setNomUtilisateur(String nomUtilisateur) {
+		this.nomUtilisateur = nomUtilisateur;
+	}
+	
+	public Connexion getConnexion() {
+		return connexion;
+	}
+	
 }

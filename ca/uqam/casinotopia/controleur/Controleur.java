@@ -18,7 +18,7 @@ public abstract class Controleur {
 	protected Connexion connexion;
 	
 	public Controleur() {
-		this.connexion = new Connexion();
+		connexion = new Connexion();
 	}
 	
 	public Controleur(Connexion connexion) {

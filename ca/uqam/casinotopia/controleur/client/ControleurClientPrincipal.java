@@ -37,6 +37,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	FrameApplication frameApplication;
 	PanelChat pnlChat;
+	//TODO a mettre dans un model
+	public String salle;
 	
 
 
@@ -95,14 +97,12 @@ public class ControleurClientPrincipal extends ControleurClient{
 			setMessageConnexion("connecté!");
 			
 			this.initControleur();
-			
 			//this.afficherFrameApplicationRoulette();
-			
 			this.afficherMenuPrincipal();
 
-			Utilisateur utilisateur = new Utilisateur(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
-			Commande cmd = new AuthentifierClient(utilisateur);
+			Commande cmd = new AuthentifierClient(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
 			this.getConnexion().envoyerCommande(cmd);
+			
 			
 			receptionCommandes();
 			
@@ -195,10 +195,11 @@ public class ControleurClientPrincipal extends ControleurClient{
 	}
 
 
-	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages){
+	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages, String salle){
 		setChatUtilisateur(listeUtilisateur);
 		
 		setChatMessages(listeMessages);
+		pnlChat.lblTitre.setText(salle);
 	}
 
 
@@ -209,7 +210,6 @@ public class ControleurClientPrincipal extends ControleurClient{
 		for (int i = 0; i < listeUtilisateur.size(); i++) {
 			model.add(i, listeUtilisateur.get(i));
 		}
-		
 	}
 	
 
@@ -217,7 +217,10 @@ public class ControleurClientPrincipal extends ControleurClient{
 		String messages = "";
 		for (int i = 0; i < listeMessages.size(); i++) {
 			if(!listeMessages.get(i).isEmpty()){
-				messages += listeMessages.get(i)+"\n";
+				messages += listeMessages.get(i);
+				if(i != listeMessages.size()-1){
+					messages += "\n";
+				}
 			}
 		}
 		pnlChat.txtChat.setText(messages);
@@ -229,12 +232,17 @@ public class ControleurClientPrincipal extends ControleurClient{
 		
 
 	public void seConnecterAuChat() {
-		connexion.envoyerCommande(new SeConnecterAuChat());
+		if(this.pnlChat.txtSeConnecterA.getText().isEmpty()){
+			this.pnlChat.txtSeConnecterA.setText("entrez un nom de salle ici");
+		}else{
+			this.salle = this.pnlChat.txtSeConnecterA.getText();
+			connexion.envoyerCommande(new SeConnecterAuChat(this.salle));
+		}
 	}
 	
 	public void envoyerMessageChat(String message) {
 		if(!message.isEmpty()) {
-			connexion.envoyerCommande(new EnvoyerMessageChat(message));
+			connexion.envoyerCommande(new EnvoyerMessageChat(message, this.salle));
 			this.pnlChat.txtMessage.setText("");
 			this.pnlChat.txtMessage.setFocusable(true);
 		}

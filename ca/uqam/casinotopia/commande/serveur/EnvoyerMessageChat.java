@@ -1,27 +1,30 @@
 package ca.uqam.casinotopia.commande.serveur;
 
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.client.AjouterMessageChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.serveur.MainServeur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
-public class EnvoyerMessageChat implements Commande {
+public class EnvoyerMessageChat implements CommandeServeurControleurPrincipal {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 472294044259912411L;
+	private static final long serialVersionUID = 2768135797514657051L;
 	private String message; 
+	private String salle;
 	
-	public EnvoyerMessageChat(String message) {
+	public EnvoyerMessageChat(String message, String salle) {
 		this.message = message;
+		this.salle = salle;
 	}
 
 	@Override
 	public void action(Controleur controleur) {
-		MainServeur.model.getChat().addMessage(message);
-		((ControleurServeurThread)controleur).envoyerCommandeATous(new AjouterMessageChat(message));
+		message = ((ControleurServeurThread)controleur).getModel().getUtilisateur().getNomUtilisateur()+": "+message;
+		MainServeur.model.getChat(this.salle).addMessage(message);
 	}
 
 }

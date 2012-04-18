@@ -5,27 +5,29 @@ import java.util.List;
 import java.util.Vector;
 
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
-public class EnvoyerInformationChat implements Commande {
-
+public class EnvoyerInformationChat implements CommandeClientControleurChat {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -814982804652861588L;
+	private static final long serialVersionUID = -1882263609311781756L;
 	List<String> listeUtilisateurs = new ArrayList<String>();
 	List<String> messages = new ArrayList<String>();
+	String nom;
 	
-	public EnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages) {
+	public EnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages, String nom) {
 		this.listeUtilisateurs = listeUtilisateurs;
 		this.messages = messages;
+		this.nom = nom;
 	}
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).setChatList(listeUtilisateurs,messages);
+		((ControleurClientPrincipal)controleur).setChatList(listeUtilisateurs,messages,nom);
 
 	}
 

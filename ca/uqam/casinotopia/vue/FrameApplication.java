@@ -36,7 +36,7 @@ public class FrameApplication extends JFrame implements Runnable {
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		//this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 450, 300);
+		this.setBounds(100, 100, 500, 400);
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.contentPane.setLayout(new BorderLayout(0, 0));
