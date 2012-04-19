@@ -12,6 +12,7 @@ import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
@@ -22,6 +23,7 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
+import ca.uqam.casinotopia.serveur.ServeurMain;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 	
@@ -57,7 +59,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		            	if(cmd instanceof CommandeServeur) {
 		            		System.out.println("COMMANDE RECU DE TYPE COMMANDE_SERVEUR");
 			            	if(cmd instanceof CommandeServeurControleurClient) {
-			            		if(this.lstControleurs.get("ControleurClientServeur") == null) {
+			            		if(!this.lstControleurs.containsKey("ControleurClientServeur")) {
 			            			System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurClientServeur)");
 			            			//THROW EXCEPTION
 			            			//On ne devrait jamais recevoir une commande pour un controleur en particulier sans que ce dernier ait été créé
@@ -66,13 +68,22 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			            		cmd.action(this.lstControleurs.get("ControleurClientServeur"));
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurRoulette) {
-			            		if(this.lstControleurs.get("ControleurRouletteServeur") == null) {
+			            		if(!this.lstControleurs.containsKey("ControleurRouletteServeur")) {
 			            			System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurRouletteServeur)");
 			            			//THROW EXCEPTION
 			            			//On ne devrait jamais recevoir une commande pour un controleur en particulier sans que ce dernier ait été créé
 			            			//  (par l'envoie d'une commande du client, généralement au ControleurServeurThread)
 			            		}
 			            		cmd.action(this.lstControleurs.get("ControleurRouletteServeur"));
+			            	}
+			            	else if(cmd instanceof CommandeServeurControleurChat) {
+			            		if(!this.lstControleurs.containsKey("CommandeServeurControleurChat")) {
+			            			System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (CommandeServeurControleurChat)");
+			            			//THROW EXCEPTION
+			            			//On ne devrait jamais recevoir une commande pour un controleur en particulier sans que ce dernier ait été créé
+			            			//  (par l'envoie d'une commande du client, généralement au ControleurServeurThread)
+			            		}
+			            		cmd.action(this.lstControleurs.get("CommandeServeurControleurChat"));
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurPrincipal) {
 			            		cmd.action(this.lstControleurs.get("ControleurServeurPrincipal"));
@@ -176,8 +187,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		for (int i = 0; i < ControleurServeurPrincipal.NUMCONNEXION; i++) {
 			if(ControleurServeurPrincipal.thread[i] != null && 
 					ControleurServeurPrincipal.thread[i].isAlive() && 
-					MainServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
-				liste.add( MainServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur());
+					ControleurServeurPrincipal.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
+				liste.add( ControleurServeurPrincipal.serverThread[i].getModele().getUtilisateur().getNomUtilisateur());
 			}
 		}
 		return liste;

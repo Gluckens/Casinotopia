@@ -5,8 +5,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollBar;
 
-import ca.uqam.casinotopia.commande.serveur.EnvoyerMessageChat;
-import ca.uqam.casinotopia.commande.serveur.SeConnecterAuChat;
+import ca.uqam.casinotopia.commande.serveur.CmdEnvoyerMessageChat;
+import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
@@ -79,13 +79,13 @@ public class ControleurChatClient extends ControleurClient {
 			getVue().txtSeConnecterA.setText("entrez un nom de salle ici");
 		}else{
 			getModele().setSalle(getVue().txtSeConnecterA.getText());
-			connexion.envoyerCommande(new SeConnecterAuChat(getModele().getSalle()));
+			connexion.envoyerCommande(new CmdSeConnecterAuChat(getModele().getSalle()));
 		}
 	}
 	
 	public void envoyerMessageChat(String message) {
 		if(!message.isEmpty()) {
-			connexion.envoyerCommande(new EnvoyerMessageChat(message, getModele().getSalle()));
+			connexion.envoyerCommande(new CmdEnvoyerMessageChat(message, getModele().getSalle()));
 			getVue().txtMessage.setText("");
 			getVue().txtMessage.setFocusable(true);
 		}

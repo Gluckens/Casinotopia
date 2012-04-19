@@ -8,8 +8,7 @@ public class ServeurMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new ControleurServeurPrincipal();
-
+		ControleurServeurPrincipal.getInstance();
 	}
 
 }

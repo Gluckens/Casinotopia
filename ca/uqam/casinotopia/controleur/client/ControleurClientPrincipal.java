@@ -31,6 +31,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	 */
 	private ControleurClientClient ctrlClientClient;
 	private ControleurRouletteClient ctrlRouletteClient;
+	private ControleurChatClient ctrlChatClient;
 
 	/**
 	 * vues

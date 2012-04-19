@@ -16,15 +16,21 @@ import ca.uqam.casinotopia.Salle;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import ca.uqam.casinotopia.controleur.ControleurServeur;
+import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
 
 
 public final class ControleurServeurPrincipal extends ControleurServeur {
+	
+	public static final int NUMCONNEXION = 10;
+	public static final int MAX_PARTIES = 10000;
 
 	private static ControleurServeurPrincipal instance;
 	private static ServerSocket server;
@@ -36,17 +42,13 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
 	private Map<Integer, Partie> lstParties;
 	
-	public static final int NUMCONNEXION = 10;
-	public static final int MAX_PARTIES = 10000;
-	
 	
 	private ControleurServeurPrincipal() {
-		this.modele = new ModeleServeurPrincipal();
+		this.setModeleServeur(new ModeleServeurPrincipal());
 		
 		this.lstParties = new HashMap<Integer, Partie>();
 		
-		initModele();
-		
+		this.initJeux();
 		
 		try {
 	      InetAddress address = InetAddress.getLocalHost();
@@ -289,5 +291,19 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	
 	public Map<TypeJeu, Map<Integer, Jeu>> getLstJeux() {
 		return this.lstJeux;
+	}
+
+	/**
+	 * @return the modele
+	 */
+	public ModeleServeurPrincipal getModeleServeur() {
+		return modele;
+	}
+
+	/**
+	 * @param modele the modele to set
+	 */
+	public void setModeleServeur(ModeleServeurPrincipal modele) {
+		this.modele = modele;
 	}
 }

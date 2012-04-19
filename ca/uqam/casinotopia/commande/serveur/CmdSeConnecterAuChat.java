@@ -3,8 +3,8 @@ package ca.uqam.casinotopia.commande.serveur;
 import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
-import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 
@@ -22,7 +22,7 @@ public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 	@Override
 	public void action(Controleur controleur) {
 
-		Clavardage chat = MainServeur.modele.getChat(salle);
+		Clavardage chat = ControleurServeurPrincipal.getInstance().getModeleServeur().getChat(salle);
 		chat.connecter(((ControleurServeurThread)controleur).getModele().getUtilisateur());
 		
 	}
