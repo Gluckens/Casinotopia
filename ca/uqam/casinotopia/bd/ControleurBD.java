@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.uqam.bd;
+package ca.uqam.casinotopia.bd;
 
 import ca.uqam.casinotopia.*;
 import java.sql.*;
@@ -22,11 +22,6 @@ public class ControleurBD {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-//        Utilisateur unU = new Utilisateur();
-//        unU.setNomUtilisateur("CaCa");
-//        unU.setMotDePasse("CaCa1");
-//        ajouterUtilisateur(unU);
 
         
         Client unCl = new Client();

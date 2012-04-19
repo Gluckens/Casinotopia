@@ -15,7 +15,7 @@ import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
-import ca.uqam.casinotopia.modele.client.ModeleRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.observateur.Sujet;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -136,8 +136,8 @@ public class VueRoulette extends Vue {
 
 	@Override
 	public void update(Sujet sujet) {
-		if(sujet instanceof ModeleRouletteClient) {
-			this.updateTableJeu(((ModeleRouletteClient)sujet).getTableJeu().getCases());
+		if(sujet instanceof ModelePartieRouletteClient) {
+			this.updateTableJeu(((ModelePartieRouletteClient)sujet).getTableJeu().getCases());
 		}
 	}
 }

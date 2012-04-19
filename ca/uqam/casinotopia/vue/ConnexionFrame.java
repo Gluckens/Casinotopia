@@ -16,7 +16,7 @@ import javax.swing.JButton;
 
 import ca.uqam.casinotopia.Utilisateur;
 import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
+import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 

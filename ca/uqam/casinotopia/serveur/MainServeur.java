@@ -20,7 +20,7 @@ public class MainServeur {
 	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
 	private static Boolean actif = true; 
 	
-	public static ModeleServeurPrincipal model = new ModeleServeurPrincipal();
+	public static ModeleServeurPrincipal modele = new ModeleServeurPrincipal();
 	
 	public static void main(String[] args) {
 		//TODO modifier la création de thread en bag ?

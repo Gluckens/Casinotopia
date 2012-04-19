@@ -38,17 +38,17 @@ public class Connexion {
 		int essaie = 2;
 		while(essaie != 0){
 			try {
-				socket = new Socket(ip, port);
-				init();
+				this.socket = new Socket(ip, port);
+				this.init();
 	            essaie = 0;
 	    	    System.out.println("Connecté a "+ip);
 			} catch (UnknownHostException e) {
 	            System.out.println("Unable to connect to server, UnknownHostException");
-	            connected = false;
+	            this.connected = false;
 	            essaie--;
 			} catch (IOException e) {
 	            System.out.println("Incapable de se connecter au serveur");
-	            connected = false;
+	            this.connected = false;
 	            essaie--;
 			}
 		}
@@ -56,26 +56,26 @@ public class Connexion {
 
 	public Connexion(Socket socket) {
 		this.socket = socket;
-		init();
+		this.init();
 	}
 	
 	private void init() {
-        connected = true;
+        this.connected = true;
         try {
-			socket.setTcpNoDelay(true);
+			this.socket.setTcpNoDelay(true);
 		} catch (SocketException e) {
 			this.close();
 		}
         
         try {
-			output = socket.getOutputStream();
-	        input =  socket.getInputStream();
+        	this.output = this.socket.getOutputStream();
+        	this.input =  this.socket.getInputStream();
 	
-	        oOutputStream = new ObjectOutputStream(output);
-	        oInputStream = new ObjectInputStream(input);
+        	this.oOutputStream = new ObjectOutputStream(this.output);
+	        this.oInputStream = new ObjectInputStream(this.input);
 			
-	        dOutputStream = new DataOutputStream(output);
-	        dInputStream = new DataInputStream(input);
+	        this.dOutputStream = new DataOutputStream(this.output);
+	        this.dInputStream = new DataInputStream(this.input);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,34 +83,34 @@ public class Connexion {
 	}
 	
 	public DataInputStream getDataInputStream() {
-		return dInputStream;
+		return this.dInputStream;
 	}
 	
 	public DataOutputStream getDataOutputStream() {
-		return dOutputStream;
+		return this.dOutputStream;
 	}
 	
 	public ObjectInputStream getObjectInputStream() {
-		return oInputStream;
+		return this.oInputStream;
 	}
 	
 	public ObjectOutputStream getObjectOutputStream() {
-		return oOutputStream;
+		return this.oOutputStream;
 	}
 	
 	public boolean isConnected() {
-		return connected;
+		return this.connected;
 	}
 	
 	public void close(){
 
-		connected = false;
+		this.connected = false;
 		try {
-			oOutputStream.close();
-			oInputStream.close();
-			dOutputStream.close();
-			dInputStream.close();
-			socket.close();
+			this.oOutputStream.close();
+			this.oInputStream.close();
+			this.dOutputStream.close();
+			this.dInputStream.close();
+			this.socket.close();
 		} catch (IOException e) {
 			System.err.println("erreur lors de la fermeture de la connexion");
 		}

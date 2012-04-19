@@ -19,7 +19,7 @@ import ca.uqam.casinotopia.vue.PanelChat;
 import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 import ca.uqam.casinotopia.vue.VueRoulette;
 import ca.uqam.casinotopia.Utilisateur;
-import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
+import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
 
 public class ControleurClientPrincipal extends ControleurClient{
 
@@ -37,7 +37,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	FrameApplication frameApplication;
 	PanelChat pnlChat;
-	//TODO a mettre dans un model
+	//TODO a mettre dans un modele
 	public String salle;
 	
 
@@ -71,24 +71,24 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	
 	private void initModele() {
-		modele = new InfoClientPrincipal();
+		this.modele = new InfoClientPrincipal();
 	}
 	
 	/**
 	 * Afficher l'interface de connexion au serveur
 	 */
 	private void afficherInterface() {
-		vueConnexionFrame = new ConnexionFrame(this);
-		vueConnexionFrame.setVisible(true);
+		this.vueConnexionFrame = new ConnexionFrame(this);
+		this.vueConnexionFrame.setVisible(true);
 	}
 	
 	public void connexionAuServeur() {
 		if(!getConnexion().isConnected()){
 			System.out.println("recherche de serveur...");
-			setMessageConnexion("recherche de serveur...");
+			this.setMessageConnexion("recherche de serveur...");
 			int i = 0;
-			while(getConnexion().isConnected() == false && i < modele.listeServeur.length){
-				setConnexion(new Connexion(modele.listeServeur[i], 7777));
+			while(this.getConnexion().isConnected() == false && i < this.modele.listeServeur.length){
+				this.setConnexion(new Connexion(this.modele.listeServeur[i], 7777));
 				i++;
 			}
 		}
@@ -98,13 +98,13 @@ public class ControleurClientPrincipal extends ControleurClient{
 			
 			this.initControleur();
 			//this.afficherFrameApplicationRoulette();
-			this.afficherMenuPrincipal();
+			//this.afficherMenuPrincipal();
 
-			Commande cmd = new AuthentifierClient(vueConnexionFrame.getTxtNomUtilisateur().getText(),vueConnexionFrame.getTxtMotDePasse().getPassword());
+			Commande cmd = new CmdAuthentifierClient(this.vueConnexionFrame.getTxtNomUtilisateur().getText(), this.vueConnexionFrame.getTxtMotDePasse().getPassword());
 			this.getConnexion().envoyerCommande(cmd);
 			
 			
-			receptionCommandes();
+			this.receptionCommandes();
 			
 			System.out.println("FIN DE CONNEXION");
 			
@@ -112,8 +112,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 	}
 	
 	private void receptionCommandes() {
-		if(!enReceptionDeCommande){
-			enReceptionDeCommande = true;
+		if(!this.enReceptionDeCommande){
+			this.enReceptionDeCommande = true;
 			new Thread(new ClientThread(this)).start();
 		}
 	}
@@ -122,7 +122,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 
 
 	public ConnexionFrame getVueConnexionFrame() {
-		return vueConnexionFrame;
+		return this.vueConnexionFrame;
 	}
 
 
@@ -142,8 +142,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	public void afficherFrameApplication() {
 		this.frameApplication = new FrameApplication();
-		pnlChat = new PanelChat(this);
-		this.frameApplication.addOrReplace("chat", pnlChat);
+		this.pnlChat = new PanelChat(this);
+		this.frameApplication.addOrReplace("chat", this.pnlChat);
 		this.frameApplication.setVisible(true);
 	}
 	
@@ -168,7 +168,12 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	public void cmdJouerRoulette() {
 		System.out.println("Envoyer Commande Jouer Roulette");
-		this.connexion.envoyerCommande(new CmdJouerRoulette());
+		
+		//TODO Récupérer l'id du jeu de roulette auquel le client veut jouer.
+		
+		int idJeu = 2;
+		
+		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu));
 	}
 	
 	public void actionAfficherJeuRoulette(int idPartie) {
@@ -196,10 +201,10 @@ public class ControleurClientPrincipal extends ControleurClient{
 
 
 	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages, String salle){
-		setChatUtilisateur(listeUtilisateur);
+		this.setChatUtilisateur(listeUtilisateur);
 		
-		setChatMessages(listeMessages);
-		pnlChat.lblTitre.setText(salle);
+		this.setChatMessages(listeMessages);
+		this.pnlChat.lblTitre.setText(salle);
 	}
 
 
@@ -223,7 +228,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 				}
 			}
 		}
-		pnlChat.txtChat.setText(messages);
+		this.pnlChat.txtChat.setText(messages);
 
 		JScrollBar jsb = this.pnlChat.scrollPane.getVerticalScrollBar();
 		jsb.setValue(jsb.getMaximum());
@@ -232,17 +237,18 @@ public class ControleurClientPrincipal extends ControleurClient{
 		
 
 	public void seConnecterAuChat() {
-		if(this.pnlChat.txtSeConnecterA.getText().isEmpty()){
+		if(this.pnlChat.txtSeConnecterA.getText().isEmpty()) {
 			this.pnlChat.txtSeConnecterA.setText("entrez un nom de salle ici");
-		}else{
+		}
+		else {
 			this.salle = this.pnlChat.txtSeConnecterA.getText();
-			connexion.envoyerCommande(new SeConnecterAuChat(this.salle));
+			this.connexion.envoyerCommande(new CmdSeConnecterAuChat(this.salle));
 		}
 	}
 	
 	public void envoyerMessageChat(String message) {
 		if(!message.isEmpty()) {
-			connexion.envoyerCommande(new EnvoyerMessageChat(message, this.salle));
+			this.connexion.envoyerCommande(new CmdEnvoyerMessageChat(message, this.salle));
 			this.pnlChat.txtMessage.setText("");
 			this.pnlChat.txtMessage.setFocusable(true);
 		}

@@ -7,22 +7,30 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleRouletteServeur;
+import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 
 public class ControleurRouletteServeur extends ControleurServeur {
 
-	public ControleurRouletteServeur(Connexion connexion) {
+	/*public ControleurRouletteServeur(Connexion connexion) {
 		super(connexion);
 		
-		if(!this.lstModeles.containsKey("ModeleRouletteServeur")) {
-			ModeleRouletteServeur modeleRoulette = new ModeleRouletteServeur(0, true, true, null);
+		ModelePartieRouletteServeur modeleRoulette = new ModelePartieRouletteServeur(ControleurServeurPrincipal.getInstance().getIdPartieLibre(), true, true);
+		this.ajouterModele(modeleRoulette);
+		
+		if(!this.lstModeles.containsKey("ModelePartieRouletteServeur")) {
+			ModelePartieRouletteServeur modeleRoulette = new ModelePartieRouletteServeur(0, true, true);
 			this.ajouterModele(modeleRoulette);
 		}
+	}*/
+	
+	public ControleurRouletteServeur(Connexion connexion, ModelePartieRouletteServeur modeleRoulette) {
+		super(connexion);
+		this.ajouterModele(modeleRoulette);
 	}
 	
 	public void actionEffectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		System.out.println("ACTION_EFFECTUER_MISES");
-		ModeleRouletteServeur modele = (ModeleRouletteServeur) this.getModele(ModeleRouletteServeur.class.getSimpleName());
+		ModelePartieRouletteServeur modele = (ModelePartieRouletteServeur) this.getModele(ModelePartieRouletteServeur.class.getSimpleName());
 		modele.effectuerMises(mises);
 		
 		this.cmdUpdateTableJoueurs(modele.getId(), modele.getTableJeu().getCases());

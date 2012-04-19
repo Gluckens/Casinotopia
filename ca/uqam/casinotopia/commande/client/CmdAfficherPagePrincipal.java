@@ -1,11 +1,10 @@
 package ca.uqam.casinotopia.commande.client;
 
-import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
-public class AfficherPagePrincipal implements CommandeClientControleurChat {
+public class CmdAfficherPagePrincipal implements CommandeClientControleurChat {
 
 
 	/**

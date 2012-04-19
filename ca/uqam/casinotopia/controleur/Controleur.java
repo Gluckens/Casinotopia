@@ -1,10 +1,8 @@
 package ca.uqam.casinotopia.controleur;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.vue.Vue;

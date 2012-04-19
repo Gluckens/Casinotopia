@@ -123,10 +123,6 @@ public class Client extends Utilisateur {
         this.id = id;
     }
     
-//    public int getIdUtilisateur(){
-//        return this.getIdUtilisateur();
-//    }
-    
     
     @Override
     public String toString() {

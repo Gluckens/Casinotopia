@@ -2,9 +2,6 @@ package ca.uqam.casinotopia.commande.client;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JFrame;
-
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;

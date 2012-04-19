@@ -2,14 +2,12 @@ package ca.uqam.casinotopia.commande.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-
-import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
-public class EnvoyerInformationChat implements CommandeClientControleurChat {
+//TODO Pas le bon controleur
+public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 
 	/**
 	 * 
@@ -19,7 +17,7 @@ public class EnvoyerInformationChat implements CommandeClientControleurChat {
 	List<String> messages = new ArrayList<String>();
 	String nom;
 	
-	public EnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages, String nom) {
+	public CmdEnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages, String nom) {
 		this.listeUtilisateurs = listeUtilisateurs;
 		this.messages = messages;
 		this.nom = nom;

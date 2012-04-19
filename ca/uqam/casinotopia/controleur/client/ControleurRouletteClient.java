@@ -8,7 +8,7 @@ import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
-import ca.uqam.casinotopia.modele.client.ModeleRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.vue.VueRoulette;
 
 public class ControleurRouletteClient extends ControleurClient {
@@ -29,10 +29,11 @@ public class ControleurRouletteClient extends ControleurClient {
 		}
 		((VueRoulette)this.lstVues.get("VueRoulette")).updateTableJeu(cases);*/
 		
-		ModeleRouletteClient modeleRoulette = (ModeleRouletteClient)this.lstModeles.get("ModeleRouletteClient");
+		//TODO Les modele ici ne devrait jamais etre vide, il devrait etre créer lors de la construction du controleur???
+		ModelePartieRouletteClient modeleRoulette = (ModelePartieRouletteClient)this.lstModeles.get("ModelePartieRouletteClient");
 		if(modeleRoulette == null) {
 			System.out.println("LE MODÈLE EST NUL");
-			modeleRoulette = new ModeleRouletteClient(0, false, false, null);
+			modeleRoulette = new ModelePartieRouletteClient(0, false, false, null);
 			this.ajouterModele(modeleRoulette);
 		}
 		
