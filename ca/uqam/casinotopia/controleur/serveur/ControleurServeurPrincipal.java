@@ -78,7 +78,7 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 				//indiquer au client que le serveur est plein
 			}
 		} catch (BindException e) {
-			System.out.println("Il y a déjà un serveur sur même port");
+			System.err.println("Il y a déjà un serveur sur le même port");
 		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,7 +149,7 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	
 	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, int posXJeu, int posYJeu, int minJoueursJeu, int maxJoueursJeu, Salle salle, TypeJeu type) {
 		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, posXJeu, posYJeu, minJoueursJeu, maxJoueursJeu, salle, type);
-		System.out.println("JEU DANS SERVEUR_PRINCIPAL : " + jeu);
+		//System.out.println("JEU DANS SERVEUR_PRINCIPAL : " + jeu);
 		this.lstJeux.get(TypeJeu.ROULETTE).put(jeu.getId(), jeu);
 	}
 	
@@ -197,10 +197,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	}
 	
 	public void ajouterPartie(Partie partie, TypeEtatPartie etat) {
-		System.out.println("AJOUTER_PARTIE_" + etat + " : " + partie);
-		System.out.println(partie.getTypeJeu());
-		System.out.println(this.lstJeux);
-		System.out.println(this.lstJeux.get(partie.getTypeJeu()));
 		
 		this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu().getId()).ajouterPartie(partie, etat);
 		this.lstParties.put(partie.getId(), partie);
