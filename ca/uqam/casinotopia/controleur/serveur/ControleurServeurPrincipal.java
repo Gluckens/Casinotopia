@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -24,11 +23,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 
 	private static ControleurServeurPrincipal instance;
 	private ModeleServeurPrincipal modele;
-	
-	
-	
-	/*private Map<TypeJeu, Map<Integer, Partie>> lstPartiesEnAttente;
-	private Map<TypeJeu, Map<Integer, Partie>> lstPartiesEnCours;*/
 
 	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
 	private Map<Integer, Partie> lstParties;
@@ -38,9 +32,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	
 	private ControleurServeurPrincipal() {
 		this.modele = new ModeleServeurPrincipal();
-		/*this.lstPartiesEnAttente = new HashMap<TypeJeu, Map<Integer, Partie>>();
-		this.lstPartiesEnCours = new HashMap<TypeJeu, Map<Integer, Partie>>();*/
-		
 		
 		this.lstParties = new HashMap<Integer, Partie>();
 		
@@ -60,9 +51,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		//TODO Créer des partie dans chaque jeu pour les tests
 		
 		this.lstJeux = new HashMap<TypeJeu, Map<Integer, Jeu>>();
-		
-		/*Map<Jeu, Map<TypeEtatPartie, Map<Integer, Partie>>>[] test;
-		test = (HashMap<Jeu, Map<TypeEtatPartie, Map<Integer, Partie>>>[]) new HashMap[3];*/
 		
 		this.lstJeux.put(TypeJeu.ROULETTE, new HashMap<Integer, Jeu>());
 		this.creerJeuTest(1, "nom1", "description1", "reglesJeu1", 1, 1, 4, 8, new Salle(), TypeJeu.ROULETTE);
@@ -110,20 +98,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		
 		return lstKeys.toArray(new Jeu[colJeu.size()]);
 	}
-	
-	/*public static <T, E> T[] getArrKeys(Map<T, E> map) {
-		ArrayList<T> lstKeys = new ArrayList<T>();
-		
-		for(Map.Entry<T, E> entry : map.entrySet()) {
-			lstKeys.add(entry.getKey());
-		}
-		
-		T[] arrKeys;
-		
-		arrKeys = lstKeys.toArray((T[])Array.newInstance(arrKeys.getClass(), map.keySet().size()));
-		
-		return arrKeys;
-	}*/
 	
 	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, int posXJeu, int posYJeu, int minJoueursJeu, int maxJoueursJeu, Salle salle, TypeJeu type) {
 		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, posXJeu, posYJeu, minJoueursJeu, maxJoueursJeu, salle, type);
@@ -182,11 +156,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		
 		this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu().getId()).ajouterPartie(partie, etat);
 		this.lstParties.put(partie.getId(), partie);
-		
-		/*System.out.println(this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu()));
-		System.out.println(this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu()).get(TypeEtatPartie.EN_ATTENTE));
-		this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu()).get(TypeEtatPartie.EN_ATTENTE).put(partie.getId(), partie);
-		this.lstParties.put(partie.getId(), partie);*/
 	}
 	
 	public void retirerPartie(int idPartie) {
@@ -241,7 +210,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	    SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
 	        new Comparator<Map.Entry<K,V>>() {
 	            @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
-	                //return e1.getValue().compareTo(e2.getValue());
 	                int res = e1.getValue().compareTo(e2.getValue());
                     return res != 0 ? res : 1;
 	            }
@@ -276,128 +244,4 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	public Map<TypeJeu, Map<Integer, Jeu>> getLstJeux() {
 		return this.lstJeux;
 	}
-	
-	/*public Partie getPartie(int idPartie) {
-		Partie partie;
-		partie = this.getPartieEnAttente(idPartie);
-		if(partie == null) {
-			partie = this.getPartieEnCours(idPartie);
-		}
-		
-		return partie;
-	}
-	
-	private Partie getPartieEnAttente(int idPartie) {
-		//return this.lstPartiesEnAttente.get(idPartie);
-		Partie partieEnAttente = null;
-		for(Map<Integer, Partie> lstPartie : this.lstPartiesEnAttente.values()) {
-			partieEnAttente = lstPartie.get(idPartie);
-			if(partieEnAttente != null) {
-				break;
-			}
-		}
-		
-		return partieEnAttente;
-	}
-	
-	private Partie getPartieEnCours(int idPartie) {
-		Partie partieEnCours = null;
-		for(Map<Integer, Partie> lstPartie : this.lstPartiesEnCours.values()) {
-			partieEnCours = lstPartie.get(idPartie);
-			if(partieEnCours != null) {
-				break;
-			}
-		}
-		
-		return partieEnCours;
-	}
-	
-	public void ajouterPartieEnAttente(TypeJeu type, Partie partie) {
-		if(!this.lstPartiesEnAttente.containsKey(type)) {
-			this.lstPartiesEnAttente.put(type, new HashMap<Integer, Partie>());
-		}
-		this.lstPartiesEnAttente.get(type).put(partie.getId(), partie);
-	}
-	
-	public void retirerPartieEnAttente(int idPartie) {
-		for(Map<Integer, Partie> lstPartie : this.lstPartiesEnAttente.values()) {
-			if(lstPartie.remove(idPartie) != null) {
-				break;
-			}
-		}
-	}
-	
-	public void retirerPartieEnAttente(TypeJeu type, int idPartie) {
-		this.lstPartiesEnAttente.get(type).remove(idPartie);
-	}
-	
-	public void ajouterPartieEnCours(TypeJeu type, Partie partie) {
-		if(!this.lstPartiesEnCours.containsKey(type)) {
-			this.lstPartiesEnCours.put(type, new HashMap<Integer, Partie>());
-		}
-		this.lstPartiesEnCours.get(type).put(partie.getId(), partie);
-	}
-	
-	public void retirerPartieEnCours(int idPartie) {
-		for(Map<Integer, Partie> lstPartie : this.lstPartiesEnCours.values()) {
-			if(lstPartie.remove(idPartie) != null) {
-				break;
-			}
-		}
-	}
-	
-	public void retirerPartieEnCours(TypeJeu type, int idPartie) {
-		this.lstPartiesEnCours.get(type).remove(idPartie);
-	}
-	
-	public void transfererPartieEnAttenteVersEnCours(int idPartie) {
-		Partie partieEnAttente = this.getPartieEnAttente(idPartie);
-		if(partieEnAttente != null) {
-			this.ajouterPartieEnCours(partieEnAttente.getTypeJeu(), partieEnAttente);
-			this.retirerPartieEnAttente(idPartie);
-		}
-	}
-	
-	//Peut-être inutile... qu'est-ce qu'on fait quand une partie exige un nombre minimal de joueur et qu'un joueur quitte, entrainant la partie sous le seuil de joueurs?
-	public void transfererPartieEnCoursVersEnAttente(int idPartie) {
-		Partie partieEnCours = this.getPartieEnCours(idPartie);
-		if(partieEnCours != null) {
-			this.ajouterPartieEnAttente(partieEnCours.getTypeJeu(), partieEnCours);
-			this.retirerPartieEnCours(idPartie);
-		}
-	}
-	
-	//Quelle est la politique de recherche de partie en cours? On cherche celle avec le moins de joueur manquant avant d'attendre le nombre maximal?
-	public Partie rechercherPartieEnAttente(TypeJeu type) {
-		//TODO Cette fonction sera appelé lorsqu'un joueur veut jouer à un jeu.
-		//Elle devra regarder dans la liste de partie s'il y en a une du même type de jeu demandé, et que le nombre maximale de joueur n'est pas atteint
-		//  (possible? quand le dernier joueur entre dans une partie en attente, elle ne s'en va directement dans partie en cours?)
-		
-		System.out.println("PartiesEnAttente : " + this.lstPartiesEnAttente.get(type));
-		
-		if(this.lstPartiesEnAttente.get(type) != null) {
-			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = entriesSortedByValues(this.lstPartiesEnAttente.get(type));
-		
-			System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
-			
-			return lstPartiesSorted.first().getValue();
-		}
-		
-		return null;
-	}
-	
-	static <K,V extends Comparable<? super V>>
-	SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
-	    SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
-	        new Comparator<Map.Entry<K,V>>() {
-	            @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
-	                //return e1.getValue().compareTo(e2.getValue());
-	                int res = e1.getValue().compareTo(e2.getValue());
-                    return res != 0 ? res : 1;
-	            }
-	        }
-	    );
-	    sortedEntries.addAll(map.entrySet());
-	    return sortedEntries;
-	}*/
 }

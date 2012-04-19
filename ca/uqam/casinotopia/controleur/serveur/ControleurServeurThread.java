@@ -129,18 +129,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void actionAjouterJoueurDansRoulette(int idJeu) {
 		//TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
 		
-		/*this.ctrlPrincipal.ajouterPartieEnAttente(TypeJeu.ROULETTE, new ModelePartieRouletteServeur(1, true, true, new Jeu("nom1", "description1", "reglesJeu1", 1, 1, 4, 8, new Salle(), TypeJeu.ROULETTE)));
-		this.ctrlPrincipal.ajouterPartieEnAttente(TypeJeu.ROULETTE, new ModelePartieRouletteServeur(2, true, true, new Jeu("nom2", "description2", "reglesJeu2", 2, 2, 2, 4, new Salle(), TypeJeu.ROULETTE)));
-		this.ctrlPrincipal.ajouterPartieEnAttente(TypeJeu.ROULETTE, new ModelePartieRouletteServeur(3, true, true, new Jeu("nom3", "description3", "reglesJeu3", 3, 3, 2, 8, new Salle(), TypeJeu.ROULETTE)));
-		this.ctrlPrincipal.ajouterPartieEnAttente(TypeJeu.ROULETTE, new ModelePartieRouletteServeur(4, true, true, new Jeu("nom4", "description4", "reglesJeu4", 4, 4, 3, 5, new Salle(), TypeJeu.ROULETTE)));*/
-		
 		ControleurServeurPrincipal ctrlPrincipal = (ControleurServeurPrincipal) this.lstControleurs.get("ControleurServeurPrincipal");
 		
 		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) ((ControleurServeurPrincipal)this.lstControleurs.get("ControleurServeurPrincipal")).rechercherPartieEnAttente(idJeu);
-		
-		/*Jeu jeu = this.ctrlPrincipal.getLstJeux().get(TypeJeu.ROULETTE).keySet().iterator().next();
-		
-		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) this.ctrlPrincipal.rechercherPartieEnAttente(jeu);*/
 		
 		System.out.println("JEU DANS SERVEUR_THREAD : " + ctrlPrincipal.getJeu(idJeu));
 		
