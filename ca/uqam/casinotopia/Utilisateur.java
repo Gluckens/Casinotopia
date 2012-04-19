@@ -1,15 +1,22 @@
 package ca.uqam.casinotopia;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.connexion.Connexion;
 
 public class Utilisateur{
 	
-	private int idUtilisateur;
+	private int id;
 	private String nomUtilisateur;
 	private String motDePasse;
 	
+	List<Connectable> connectables = new ArrayList<Connectable>();
+	
 	private Connexion connexion;
+
+	private int id;
 	
 	public Utilisateur() {
 		this("", "", null);
@@ -56,18 +63,31 @@ public class Utilisateur{
 	 * @return the idUtilisateur
 	 */
 	public int getIdUtilisateur() {
-		return idUtilisateur;
+		return this.id;
 	}
 
 	/**
 	 * @param idUtilisateur the idUtilisateur to set
 	 */
-	public void setIdUtilisateur(int idUtilisateur) {
-		this.idUtilisateur = idUtilisateur;
+	public void setIdUtilisateur(int id) {
+		this.id = id;
 	}
 
 	public Connexion getConnexion() {
 		return connexion;
+	}
+	
+	
+	public List<Connectable> getConnectables() {
+		return connectables;
+	}
+	
+	public void deconnect(){
+		for (int i = 0; i < connectables.size(); i++) {
+			if(connectables.get(i) instanceof Clavardage){
+				connectables.get(i).deconnect(this);
+			}
+		}
 	}
 	
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.Salle;
+import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.commande.Commande;
@@ -100,6 +100,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				} catch (SocketException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Déconnexion du client " + this.modele.number);
+					this.modele.getUtilisateur().deconnect();
 					getConnexion().close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
