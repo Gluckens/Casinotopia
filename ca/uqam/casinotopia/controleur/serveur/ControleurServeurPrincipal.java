@@ -15,18 +15,28 @@ import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.Salle;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
-import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
+
 
 public final class ControleurServeurPrincipal extends ControleurServeur {
 
 	private static ControleurServeurPrincipal instance;
+	private static ServerSocket server;
 	private ModeleServeurPrincipal modele;
-
+	public static Thread[] thread = new Thread[NUMCONNEXION];
+	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
+	private static Boolean actif = true; 
+	
 	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
 	private Map<Integer, Partie> lstParties;
 	
+	public static final int NUMCONNEXION = 10;
 	public static final int MAX_PARTIES = 10000;
 	
 	
@@ -35,7 +45,43 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		
 		this.lstParties = new HashMap<Integer, Partie>();
 		
-		this.initJeux();
+		initModele();
+		
+		
+		try {
+	      InetAddress address = InetAddress.getLocalHost();
+	      	System.out.println("Ton ip est surement : "+address.getHostAddress());
+	    }
+	    catch (UnknownHostException e) {
+	    	System.out.println("Could not find this computer's address.");
+	    }
+		try {
+			System.out.println("création du server");
+			server = new ServerSocket(7777);
+			System.out.println("server démarré");
+			while(actif){
+				Socket skt = server.accept();
+				for (int i = 0; i < NUMCONNEXION; i++) {
+					if(thread[i] != null && !thread[i].isAlive()){
+						thread[i] = null;
+					}
+					if(thread[i] == null){
+						serverThread[i] = new ControleurServeurThread(skt,i);
+						thread[i] = new Thread(serverThread[i]);
+						thread[i].start();
+						System.err.println("client "+i+" connecté");
+						break;
+					}
+				}
+				//indiquer au client que le serveur est plein
+			}
+		} catch (BindException e) {
+			System.out.println("Il y a déjà un serveur sur même port");
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static ControleurServeurPrincipal getInstance() {

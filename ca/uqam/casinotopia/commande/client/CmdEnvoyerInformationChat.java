@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 //TODO Pas le bon controleur
@@ -25,7 +26,7 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).setChatList(listeUtilisateurs,messages,nom);
+		((ControleurChatClient)controleur).setChatList(listeUtilisateurs,messages,nom);
 
 	}
 

@@ -13,15 +13,16 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class PanelChat extends JPanel {
+public class VueChat extends JPanel {
 	
-	private ControleurClientPrincipal controleur;
+	private ControleurChatClient controleur;
 	
 	public JTextArea txtChat;
 	public JTextField txtMessage;
@@ -31,7 +32,7 @@ public class PanelChat extends JPanel {
 	public JTextField txtSeConnecterA;
 	public JLabel lblTitre;
 
-	public PanelChat(ControleurClientPrincipal ctrl){
+	public VueChat(ControleurChatClient ctrl){
 		this();
 		this.controleur = ctrl;
 		btnSeConnecter.addActionListener(new ActionListener() {
@@ -56,7 +57,7 @@ public class PanelChat extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	private PanelChat() {
+	private VueChat() {
 		setLayout(null);
 		
 		scrollPane = new JScrollPane();
@@ -65,10 +66,11 @@ public class PanelChat extends JPanel {
 		add(scrollPane);
 		
 		txtChat = new JTextArea();
+		txtChat.setLineWrap(true);
+		txtChat.setEditable(false);
 		txtChat.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		scrollPane.setViewportView(txtChat);
 		txtChat.setBackground(Color.WHITE);
-		txtChat.setEditable(false);
 		txtChat.setForeground(new Color(0, 0, 0));
 		
 		txtMessage = new JTextField();

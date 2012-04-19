@@ -22,7 +22,6 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
-import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 	
@@ -174,9 +173,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	
 	public ArrayList<String> getAllUtilisateurs(){
 		ArrayList<String> liste = new ArrayList<String>();
-		for (int i = 0; i < MainServeur.NUMCONNEXION; i++) {
-			if(MainServeur.thread[i] != null && 
-					MainServeur.thread[i].isAlive() && 
+		for (int i = 0; i < ControleurServeurPrincipal.NUMCONNEXION; i++) {
+			if(ControleurServeurPrincipal.thread[i] != null && 
+					ControleurServeurPrincipal.thread[i].isAlive() && 
 					MainServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
 				liste.add( MainServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur());
 			}
@@ -185,11 +184,11 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	}
 	
 	public void envoyerCommandeATous(Commande cmd){
-		for (int i = 0; i < MainServeur.NUMCONNEXION; i++) {
-			if(MainServeur.thread[i] != null && 
-					MainServeur.thread[i].isAlive() && 
-					MainServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
-				MainServeur.serverThread[i].getConnexion().envoyerCommande(cmd);
+		for (int i = 0; i < ControleurServeurPrincipal.NUMCONNEXION; i++) {
+			if(ControleurServeurPrincipal.thread[i] != null && 
+					ControleurServeurPrincipal.thread[i].isAlive() && 
+					ControleurServeurPrincipal.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
+				ControleurServeurPrincipal.serverThread[i].getConnexion().envoyerCommande(cmd);
 			}
 		}
 	}

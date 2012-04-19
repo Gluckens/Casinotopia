@@ -10,7 +10,7 @@ public class CmdAfficherPagePrincipal implements CommandeClientControleurChat {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3623151295646193586L;
+	private static final long serialVersionUID = -3802322880136944538L;
 
 	@Override
 	public void action(Controleur controleur) {

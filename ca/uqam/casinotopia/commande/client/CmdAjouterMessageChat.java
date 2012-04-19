@@ -2,6 +2,7 @@ package ca.uqam.casinotopia.commande.client;
 
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 //TODO Pas le bon controleur
@@ -19,7 +20,7 @@ public class CmdAjouterMessageChat implements CommandeClientControleurChat {
 	
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).ajouterMessageChat(message);
+		((ControleurChatClient)controleur).ajouterMessageChat(message);
 
 	}
 

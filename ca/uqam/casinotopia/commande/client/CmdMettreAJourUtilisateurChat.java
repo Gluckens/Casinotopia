@@ -3,6 +3,7 @@ package ca.uqam.casinotopia.commande.client;
 import java.util.List;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 //TODO Pas le bon controleur
@@ -20,7 +21,7 @@ public class CmdMettreAJourUtilisateurChat implements CommandeClientControleurCh
 	
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).setChatUtilisateur(listeUtilisateur);
+		((ControleurChatClient)controleur).setChatUtilisateur(listeUtilisateur);
 
 	}
 

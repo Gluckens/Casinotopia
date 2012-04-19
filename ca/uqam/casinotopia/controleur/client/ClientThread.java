@@ -16,6 +16,11 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
+/**
+ * écoute le serveur et exécute les actions envoyé
+ * @author Olivier
+ *
+ */
 public class ClientThread implements Runnable {
 
 	private ControleurClientPrincipal controleur;
@@ -40,7 +45,7 @@ public class ClientThread implements Runnable {
 		            		cmd.action(this.controleur.getCtrlRouletteClient());
 		            	}
 		            	else if(cmd instanceof CommandeClientControleurChat) {
-		            		cmd.action(this.controleur);
+		            		cmd.action(this.controleur.getCtrlChatClient());
 		            	}
 		            	else if(cmd instanceof CommandeClientControleurPrincipal) {
 		            		cmd.action(this.controleur);

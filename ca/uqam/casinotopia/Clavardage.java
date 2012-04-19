@@ -7,6 +7,7 @@ import ca.uqam.casinotopia.commande.client.CmdAjouterMessageChat;
 import ca.uqam.casinotopia.commande.client.CmdEnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
 
 public class Clavardage implements Connectable{
 	
@@ -20,7 +21,7 @@ public class Clavardage implements Connectable{
 	
 	public Clavardage(String nom) {
 		this.nom = nom;
-		this.messages.add("Serveur: Bonjours à toi!");
+		this.messages.add("Serveur: Bonjour à toi!");
 		
 	}
 
