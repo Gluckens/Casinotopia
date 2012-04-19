@@ -38,6 +38,7 @@ public class CmdAuthentifierClient implements CommandeServeurControleurThread {
 		if(Arrays.equals(this.motDePasse, this.nomUtilisateur.toCharArray())) {
 			ctrl.getModele().setUtilisateur(new Utilisateur(this.nomUtilisateur, ctrl.getConnexion()));
 			ctrl.getConnexion().envoyerCommande(new CmdAfficherMenuPrincipal());
+			System.out.println("###########################################################");
 			//ctrl.getConnexion().envoyerCommande(new CmdAfficherPagePrincipal());
 		}
 		else {

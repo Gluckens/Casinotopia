@@ -49,10 +49,12 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		this.lstParties = new HashMap<Integer, Partie>();
 		
 		this.initJeux();
-		
+	}
+	
+	public void ecouterConnexions() {
 		try {
-	      InetAddress address = InetAddress.getLocalHost();
-	      	System.out.println("Ton ip est surement : "+address.getHostAddress());
+			InetAddress address = InetAddress.getLocalHost();
+	      	System.out.println("Ton ip est surement : " + address.getHostAddress());
 	    }
 	    catch (UnknownHostException e) {
 	    	System.out.println("Could not find this computer's address.");
@@ -61,29 +63,30 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 			System.out.println("création du server");
 			server = new ServerSocket(7777);
 			System.out.println("server démarré");
-			while(actif){
+			while(actif) {
+				System.out.println("ATTENTE DE NOUVELLES CONNEXIONS...");
 				Socket skt = server.accept();
+				System.out.println("NOUVELLE CONNEXION RECUE");
 				for (int i = 0; i < NUMCONNEXION; i++) {
-					if(thread[i] != null && !thread[i].isAlive()){
+					if(thread[i] != null && !thread[i].isAlive()) {
 						thread[i] = null;
 					}
-					if(thread[i] == null){
+					if(thread[i] == null) {
 						serverThread[i] = new ControleurServeurThread(skt,i);
 						thread[i] = new Thread(serverThread[i]);
 						thread[i].start();
-						System.err.println("client "+i+" connecté");
+						System.err.println("client " + i + " connecté");
 						break;
 					}
 				}
 				//indiquer au client que le serveur est plein
 			}
 		} catch (BindException e) {
-			System.out.println("Il y a déjà un serveur sur même port");
-		}catch (IOException e) {
+			System.out.println("Il y a déjà un serveur sur le même port");
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static ControleurServeurPrincipal getInstance() {
@@ -149,7 +152,7 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	
 	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, int posXJeu, int posYJeu, int minJoueursJeu, int maxJoueursJeu, Salle salle, TypeJeu type) {
 		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, posXJeu, posYJeu, minJoueursJeu, maxJoueursJeu, salle, type);
-		System.out.println("JEU DANS SERVEUR_PRINCIPAL : " + jeu);
+		//System.out.println("JEU DANS SERVEUR_PRINCIPAL : " + jeu);
 		this.lstJeux.get(TypeJeu.ROULETTE).put(jeu.getId(), jeu);
 	}
 	
@@ -197,10 +200,10 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	}
 	
 	public void ajouterPartie(Partie partie, TypeEtatPartie etat) {
-		System.out.println("AJOUTER_PARTIE_" + etat + " : " + partie);
+		/*System.out.println("AJOUTER_PARTIE_" + etat + " : " + partie);
 		System.out.println(partie.getTypeJeu());
 		System.out.println(this.lstJeux);
-		System.out.println(this.lstJeux.get(partie.getTypeJeu()));
+		System.out.println(this.lstJeux.get(partie.getTypeJeu()));*/
 		
 		this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu().getId()).ajouterPartie(partie, etat);
 		this.lstParties.put(partie.getId(), partie);

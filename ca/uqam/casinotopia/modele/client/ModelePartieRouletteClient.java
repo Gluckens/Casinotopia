@@ -3,10 +3,8 @@ package ca.uqam.casinotopia.modele.client;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseSujet;
 import ca.uqam.casinotopia.observateur.Observateur;
