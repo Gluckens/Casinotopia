@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
@@ -73,6 +74,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				} catch (SocketException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Déconnexion du client " + this.modele.number);
+					this.modele.getUtilisateur().deconnect();
 					getConnexion().close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

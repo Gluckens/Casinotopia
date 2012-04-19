@@ -40,6 +40,12 @@ public class PanelChat extends JPanel {
 			}
 		});
 		
+		
+		txtSeConnecterA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.envoyerMessageChat(txtMessage.getText());
+			}
+		});
 		txtMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controleur.envoyerMessageChat(txtMessage.getText());

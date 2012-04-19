@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.uqam.bd;
+package ca.uqam.casinotopia.bd;
 
 import ca.uqam.casinotopia.*;
 import java.sql.*;
@@ -31,7 +31,7 @@ public class ControleurBD {
         
         Client unCl = new Client();
         unCl.setNomUtilisateur("CassieCLT");
-        unCl.setMotDePasse("Cassie1");
+//        unCl.setMotDePasse("Cassie1");
         ajouterUtilisateur(unCl);
         
         System.out.println("utilisateur id inseré : " + unCl.getIdUtilisateur());
@@ -83,7 +83,7 @@ public class ControleurBD {
         
         Client unCl2 = new Client();
         unCl2.setNomUtilisateur("Mariue");
-        unCl2.setMotDePasse("Marius1");
+//        unCl2.setMotDePasse("Marius1");
         ajouterUtilisateur(unCl2);
         
         System.out.println("utilisateur id inseré : " + unCl2.getIdUtilisateur());
@@ -148,7 +148,7 @@ public class ControleurBD {
                 unClient = getClientByIdUtilisateur(rsUtilisateur.getInt("id"));
                 System.out.println("id client : " + rsUtilisateur.getInt("id"));
                 unClient.setNomUtilisateur(identifiant);
-                unClient.setMotDePasse(motPasse);
+//                unClient.setMotDePasse(motPasse);
                 unClient.setIdUtilisateur(rsUtilisateur.getInt("id"));
             }
 
@@ -257,7 +257,7 @@ public class ControleurBD {
             if (rsUtilisateur.next()) {
                 unUtilisateur.setIdUtilisateur(id);
                 unUtilisateur.setNomUtilisateur(rsUtilisateur.getString("identifiant"));
-                unUtilisateur.setMotDePasse(rsUtilisateur.getString("motPasse"));
+//                unUtilisateur.setMotDePasse(rsUtilisateur.getString("motPasse"));
 
             }
 
@@ -386,7 +386,7 @@ public class ControleurBD {
         boolean ajoutReussi = false;
         try {
             Connection conn = connecterBD();
-            String query = "BEGIN insert into BD_CASINOTOPIA.Utilisateur (identifiant, motPasse, typeCompte) VALUES ('" + unUtilisateur.getNomUtilisateur() + "', '" + unUtilisateur.getMotDePasse() + "' , 'CLT') returning id into ?; END;  ";
+            String query = "BEGIN insert into BD_CASINOTOPIA.Utilisateur (identifiant, motPasse, typeCompte) VALUES ('" + unUtilisateur.getNomUtilisateur() + /*"', '" + unUtilisateur.getMotDePasse() +*/ "' , 'CLT') returning id into ?; END;  ";
             OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
             cs.registerOutParameter(1, OracleTypes.NUMBER);
             cs.execute();
@@ -594,7 +594,7 @@ public class ControleurBD {
         boolean modifierReussi = false;
         try {
             Connection conn = connecterBD();
-            String query = "update BD_CASINOTOPIA.utilisateur set identifiant = '" + unUtilisateur.getNomUtilisateur() + "', motPasse = '" + unUtilisateur.getMotDePasse() + "' where id = " + unUtilisateur.getIdUtilisateur();
+            String query = "update BD_CASINOTOPIA.utilisateur set identifiant = '" + unUtilisateur.getNomUtilisateur() + /*"', motPasse = '" + unUtilisateur.getMotDePasse() +*/ "' where id = " + unUtilisateur.getIdUtilisateur();
             OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
             cs.execute();
             modifierReussi = true;
