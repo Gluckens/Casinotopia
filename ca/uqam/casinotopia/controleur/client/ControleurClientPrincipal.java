@@ -1,19 +1,10 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.EventQueue;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
 import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
-import ca.uqam.casinotopia.commande.serveur.CmdEnvoyerMessageChat;
-import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.InfoClientPrincipal;

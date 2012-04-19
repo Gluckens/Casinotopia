@@ -49,10 +49,12 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		this.lstParties = new HashMap<Integer, Partie>();
 		
 		this.initJeux();
-		
+	}
+	
+	public void ecouterConnexions() {
 		try {
-	      InetAddress address = InetAddress.getLocalHost();
-	      	System.out.println("Ton ip est surement : "+address.getHostAddress());
+			InetAddress address = InetAddress.getLocalHost();
+	      	System.out.println("Ton ip est surement : " + address.getHostAddress());
 	    }
 	    catch (UnknownHostException e) {
 	    	System.out.println("Could not find this computer's address.");
@@ -61,17 +63,19 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 			System.out.println("création du server");
 			server = new ServerSocket(7777);
 			System.out.println("server démarré");
-			while(actif){
+			while(actif) {
+				System.out.println("ATTENTE DE NOUVELLES CONNEXIONS...");
 				Socket skt = server.accept();
+				System.out.println("NOUVELLE CONNEXION RECUE");
 				for (int i = 0; i < NUMCONNEXION; i++) {
-					if(thread[i] != null && !thread[i].isAlive()){
+					if(thread[i] != null && !thread[i].isAlive()) {
 						thread[i] = null;
 					}
-					if(thread[i] == null){
+					if(thread[i] == null) {
 						serverThread[i] = new ControleurServeurThread(skt,i);
 						thread[i] = new Thread(serverThread[i]);
 						thread[i].start();
-						System.err.println("client "+i+" connecté");
+						System.err.println("client " + i + " connecté");
 						break;
 					}
 				}
@@ -83,7 +87,6 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static ControleurServeurPrincipal getInstance() {
