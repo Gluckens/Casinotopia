@@ -7,6 +7,7 @@ import java.util.Vector;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 public class EnvoyerInformationChat implements CommandeClientControleurChat {
@@ -27,7 +28,7 @@ public class EnvoyerInformationChat implements CommandeClientControleurChat {
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).setChatList(listeUtilisateurs,messages,nom);
+		((ControleurChatClient)controleur).setChatList(listeUtilisateurs,messages,nom);
 
 	}
 

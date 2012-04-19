@@ -8,8 +8,8 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.client.EnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.MettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
-import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class SeConnecterAuChat implements CommandeServeurControleurPrincipal {
 
@@ -27,7 +27,7 @@ public class SeConnecterAuChat implements CommandeServeurControleurPrincipal {
 	@Override
 	public void action(Controleur controleur) {
 
-		Clavardage chat = MainServeur.model.getChat(salle);
+		Clavardage chat = ControleurServeurPrincipal.model.getChat(salle);
 		chat.connect(((ControleurServeurThread)controleur).getModel().getUtilisateur());
 		
 	}

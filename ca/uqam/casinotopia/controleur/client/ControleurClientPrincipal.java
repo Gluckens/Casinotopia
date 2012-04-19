@@ -1,25 +1,25 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.EventQueue;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.commande.serveur.*;
+import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
+import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
+import ca.uqam.casinotopia.commande.serveur.EnvoyerMessageChat;
+import ca.uqam.casinotopia.commande.serveur.SeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.InfoClientPrincipal;
 import ca.uqam.casinotopia.vue.ConnexionFrame;
 import ca.uqam.casinotopia.vue.FrameApplication;
-import ca.uqam.casinotopia.vue.PanelChat;
+import ca.uqam.casinotopia.vue.VueChat;
 import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 import ca.uqam.casinotopia.vue.VueRoulette;
-import ca.uqam.casinotopia.Utilisateur;
-import ca.uqam.casinotopia.commande.serveur.AuthentifierClient;
 
 public class ControleurClientPrincipal extends ControleurClient{
 
@@ -29,6 +29,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	 */
 	private ControleurClientClient ctrlClientClient;
 	private ControleurRouletteClient ctrlRouletteClient;
+	private ControleurChatClient ctrlChatClient;
 
 	/**
 	 * vues
@@ -36,9 +37,6 @@ public class ControleurClientPrincipal extends ControleurClient{
 	ConnexionFrame vueConnexionFrame;
 	
 	FrameApplication frameApplication;
-	PanelChat pnlChat;
-	//TODO a mettre dans un model
-	public String salle;
 	
 
 
@@ -64,9 +62,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 	private void initControleur() {
 		this.ctrlClientClient = new ControleurClientClient(this.getConnexion());
 		this.ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
+		this.ctrlChatClient = new ControleurChatClient(this.getConnexion());
 		
-		System.out.println("OS ctrlRoulette : ");
-		System.out.println(this.ctrlRouletteClient.getConnexion().getObjectOutputStream());
 	}
 	
 	
@@ -142,8 +139,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	public void afficherFrameApplication() {
 		this.frameApplication = new FrameApplication();
-		pnlChat = new PanelChat(this);
-		this.frameApplication.addOrReplace("chat", pnlChat);
+		ctrlChatClient.setVue(new VueChat(ctrlChatClient));
+		this.frameApplication.addOrReplace("chat", ctrlChatClient.getVue());
 		this.frameApplication.setVisible(true);
 	}
 	
@@ -185,79 +182,8 @@ public class ControleurClientPrincipal extends ControleurClient{
 		this.ctrlRouletteClient.ajouterVue(vueRoulette);
 	}
 	
-	public PanelChat getPnlChat() {
-		return pnlChat;
-	}
 
 
-	public void setPnlChat(PanelChat pnlChat) {
-		this.pnlChat = pnlChat;
-	}
-
-
-	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages, String salle){
-		setChatUtilisateur(listeUtilisateur);
-		
-		setChatMessages(listeMessages);
-		pnlChat.lblTitre.setText(salle);
-	}
-
-
-	public void setChatUtilisateur(List<String> listeUtilisateur){
-
-		DefaultListModel model = (DefaultListModel) pnlChat.lstConnecte.getModel();
-		model.clear();
-		for (int i = 0; i < listeUtilisateur.size(); i++) {
-			model.add(i, listeUtilisateur.get(i));
-		}
-	}
-	
-
-	public void setChatMessages(List<String> listeMessages){
-		String messages = "";
-		for (int i = 0; i < listeMessages.size(); i++) {
-			if(!listeMessages.get(i).isEmpty()){
-				messages += listeMessages.get(i);
-				if(i != listeMessages.size()-1){
-					messages += "\n";
-				}
-			}
-		}
-		pnlChat.txtChat.setText(messages);
-
-		JScrollBar jsb = this.pnlChat.scrollPane.getVerticalScrollBar();
-		jsb.setValue(jsb.getMaximum());
-	}
-
-		
-
-	public void seConnecterAuChat() {
-		if(this.pnlChat.txtSeConnecterA.getText().isEmpty()){
-			this.pnlChat.txtSeConnecterA.setText("entrez un nom de salle ici");
-		}else{
-			this.salle = this.pnlChat.txtSeConnecterA.getText();
-			connexion.envoyerCommande(new SeConnecterAuChat(this.salle));
-		}
-	}
-	
-	public void envoyerMessageChat(String message) {
-		if(!message.isEmpty()) {
-			connexion.envoyerCommande(new EnvoyerMessageChat(message, this.salle));
-			this.pnlChat.txtMessage.setText("");
-			this.pnlChat.txtMessage.setFocusable(true);
-		}
-	}
-
-
-
-
-	public void ajouterMessageChat(String message) {
-		this.pnlChat.txtChat.setText(this.pnlChat.txtChat.getText()+"\n"+message);
-		this.pnlChat.txtChat.setCaretPosition(this.pnlChat.txtChat.getText().length());
-		JScrollBar jsb = this.pnlChat.scrollPane.getVerticalScrollBar();
-		jsb.setValue(jsb.getMaximum());
-
-	}	
 	
 	public ControleurClientClient getCtrlClientClient() {
 		return this.ctrlClientClient;
@@ -266,6 +192,11 @@ public class ControleurClientPrincipal extends ControleurClient{
 	public ControleurRouletteClient getCtrlRouletteClient() {
 		return this.ctrlRouletteClient;
 	}
+	
+	public ControleurChatClient getCtrlChatClient() {
+		return ctrlChatClient;
+	}
+	
 	
 }
 

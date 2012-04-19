@@ -4,7 +4,7 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.client.AjouterMessageChat;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.serveur.MainServeur;
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class EnvoyerMessageChat implements CommandeServeurControleurPrincipal {
@@ -24,7 +24,7 @@ public class EnvoyerMessageChat implements CommandeServeurControleurPrincipal {
 	@Override
 	public void action(Controleur controleur) {
 		message = ((ControleurServeurThread)controleur).getModel().getUtilisateur().getNomUtilisateur()+": "+message;
-		MainServeur.model.getChat(this.salle).addMessage(message);
+		ControleurServeurPrincipal.model.getChat(this.salle).addMessage(message);
 	}
 
 }

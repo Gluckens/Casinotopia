@@ -9,8 +9,8 @@ import ca.uqam.casinotopia.commande.client.AjouterMessageChat;
 import ca.uqam.casinotopia.commande.client.EnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.MettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
-import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class Clavardage implements Connectable{
 	
