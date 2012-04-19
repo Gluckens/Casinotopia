@@ -8,12 +8,12 @@ public interface Connectable {
 	 *  connecte l'utilisateur et ajoute this a la liste de connectable de l'utilisateur
 	 * @param utilisateur
 	 */
-	public void connect(Utilisateur utilisateur);
+	public void connecter(Utilisateur utilisateur);
 	
 	/**
 	 * itère dans la liste de connectable de l'utilisateur pour le déconnecté
 	 * @param utilisateur
 	 */
-	public void deconnect(Utilisateur utilisateur);
+	public void deconnecter(Utilisateur utilisateur);
 	
 }

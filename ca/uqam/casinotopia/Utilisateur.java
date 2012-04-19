@@ -15,8 +15,6 @@ public class Utilisateur{
 	List<Connectable> connectables = new ArrayList<Connectable>();
 	
 	private Connexion connexion;
-
-	private int id;
 	
 	public Utilisateur() {
 		this("", "", null);
@@ -35,7 +33,7 @@ public class Utilisateur{
 	 * @return the nomUtilisateur
 	 */
 	public String getNomUtilisateur() {
-		return nomUtilisateur;
+		return this.nomUtilisateur;
 	}
 	
 	/**
@@ -49,7 +47,7 @@ public class Utilisateur{
 	 * @return the motDePasse
 	 */
 	public String getMotDePasse() {
-		return motDePasse;
+		return this.motDePasse;
 	}
 
 	/**
@@ -74,18 +72,18 @@ public class Utilisateur{
 	}
 
 	public Connexion getConnexion() {
-		return connexion;
+		return this.connexion;
 	}
 	
 	
 	public List<Connectable> getConnectables() {
-		return connectables;
+		return this.connectables;
 	}
 	
 	public void deconnect(){
-		for (int i = 0; i < connectables.size(); i++) {
-			if(connectables.get(i) instanceof Clavardage){
-				connectables.get(i).deconnect(this);
+		for (int i = 0; i < this.connectables.size(); i++) {
+			if(this.connectables.get(i) instanceof Clavardage){
+				this.connectables.get(i).deconnecter(this);
 			}
 		}
 	}

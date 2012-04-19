@@ -8,5 +8,4 @@ public class MainClient extends Controleur {
 	public static void main(String[] args) {
 		new ControleurClientPrincipal();
 	}
-	
 }

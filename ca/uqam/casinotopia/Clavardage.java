@@ -1,16 +1,12 @@
 package ca.uqam.casinotopia;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
-import ca.uqam.casinotopia.commande.client.AjouterMessageChat;
-import ca.uqam.casinotopia.commande.client.EnvoyerInformationChat;
-import ca.uqam.casinotopia.commande.client.MettreAJourUtilisateurChat;
+import ca.uqam.casinotopia.commande.client.CmdAjouterMessageChat;
+import ca.uqam.casinotopia.commande.client.CmdEnvoyerInformationChat;
+import ca.uqam.casinotopia.commande.client.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
-import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
-import ca.uqam.casinotopia.serveur.MainServeur;
 
 public class Clavardage implements Connectable{
 	
@@ -46,12 +42,12 @@ public class Clavardage implements Connectable{
 		}
 	}
 
-	public void connect(Utilisateur utilisateur) {
+	public void connecter(Utilisateur utilisateur) {
 		if(!this.participants.contains(utilisateur)){
 			//déconnecté l'utilisateur des autres clavardages
 			for (int i = 0; i < utilisateur.getConnectables().size(); i++) {
 				if(utilisateur.getConnectables().get(i) instanceof Clavardage){
-					utilisateur.getConnectables().get(i).deconnect(utilisateur);
+					utilisateur.getConnectables().get(i).deconnecter(utilisateur);
 				}
 			}
 
@@ -75,7 +71,7 @@ public class Clavardage implements Connectable{
 		
 	}
 	
-	public void deconnect(Utilisateur utilisateur){
+	public void deconnecter(Utilisateur utilisateur){
 		if(this.participants.contains(utilisateur)){
 			this.participants.remove(utilisateur);
 			for (int i = 0; i < this.participants.size(); i++) {

@@ -23,7 +23,7 @@ public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 	public void action(Controleur controleur) {
 
 		Clavardage chat = MainServeur.modele.getChat(salle);
-		chat.connect(((ControleurServeurThread)controleur).getModele().getUtilisateur());
+		chat.connecter(((ControleurServeurThread)controleur).getModele().getUtilisateur());
 		
 	}
 

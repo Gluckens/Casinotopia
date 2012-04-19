@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.commande.Commande;
@@ -23,8 +20,6 @@ import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modele.serveur.ModelePartieBlackJackServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
 import ca.uqam.casinotopia.serveur.MainServeur;
