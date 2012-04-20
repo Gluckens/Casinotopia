@@ -6,16 +6,10 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.observateur.Observateur;
 
+@SuppressWarnings("serial")
 public abstract class Vue extends JPanel implements Observateur {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4498865400974010365L;
-	
 	protected Map<String, Component> componentMap = new HashMap<String, Component>();
 	
 	protected abstract void addComponents();

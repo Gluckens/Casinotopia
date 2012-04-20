@@ -1,6 +1,8 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.EventQueue;
+import java.util.HashMap;
+import java.util.Map;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
@@ -8,9 +10,9 @@ import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.InfoClientPrincipal;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.vue.ConnexionFrame;
 import ca.uqam.casinotopia.vue.FrameApplication;
-import ca.uqam.casinotopia.vue.VueChat;
 import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 import ca.uqam.casinotopia.vue.VueRoulette;
 
@@ -20,12 +22,13 @@ public class ControleurClientPrincipal extends ControleurClient{
 	/**
 	 * Controleurs
 	 */
-	private ControleurClientClient ctrlClientClient;
+	protected Map<String, ControleurClient> lstControleurs = new HashMap<String, ControleurClient>();
+	/*private ControleurClientClient ctrlClientClient;
 	private ControleurRouletteClient ctrlRouletteClient;
-	private ControleurChatClient ctrlChatClient;
+	private ControleurChatClient ctrlChatClient;*/
 
 	/**
-	 * vues
+	 * Frames
 	 */
 	ConnexionFrame vueConnexionFrame;
 	
@@ -44,23 +47,22 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	
 	public ControleurClientPrincipal() {
-		this.initModele();
+		this.modele = new InfoClientPrincipal();
 		
 		this.frameApplication = new FrameApplication();
 		
 		this.afficherInterface();
 	}
 	
+	public void ajouterControleur(String nom, ControleurClient ctrl) {
+		this.lstControleurs.put(nom, ctrl);
+	}
 	
-	private void initControleur() {
+	
+	/*private void initControleur() {
 		this.ctrlClientClient = new ControleurClientClient(this.getConnexion());
 		this.ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
-	}
-	
-	
-	private void initModele() {
-		this.modele = new InfoClientPrincipal();
-	}
+	}*/
 	
 	/**
 	 * Afficher l'interface de connexion au serveur
@@ -84,7 +86,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 		if(getConnexion().isConnected()) {
 			setMessageConnexion("connecté!");
 			
-			this.initControleur();
+			//this.initControleur();
 			//this.afficherFrameApplicationRoulette();
 			//this.afficherMenuPrincipal();
 
@@ -128,30 +130,36 @@ public class ControleurClientPrincipal extends ControleurClient{
 		this.vueConnexionFrame.setMessage(message);
 	}
 	
-	public void afficherFrameApplication() {
+	/*public void afficherFrameApplication() {
 		this.frameApplication = new FrameApplication();
-		ctrlChatClient.setVue(new VueChat(ctrlChatClient));
+		this.lstControleurs.get("ControleurChatClient") ctrlChatClient.setVue(new VueChat(ctrlChatClient));
 		this.frameApplication.addOrReplace("VueChat", ctrlChatClient.getVue());
 		this.frameApplication.setVisible(true);
-	}
+	}*/
 	
-	public void afficherFrameApplicationRoulette() {
+	/*public void afficherFrameApplicationRoulette() {
 		VueRoulette vueRoulette = new VueRoulette(this.ctrlRouletteClient);
 		this.frameApplication.addOrReplace("VueRoulette", vueRoulette);
 		//this.frameApplication.changeContentPane(vueRoulette);
 		EventQueue.invokeLater(this.frameApplication);
 		
 		this.ctrlRouletteClient.ajouterVue(vueRoulette);
+	}*/
+	
+	public void afficherFrameApplication() {
+		this.frameApplication = new FrameApplication();
+		EventQueue.invokeLater(this.frameApplication);
 	}
 	
-	public void afficherMenuPrincipal() {
+	public void actionAfficherMenuPrincipal() {
+		if(this.frameApplication == null) {
+			this.afficherFrameApplication();
+		}
 		this.vueConnexionFrame.dispose();
 		VueMenuPrincipal vueMenuPrincipal = new VueMenuPrincipal(this);
 		this.frameApplication.addOrReplace("VueMenuPrincipal", vueMenuPrincipal);
-		//this.frameApplication.changeContentPane(vueRoulette);
-		EventQueue.invokeLater(this.frameApplication);
 		
-		this.ctrlRouletteClient.ajouterVue(vueMenuPrincipal);
+		this.ajouterVue(vueMenuPrincipal);
 	}
 	
 	public void cmdJouerRoulette() {
@@ -164,10 +172,15 @@ public class ControleurClientPrincipal extends ControleurClient{
 		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu));
 	}
 	
-	public void actionAfficherJeuRoulette(int idPartie) {
+	public void actionAfficherJeuRoulette(ModelePartieRouletteClient modele) {
 		System.out.println("AFFICHER ROULETTE CHEZ CLIENT");
 		
-		VueRoulette vueRoulette = new VueRoulette(this.ctrlRouletteClient);
+		
+		
+		this.ajouterControleur("ControleurRouletteClient", new ControleurRouletteClient(this.connexion, modele, this.frameApplication));
+		
+		VueRoulette vueRoulette = new VueRoulette(this.lstControleurs.get("ControleurRouletteClient"), this.frameApplication);
+		//VueRouletteTapis_bad vueRoulette = new VueRouletteTapis_bad(this.lstControleurs.get("ControleurRouletteClient"));
 		this.frameApplication.removeAll();
 		this.frameApplication.addOrReplace("VueRoulette", vueRoulette);
 		//this.frameApplication.changeContentPane(vueRoulette);
@@ -175,13 +188,13 @@ public class ControleurClientPrincipal extends ControleurClient{
 		
 		System.out.println(this.frameApplication.getComponentMap());
 		
-		this.ctrlRouletteClient.ajouterVue(vueRoulette);
+		this.lstControleurs.get("ControleurRouletteClient").ajouterVue(vueRoulette);
 	}
 	
 
 
 	
-	public ControleurClientClient getCtrlClientClient() {
+	/*public ControleurClientClient getCtrlClientClient() {
 		return this.ctrlClientClient;
 	}
 	
@@ -191,7 +204,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	public ControleurChatClient getCtrlChatClient() {
 		return ctrlChatClient;
-	}
+	}*/
 	
 	
 }

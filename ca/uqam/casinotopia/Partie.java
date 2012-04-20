@@ -1,9 +1,14 @@
 package ca.uqam.casinotopia;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Partie implements Comparable<Partie> {
+public abstract class Partie implements Comparable<Partie>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7444457352604436900L;
 	private int id;
 	private boolean optionArgent;
 	private boolean optionMultijoueur;
@@ -13,10 +18,10 @@ public abstract class Partie implements Comparable<Partie> {
 	
 	public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
 		this.id = id;
-		this.optionArgent = optionArgent;
-		this.optionMultijoueur = optionMultijoueur;
+		this.setOptionArgent(optionArgent);
+		this.setOptionMultijoueur(optionMultijoueur);
 		//this.clavardage = new Clavardage(this.getTypeJeu() + String.valueOf(this.id));
-		this.clavardage = new Clavardage(infoJeu.getNom() + String.valueOf(this.id));
+		this.setClavardage(new Clavardage(infoJeu.getNom() + String.valueOf(this.id)));
 		
 		this.infoJeu = infoJeu;
 		
@@ -37,6 +42,48 @@ public abstract class Partie implements Comparable<Partie> {
 	
 	public int getId() {
 		return this.id;
+	}
+
+	/**
+	 * @return the optionArgent
+	 */
+	public boolean isOptionArgent() {
+		return optionArgent;
+	}
+
+	/**
+	 * @param optionArgent the optionArgent to set
+	 */
+	public void setOptionArgent(boolean optionArgent) {
+		this.optionArgent = optionArgent;
+	}
+
+	/**
+	 * @return the optionMultijoueur
+	 */
+	public boolean isOptionMultijoueur() {
+		return optionMultijoueur;
+	}
+
+	/**
+	 * @param optionMultijoueur the optionMultijoueur to set
+	 */
+	public void setOptionMultijoueur(boolean optionMultijoueur) {
+		this.optionMultijoueur = optionMultijoueur;
+	}
+
+	/**
+	 * @return the clavardage
+	 */
+	public Clavardage getClavardage() {
+		return clavardage;
+	}
+
+	/**
+	 * @param clavardage the clavardage to set
+	 */
+	public void setClavardage(Clavardage clavardage) {
+		this.clavardage = clavardage;
 	}
 
 	/**

@@ -3,19 +3,16 @@ package ca.uqam.casinotopia.modele.serveur;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.observateur.BaseSujet;
+import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
+@SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
-
 	private Case resultat;
 	private ModeleTableJeuServeur tableJeu;
-	private BaseSujet sujet = new BaseSujet(this);
 
 	
 	public ModelePartieRouletteServeur(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
@@ -45,25 +42,5 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	 */
 	public void setTableJeu(ModeleTableJeuServeur tableJeu) {
 		this.tableJeu = tableJeu;
-	}
-
-	@Override
-	public void ajouterObservateur(Observateur obs) {
-		this.sujet.ajouterObservateur(obs);
-	}
-
-	@Override
-	public void retirerObservateur(Observateur obs) {
-		this.sujet.retirerObservateur(obs);
-	}
-
-	@Override
-	public boolean estObserveePar(Observateur obs) {
-		return this.sujet.estObserveePar(obs);
-	}
-
-	@Override
-	public void notifierObservateur() {
-		this.sujet.notifierObservateur();
 	}
 }

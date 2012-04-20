@@ -14,7 +14,11 @@ import java.util.Vector;
 
 public class Client extends Utilisateur {
 
-    private int id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5925019998198239011L;
+	private int id;
     private String prenom;
     private String nom;
     private Date dateNaissance;

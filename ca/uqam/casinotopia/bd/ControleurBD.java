@@ -64,8 +64,8 @@ public class ControleurBD {
         System.out.println("don unique id inseré : " + dU.getId());
         
         PartageGainsClient pG = new PartageGainsClient();
-        pG.setUnnamed_Client_(unCl);
-        pG.setUnnamed_Fondation_(uneF);
+        pG.setClient(unCl);
+        pG.setFondation(uneF);
         pG.setPourcentage(100);
         ajouterPartageGain(pG);
         
@@ -223,8 +223,8 @@ public class ControleurBD {
                 Client unClient = getClientById(idClient);
                 PartageGainsClient unPartageGain = new PartageGainsClient();
 
-                unPartageGain.setUnnamed_Client_(unClient);
-                unPartageGain.setUnnamed_Fondation_(uneFondation);
+                unPartageGain.setClient(unClient);
+                unPartageGain.setFondation(uneFondation);
                 unPartageGain.setPourcentage(rsPartageGain.getInt("pourcentage"));
 
                 partageGains.add(unPartageGain);
@@ -484,7 +484,7 @@ public class ControleurBD {
         boolean ajoutReussi = false;
         try {
             Connection conn = connecterBD();
-            String query = "insert into BD_CASINOTOPIA.partageGain (idClient, idFondation, pourcentage) VALUES (" + unPartageGain.getUnnamed_Client_().getId() + ", " + unPartageGain.getUnnamed_Fondation_().getId() + ", " + unPartageGain.getPourcentage() + " )";
+            String query = "insert into BD_CASINOTOPIA.partageGain (idClient, idFondation, pourcentage) VALUES (" + unPartageGain.getClient().getId() + ", " + unPartageGain.getFondation().getId() + ", " + unPartageGain.getPourcentage() + " )";
             OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
             cs.execute();
             ajoutReussi = true;
@@ -574,7 +574,7 @@ public class ControleurBD {
         boolean supprimerReussi = false;
         try {
             Connection conn = connecterBD();
-            String query = "delete from BD_CASINOTOPIA.partageGain where idClient = " + unPartageGain.getUnnamed_Client_().getId() + " AND " + unPartageGain.getUnnamed_Fondation_().getId();
+            String query = "delete from BD_CASINOTOPIA.partageGain where idClient = " + unPartageGain.getClient().getId() + " AND " + unPartageGain.getFondation().getId();
             OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
             cs.execute();
             supprimerReussi = true;
@@ -649,7 +649,7 @@ public class ControleurBD {
         boolean modifierReussi = false;
         try {
             Connection conn = connecterBD();
-            String query = "update BD_CASINOTOPIA.partageGain set pourcentage = " + unPartageGain.getPourcentage() + " where idClient = " + unPartageGain.getUnnamed_Client_().getId() + " AND idFondation = " + unPartageGain.getUnnamed_Fondation_().getId();
+            String query = "update BD_CASINOTOPIA.partageGain set pourcentage = " + unPartageGain.getPourcentage() + " where idClient = " + unPartageGain.getClient().getId() + " AND idFondation = " + unPartageGain.getFondation().getId();
             OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
             cs.execute();
             modifierReussi = true;

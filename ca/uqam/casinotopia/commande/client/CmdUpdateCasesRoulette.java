@@ -15,6 +15,10 @@ public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette 
 	//private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3520768426950865395L;
+	/**
 	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
 	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
@@ -27,5 +31,4 @@ public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette 
 	public void action(Controleur controleur) {
 		((ControleurRouletteClient)controleur).actionUpdateTableJeu(this.cases);
 	}
-
 }

@@ -6,14 +6,20 @@ import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.observateur.BaseSujet;
+import ca.uqam.casinotopia.observateur.BaseObservable;
+import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModelePartieRouletteClient extends Partie implements Modele {
+public class ModelePartieRouletteClient extends Partie implements Modele, Observable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1587373503556245991L;
+	
 	private Case resultat;
 	private ModeleTableJeuClient tableJeu;
-	private BaseSujet sujet = new BaseSujet(this);
+	private BaseObservable sujet = new BaseObservable(this);
 
 	
 	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
@@ -59,8 +65,8 @@ public class ModelePartieRouletteClient extends Partie implements Modele {
 	}
 
 	@Override
-	public boolean estObserveePar(Observateur obs) {
-		return this.sujet.estObserveePar(obs);
+	public boolean estObservePar(Observateur obs) {
+		return this.sujet.estObservePar(obs);
 	}
 
 	@Override

@@ -2,8 +2,7 @@ package ca.uqam.casinotopia.vue;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Frame;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
+
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+
+@SuppressWarnings("serial")
 public class FrameApplication extends JFrame implements Runnable {
 
 	private JPanel contentPane;
@@ -32,15 +37,27 @@ public class FrameApplication extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public FrameApplication() {
-		setTitle("Casinotopia");
+		this.setTitle("Casinotopia");
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		//this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 500, 400);
+		//this.setBounds(100, 100, 500, 400);
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.contentPane.setLayout(new BorderLayout(0, 0));
+		//this.contentPane.setPreferredSize(new Dimension(1024, 768));
 		this.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{0};
+		gbl_contentPane.rowHeights = new int[]{0};
+		gbl_contentPane.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		this.setSize(1024, 768);
+		this.setLocationRelativeTo(null);
+		
+		GhostGlassPane glassPane = new GhostGlassPane();
+		this.setGlassPane(glassPane);
 	}
 	
 	public void run() {

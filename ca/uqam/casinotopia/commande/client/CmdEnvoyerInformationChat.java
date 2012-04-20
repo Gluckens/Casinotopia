@@ -5,7 +5,6 @@ import java.util.List;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 //TODO Pas le bon controleur
 public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
@@ -14,6 +13,7 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 	 * 
 	 */
 	private static final long serialVersionUID = -1882263609311781756L;
+	
 	List<String> listeUtilisateurs = new ArrayList<String>();
 	List<String> messages = new ArrayList<String>();
 	String nom;

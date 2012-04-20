@@ -3,10 +3,11 @@ package ca.uqam.casinotopia;
 import java.io.Serializable;
 
 public class Case implements Serializable {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8705295158111915319L;
+	private static final long serialVersionUID = -1687051630860379950L;
 	private int numero;
 	private String couleur;
 	private boolean boolPaires;

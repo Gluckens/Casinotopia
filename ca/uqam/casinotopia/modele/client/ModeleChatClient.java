@@ -1,15 +1,20 @@
 package ca.uqam.casinotopia.modele.client;
 
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.observateur.BaseObservable;
+import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModeleChatClient implements Modele{
+public class ModeleChatClient implements Modele, Observable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1197460785333129913L;
+	
 	private String salle;
 	
-	
-	
-	
+	private BaseObservable sujet = new BaseObservable(this);
 	
 	
 	
@@ -24,26 +29,22 @@ public class ModeleChatClient implements Modele{
 	
 	@Override
 	public void ajouterObservateur(Observateur obs) {
-		// TODO Auto-generated method stub
-		
+		this.sujet.ajouterObservateur(obs);
 	}
 
 	@Override
 	public void retirerObservateur(Observateur obs) {
-		// TODO Auto-generated method stub
-		
+		this.sujet.retirerObservateur(obs);
 	}
 
 	@Override
-	public boolean estObserveePar(Observateur obs) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean estObservePar(Observateur obs) {
+		return this.sujet.estObservePar(obs);
 	}
 
 	@Override
 	public void notifierObservateur() {
-		// TODO Auto-generated method stub
-		
+		this.sujet.notifierObservateur();
 	}
 
 }

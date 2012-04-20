@@ -1,21 +1,31 @@
 package ca.uqam.casinotopia.controleur.client;
 
+import java.io.Serializable;
 import java.util.Map;
-
-import javax.swing.JFrame;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.VueRoulette;
 
-public class ControleurRouletteClient extends ControleurClient {
+public class ControleurRouletteClient extends ControleurClient implements Serializable {
 	
-	public ControleurRouletteClient(Connexion connexion) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8588955394361302868L;
+	
+	private FrameApplication frame;
+
+
+	public ControleurRouletteClient(Connexion connexion, ModelePartieRouletteClient modeleRoulette, FrameApplication frame) {
 		super(connexion);
-		System.out.println(connexion.getObjectOutputStream());
+		this.ajouterModele(modeleRoulette);
+		
+		this.frame = frame;
 	}
 
 	//public void updateTableJeu(Map<Integer, Map<Case, Integer>> mises, JFrame frame) {
@@ -40,11 +50,11 @@ public class ControleurRouletteClient extends ControleurClient {
 		VueRoulette vueRoulette = (VueRoulette)this.lstVues.get("VueRoulette");
 		if(vueRoulette == null) {
 			System.out.println("LA VUE EST NULLE");
-			vueRoulette = new VueRoulette(this);
+			vueRoulette = new VueRoulette(this, this.frame);
 			this.ajouterVue(vueRoulette);
 		}
 		
-		if(!modeleRoulette.estObserveePar(vueRoulette)) {
+		if(!modeleRoulette.estObservePar(vueRoulette)) {
 			modeleRoulette.ajouterObservateur(vueRoulette);
 		}
 		

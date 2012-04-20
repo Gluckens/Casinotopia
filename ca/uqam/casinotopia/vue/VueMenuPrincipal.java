@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.vue;
 
-
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
-import ca.uqam.casinotopia.observateur.Sujet;
+import ca.uqam.casinotopia.observateur.Observable;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -10,8 +9,8 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class VueMenuPrincipal extends Vue {
-	
 	private ControleurClientPrincipal controleur;
 
 	/**
@@ -58,7 +57,7 @@ public class VueMenuPrincipal extends Vue {
 	}
 
 	@Override
-	public void update(Sujet sujet) {
+	public void update(Observable observable) {
 		// TODO Auto-generated method stub
 		
 	}
