@@ -2,6 +2,7 @@ package ca.uqam.casinotopia.vue;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -13,13 +14,19 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
+import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
+import ca.uqam.casinotopia.observateur.Observable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 @SuppressWarnings("serial")
-public class VueChat extends JPanel {
+public class VueChat extends Vue {
 	
 	private ControleurChatClient controleur;
 	
@@ -30,39 +37,118 @@ public class VueChat extends JPanel {
 	public JScrollPane scrollPane;
 	public JTextField txtSeConnecterA;
 	public JLabel lblTitre;
+	private JPanel pnlChat;
+	private JPanel pnlListeUtilisateur;
 
 	public VueChat(ControleurChatClient ctrl){
 		this();
 		this.controleur = ctrl;
 		btnSeConnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.seConnecterAuChat();
+				seConnecterAuChat();
 			}
 		});
-		
-		
 		txtSeConnecterA.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.envoyerMessageChat(txtMessage.getText());
+				seConnecterAuChat();
 			}
 		});
+		
 		txtMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.envoyerMessageChat(txtMessage.getText());
+				envoyerMessageChat();
 			}
 		});
 	}
 	
+	
+	
+	protected void envoyerMessageChat() {
+		if(!txtMessage.getText().isEmpty()){
+			controleur.envoyerMessageChat();
+		}
+		
+	}
+
+
+
+	protected void seConnecterAuChat() {
+		if(txtSeConnecterA.getText().isEmpty()){
+			txtSeConnecterA.setText("entrez un nom de salle ici");
+		}else{
+			controleur.seConnecterAuChat();
+		}
+		
+	}
+
 	/**
 	 * Create the panel.
 	 */
 	private VueChat() {
-		setLayout(null);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{142, 93, 177, 0};
+		gridBagLayout.rowHeights = new int[]{15, 20, 23, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+		
+		pnlListeUtilisateur = new JPanel();
+		GridBagConstraints gbc_pnlListeUtilisateur = new GridBagConstraints();
+		gbc_pnlListeUtilisateur.fill = GridBagConstraints.BOTH;
+		gbc_pnlListeUtilisateur.insets = new Insets(0, 0, 5, 5);
+		gbc_pnlListeUtilisateur.gridx = 0;
+		gbc_pnlListeUtilisateur.gridy = 0;
+		add(pnlListeUtilisateur, gbc_pnlListeUtilisateur);
+		GridBagLayout gbl_pnlListeUtilisateur = new GridBagLayout();
+		gbl_pnlListeUtilisateur.columnWidths = new int[]{142, 0};
+		gbl_pnlListeUtilisateur.rowHeights = new int[]{15, 228, 0};
+		gbl_pnlListeUtilisateur.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_pnlListeUtilisateur.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		pnlListeUtilisateur.setLayout(gbl_pnlListeUtilisateur);
+		
+		lblTitre = new JLabel("Les autres gens");
+		GridBagConstraints gbc_lblTitre = new GridBagConstraints();
+		gbc_lblTitre.fill = GridBagConstraints.BOTH;
+		gbc_lblTitre.insets = new Insets(0, 0, 5, 0);
+		gbc_lblTitre.gridx = 0;
+		gbc_lblTitre.gridy = 0;
+		pnlListeUtilisateur.add(lblTitre, gbc_lblTitre);
+		lblTitre.setFont(new Font("Comic Sans MS", Font.BOLD, 11));
+		lstConnecte = new JList();
+		GridBagConstraints gbc_lstConnecte = new GridBagConstraints();
+		gbc_lstConnecte.fill = GridBagConstraints.BOTH;
+		gbc_lstConnecte.gridx = 0;
+		gbc_lstConnecte.gridy = 1;
+		pnlListeUtilisateur.add(lstConnecte, gbc_lstConnecte);
+		lstConnecte.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		lstConnecte.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		
+		pnlChat = new JPanel();
+		GridBagConstraints gbc_pnlChat = new GridBagConstraints();
+		gbc_pnlChat.fill = GridBagConstraints.BOTH;
+		gbc_pnlChat.gridheight = 2;
+		gbc_pnlChat.gridwidth = 2;
+		gbc_pnlChat.insets = new Insets(0, 0, 5, 0);
+		gbc_pnlChat.gridx = 1;
+		gbc_pnlChat.gridy = 0;
+		add(pnlChat, gbc_pnlChat);
+		GridBagLayout gbl_pnlChat = new GridBagLayout();
+		gbl_pnlChat.columnWidths = new int[]{93, 177, 0};
+		gbl_pnlChat.rowHeights = new int[]{15, 228, 20, 0};
+		gbl_pnlChat.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlChat.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlChat.setLayout(gbl_pnlChat);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(160, 11, 280, 247);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridheight = 2;
+		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		pnlChat.add(scrollPane, gbc_scrollPane);
 		scrollPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		add(scrollPane);
 		
 		txtChat = new JTextArea();
 		txtChat.setLineWrap(true);
@@ -73,38 +159,70 @@ public class VueChat extends JPanel {
 		txtChat.setForeground(new Color(0, 0, 0));
 		
 		txtMessage = new JTextField();
+		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
+		gbc_txtMessage.anchor = GridBagConstraints.NORTH;
+		gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMessage.gridwidth = 2;
+		gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
+		gbc_txtMessage.gridx = 0;
+		gbc_txtMessage.gridy = 2;
+		pnlChat.add(txtMessage, gbc_txtMessage);
 		txtMessage.setToolTipText("Entr\u00E9e pour envoyer");
-		txtMessage.setBounds(160, 269, 280, 20);
-		add(txtMessage);
 		txtMessage.setColumns(10);
-		
-		lblTitre = new JLabel("Les autres gens");
-		lblTitre.setFont(new Font("Comic Sans MS", Font.BOLD, 11));
-		lblTitre.setBounds(10, 11, 142, 15);
-		add(lblTitre);
-		
-		DefaultListModel model = new DefaultListModel();
-		lstConnecte = new JList(model);
-		lstConnecte.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		lstConnecte.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
-		lstConnecte.setBounds(10, 30, 142, 228);
-		add(lstConnecte);
 		
 		JLabel lblToi = new JLabel("Toi");
 		lblToi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblToi.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
-		lblToi.setBounds(10, 269, 140, 20);
-		add(lblToi);
-		
-		btnSeConnecter = new JButton("Se connecter au chat");
-		btnSeConnecter.setBounds(263, 295, 177, 23);
-		add(btnSeConnecter);
+		GridBagConstraints gbc_lblToi = new GridBagConstraints();
+		gbc_lblToi.fill = GridBagConstraints.BOTH;
+		gbc_lblToi.insets = new Insets(0, 0, 5, 5);
+		gbc_lblToi.gridx = 0;
+		gbc_lblToi.gridy = 1;
+		add(lblToi, gbc_lblToi);
 		
 		txtSeConnecterA = new JTextField();
 		txtSeConnecterA.setText("salle1");
-		txtSeConnecterA.setBounds(10, 296, 243, 22);
-		add(txtSeConnecterA);
+		GridBagConstraints gbc_txtSeConnecterA = new GridBagConstraints();
+		gbc_txtSeConnecterA.fill = GridBagConstraints.BOTH;
+		gbc_txtSeConnecterA.insets = new Insets(0, 0, 0, 5);
+		gbc_txtSeConnecterA.gridwidth = 2;
+		gbc_txtSeConnecterA.gridx = 0;
+		gbc_txtSeConnecterA.gridy = 2;
+		add(txtSeConnecterA, gbc_txtSeConnecterA);
 		txtSeConnecterA.setColumns(10);
+		
+		btnSeConnecter = new JButton("Se connecter au chat");
+		GridBagConstraints gbc_btnSeConnecter = new GridBagConstraints();
+		gbc_btnSeConnecter.anchor = GridBagConstraints.NORTH;
+		gbc_btnSeConnecter.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSeConnecter.gridx = 2;
+		gbc_btnSeConnecter.gridy = 2;
+		add(btnSeConnecter, gbc_btnSeConnecter);
+		
 
+	}
+	
+	
+	public void setLstConnecteModel(DefaultListModel model){
+		lstConnecte.setModel(model);
+	}
+
+	@Override
+	public void update(Observable observable) {
+		ModeleChatClient modele = (ModeleChatClient)observable;
+
+		this.lblTitre.setText(modele.getSalle());
+		this.txtChat.setText(modele.getMessages());
+
+		this.txtChat.setCaretPosition(this.txtChat.getText().length());
+		JScrollBar jsb = scrollPane.getVerticalScrollBar();
+		jsb.setValue(jsb.getMaximum());
+		
+	}
+
+	@Override
+	protected void addComponents() {
+		// TODO Auto-generated method stub
+		
 	}
 }

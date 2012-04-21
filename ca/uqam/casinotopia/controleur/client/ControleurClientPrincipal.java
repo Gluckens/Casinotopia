@@ -10,9 +10,11 @@ import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.InfoClientPrincipal;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.vue.ConnexionFrame;
 import ca.uqam.casinotopia.vue.FrameApplication;
+import ca.uqam.casinotopia.vue.VueChat;
 import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 import ca.uqam.casinotopia.vue.VueRoulette;
 
@@ -192,7 +194,15 @@ public class ControleurClientPrincipal extends ControleurClient{
 	}
 	
 
-
+	public void afficherChat(){
+		
+		ControleurChatClient ctrl = new ControleurChatClient(this.connexion, new ModeleChatClient());
+		
+		this.ajouterControleur("ControleurChatClient", ctrl);
+	
+		this.frameApplication.removeAll();
+		this.frameApplication.addOrReplace("VueChat", ctrl.getVue());
+	}
 	
 	/*public ControleurClientClient getCtrlClientClient() {
 		return this.ctrlClientClient;

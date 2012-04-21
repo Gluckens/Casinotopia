@@ -14,14 +14,17 @@ import ca.uqam.casinotopia.vue.VueChat;
 
 public class ControleurChatClient extends ControleurClient {
 
-	ModeleChatClient modele = new ModeleChatClient();
-	
+	ModeleChatClient modele;	
 	
 	VueChat vue;
 	
-	
-	public ControleurChatClient(Connexion connexion) {
+
+	public ControleurChatClient(Connexion connexion, ModeleChatClient model) {
 		super(connexion);
+		this.vue = new VueChat(this);
+		this.modele = model;
+		this.modele.ajouterObservateur(this.vue);
+		this.vue.setLstConnecteModel(this.modele.getLstUtilisateurModel());
 	}
 
 	public VueChat getVue() {
@@ -32,73 +35,43 @@ public class ControleurChatClient extends ControleurClient {
 		this.vue = vue;
 	}
 	
-	
 	public ModeleChatClient getModele() {
 		return modele;
 	}
 
 	
-	
-	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages, String salle){
-		setChatUtilisateur(listeUtilisateur);
-		
-		setChatMessages(listeMessages);
-		getVue().lblTitre.setText(salle);
+	public void initChat(List<String> listeUtilisateur, List<String> listeMessages, String salle){
+		modele.setChatUtilisateur(listeUtilisateur);
+		modele.setMessages(listeMessages);
+		modele.setSalle(salle);
 	}
 
-
-	public void setChatUtilisateur(List<String> listeUtilisateur){
-
-		DefaultListModel model = (DefaultListModel) getVue().lstConnecte.getModel();
-		model.clear();
-		for (int i = 0; i < listeUtilisateur.size(); i++) {
-			model.add(i, listeUtilisateur.get(i));
-		}
-	}
-
-	public void setChatMessages(List<String> listeMessages){
-		String messages = "";
-		for (int i = 0; i < listeMessages.size(); i++) {
-			if(!listeMessages.get(i).isEmpty()){
-				messages += listeMessages.get(i);
-				if(i != listeMessages.size()-1){
-					messages += "\n";
-				}
-			}
-		}
-		getVue().txtChat.setText(messages);
-
-		JScrollBar jsb = getVue().scrollPane.getVerticalScrollBar();
-		jsb.setValue(jsb.getMaximum());
-	}
-
-		
 
 	public void seConnecterAuChat() {
-		if(getVue().txtSeConnecterA.getText().isEmpty()){
-			getVue().txtSeConnecterA.setText("entrez un nom de salle ici");
-		}else{
-			getModele().setSalle(getVue().txtSeConnecterA.getText());
-			connexion.envoyerCommande(new CmdSeConnecterAuChat(getModele().getSalle()));
-		}
+		//changer le setSalle
+		getModele().setSalle(getVue().txtSeConnecterA.getText());
+		
+		
+		connexion.envoyerCommande(new CmdSeConnecterAuChat(getVue().txtSeConnecterA.getText()));
 	}
 	
-	public void envoyerMessageChat(String message) {
-		if(!message.isEmpty()) {
-			connexion.envoyerCommande(new CmdEnvoyerMessageChat(message, getModele().getSalle()));
-			getVue().txtMessage.setText("");
-			getVue().txtMessage.setFocusable(true);
-		}
+	public void envoyerMessageChat() {
+		connexion.envoyerCommande(new CmdEnvoyerMessageChat(vue.txtMessage.getText(), modele.getSalle()));
+		getVue().txtMessage.setText("");
+		getVue().txtMessage.setFocusable(true);
 	}
-
-
 
 
 	public void ajouterMessageChat(String message) {
-		getVue().txtChat.setText(getVue().txtChat.getText()+"\n"+message);
-		getVue().txtChat.setCaretPosition(getVue().txtChat.getText().length());
-		JScrollBar jsb = getVue().scrollPane.getVerticalScrollBar();
-		jsb.setValue(jsb.getMaximum());
+		modele.setMessages(modele.getMessages()+"\n"+message);
+		//getVue().txtChat.setCaretPosition(getVue().txtChat.getText().length());
+		//JScrollBar jsb = getVue().scrollPane.getVerticalScrollBar();
+		//jsb.setValue(jsb.getMaximum());
 
+	}
+
+	public void setChatUtilisateur(List<String> listeUtilisateur) {
+		modele.setChatUtilisateur(listeUtilisateur);
+		
 	}	
 }
