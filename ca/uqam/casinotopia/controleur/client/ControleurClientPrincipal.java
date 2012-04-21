@@ -55,6 +55,7 @@ public class ControleurClientPrincipal extends ControleurClient{
 	private void initControleur() {
 		this.ctrlClientClient = new ControleurClientClient(this.getConnexion());
 		this.ctrlRouletteClient = new ControleurRouletteClient(this.getConnexion());
+		this.ctrlChatClient = new ControleurChatClient(this.getConnexion());
 	}
 	
 	
@@ -130,9 +131,14 @@ public class ControleurClientPrincipal extends ControleurClient{
 	
 	public void afficherFrameApplication() {
 		this.frameApplication = new FrameApplication();
+	}
+	
+	public void afficherChat(){
+		this.frameApplication = new FrameApplication();
 		ctrlChatClient.setVue(new VueChat(ctrlChatClient));
 		this.frameApplication.addOrReplace("VueChat", ctrlChatClient.getVue());
 		this.frameApplication.setVisible(true);
+		
 	}
 	
 	public void afficherFrameApplicationRoulette() {
