@@ -8,11 +8,11 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2161362831188083377L;
+	
 	private String salle;
 	
 	public CmdSeConnecterAuChat(String salle) {
@@ -21,10 +21,7 @@ public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 	
 	@Override
 	public void action(Controleur controleur) {
-
 		Clavardage chat = ControleurServeurPrincipal.getInstance().getModeleServeur().getChat(salle);
 		chat.connecter(((ControleurServeurThread)controleur).getModele().getUtilisateur());
-		
 	}
-
 }

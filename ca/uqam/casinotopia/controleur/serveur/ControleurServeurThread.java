@@ -19,14 +19,14 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
-import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 	
-	protected Map<String, Controleur> lstControleurs = new HashMap<String, Controleur>();
+	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
 	
 	private ModeleUtilisateurServeur modele = new ModeleUtilisateurServeur();
 	
@@ -38,7 +38,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion()));
 	}
 	
-	public void ajouterControleur(String nom, Controleur ctrl) {
+	public void ajouterControleur(String nom, ControleurServeur ctrl) {
 		this.lstControleurs.put(nom, ctrl);
 	}
 	
@@ -46,13 +46,14 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void run() {
 		try {
 			System.out.println("client no "+this.modele.number+" connecté");
-			while(getConnexion().isConnected()) {
+			while(this.connexion.isConnected()) {
 				Commande cmd = null;
 	            try {
-					cmd = (Commande) this.getConnexion().getObjectInputStream().readObject();
+	            	System.out.println("ATTENTE DE COMMANDE DU CLIENT");
+					cmd = (Commande) this.connexion.getObjectInputStream().readObject();
+					System.out.println("COMMANDE CLIENT OBTENUE");
 		            if(cmd != null) {
 		            	if(cmd instanceof CommandeServeur) {
-		            		System.out.println("COMMANDE RECU DE TYPE COMMANDE_SERVEUR");
 			            	if(cmd instanceof CommandeServeurControleurClient) {
 			            		if(!this.lstControleurs.containsKey("ControleurClientServeur")) {
 			            			System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurClientServeur)");
@@ -100,7 +101,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				} catch (SocketException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Déconnexion du client " + this.modele.number);
-					this.modele.getUtilisateur().deconnect();
+					this.modele.getUtilisateur().deconnecter();
 					getConnexion().close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -155,11 +156,13 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, partieRoulette));
 		
-		this.cmdAfficherJeuRoulette(partieRoulette.getId());
+		this.cmdAfficherJeuRoulette(partieRoulette);
 	}
 	
-	public void cmdAfficherJeuRoulette(int idPartie) {
-		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(idPartie));
+	public void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
+		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.isOptionArgent(), modeleServeur.isOptionMultijoueur(), modeleServeur.getInfoJeu());
+		System.out.println("CONNEXION DANS CMD_AFFICHER_JEU_ROULETTE --> " + this.connexion);
+		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
 	}
 
 

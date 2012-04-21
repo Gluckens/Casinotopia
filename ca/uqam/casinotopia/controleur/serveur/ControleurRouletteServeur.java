@@ -30,7 +30,7 @@ public class ControleurRouletteServeur extends ControleurServeur {
 	
 	public void actionEffectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		System.out.println("ACTION_EFFECTUER_MISES");
-		ModelePartieRouletteServeur modele = (ModelePartieRouletteServeur) this.getModele(ModelePartieRouletteServeur.class.getSimpleName());
+		ModelePartieRouletteServeur modele = (ModelePartieRouletteServeur) this.getModele("ModelePartieRouletteServeur");
 		modele.effectuerMises(mises);
 		
 		this.cmdUpdateTableJoueurs(modele.getId(), modele.getTableJeu().getCases());

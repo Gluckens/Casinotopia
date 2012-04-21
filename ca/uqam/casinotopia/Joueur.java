@@ -1,5 +1,12 @@
 package ca.uqam.casinotopia;
-public class Joueur {
+
+import java.io.Serializable;
+
+public class Joueur implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5066114473579769199L;
 	private String identifiant;
 	private Partie partie;
 }

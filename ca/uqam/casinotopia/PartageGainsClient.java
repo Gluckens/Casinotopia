@@ -4,29 +4,35 @@
  */
 package ca.uqam.casinotopia;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alexei
  */
-public class PartageGainsClient {
+public class PartageGainsClient implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4431084544215397445L;
 	private int pourcentage;
-	public Client unnamed_Client_;
-	public Fondation unnamed_Fondation_;
+	public Client client;
+	public Fondation fondation;
 
-	public void setUnnamed_Client_(Client unnamed_Client_) {
-		this.unnamed_Client_ = unnamed_Client_;
+	public Client getClient() {
+		return this.client;
+	}
+	
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
-	public Client getUnnamed_Client_() {
-		return this.unnamed_Client_;
+	public Fondation getFondation() {
+		return this.fondation;
 	}
 
-	public void setUnnamed_Fondation_(Fondation unnamed_Fondation_) {
-		this.unnamed_Fondation_ = unnamed_Fondation_;
-	}
-
-	public Fondation getUnnamed_Fondation_() {
-		return this.unnamed_Fondation_;
+	public void setFondation(Fondation fondation) {
+		this.fondation = fondation;
 	}
 
     public int getPourcentage() {
@@ -39,7 +45,7 @@ public class PartageGainsClient {
 
     @Override
     public String toString() {
-        return this.getUnnamed_Client_().getPrenom() + " " + this.getUnnamed_Fondation_().getNom() + " : " + this.getPourcentage();
+        return this.client.getPrenom() + " " + this.fondation.getNom() + " : " + this.getPourcentage();
     }
     
     

@@ -3,18 +3,24 @@ package ca.uqam.casinotopia.commande.client;
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 
 public class CmdAfficherJeuRoulette implements CommandeClientControleurPrincipal {
 	
-	int idPartie;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5965103113962331030L;
 	
-	public CmdAfficherJeuRoulette(int idPartie) {
-		this.idPartie = idPartie;
+	private ModelePartieRouletteClient modele;
+	
+	public CmdAfficherJeuRoulette(ModelePartieRouletteClient modele) {
+		this.modele = modele;
 	}
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal) controleur).actionAfficherJeuRoulette(this.idPartie);
+		((ControleurClientPrincipal) controleur).actionAfficherJeuRoulette(this.modele);
 	}
 
 }

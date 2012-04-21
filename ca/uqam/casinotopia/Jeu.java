@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -7,7 +8,11 @@ import java.util.Map.Entry;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
 
-public class Jeu {
+public class Jeu implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7375777588643978481L;
 	private int id;
 	private String nom;
 	private String description;

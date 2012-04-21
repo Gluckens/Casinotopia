@@ -5,15 +5,16 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 //TODO Pas le bon controleur
-public class CmdInformationNomValide implements CommandeClientControleurClient {
+public class CmdInformationInvalide implements CommandeClientControleurClient {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8911438224598458768L;
+	
 	String message = "";
 	
-	public CmdInformationNomValide(String message) {
+	public CmdInformationInvalide(String message) {
 		this.message = message;
 	}
 	
@@ -22,5 +23,4 @@ public class CmdInformationNomValide implements CommandeClientControleurClient {
 		
 		((ControleurClientPrincipal)controleur).setMessageConnexionErreur(message);
 	}
-
 }

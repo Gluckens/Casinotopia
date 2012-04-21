@@ -4,18 +4,23 @@
  */
 package ca.uqam.casinotopia;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  *
  * @author Alexei
  */
-public class DonUniqueClient {
-        private int id;
+public class DonUniqueClient implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1796189943288471211L;
+	private int id;
 	private int montant;
 	private Client unClient;
 	private Fondation uneFondation;
-        private Date dateDon;
+    private Date dateDon;
 
 	public void setClient_(Client unnamed_Client_) {
 		this.unClient = unnamed_Client_;

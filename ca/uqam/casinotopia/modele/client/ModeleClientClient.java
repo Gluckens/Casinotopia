@@ -1,17 +1,23 @@
 package ca.uqam.casinotopia.modele.client;
 
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.observateur.BaseSujet;
+import ca.uqam.casinotopia.observateur.BaseObservable;
+import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModeleClientClient implements Modele {
+public class ModeleClientClient implements Modele, Observable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7675443359819747622L;
 	
 	private String username;
 	private String prenom;
 	private String nom;	
 	private int solde;
 	
-	private BaseSujet sujet = new BaseSujet(this);
+	private BaseObservable sujet = new BaseObservable(this);
 	
 	
 	public void initDefault() {
@@ -94,8 +100,8 @@ public class ModeleClientClient implements Modele {
 	}
 
 	@Override
-	public boolean estObserveePar(Observateur obs) {
-		return this.sujet.estObserveePar(obs);
+	public boolean estObservePar(Observateur obs) {
+		return this.sujet.estObservePar(obs);
 	}
 
 	@Override

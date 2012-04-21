@@ -3,13 +3,14 @@ package ca.uqam.casinotopia.observateur;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BaseSujet implements Sujet {
-	
+@SuppressWarnings("serial")
+public class BaseObservable implements Observable {
+
 	Set<Observateur> observateurs = new HashSet<Observateur>();
 	
-	Sujet sujetConcret;
+	Observable sujetConcret;
 	
-	public BaseSujet(Sujet sujetConcret) {
+	public BaseObservable(Observable sujetConcret) {
 		this.sujetConcret = sujetConcret;
 	}
 
@@ -24,7 +25,7 @@ public class BaseSujet implements Sujet {
 	}
 
 	@Override
-	public boolean estObserveePar(Observateur obs) {
+	public boolean estObservePar(Observateur obs) {
 		return this.observateurs.contains(obs);
 	}
 

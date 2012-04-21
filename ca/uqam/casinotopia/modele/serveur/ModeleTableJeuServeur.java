@@ -6,18 +6,19 @@ import java.util.Map;
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.observateur.BaseSujet;
+import ca.uqam.casinotopia.observateur.BaseObservable;
+import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModeleTableJeuServeur implements Modele {
-	
+public class ModeleTableJeuServeur implements Modele, Observable {
+
 	//private Map<Case, ArrayList<Integer>> cases = new HashMap<Case, ArrayList<Integer>>();
 	/**
 	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
 	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
 	
-	private BaseSujet sujet = new BaseSujet(this);
+	private BaseObservable sujet = new BaseObservable(this);
 	
 	public ModeleTableJeuServeur() {
 		this.initialiserCases();
@@ -81,8 +82,8 @@ public class ModeleTableJeuServeur implements Modele {
 	}
 
 	@Override
-	public boolean estObserveePar(Observateur obs) {
-		return this.sujet.estObserveePar(obs);
+	public boolean estObservePar(Observateur obs) {
+		return this.sujet.estObservePar(obs);
 	}
 
 	@Override

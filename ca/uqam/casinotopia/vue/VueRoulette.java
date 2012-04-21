@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -13,26 +14,36 @@ import javax.swing.JButton;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeCase;
-import ca.uqam.casinotopia.controleur.Controleur;
+import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
-import ca.uqam.casinotopia.observateur.Sujet;
+import ca.uqam.casinotopia.observateur.Observable;
+
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
 
+import ca.uqam.casinotopia.drag_n_drop.GhostComponentAdapter;
+import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
+import ca.uqam.casinotopia.drag_n_drop.GhostMotionAdapter;
 
+@SuppressWarnings("serial")
 public class VueRoulette extends Vue {
 	
 	private ControleurRouletteClient controleur;
+	private FrameApplication frame;
 
 	/**
 	 * Create the panel.
 	 */
-	public VueRoulette(ControleurRouletteClient controleur) {
-		this.controleur = controleur;
+	public VueRoulette(ControleurClient controleur, FrameApplication frame) {
+		this.controleur = (ControleurRouletteClient) controleur;
+		this.frame = frame;
 		
 		this.setPanelOptions();
 		this.addComponents();
@@ -42,102 +53,49 @@ public class VueRoulette extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{128, 73, 86, 53, 0};
-		gridBagLayout.rowHeights = new int[]{23, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{500, 300, 224};
+		gridBagLayout.rowHeights = new int[]{294, 294, 192};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		JLabel lblMonLabel = new JLabel("Mon label");
-		lblMonLabel.setBounds(162, 104, 45, 14);
-		lblMonLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMonLabel.setName("lblMonLabel");
-		GridBagConstraints gbc_lblMonLabel = new GridBagConstraints();
-		gbc_lblMonLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblMonLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblMonLabel.gridx = 1;
-		gbc_lblMonLabel.gridy = 3;
-		this.add(lblMonLabel, gbc_lblMonLabel);
 		
-		JTextField txtDefault = new JTextField();
-		txtDefault.setBounds(217, 101, 86, 20);
-		txtDefault.setHorizontalAlignment(SwingConstants.LEFT);
-		txtDefault.setText("default");
-		txtDefault.setColumns(10);
-		txtDefault.setPreferredSize(new Dimension(100, 20));
-		txtDefault.setName("txtDefault");
-		GridBagConstraints gbc_txtDefault = new GridBagConstraints();
-		gbc_txtDefault.anchor = GridBagConstraints.WEST;
-		gbc_txtDefault.insets = new Insets(0, 0, 5, 5);
-		gbc_txtDefault.gridx = 2;
-		gbc_txtDefault.gridy = 3;
-		this.add(txtDefault, gbc_txtDefault);
+		setPreferredSize(new Dimension(1024, 768));
 		
-		JButton btnTest = new JButton("Test");
-		btnTest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-				
-				int joueurId = 4;
-				
-				Map<Case, Integer> misesCases = new HashMap<Case, Integer>();
-				
-				misesCases.put(new Case(1, "noire", false, TypeCase.CHIFFRE), 5);
-				misesCases.put(new Case(2, "rouge", true, TypeCase.CHIFFRE), 2);
-				misesCases.put(new Case(3, "rouge", false, TypeCase.CHIFFRE), 8);
-				misesCases.put(new Case(4, "noire", true, TypeCase.CHIFFRE), 8);
-				misesCases.put(new Case(5, "noire", false, TypeCase.CHIFFRE), 1);
-				misesCases.put(new Case(6, "rouge", true, TypeCase.CHIFFRE), 3);
-				
-				mises.put(joueurId, misesCases);
-				
-				controleur.cmdMiserRoulette(mises);
-			}
-		});
-		btnTest.setBounds(180, 144, 89, 23);
-		GridBagConstraints gbc_btnTest = new GridBagConstraints();
-		gbc_btnTest.insets = new Insets(0, 0, 0, 5);
-		gbc_btnTest.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnTest.gridx = 1;
-		gbc_btnTest.gridy = 5;
-		this.add(btnTest, gbc_btnTest);
+		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, this.frame);
+		tapis.setName("tapis");
+		this.add(tapis, new GridBagHelper().setXY(1, 0).setWH(1, 2).end());
 		
-		JButton btnTest_1 = new JButton("Test 2");
-		btnTest_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-				
-				int joueurId2 = 9;
-				
-				Map<Case, Integer> misesCases = new HashMap<Case, Integer>();
-				
-				misesCases.put(new Case(1, "noire", false, TypeCase.CHIFFRE), 2);
-				misesCases.put(new Case(2, "rouge", true, TypeCase.CHIFFRE), 7);
-				misesCases.put(new Case(5, "noire", false, TypeCase.CHIFFRE), 6);
-				
-				mises.put(joueurId2, misesCases);
-				
-				controleur.cmdMiserRoulette(mises);
-			}
-		});
-		GridBagConstraints gbc_btnTest_1 = new GridBagConstraints();
-		gbc_btnTest_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnTest_1.gridx = 2;
-		gbc_btnTest_1.gridy = 5;
-		add(btnTest_1, gbc_btnTest_1);
+		VueRouletteTableau tableau = new VueRouletteTableau(this.controleur, this.frame);
+		tableau.setName("tableau");
+		this.add(tableau, new GridBagHelper().setXY(2, 0).end());
+		
+		VueRouletteActions actions = new VueRouletteActions(this.controleur, this.frame);
+		actions.setName("actions");
+		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).end());
 	}
 	
-	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
+	/*public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		JTextField txt = (JTextField) this.getComponentByName("txtDefault");
 		Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	    String time = sdf.format(cal.getTime());
 		txt.setText(String.valueOf(cases.size()) + " " + time);
-	}
+	}*/
 
 	@Override
-	public void update(Sujet sujet) {
-		if(sujet instanceof ModelePartieRouletteClient) {
-			this.updateTableJeu(((ModelePartieRouletteClient)sujet).getTableJeu().getCases());
-		}
+	public void update(Observable observable) {
+		/*if(observable instanceof ModelePartieRouletteClient) {
+			this.updateTableJeu(((ModelePartieRouletteClient)observable).getTableJeu().getCases());
+		}*/
+	}
+}
+
+@SuppressWarnings("serial")
+class MonTapis2 extends JComponent {
+	
+	public void paint(Graphics g) {
+		g.setColor(Color.cyan);
+		g.drawRect(10, 10, 200, 200);
+		g.fillRect(10, 10, 200, 200);
 	}
 }

@@ -1,13 +1,18 @@
 package ca.uqam.casinotopia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.connexion.Connexion;
 
-public class Utilisateur{
+public class Utilisateur implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5258124701942436737L;
 	private int id;
 	private String nomUtilisateur;
 	private String motDePasse;
@@ -80,7 +85,7 @@ public class Utilisateur{
 		return this.connectables;
 	}
 	
-	public void deconnect(){
+	public void deconnecter(){
 		for (int i = 0; i < this.connectables.size(); i++) {
 			if(this.connectables.get(i) instanceof Clavardage){
 				this.connectables.get(i).deconnecter(this);

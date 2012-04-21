@@ -14,7 +14,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
