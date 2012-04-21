@@ -19,8 +19,8 @@ public class GhostPictureAdapter extends GhostDropAdapter
 {
 	private BufferedImage image;
 
-	public GhostPictureAdapter(GhostGlassPane glassPane, String action, String picture) {
-	   super(glassPane, action);
+	public GhostPictureAdapter(GhostGlassPane glassPane, String picture) {
+	   super(glassPane);
 	   try {
 	       this.image = ImageIO.read(new BufferedInputStream(GhostPictureAdapter.class.getResourceAsStream(picture)));
 	   } catch (MalformedURLException mue) {
@@ -30,8 +30,7 @@ public class GhostPictureAdapter extends GhostDropAdapter
        }
 	}
 
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         Component c = e.getComponent();
 
         glassPane.setVisible(true);
@@ -45,8 +44,7 @@ public class GhostPictureAdapter extends GhostDropAdapter
         glassPane.repaint();
     }
 
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         Component c = e.getComponent();
 
         Point p = (Point) e.getPoint().clone();
@@ -59,6 +57,10 @@ public class GhostPictureAdapter extends GhostDropAdapter
         glassPane.setVisible(false);
         glassPane.setImage(null);
 
-        fireGhostDropEvent(new GhostDropEvent(action, eventPoint));
+        this.sendGhostDropEvent(eventPoint);
+    }
+    
+    protected void sendGhostDropEvent(Point eventPoint) {
+    	fireGhostDropEvent(new GhostDropEvent(eventPoint));
     }
 }

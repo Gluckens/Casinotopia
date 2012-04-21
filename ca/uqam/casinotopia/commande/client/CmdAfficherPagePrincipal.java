@@ -13,7 +13,7 @@ public class CmdAfficherPagePrincipal implements CommandeClientControleurPrincip
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).getVueConnexionFrame().setVisible(false);
+		((ControleurClientPrincipal)controleur).getFrameConnexion().setVisible(false);
 		//((ControleurClientPrincipal)controleur).afficherFrameApplication();
 		
 	}

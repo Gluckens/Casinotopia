@@ -20,6 +20,6 @@ public class CmdAjouterMessageChat implements CommandeClientControleurChat {
 	
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurChatClient)controleur).ajouterMessageChat(message);
+		((ControleurChatClient)controleur).actionAjouterMessageChat(this.message);
 	}
 }

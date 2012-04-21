@@ -1,16 +1,24 @@
-package ca.uqam.casinotopia.vue;
+package ca.uqam.casinotopia.vue.roulette;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 
+import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.drag_n_drop.GhostComponentAdapter;
+import ca.uqam.casinotopia.drag_n_drop.GhostDropListener;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.drag_n_drop.GhostMotionAdapter;
+import ca.uqam.casinotopia.drag_n_drop.MisesGhostComponentAdapter;
 import ca.uqam.casinotopia.observateur.Observable;
+import ca.uqam.casinotopia.vue.FrameApplication;
+import ca.uqam.casinotopia.vue.GridBagHelper;
+import ca.uqam.casinotopia.vue.Vue;
+
 import javax.swing.JLabel;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -70,7 +78,7 @@ public class VueRouletteActions extends Vue {
 		
 		JButton btnPrt = new JButton("Pr\u00EAt");
 		btnPrt.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnPrt.setToolTipText("Pr\u00EAt \u00E0 tourner la roulette");
+		btnPrt.setToolTipText("Pr\u00EAt \u00E0 tourner la ca.uqam.casinotopia.vue.roulette");
 		GridBagConstraints gbc_btnPrt = new GridBagConstraints();
 		gbc_btnPrt.insets = new Insets(0, 0, 5, 0);
 		gbc_btnPrt.gridx = 2;
@@ -81,34 +89,64 @@ public class VueRouletteActions extends Vue {
 		pnlJetons.setLayout(new FlowLayout());
 		
 		
+		/*VueRouletteTapis tapis = (VueRouletteTapis) ((Vue)this.frame.getComponentByName("VueRoulette")).getComponentByName("tapis");
+		GhostDropListener ghostDropListener = new MisesGhostDropManager(tapis);
+
+        MisesGhostComponentAdapter misesGhostComponentAdapter;*/
+		
+		
 		JLabel lblChip5 = new JLabel(new ImageIcon(VueRouletteActions.class.getResource("/img/chip_5.png")));
 		lblChip5.setTransferHandler(new TransferHandler("text"));
-		lblChip5.addMouseListener(new GhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), "action_de_chip_5"));
-		lblChip5.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
+		/*lblChip5.addMouseListener(misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_5));
+		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
+		lblChip5.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));*/
 		pnlJetons.add(lblChip5);
 		
 		JLabel lblChip10 = new JLabel(new ImageIcon(VueRouletteActions.class.getResource("/img/chip_10.png")));
 		lblChip10.setTransferHandler(new TransferHandler("text"));
-		lblChip10.addMouseListener(new GhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), "action_de_chip_10"));
-		lblChip10.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
+		/*lblChip10.addMouseListener(misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_10));
+		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
+		lblChip10.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));*/
 		pnlJetons.add(lblChip10);
 		
 		JLabel lblChip25 = new JLabel(new ImageIcon(VueRouletteActions.class.getResource("/img/chip_25.png")));
 		lblChip25.setTransferHandler(new TransferHandler("text"));
-		lblChip25.addMouseListener(new GhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), "action_de_chip_25"));
-		lblChip25.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
+		/*lblChip25.addMouseListener(misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_25));
+		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
+		lblChip25.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));*/
 		pnlJetons.add(lblChip25);
 		
 		JLabel lblChip50 = new JLabel(new ImageIcon(VueRouletteActions.class.getResource("/img/chip_50.png")));
 		lblChip50.setTransferHandler(new TransferHandler("text"));
-		lblChip50.addMouseListener(new GhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), "action_de_chip_50"));
-		lblChip50.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
+		/*lblChip50.addMouseListener(misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_50));
+		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
+		lblChip50.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));*/
 		pnlJetons.add(lblChip50);
 		
 		this.add(pnlJetons, new GridBagHelper().setXY(0,  2).end());
 		
 		
 		this.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+	}
+	
+	public void initDragAndDrop() {
+		this.initMisesDragAndDrop();
+	}
+	
+	private void initMisesDragAndDrop() {
+		VueRouletteTapis tapis = (VueRouletteTapis) ((Vue)this.frame.getComponentByName("VueRoulette")).getComponentByName("tapis");
+		GhostDropListener ghostDropListener = new MisesGhostDropManager(tapis);
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip5"), TypeMise.MISE_5);
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip10"), TypeMise.MISE_10);
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip25"), TypeMise.MISE_25);
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip50"), TypeMise.MISE_50);
+	}
+	
+	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, TypeMise type) {
+		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_5);
+		component.addMouseListener(misesGhostComponentAdapter);
+		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
+		component.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
 	}
 
 	@Override

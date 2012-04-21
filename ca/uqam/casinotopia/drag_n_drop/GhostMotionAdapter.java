@@ -15,15 +15,14 @@ public class GhostMotionAdapter extends MouseMotionAdapter
 		this.glassPane = glassPane;
 	}
 
-	public void mouseDragged(MouseEvent e)
-    {
+	public void mouseDragged(MouseEvent e) {
         Component c = e.getComponent();
 
         Point p = (Point) e.getPoint().clone();
         SwingUtilities.convertPointToScreen(p, c);
-        SwingUtilities.convertPointFromScreen(p, glassPane);
-        glassPane.setPoint(p);
+        SwingUtilities.convertPointFromScreen(p, this.glassPane);
+        this.glassPane.setPoint(p);
 
-        glassPane.repaint();
+        this.glassPane.repaint();
     }
 }

@@ -1,6 +1,7 @@
 package ca.uqam.casinotopia.vue;
 
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -49,6 +50,11 @@ public class VueMenuPrincipal extends Vue {
 		add(btnJoueurLa, gbc_btnJoueurLa);
 		
 		JButton btnAllerSurLe = new JButton("Aller sur le chat");
+		btnAllerSurLe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.actionAfficherChat(new ModeleChatClient());
+			}
+		});
 		GridBagConstraints gbc_btnAllerSurLe = new GridBagConstraints();
 		gbc_btnAllerSurLe.anchor = GridBagConstraints.NORTH;
 		gbc_btnAllerSurLe.gridx = 0;

@@ -3,13 +3,14 @@ package ca.uqam.casinotopia.controleur.client;
 import java.io.Serializable;
 import java.util.Map;
 
+
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.vue.FrameApplication;
-import ca.uqam.casinotopia.vue.VueRoulette;
+import ca.uqam.casinotopia.vue.roulette.VueRoulette;
 
 public class ControleurRouletteClient extends ControleurClient implements Serializable {
 	
@@ -41,7 +42,7 @@ public class ControleurRouletteClient extends ControleurClient implements Serial
 		
 		//TODO Les modele ici ne devrait jamais etre vide, il devrait etre créer lors de la construction du controleur???
 		ModelePartieRouletteClient modeleRoulette = (ModelePartieRouletteClient)this.lstModeles.get("ModelePartieRouletteClient");
-		if(modeleRoulette == null) {
+		/*if(modeleRoulette == null) {
 			System.out.println("LE MODÈLE EST NUL");
 			modeleRoulette = new ModelePartieRouletteClient(0, false, false, null);
 			this.ajouterModele(modeleRoulette);
@@ -56,7 +57,7 @@ public class ControleurRouletteClient extends ControleurClient implements Serial
 		
 		if(!modeleRoulette.estObservePar(vueRoulette)) {
 			modeleRoulette.ajouterObservateur(vueRoulette);
-		}
+		}*/
 		
 		modeleRoulette.updateTableJeu(cases);
 	}
