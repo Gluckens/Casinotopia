@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.Map.Entry;
 
-import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
+import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
 
 public class Jeu implements Serializable {
 	/**
@@ -99,7 +99,7 @@ public class Jeu implements Serializable {
 		if(!this.lstParties.get(TypeEtatPartie.EN_ATTENTE).isEmpty()) {
 			System.out.println("PartiesEnAttente : " + this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 			
-			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurServeurPrincipal.entriesSortedByValues(this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
+			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 			
 			System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
 			

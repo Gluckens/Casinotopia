@@ -44,9 +44,9 @@ public class VueRoulette extends Vue {
 	/**
 	 * Create the panel.
 	 */
-	public VueRoulette(ControleurClient controleur, FrameApplication frame) {
+	public VueRoulette(ControleurClient controleur) {
 		this.controleur = (ControleurRouletteClient) controleur;
-		this.frame = frame;
+		this.frame = this.controleur.getFrame();
 		
 		this.setPanelOptions();
 		this.addComponents();

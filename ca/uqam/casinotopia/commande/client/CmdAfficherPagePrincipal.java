@@ -2,7 +2,6 @@ package ca.uqam.casinotopia.commande.client;
 
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 
 public class CmdAfficherPagePrincipal implements CommandeClientControleurPrincipal {
 
@@ -13,8 +12,8 @@ public class CmdAfficherPagePrincipal implements CommandeClientControleurPrincip
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal)controleur).getFrameConnexion().setVisible(false);
-		//((ControleurClientPrincipal)controleur).afficherFrameApplication();
+		//((ControleurPrincipalClient)controleur).getFrameConnexion().setVisible(false);
+		//((ControleurPrincipalClient)controleur).afficherFrameApplication();
 		
 	}
 }

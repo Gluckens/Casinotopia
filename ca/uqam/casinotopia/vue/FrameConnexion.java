@@ -1,7 +1,6 @@
 package ca.uqam.casinotopia.vue;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -14,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -35,7 +34,7 @@ public class FrameConnexion extends JFrame implements Runnable {
 	private JButton btnCrerUnCompte;
 
 
-	private ControleurClientPrincipal controleur;
+	private ControleurPrincipalClient controleur;
 	private JLabel lblInformations;
 	
 
@@ -44,7 +43,7 @@ public class FrameConnexion extends JFrame implements Runnable {
 		this.setVisible(true);
 	}
 
-	public FrameConnexion(ControleurClientPrincipal ctrl){
+	public FrameConnexion(ControleurPrincipalClient ctrl){
 		this();
 		this.controleur = ctrl;
 		btnConnexion.addActionListener(new ActionListener() {

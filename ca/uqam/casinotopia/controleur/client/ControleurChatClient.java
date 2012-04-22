@@ -10,16 +10,22 @@ import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
+import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.VueChat;
 
 public class ControleurChatClient extends ControleurClient {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2286997653732479251L;
+	
 	private ModeleChatClient modele;
 	private VueChat vue;
 	
 	
-	public ControleurChatClient(Connexion connexion, ModeleChatClient modele) {
-		super(connexion);
+	public ControleurChatClient(Connexion connexion, ModeleChatClient modele, ModelePrincipalClient modeleNavigation) {
+		super(connexion, modeleNavigation);
 		this.vue = new VueChat(this);
 		this.modele = modele;
 		this.modele.ajouterObservateur(this.vue);

@@ -116,7 +116,7 @@ public class VueChat extends Vue {
 		scrollPane.setViewportView(txtChat);
 		txtChat.setBackground(Color.WHITE);
 		txtChat.setForeground(new Color(0, 0, 0));
-		//lstConnecte = new JList(model);
+		lstConnecte = new JList(new DefaultListModel());
 		lstConnecte.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lstConnecte.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
 		GridBagConstraints gbc_lstConnecte = new GridBagConstraints();
