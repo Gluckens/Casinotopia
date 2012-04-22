@@ -10,6 +10,7 @@ import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
+import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.VueChat;
 
 public class ControleurChatClient extends ControleurClient {

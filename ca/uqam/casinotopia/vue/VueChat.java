@@ -83,6 +83,7 @@ public class VueChat extends Vue {
 
 	/**
 	 * Create the panel.
+	 * @return 
 	 */
 	private VueChat() {
 		GridBagLayout gridBagLayout = new GridBagLayout();

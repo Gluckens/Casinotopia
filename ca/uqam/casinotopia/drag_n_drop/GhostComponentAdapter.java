@@ -10,12 +10,11 @@ import javax.swing.SwingUtilities;
 
 public class GhostComponentAdapter extends GhostDropAdapter
 {
-    public GhostComponentAdapter(GhostGlassPane glassPane, String action) {
-        super(glassPane, action);
+    public GhostComponentAdapter(GhostGlassPane glassPane) {
+        super(glassPane);
     }
 
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         Component c = e.getComponent();
 
         BufferedImage image = new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -33,8 +32,7 @@ public class GhostComponentAdapter extends GhostDropAdapter
         glassPane.repaint();
     }
 
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         Component c = e.getComponent();
 
         Point p = (Point) e.getPoint().clone();
@@ -47,6 +45,11 @@ public class GhostComponentAdapter extends GhostDropAdapter
         glassPane.setVisible(false);
         glassPane.setImage(null);
 
-        fireGhostDropEvent(new GhostDropEvent(action, eventPoint));
+        this.sendGhostDropEvent(eventPoint);
+    }
+    
+    protected void sendGhostDropEvent(Point eventPoint) {
+    	System.out.println("GHOST DROPPED GHOST");
+    	fireGhostDropEvent(new GhostDropEvent(eventPoint));
     }
 }

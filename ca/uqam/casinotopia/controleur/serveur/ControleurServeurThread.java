@@ -26,6 +26,8 @@ import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 	
+	private static final long serialVersionUID = -656190032558998826L;
+
 	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
 	
 	private ModeleUtilisateurServeur modele = new ModeleUtilisateurServeur();
@@ -34,7 +36,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.setConnexion(new Connexion(clientSocket));
 		this.modele.number = number;
 		
-		this.ajouterControleur("ControleurServeurPrincipal", ControleurServeurPrincipal.getInstance());
+		this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
 		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion()));
 	}
 	
@@ -82,7 +84,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			            		cmd.action(this.lstControleurs.get("CommandeServeurControleurChat"));
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurPrincipal) {
-			            		cmd.action(this.lstControleurs.get("ControleurServeurPrincipal"));
+			            		cmd.action(this.lstControleurs.get("ControleurPrincipalServeur"));
 			            	}
 			            	else if(cmd instanceof CommandeServeurControleurThread) {
 			            		cmd.action(this);
@@ -131,7 +133,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void actionAjouterJoueurDansRoulette(int idJeu) {
 		//TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
 		
-		ControleurServeurPrincipal ctrlPrincipal = (ControleurServeurPrincipal) this.lstControleurs.get("ControleurServeurPrincipal");
+		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
 		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu);
 		
@@ -183,11 +185,11 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public ArrayList<String> getAllUtilisateurs() {
 		System.out.println("GET_ALL_UTILISATEURS");
 		ArrayList<String> liste = new ArrayList<String>();
-		for (int i = 0; i < ControleurServeurPrincipal.NUMCONNEXION; i++) {
-			if(ControleurServeurPrincipal.thread[i] != null && 
-					ControleurServeurPrincipal.thread[i].isAlive() && 
-					ControleurServeurPrincipal.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null) {
-				liste.add( ControleurServeurPrincipal.serverThread[i].getModele().getUtilisateur().getNomUtilisateur());
+		for (int i = 0; i < ControleurPrincipalServeur.NUMCONNEXION; i++) {
+			if(ControleurPrincipalServeur.thread[i] != null && 
+					ControleurPrincipalServeur.thread[i].isAlive() && 
+					ControleurPrincipalServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null) {
+				liste.add( ControleurPrincipalServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur());
 			}
 		}
 		return liste;
@@ -195,11 +197,11 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	
 	public void envoyerCommandeATous(Commande cmd) {
 		System.out.println("ENVOYER_COMMANDE_TOUS");
-		for (int i = 0; i < ControleurServeurPrincipal.NUMCONNEXION; i++) {
-			if(ControleurServeurPrincipal.thread[i] != null && 
-					ControleurServeurPrincipal.thread[i].isAlive() && 
-					ControleurServeurPrincipal.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
-				ControleurServeurPrincipal.serverThread[i].getConnexion().envoyerCommande(cmd);
+		for (int i = 0; i < ControleurPrincipalServeur.NUMCONNEXION; i++) {
+			if(ControleurPrincipalServeur.thread[i] != null && 
+					ControleurPrincipalServeur.thread[i].isAlive() && 
+					ControleurPrincipalServeur.serverThread[i].getModele().getUtilisateur().getNomUtilisateur() != null){
+				ControleurPrincipalServeur.serverThread[i].getConnexion().envoyerCommande(cmd);
 			}
 		}
 	}

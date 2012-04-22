@@ -27,12 +27,14 @@ import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
 
 
-public final class ControleurServeurPrincipal extends ControleurServeur {
+public final class ControleurPrincipalServeur extends ControleurServeur {
+	
+	private static final long serialVersionUID = -1699550032814878802L;
 	
 	public static final int NUMCONNEXION = 10;
 	public static final int MAX_PARTIES = 10000;
 
-	private static ControleurServeurPrincipal instance;
+	private static ControleurPrincipalServeur instance;
 	private static ServerSocket server;
 	private ModeleServeurPrincipal modele;
 	public static Thread[] thread = new Thread[NUMCONNEXION];
@@ -43,7 +45,7 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 	private Map<Integer, Partie> lstParties;
 	
 	
-	private ControleurServeurPrincipal() {
+	private ControleurPrincipalServeur() {
 		this.setModeleServeur(new ModeleServeurPrincipal());
 		
 		this.lstParties = new HashMap<Integer, Partie>();
@@ -89,9 +91,9 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		}
 	}
 	
-	public static ControleurServeurPrincipal getInstance() {
+	public static ControleurPrincipalServeur getInstance() {
 		if(instance == null) {
-			instance = new ControleurServeurPrincipal();
+			instance = new ControleurPrincipalServeur();
 		}
 		return instance;
 	}
@@ -138,6 +140,7 @@ public final class ControleurServeurPrincipal extends ControleurServeur {
 		this.lstJeux.put(TypeJeu.BLACKJACK, new HashMap<Integer, Jeu>());
 	}
 	
+	@SuppressWarnings("unused")
 	private Jeu[] getArrJeux(TypeJeu type) {
 		ArrayList<Jeu> lstKeys = new ArrayList<Jeu>();
 		

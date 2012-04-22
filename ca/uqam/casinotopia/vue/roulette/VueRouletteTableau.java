@@ -1,10 +1,13 @@
-package ca.uqam.casinotopia.vue;
+package ca.uqam.casinotopia.vue.roulette;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleTableJeuClient;
 import ca.uqam.casinotopia.observateur.Observable;
+import ca.uqam.casinotopia.vue.FrameApplication;
+import ca.uqam.casinotopia.vue.GridBagHelper;
+import ca.uqam.casinotopia.vue.Vue;
 
 import java.awt.Dimension;
 import java.awt.Font;

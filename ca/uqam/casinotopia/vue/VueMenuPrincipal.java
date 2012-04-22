@@ -1,6 +1,9 @@
 package ca.uqam.casinotopia.vue;
 
 import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
+import ca.uqam.casinotopia.controleur.client.ControleurMenuPrincipal;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -11,12 +14,12 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VueMenuPrincipal extends Vue {
-	private ControleurClientPrincipal controleur;
+	private ControleurMenuPrincipal controleur;
 
 	/**
 	 * Create the panel.
 	 */
-	public VueMenuPrincipal(ControleurClientPrincipal controleur) {
+	public VueMenuPrincipal(ControleurMenuPrincipal controleur) {
 		this.controleur = controleur;
 		
 		this.setPanelOptions();
@@ -51,6 +54,7 @@ public class VueMenuPrincipal extends Vue {
 		JButton btnAllerSurLe = new JButton("Aller sur le chat");
 		btnAllerSurLe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//((ControleurPrincipalClient) controleur.getModeleNav().getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 				controleur.afficherChat();
 				
 			}
