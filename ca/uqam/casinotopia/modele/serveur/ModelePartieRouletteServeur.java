@@ -43,4 +43,5 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	public void setTableJeu(ModeleTableJeuServeur tableJeu) {
 		this.tableJeu = tableJeu;
 	}
+
 }

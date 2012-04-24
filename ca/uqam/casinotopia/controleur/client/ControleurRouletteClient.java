@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
@@ -65,6 +66,11 @@ public class ControleurRouletteClient extends ControleurClient implements Serial
 	public void cmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
 		System.out.println("TEST DE MISE");
 		this.connexion.envoyerCommande(new CmdMiserRoulette(mises));
+	}
+	
+	public void cmdTournerRoulette(){
+		System.out.println("TEST DE MISE");
+		this.connexion.envoyerCommande(new CmdTournerRoulette());
 	}
 	
 }

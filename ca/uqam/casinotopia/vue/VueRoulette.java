@@ -60,7 +60,7 @@ public class VueRoulette extends Vue {
 		setLayout(gridBagLayout);
 		
 		setPreferredSize(new Dimension(1024, 768));
-		
+				
 		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, this.frame);
 		tapis.setName("tapis");
 		this.add(tapis, new GridBagHelper().setXY(1, 0).setWH(1, 2).end());
@@ -72,6 +72,12 @@ public class VueRoulette extends Vue {
 		VueRouletteActions actions = new VueRouletteActions(this.controleur, this.frame);
 		actions.setName("actions");
 		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).end());
+		
+		VueRouletteRoue roue = new VueRouletteRoue(this.controleur, this.frame);
+		roue.setName("roue");
+		this.add(roue, new GridBagHelper().setXY(0, 0).setWH(1, 2).end());
+		
+
 	}
 	
 	/*public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {

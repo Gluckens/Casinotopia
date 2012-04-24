@@ -8,6 +8,7 @@ import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleRoueRouletteServeur;
 
 public class ControleurRouletteServeur extends ControleurServeur {
 
@@ -45,6 +46,12 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		System.out.println("AVANT ENVOI UPDATE ROULLETE");
 		
 		this.getConnexion().envoyerCommande(cmd);
+	}
+
+	public void actionTournerRoulette() {
+		System.out.println("ACTION_TOURNER_ROULETTE");
+		ModeleRoueRouletteServeur modele = (ModeleRoueRouletteServeur) this.getModele("ModeleRoueRouletteServeur");
+		modele.tournerRoulette();
 	}
 
 }

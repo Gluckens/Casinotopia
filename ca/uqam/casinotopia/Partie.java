@@ -28,6 +28,11 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 		this.lstJoueurs = new HashSet<Joueur>();
 	}
 	
+	public Partie(int id2, boolean optionArgent2, boolean optionMultijoueur2,
+			Clavardage clavardage2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void ajouterJoueur(Joueur joueur) {
 		this.lstJoueurs.add(joueur);
 	}
