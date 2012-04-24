@@ -1,6 +1,5 @@
 package ca.uqam.casinotopia.controleur.client;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
@@ -9,24 +8,27 @@ import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.FrameApplication;
-import ca.uqam.casinotopia.vue.VueRoulette;
+import ca.uqam.casinotopia.vue.roulette.VueRoulette;
 
-public class ControleurRouletteClient extends ControleurClient implements Serializable {
+public class ControleurRouletteClient extends ControleurClient {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8588955394361302868L;
+
+	private VueRoulette vue;
+	private ModelePartieRouletteClient modele;
 	
 	private FrameApplication frame;
 
-
-	public ControleurRouletteClient(Connexion connexion, ModelePartieRouletteClient modeleRoulette, FrameApplication frame) {
-		super(connexion);
-		this.ajouterModele(modeleRoulette);
+	public ControleurRouletteClient(Connexion connexion, ModelePartieRouletteClient modele, ModelePrincipalClient modeleNavigation, FrameApplication frame) {
+		super(connexion, modeleNavigation);
 		
 		this.frame = frame;
+		
+		this.vue = new VueRoulette(this);
+		this.modele = modele;
+		this.modele.ajouterObservateur(this.vue);
 	}
 
 	//public void updateTableJeu(Map<Integer, Map<Case, Integer>> mises, JFrame frame) {
@@ -41,8 +43,9 @@ public class ControleurRouletteClient extends ControleurClient implements Serial
 		((VueRoulette)this.lstVues.get("VueRoulette")).updateTableJeu(cases);*/
 		
 		//TODO Les modele ici ne devrait jamais etre vide, il devrait etre créer lors de la construction du controleur???
-		ModelePartieRouletteClient modeleRoulette = (ModelePartieRouletteClient)this.lstModeles.get("ModelePartieRouletteClient");
-		if(modeleRoulette == null) {
+		//ModelePartieRouletteClient modeleRoulette = (ModelePartieRouletteClient)this.lstModeles.get("ModelePartieRouletteClient");
+		
+		/*if(modeleRoulette == null) {
 			System.out.println("LE MODÈLE EST NUL");
 			modeleRoulette = new ModelePartieRouletteClient(0, false, false, null);
 			this.ajouterModele(modeleRoulette);
@@ -57,9 +60,23 @@ public class ControleurRouletteClient extends ControleurClient implements Serial
 		
 		if(!modeleRoulette.estObservePar(vueRoulette)) {
 			modeleRoulette.ajouterObservateur(vueRoulette);
-		}
+		}*/
 		
-		modeleRoulette.updateTableJeu(cases);
+		this.modele.updateTableJeu(cases);
+	}
+	
+
+
+	public VueRoulette getVue() {
+		return this.vue;
+	}
+	
+	public ModelePartieRouletteClient getModele() {
+		return this.modele;
+	}
+	
+	public FrameApplication getFrame() {
+		return this.frame;
 	}
 	
 	

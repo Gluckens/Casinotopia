@@ -2,7 +2,7 @@ package ca.uqam.casinotopia.commande.client;
 
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 
 public class CmdAfficherJeuRoulette implements CommandeClientControleurPrincipal {
@@ -20,7 +20,7 @@ public class CmdAfficherJeuRoulette implements CommandeClientControleurPrincipal
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurClientPrincipal) controleur).actionAfficherJeuRoulette(this.modele);
+		((ControleurPrincipalClient) controleur).actionAfficherJeuRoulette(this.modele);
 	}
 
 }

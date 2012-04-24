@@ -10,28 +10,30 @@ import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
+import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.VueChat;
 
 public class ControleurChatClient extends ControleurClient {
 
-	ModeleChatClient modele = new ModeleChatClient();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2286997653732479251L;
+	
+	private ModeleChatClient modele;
+	private VueChat vue;
 	
 	
-	VueChat vue;
-	
-	
-	public ControleurChatClient(Connexion connexion) {
-		super(connexion);
+	public ControleurChatClient(Connexion connexion, ModeleChatClient modele, ModelePrincipalClient modeleNavigation) {
+		super(connexion, modeleNavigation);
+		this.vue = new VueChat(this);
+		this.modele = modele;
+		this.modele.ajouterObservateur(this.vue);
 	}
 
 	public VueChat getVue() {
 		return vue;
 	}
-	
-	public void setVue(VueChat vue) {
-		this.vue = vue;
-	}
-	
 	
 	public ModeleChatClient getModele() {
 		return modele;
@@ -43,13 +45,13 @@ public class ControleurChatClient extends ControleurClient {
 		setChatUtilisateur(listeUtilisateur);
 		
 		setChatMessages(listeMessages);
-		getVue().lblTitre.setText(salle);
+		this.vue.lblTitre.setText(salle);
 	}
 
 
 	public void setChatUtilisateur(List<String> listeUtilisateur){
 
-		DefaultListModel model = (DefaultListModel) getVue().lstConnecte.getModel();
+		DefaultListModel model = (DefaultListModel) this.vue.lstConnecte.getModel();
 		model.clear();
 		for (int i = 0; i < listeUtilisateur.size(); i++) {
 			model.add(i, listeUtilisateur.get(i));
@@ -66,39 +68,35 @@ public class ControleurChatClient extends ControleurClient {
 				}
 			}
 		}
-		getVue().txtChat.setText(messages);
+		this.vue.txtChat.setText(messages);
 
-		JScrollBar jsb = getVue().scrollPane.getVerticalScrollBar();
+		JScrollBar jsb = this.vue.scrollPane.getVerticalScrollBar();
 		jsb.setValue(jsb.getMaximum());
 	}
 
 		
 
-	public void seConnecterAuChat() {
-		if(getVue().txtSeConnecterA.getText().isEmpty()){
-			getVue().txtSeConnecterA.setText("entrez un nom de salle ici");
-		}else{
-			getModele().setSalle(getVue().txtSeConnecterA.getText());
-			connexion.envoyerCommande(new CmdSeConnecterAuChat(getModele().getSalle()));
-		}
+	public void cmdSeConnecterAuChat(String salle) {
+		//TODO le setting de la salle devrait se faire uniquement si le serveur le décide (ie, si l'utilisateur a acces, si sa fonctionné, bug du serveur, etc)
+		//((ModeleChatClient) this.lstModeles.get("ModeleChatClient")).setSalle(((VueChat) this.lstVues.get("VueChat")).txtSeConnecterA.getText());
+		this.connexion.envoyerCommande(new CmdSeConnecterAuChat(salle));
 	}
 	
-	public void envoyerMessageChat(String message) {
-		if(!message.isEmpty()) {
-			connexion.envoyerCommande(new CmdEnvoyerMessageChat(message, getModele().getSalle()));
-			getVue().txtMessage.setText("");
-			getVue().txtMessage.setFocusable(true);
-		}
+	public void actionChangementSalle(String salle) {
+		this.modele.setSalle(salle);
+	}
+	
+	public void cmdEnvoyerMessageChat(String message) {
+		this.connexion.envoyerCommande(new CmdEnvoyerMessageChat(message, this.modele.getSalle()));
 	}
 
 
-
-
-	public void ajouterMessageChat(String message) {
-		getVue().txtChat.setText(getVue().txtChat.getText()+"\n"+message);
-		getVue().txtChat.setCaretPosition(getVue().txtChat.getText().length());
-		JScrollBar jsb = getVue().scrollPane.getVerticalScrollBar();
+	public void actionAjouterMessageChat(String message) {
+		//TODO modifier le modele, et avec l'observateur la vue va se mettre à jour
+		
+		this.vue.txtChat.setText(this.vue.txtChat.getText()+"\n"+message);
+		this.vue.txtChat.setCaretPosition(this.vue.txtChat.getText().length());
+		JScrollBar jsb = this.vue.scrollPane.getVerticalScrollBar();
 		jsb.setValue(jsb.getMaximum());
-
 	}	
 }

@@ -1,7 +1,6 @@
 package ca.uqam.casinotopia.vue;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -14,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -22,11 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 
 @SuppressWarnings("serial")
-public class ConnexionFrame extends JFrame {
+public class FrameConnexion extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	
-	private Image img = new ImageIcon(ConnexionFrame.class.getResource("/img/splash.jpg")).getImage();
+	private Image img = new ImageIcon(FrameConnexion.class.getResource("/img/splash.jpg")).getImage();
 	
 	private JTextField txtNomUtilisateur;
 	private JPasswordField txtMotDePasse;
@@ -35,26 +34,16 @@ public class ConnexionFrame extends JFrame {
 	private JButton btnCrerUnCompte;
 
 
-	private ControleurClientPrincipal controleur;
+	private ControleurPrincipalClient controleur;
 	private JLabel lblInformations;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ConnexionFrame frame = new ConnexionFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
+	
+	public void run() {
+		this.setVisible(true);
 	}
 
-	public ConnexionFrame(ControleurClientPrincipal ctrl){
+	public FrameConnexion(ControleurPrincipalClient ctrl){
 		this();
 		this.controleur = ctrl;
 		btnConnexion.addActionListener(new ActionListener() {
@@ -73,7 +62,7 @@ public class ConnexionFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ConnexionFrame() {
+	public FrameConnexion() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 406, 428);

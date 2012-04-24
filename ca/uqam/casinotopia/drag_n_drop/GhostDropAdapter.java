@@ -8,28 +8,28 @@ import java.util.Iterator;
 
 public class GhostDropAdapter extends MouseAdapter {
     protected GhostGlassPane glassPane;
-	protected String action;
 
-	private List listeners;
+	private List<GhostDropListener> listeners;
 
-    public GhostDropAdapter(GhostGlassPane glassPane, String action) {
+    public GhostDropAdapter(GhostGlassPane glassPane) {
         this.glassPane = glassPane;
-        this.action = action;
-        this.listeners = new ArrayList();
+        this.listeners = new ArrayList<GhostDropListener>();
     }
 
     public void addGhostDropListener(GhostDropListener listener) {
-        if (listener != null)
+        if (listener != null) {
             listeners.add(listener);
+        }
     }
 
     public void removeGhostDropListener(GhostDropListener listener) {
-        if (listener != null)
+        if (listener != null) {
             listeners.remove(listener);
+        }
     }
 
     protected void fireGhostDropEvent(GhostDropEvent evt) {
-        Iterator it = listeners.iterator();
+        Iterator<GhostDropListener> it = listeners.iterator();
         while (it.hasNext()) {
         	((GhostDropListener) it.next()).ghostDropped(evt);
         }

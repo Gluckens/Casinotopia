@@ -1,8 +1,6 @@
 package ca.uqam.casinotopia.vue;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,18 +10,19 @@ import javax.swing.border.EmptyBorder;
 
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 
 @SuppressWarnings("serial")
 public class FrameApplication extends JFrame implements Runnable {
 
 	private JPanel contentPane;
+	private JPanel pnlVue;
+	private JPanel pnlMenu;
 	
 	protected Map<String, Component> componentMap = new HashMap<String, Component>();
 	
 	protected void createComponentsMap() {
-		Component[] components = this.getContentPane().getComponents();
+		Component[] components = pnlVue.getComponents();
         for (int i=0; i < components.length; i++) {
                 this.componentMap.put(components[i].getName(), components[i]);
         }
@@ -46,12 +45,20 @@ public class FrameApplication extends JFrame implements Runnable {
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//this.contentPane.setPreferredSize(new Dimension(1024, 768));
 		this.setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0};
-		gbl_contentPane.rowHeights = new int[]{0};
-		gbl_contentPane.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		GridBagLayout gbl = new GridBagLayout();
+		gbl.columnWidths = new int[]{1024};
+		gbl.rowHeights = new int[]{720, 48};
+		gbl.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl.rowWeights = new double[]{Double.MIN_VALUE};
+		contentPane.setLayout(gbl);
+		
+		pnlVue = new JPanel();
+		contentPane.add(pnlVue, new GridBagHelper().setXY(0, 0));
+		
+		pnlMenu = new JPanel();
+		contentPane.add(pnlMenu, new GridBagHelper().setXY(0, 1));
+		
+		//this.contentPane.add(new VueChat(null, this));
 		
 		this.setSize(1024, 768);
 		this.setLocationRelativeTo(null);
@@ -71,7 +78,7 @@ public class FrameApplication extends JFrame implements Runnable {
 	
 	public void addOrReplace(String name, JPanel panel) {
 		System.out.println("Frame contient avant add : " + this.getComponentCount());
-		System.out.println("ContentPane contient avant add : " + this.getContentPane().getComponentCount());
+		System.out.println("ContentPane contient avant add : " + this.pnlVue.getComponentCount());
 		
 		
 		//Si je retourne le panel directement et que je le modifie, sa va pas modifier le vrai dans le frame?
@@ -85,7 +92,8 @@ public class FrameApplication extends JFrame implements Runnable {
 		}
 		else {
 			this.componentMap.put(name, panel);
-			this.contentPane.add(panel);
+			this.pnlVue.add(panel);
+			//this.contentPane.add(panel, new GridBagHelper().setXY(0, 0).setFill(GridBagConstraints.BOTH).end());
 		}
 		
 		/*this.setVisible(true);
@@ -93,13 +101,13 @@ public class FrameApplication extends JFrame implements Runnable {
 
 		this.repaint();*/
 		
-		this.contentPane.revalidate();
-		this.contentPane.repaint();
+		this.pnlVue.revalidate();
+		this.pnlVue.repaint();
 		
 		this.setVisible(true);
 		
 		System.out.println("Frame contient apres add : " + this.getComponentCount());
-		System.out.println("ContentPane contient apres add : " + this.getContentPane().getComponentCount());
+		System.out.println("ContentPane contient apres add : " + this.pnlVue.getComponentCount());
 	}
 	
 	public Map<String, Component> getComponentMap() {
@@ -110,7 +118,7 @@ public class FrameApplication extends JFrame implements Runnable {
 	public void removeAll() {
 		//super.removeAll();
 		
-		this.contentPane.removeAll();
+		this.pnlVue.removeAll();
 		this.componentMap.clear();
 		
 		/*this.contentPane = new JPanel();

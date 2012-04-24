@@ -2,7 +2,7 @@ package ca.uqam.casinotopia.commande.serveur;
 
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
+import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdEnvoyerMessageChat implements CommandeServeurControleurThread {
@@ -23,6 +23,6 @@ public class CmdEnvoyerMessageChat implements CommandeServeurControleurThread {
 	@Override
 	public void action(Controleur controleur) {
 		this.message = ((ControleurServeurThread)controleur).getModele().getUtilisateur().getNomUtilisateur() + ": " + this.message;
-		ControleurServeurPrincipal.getInstance().getModeleServeur().getChat(this.salle).addMessage(this.message);
+		ControleurPrincipalServeur.getInstance().getModeleServeur().getChat(this.salle).addMessage(this.message);
 	}
 }

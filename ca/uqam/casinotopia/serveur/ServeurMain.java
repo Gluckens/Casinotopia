@@ -1,6 +1,6 @@
 package ca.uqam.casinotopia.serveur;
 
-import ca.uqam.casinotopia.controleur.serveur.ControleurServeurPrincipal;
+import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
 
 public class ServeurMain {
 
@@ -8,7 +8,7 @@ public class ServeurMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ControleurServeurPrincipal.getInstance().ecouterConnexions();
+		ControleurPrincipalServeur.getInstance().ecouterConnexions();
 	}
 
 }
