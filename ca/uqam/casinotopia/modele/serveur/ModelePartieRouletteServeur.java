@@ -13,12 +13,14 @@ import ca.uqam.casinotopia.observateur.Observateur;
 public class ModelePartieRouletteServeur extends Partie implements Modele {
 	private Case resultat;
 	private ModeleTableJeuServeur tableJeu;
+	private ModeleRoueRouletteServeur roueRoulette;
 
 	
 	public ModelePartieRouletteServeur(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
 		super(id, optionArgent, optionMultijoueur, infoJeu);
 		
 		this.tableJeu = new ModeleTableJeuServeur();
+		this.roueRoulette = new ModeleRoueRouletteServeur();
 	}
 	
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
@@ -42,6 +44,24 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	 */
 	public void setTableJeu(ModeleTableJeuServeur tableJeu) {
 		this.tableJeu = tableJeu;
+	}
+	
+	public ModeleRoueRouletteServeur getRoueRoulette() {
+		return roueRoulette;
+	}
+	
+	public void setRoueRoulette(ModeleRoueRouletteServeur roueRoulette) {
+		this.roueRoulette = roueRoulette;
+	}
+	
+
+	public void tournerRoulette() {
+		this.roueRoulette.tournerRoulette();
+		
+	}
+
+	public void calculerGainRoulette() {
+		// TODO Auto-generated method stub
 	}
 
 }

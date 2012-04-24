@@ -86,8 +86,12 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 	
 	public void cmdTournerRoulette(){
-		System.out.println("TEST DE MISE");
+		System.out.println("TEST DE TOURNER ROULETTE");
 		this.connexion.envoyerCommande(new CmdTournerRoulette());
 	}
 	
+	public void cmdCalculerGainRoulette(){
+		System.out.println("TEST DE CALCULER GAIN");
+		this.connexion.envoyerCommande(new cmdCalculerGainRoulette());
+	}
 }

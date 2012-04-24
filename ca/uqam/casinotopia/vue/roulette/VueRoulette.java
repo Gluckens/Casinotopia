@@ -22,6 +22,7 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
+import ca.uqam.casinotopia.vue.VueRouletteRoue;
 
 import java.awt.Color;
 import java.awt.Graphics;

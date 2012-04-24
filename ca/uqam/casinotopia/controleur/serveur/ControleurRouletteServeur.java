@@ -53,8 +53,15 @@ public class ControleurRouletteServeur extends ControleurServeur {
 
 	public void actionTournerRoulette() {
 		System.out.println("ACTION_TOURNER_ROULETTE");
-		ModeleRoueRouletteServeur modele = (ModeleRoueRouletteServeur) this.getModele("ModeleRoueRouletteServeur");
-		modele.tournerRoulette();
+		this.modele.tournerRoulette();
+		//ModeleRoueRouletteServeur modele = (ModeleRoueRouletteServeur) this.getModele("ModeleRoueRouletteServeur");
+		//modele.tournerRoulette();
+	}
+
+	public void actionCalculerGainRoulette() {
+		System.out.println("ACTION_CALCULER_GAIN_ROULETTE");
+		//ModeleRoueRouletteServeur modele = (ModeleRoueRouletteServeur) this.getModele("ModeleRoueRouletteServeur");
+		modele.calculerGainRoulette();
 	}
 
 }
