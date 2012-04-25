@@ -126,15 +126,13 @@ public class FrameApplication extends JFrame implements Runnable {
 		else {
 			this.componentMapVue.put(name, panel);
 			this.pnlVue.add(panel, new GridBagHelper().setXY(0, 0).end());
-			// this.contentPane.add(panel, new GridBagHelper().setXY(0,
-			// 0).setFill(GridBagConstraints.BOTH).end());
+			// this.contentPane.add(panel, new GridBagHelper().setXY(0, 0).setFill(GridBagConstraints.BOTH).end());
 		}
 
-		/*
-		 * this.setVisible(true); this.invalidate();
-		 * 
-		 * this.repaint();
-		 */
+		/*this.setVisible(true);
+		this.invalidate();
+
+		this.repaint();*/
 
 		this.pnlVue.revalidate();
 		this.pnlVue.repaint();
@@ -214,5 +212,4 @@ public class FrameApplication extends JFrame implements Runnable {
 		 * BorderLayout(0, 0)); this.setContentPane(contentPane);
 		 */
 	}
-
 }

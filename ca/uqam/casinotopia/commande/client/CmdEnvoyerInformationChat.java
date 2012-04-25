@@ -26,7 +26,7 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurChatClient) controleur).setChatList(this.listeUtilisateurs, this.messages, this.nom);
+		((ControleurChatClient)controleur).initChat(this.listeUtilisateurs, this.messages, this.nom);
 
 	}
 

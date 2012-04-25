@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia.vue;
 
+import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurMenuPrincipal;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
@@ -53,8 +54,7 @@ public class VueMenuPrincipal extends Vue {
 		btnAllerSurLe.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((ControleurPrincipalClient) VueMenuPrincipal.this.controleur.getModeleNav().getControleur("ControleurPrincipalClient"))
-						.actionAfficherChat(new ModeleChatClient());
+				this.controleur.actionAfficherChat(new ModeleChatClient());
 			}
 		});
 		GridBagConstraints gbc_btnAllerSurLe = new GridBagConstraints();
