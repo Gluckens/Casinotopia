@@ -12,8 +12,8 @@ public class CmdAfficherPagePrincipal implements CommandeClientControleurPrincip
 
 	@Override
 	public void action(Controleur controleur) {
-		//((ControleurPrincipalClient)controleur).getFrameConnexion().setVisible(false);
-		//((ControleurPrincipalClient)controleur).afficherFrameApplication();
-		
+		// ((ControleurPrincipalClient)controleur).getFrameConnexion().setVisible(false);
+		// ((ControleurPrincipalClient)controleur).afficherFrameApplication();
+
 	}
 }

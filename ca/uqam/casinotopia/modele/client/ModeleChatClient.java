@@ -11,22 +11,19 @@ public class ModeleChatClient implements Modele, Observable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1197460785333129913L;
-	
+
 	private String salle;
-	
+
 	private BaseObservable sujet = new BaseObservable(this);
-	
-	
-	
+
 	public String getSalle() {
-		return salle;
+		return this.salle;
 	}
-	
+
 	public void setSalle(String salle) {
 		this.salle = salle;
 	}
-	
-	
+
 	@Override
 	public void ajouterObservateur(Observateur obs) {
 		this.sujet.ajouterObservateur(obs);

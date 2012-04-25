@@ -8,12 +8,13 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 
 public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette {
-	
+
 	/**
 	 * Map<idJoueur, Map<CaseMisee, NbrJetonsMises>>
 	 */
-	//private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-	
+	// private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer,
+	// Map<Case, Integer>>();
+
 	/**
 	 * 
 	 */
@@ -22,13 +23,13 @@ public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette 
 	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
 	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
-	
+
 	public CmdUpdateCasesRoulette(Map<Case, Map<Integer, Integer>> cases) {
 		this.cases = cases;
 	}
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurRouletteClient)controleur).actionUpdateTableJeu(this.cases);
+		((ControleurRouletteClient) controleur).actionUpdateTableJeu(this.cases);
 	}
 }

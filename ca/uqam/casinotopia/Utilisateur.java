@@ -8,7 +8,7 @@ import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.connexion.Connexion;
 
 public class Utilisateur implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -16,19 +16,19 @@ public class Utilisateur implements Serializable {
 	private int id;
 	private String nomUtilisateur;
 	private String motDePasse;
-	
+
 	List<Connectable> connectables = new ArrayList<Connectable>();
-	
+
 	private Connexion connexion;
-	
+
 	public Utilisateur() {
 		this("", "", null);
 	}
-	
+
 	public Utilisateur(String nomUtilisateur, Connexion connexion) {
 		this(nomUtilisateur, "", connexion);
 	}
-	
+
 	public Utilisateur(String nomUtilisateur, String motDePasse, Connexion connexion) {
 		this.nomUtilisateur = nomUtilisateur;
 		this.connexion = connexion;
@@ -40,14 +40,15 @@ public class Utilisateur implements Serializable {
 	public String getNomUtilisateur() {
 		return this.nomUtilisateur;
 	}
-	
+
 	/**
-	 * @param nomUtilisateur the nomUtilisateur to set
+	 * @param nomUtilisateur
+	 *            the nomUtilisateur to set
 	 */
 	public void setNomUtilisateur(String nomUtilisateur) {
 		this.nomUtilisateur = nomUtilisateur;
 	}
-	
+
 	/**
 	 * @return the motDePasse
 	 */
@@ -56,7 +57,8 @@ public class Utilisateur implements Serializable {
 	}
 
 	/**
-	 * @param motDePasse the motDePasse to set
+	 * @param motDePasse
+	 *            the motDePasse to set
 	 */
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
@@ -70,7 +72,8 @@ public class Utilisateur implements Serializable {
 	}
 
 	/**
-	 * @param idUtilisateur the idUtilisateur to set
+	 * @param idUtilisateur
+	 *            the idUtilisateur to set
 	 */
 	public void setIdUtilisateur(int id) {
 		this.id = id;
@@ -79,18 +82,17 @@ public class Utilisateur implements Serializable {
 	public Connexion getConnexion() {
 		return this.connexion;
 	}
-	
-	
+
 	public List<Connectable> getConnectables() {
 		return this.connectables;
 	}
-	
-	public void deconnecter(){
+
+	public void deconnecter() {
 		for (int i = 0; i < this.connectables.size(); i++) {
-			if(this.connectables.get(i) instanceof Clavardage){
+			if (this.connectables.get(i) instanceof Clavardage) {
 				this.connectables.get(i).deconnecter(this);
 			}
 		}
 	}
-	
+
 }

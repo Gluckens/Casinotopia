@@ -13,11 +13,11 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 	 * 
 	 */
 	private static final long serialVersionUID = -1882263609311781756L;
-	
+
 	List<String> listeUtilisateurs = new ArrayList<String>();
 	List<String> messages = new ArrayList<String>();
 	String nom;
-	
+
 	public CmdEnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages, String nom) {
 		this.listeUtilisateurs = listeUtilisateurs;
 		this.messages = messages;
@@ -26,7 +26,7 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurChatClient)controleur).setChatList(listeUtilisateurs,messages,nom);
+		((ControleurChatClient) controleur).setChatList(this.listeUtilisateurs, this.messages, this.nom);
 
 	}
 

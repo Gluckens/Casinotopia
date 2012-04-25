@@ -6,14 +6,14 @@ import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 
 public class CmdAfficherJeuRoulette implements CommandeClientControleurPrincipal {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5965103113962331030L;
-	
+
 	private ModelePartieRouletteClient modele;
-	
+
 	public CmdAfficherJeuRoulette(ModelePartieRouletteClient modele) {
 		this.modele = modele;
 	}

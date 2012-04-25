@@ -8,38 +8,33 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class GhostGlassPane extends JPanel
-{
+public class GhostGlassPane extends JPanel {
 	private AlphaComposite composite;
-    private BufferedImage dragged = null;
-    private Point location = new Point(0, 0);
+	private BufferedImage dragged = null;
+	private Point location = new Point(0, 0);
 
-    public GhostGlassPane()
-    {
-        setOpaque(false);
-        composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
-    }
+	public GhostGlassPane() {
+		this.setOpaque(false);
+		this.composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+	}
 
-    public void setImage(BufferedImage dragged)
-    {
-        this.dragged = dragged;
-    }
+	public void setImage(BufferedImage dragged) {
+		this.dragged = dragged;
+	}
 
-    public void setPoint(Point location)
-    {
-        this.location = location;
-    }
+	public void setPoint(Point location) {
+		this.location = location;
+	}
 
-    public void paintComponent(Graphics g)
-    {
-        if (dragged == null)
-            return;
+	@Override
+	public void paintComponent(Graphics g) {
+		if (this.dragged == null) {
+			return;
+		}
 
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setComposite(composite);
-        g2.drawImage(dragged,
-                     (int) (location.getX() - (dragged.getWidth(this)  / 2)),
-                     (int) (location.getY() - (dragged.getHeight(this) / 2)),
-                     null);
-    }
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setComposite(this.composite);
+		g2.drawImage(this.dragged, (int) (this.location.getX() - (this.dragged.getWidth(this) / 2)),
+				(int) (this.location.getY() - (this.dragged.getHeight(this) / 2)), null);
+	}
 }

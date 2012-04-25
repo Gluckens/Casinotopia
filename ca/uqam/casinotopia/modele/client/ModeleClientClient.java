@@ -6,88 +6,82 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleClientClient implements Modele, Observable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7675443359819747622L;
-	
+
 	private String username;
 	private String prenom;
-	private String nom;	
+	private String nom;
 	private int solde;
-	
-	private BaseObservable sujet = new BaseObservable(this);
-	
-	
-	public void initDefault() {
-		
-	}
 
+	private BaseObservable sujet = new BaseObservable(this);
+
+	public void initDefault() {
+
+	}
 
 	/**
 	 * @return the username
 	 */
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
-
 	/**
-	 * @param username the username to set
+	 * @param username
+	 *            the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-
 	/**
 	 * @return the prenom
 	 */
 	public String getPrenom() {
-		return prenom;
+		return this.prenom;
 	}
 
-
 	/**
-	 * @param prenom the prenom to set
+	 * @param prenom
+	 *            the prenom to set
 	 */
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
 
-
 	/**
 	 * @return the nom
 	 */
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
-
 	/**
-	 * @param nom the nom to set
+	 * @param nom
+	 *            the nom to set
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-
 	/**
 	 * @return the solde
 	 */
 	public int getSolde() {
-		return solde;
+		return this.solde;
 	}
 
-
 	/**
-	 * @param solde the solde to set
+	 * @param solde
+	 *            the solde to set
 	 */
 	public void setSolde(int solde) {
 		this.solde = solde;
 	}
-
 
 	@Override
 	public void ajouterObservateur(Observateur obs) {

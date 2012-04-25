@@ -5,49 +5,50 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeCase;
+import ca.uqam.casinotopia.TypeCouleurCase;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleTableJeuClient implements Modele, Observable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6303122505634608518L;
 
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
-	
+
 	private BaseObservable sujet = new BaseObservable(this);
-	
+
 	public ModeleTableJeuClient() {
 		this.initialiserCases();
 	}
-	
+
 	private void initialiserCases() {
-		this.ajouterCase(1, "noire", false, TypeCase.CHIFFRE);
-		this.ajouterCase(2, "rouge", true, TypeCase.CHIFFRE);
-		this.ajouterCase(3, "rouge", false, TypeCase.CHIFFRE);
-		this.ajouterCase(4, "noire", true, TypeCase.CHIFFRE);
-		this.ajouterCase(5, "noire", false, TypeCase.CHIFFRE);
-		this.ajouterCase(6, "rouge", true, TypeCase.CHIFFRE);
+		this.ajouterCase(1, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(2, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(3, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(4, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(5, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(6, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
 	}
-	
-	public void ajouterCase(int numero, String couleur, boolean boolPaires, TypeCase type) {
-		this.cases.put(new Case(numero, couleur, boolPaires, type), new HashMap<Integer, Integer>());
+
+	public void ajouterCase(int numero, TypeCouleurCase couleur, TypeCase type, double multiplicateurGain) {
+		this.cases.put(new Case(numero, couleur, type, multiplicateurGain), new HashMap<Integer, Integer>());
 	}
-	
+
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.cases = cases;
-		
+
 		this.notifierObservateur();
 	}
-	
+
 	public Map<Case, Map<Integer, Integer>> getCases() {
 		return this.cases;
 	}
-	
+
 	@Override
 	public void ajouterObservateur(Observateur obs) {
 		this.sujet.ajouterObservateur(obs);

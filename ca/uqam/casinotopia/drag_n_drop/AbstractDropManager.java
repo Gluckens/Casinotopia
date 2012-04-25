@@ -8,19 +8,19 @@ import javax.swing.SwingUtilities;
 
 public abstract class AbstractDropManager {
 	protected JComponent component;
-	
+
 	public AbstractDropManager(JComponent component) {
 		this.component = component;
 	}
-	
+
 	protected Point getTranslatedPoint(Point point) {
-        Point p = (Point) point.clone();
-        SwingUtilities.convertPointFromScreen(p, component);
+		Point p = (Point) point.clone();
+		SwingUtilities.convertPointFromScreen(p, this.component);
 		return p;
 	}
 
 	protected boolean isInTarget(Point point) {
-		Rectangle bounds = component.getBounds();
+		Rectangle bounds = this.component.getBounds();
 		return bounds.contains(point);
 	}
 

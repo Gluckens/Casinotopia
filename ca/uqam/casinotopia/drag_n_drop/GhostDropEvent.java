@@ -10,6 +10,6 @@ public class GhostDropEvent {
 	}
 
 	public Point getDropLocation() {
-		return point;
+		return this.point;
 	}
 }

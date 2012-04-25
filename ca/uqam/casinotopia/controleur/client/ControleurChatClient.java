@@ -19,11 +19,10 @@ public class ControleurChatClient extends ControleurClient {
 	 * 
 	 */
 	private static final long serialVersionUID = 2286997653732479251L;
-	
+
 	private ModeleChatClient modele;
 	private VueChat vue;
-	
-	
+
 	public ControleurChatClient(Connexion connexion, ModeleChatClient modele, ModelePrincipalClient modeleNavigation) {
 		super(connexion, modeleNavigation);
 		this.vue = new VueChat(this);
@@ -32,24 +31,21 @@ public class ControleurChatClient extends ControleurClient {
 	}
 
 	public VueChat getVue() {
-		return vue;
-	}
-	
-	public ModeleChatClient getModele() {
-		return modele;
+		return this.vue;
 	}
 
-	
-	
-	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages, String salle){
-		setChatUtilisateur(listeUtilisateur);
-		
-		setChatMessages(listeMessages);
+	public ModeleChatClient getModele() {
+		return this.modele;
+	}
+
+	public void setChatList(List<String> listeUtilisateur, List<String> listeMessages, String salle) {
+		this.setChatUtilisateur(listeUtilisateur);
+
+		this.setChatMessages(listeMessages);
 		this.vue.lblTitre.setText(salle);
 	}
 
-
-	public void setChatUtilisateur(List<String> listeUtilisateur){
+	public void setChatUtilisateur(List<String> listeUtilisateur) {
 
 		DefaultListModel model = (DefaultListModel) this.vue.lstConnecte.getModel();
 		model.clear();
@@ -58,12 +54,12 @@ public class ControleurChatClient extends ControleurClient {
 		}
 	}
 
-	public void setChatMessages(List<String> listeMessages){
+	public void setChatMessages(List<String> listeMessages) {
 		String messages = "";
 		for (int i = 0; i < listeMessages.size(); i++) {
-			if(!listeMessages.get(i).isEmpty()){
+			if (!listeMessages.get(i).isEmpty()) {
 				messages += listeMessages.get(i);
-				if(i != listeMessages.size()-1){
+				if (i != listeMessages.size() - 1) {
 					messages += "\n";
 				}
 			}
@@ -74,29 +70,31 @@ public class ControleurChatClient extends ControleurClient {
 		jsb.setValue(jsb.getMaximum());
 	}
 
-		
-
 	public void cmdSeConnecterAuChat(String salle) {
-		//TODO le setting de la salle devrait se faire uniquement si le serveur le décide (ie, si l'utilisateur a acces, si sa fonctionné, bug du serveur, etc)
-		//((ModeleChatClient) this.lstModeles.get("ModeleChatClient")).setSalle(((VueChat) this.lstVues.get("VueChat")).txtSeConnecterA.getText());
+		// TODO le setting de la salle devrait se faire uniquement si le serveur
+		// le décide (ie, si l'utilisateur a acces, si sa fonctionné, bug du
+		// serveur, etc)
+		// ((ModeleChatClient)
+		// this.lstModeles.get("ModeleChatClient")).setSalle(((VueChat)
+		// this.lstVues.get("VueChat")).txtSeConnecterA.getText());
 		this.connexion.envoyerCommande(new CmdSeConnecterAuChat(salle));
 	}
-	
+
 	public void actionChangementSalle(String salle) {
 		this.modele.setSalle(salle);
 	}
-	
+
 	public void cmdEnvoyerMessageChat(String message) {
 		this.connexion.envoyerCommande(new CmdEnvoyerMessageChat(message, this.modele.getSalle()));
 	}
 
-
 	public void actionAjouterMessageChat(String message) {
-		//TODO modifier le modele, et avec l'observateur la vue va se mettre à jour
-		
-		this.vue.txtChat.setText(this.vue.txtChat.getText()+"\n"+message);
+		// TODO modifier le modele, et avec l'observateur la vue va se mettre à
+		// jour
+
+		this.vue.txtChat.setText(this.vue.txtChat.getText() + "\n" + message);
 		this.vue.txtChat.setCaretPosition(this.vue.txtChat.getText().length());
 		JScrollBar jsb = this.vue.scrollPane.getVerticalScrollBar();
 		jsb.setValue(jsb.getMaximum());
-	}	
+	}
 }

@@ -7,31 +7,31 @@ import java.util.List;
 import java.util.Iterator;
 
 public class GhostDropAdapter extends MouseAdapter {
-    protected GhostGlassPane glassPane;
+	protected GhostGlassPane glassPane;
 
 	private List<GhostDropListener> listeners;
 
-    public GhostDropAdapter(GhostGlassPane glassPane) {
-        this.glassPane = glassPane;
-        this.listeners = new ArrayList<GhostDropListener>();
-    }
+	public GhostDropAdapter(GhostGlassPane glassPane) {
+		this.glassPane = glassPane;
+		this.listeners = new ArrayList<GhostDropListener>();
+	}
 
-    public void addGhostDropListener(GhostDropListener listener) {
-        if (listener != null) {
-            listeners.add(listener);
-        }
-    }
+	public void addGhostDropListener(GhostDropListener listener) {
+		if (listener != null) {
+			this.listeners.add(listener);
+		}
+	}
 
-    public void removeGhostDropListener(GhostDropListener listener) {
-        if (listener != null) {
-            listeners.remove(listener);
-        }
-    }
+	public void removeGhostDropListener(GhostDropListener listener) {
+		if (listener != null) {
+			this.listeners.remove(listener);
+		}
+	}
 
-    protected void fireGhostDropEvent(GhostDropEvent evt) {
-        Iterator<GhostDropListener> it = listeners.iterator();
-        while (it.hasNext()) {
-        	((GhostDropListener) it.next()).ghostDropped(evt);
-        }
-    }
+	protected void fireGhostDropEvent(GhostDropEvent evt) {
+		Iterator<GhostDropListener> it = this.listeners.iterator();
+		while (it.hasNext()) {
+			it.next().ghostDropped(evt);
+		}
+	}
 }

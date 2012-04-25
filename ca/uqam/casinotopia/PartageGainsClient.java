@@ -7,7 +7,7 @@ package ca.uqam.casinotopia;
 import java.io.Serializable;
 
 /**
- *
+ * 
  * @author Alexei
  */
 public class PartageGainsClient implements Serializable {
@@ -22,7 +22,7 @@ public class PartageGainsClient implements Serializable {
 	public Client getClient() {
 		return this.client;
 	}
-	
+
 	public void setClient(Client client) {
 		this.client = client;
 	}
@@ -35,19 +35,17 @@ public class PartageGainsClient implements Serializable {
 		this.fondation = fondation;
 	}
 
-    public int getPourcentage() {
-        return pourcentage;
-    }
+	public int getPourcentage() {
+		return this.pourcentage;
+	}
 
-    public void setPourcentage(int pourcentage) {
-        this.pourcentage = pourcentage;
-    }
+	public void setPourcentage(int pourcentage) {
+		this.pourcentage = pourcentage;
+	}
 
-    @Override
-    public String toString() {
-        return this.client.getPrenom() + " " + this.fondation.getNom() + " : " + this.getPourcentage();
-    }
-    
-    
-        
+	@Override
+	public String toString() {
+		return this.client.getPrenom() + " " + this.fondation.getNom() + " : " + this.getPourcentage();
+	}
+
 }

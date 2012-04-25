@@ -7,9 +7,9 @@ import java.util.Set;
 public class BaseObservable implements Observable {
 
 	Set<Observateur> observateurs = new HashSet<Observateur>();
-	
+
 	Observable sujetConcret;
-	
+
 	public BaseObservable(Observable sujetConcret) {
 		this.sujetConcret = sujetConcret;
 	}
@@ -31,8 +31,8 @@ public class BaseObservable implements Observable {
 
 	@Override
 	public void notifierObservateur() {
-		for(Observateur obs : this.observateurs) {
-			obs.update(sujetConcret);
+		for (Observateur obs : this.observateurs) {
+			obs.update(this.sujetConcret);
 		}
 	}
 

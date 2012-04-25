@@ -11,15 +11,15 @@ public class CmdAjouterMessageChat implements CommandeClientControleurChat {
 	 * 
 	 */
 	private static final long serialVersionUID = 2404901490335214036L;
-	
+
 	private String message;
-	
+
 	public CmdAjouterMessageChat(String message) {
 		this.message = message;
 	}
-	
+
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurChatClient)controleur).actionAjouterMessageChat(this.message);
+		((ControleurChatClient) controleur).actionAjouterMessageChat(this.message);
 	}
 }

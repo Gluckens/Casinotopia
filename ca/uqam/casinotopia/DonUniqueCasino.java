@@ -1,4 +1,5 @@
 package ca.uqam.casinotopia;
+
 public class DonUniqueCasino {
 	private int montant;
 	public CompteCasino unnamed_CompteCasino_;

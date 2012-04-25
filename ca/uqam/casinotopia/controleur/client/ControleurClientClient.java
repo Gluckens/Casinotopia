@@ -5,7 +5,7 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 
 public class ControleurClientClient extends ControleurClient {
-	
+
 	/**
 	 * 
 	 */

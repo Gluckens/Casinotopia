@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- *
+ * 
  * @author Alexei
  */
 public class DonUniqueClient implements Serializable {
@@ -20,7 +20,7 @@ public class DonUniqueClient implements Serializable {
 	private int montant;
 	private Client unClient;
 	private Fondation uneFondation;
-    private Date dateDon;
+	private Date dateDon;
 
 	public void setClient_(Client unnamed_Client_) {
 		this.unClient = unnamed_Client_;
@@ -38,29 +38,28 @@ public class DonUniqueClient implements Serializable {
 		return this.uneFondation;
 	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    public Date getDateDon() {
-        return dateDon;
-    }
+	public Date getDateDon() {
+		return this.dateDon;
+	}
 
-    public int getMontant() {
-        return montant;
-    }
+	public int getMontant() {
+		return this.montant;
+	}
 
-    public void setDateDon(Date dateDon) {
-        this.dateDon = dateDon;
-    }
+	public void setDateDon(Date dateDon) {
+		this.dateDon = dateDon;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setMontant(int montant) {
-        this.montant = montant;
-    }
-        
-        
+	public void setMontant(int montant) {
+		this.montant = montant;
+	}
+
 }

@@ -12,16 +12,16 @@ public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 	 * 
 	 */
 	private static final long serialVersionUID = 2161362831188083377L;
-	
+
 	private String salle;
-	
+
 	public CmdSeConnecterAuChat(String salle) {
 		this.salle = salle;
 	}
-	
+
 	@Override
 	public void action(Controleur controleur) {
-		Clavardage chat = ControleurPrincipalServeur.getInstance().getModeleServeur().getChat(salle);
-		chat.connecter(((ControleurServeurThread)controleur).getModele().getUtilisateur());
+		Clavardage chat = ControleurPrincipalServeur.getInstance().getModeleServeur().getChat(this.salle);
+		chat.connecter(((ControleurServeurThread) controleur).getModele().getUtilisateur());
 	}
 }

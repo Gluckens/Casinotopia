@@ -12,16 +12,16 @@ public class CmdMettreAJourUtilisateurChat implements CommandeClientControleurCh
 	 * 
 	 */
 	private static final long serialVersionUID = 7566185973021199708L;
-	
+
 	private List<String> listeUtilisateur;
-	
+
 	public CmdMettreAJourUtilisateurChat(List<String> listeUtilisateur) {
 		this.listeUtilisateur = listeUtilisateur;
 	}
-	
+
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurChatClient)controleur).setChatUtilisateur(listeUtilisateur);
+		((ControleurChatClient) controleur).setChatUtilisateur(this.listeUtilisateur);
 
 	}
 }
