@@ -1,3 +1,4 @@
+
 package ca.uqam.casinotopia.vue.roulette;
 
 import java.awt.Dimension;
@@ -9,6 +10,7 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
+import ca.uqam.casinotopia.vue.VueRouletteRoue;
 
 import java.awt.GridBagLayout;
 
@@ -33,10 +35,8 @@ public class VueRoulette extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		/*
-		 * gridBagLayout.columnWidths = new int[]{500, 300, 224};
-		 * gridBagLayout.rowHeights = new int[]{294, 294, 192};
-		 */
+		/*gridBagLayout.columnWidths = new int[]{500, 300, 224};
+		gridBagLayout.rowHeights = new int[]{294, 294, 192};*/
 		gridBagLayout.columnWidths = new int[] { 248, 302, 474 };
 		gridBagLayout.rowHeights = new int[] { 300, 300, 80 };
 		// gridBagLayout.rowHeights = new int[]{300, 300, 140};
@@ -47,7 +47,7 @@ public class VueRoulette extends Vue {
 		// setPreferredSize(new Dimension(1024, 740));
 		this.setPreferredSize(new Dimension(1024, 680));
 		this.setMaximumSize(new Dimension(1024, 680));
-
+		
 		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, this.frame);
 		tapis.setName("tapis");
 		this.add(tapis, new GridBagHelper().setXY(1, 0).setWH(1, 2).end());
@@ -63,6 +63,12 @@ public class VueRoulette extends Vue {
 		VueRouletteActions actions = new VueRouletteActions(this.controleur, this.frame, tapis, tapis);
 		actions.setName("actions");
 		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).setFill(GridBagConstraints.HORIZONTAL).setAnchor(GridBagConstraints.SOUTH).end());
+		
+		VueRouletteRoue roue = new VueRouletteRoue(this.controleur, this.frame);
+		roue.setName("roue");
+		this.add(roue, new GridBagHelper().setXY(0, 0).setWH(1, 2).end());
+		
+
 	}
 
 	/*
@@ -83,3 +89,4 @@ public class VueRoulette extends Vue {
 		 */
 	}
 }
+

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
@@ -78,4 +79,13 @@ public class ControleurRouletteClient extends ControleurClient {
 		this.connexion.envoyerCommande(new CmdMiserRoulette(mises));
 	}
 
+	public void cmdTournerRoulette(){
+		System.out.println("TEST DE TOURNER ROULETTE");
+		this.connexion.envoyerCommande(new CmdTournerRoulette());
+	}
+	
+	public void cmdCalculerGainRoulette(){
+		System.out.println("TEST DE CALCULER GAIN");
+		this.connexion.envoyerCommande(new cmdCalculerGainRoulette());
+	}
 }
