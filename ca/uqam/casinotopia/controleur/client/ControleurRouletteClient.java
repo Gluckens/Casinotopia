@@ -86,6 +86,6 @@ public class ControleurRouletteClient extends ControleurClient {
 	
 	public void cmdCalculerGainRoulette(){
 		System.out.println("TEST DE CALCULER GAIN");
-		this.connexion.envoyerCommande(new cmdCalculerGainRoulette());
+		this.connexion.envoyerCommande(new CmdCalculerGainRoulette());
 	}
 }
