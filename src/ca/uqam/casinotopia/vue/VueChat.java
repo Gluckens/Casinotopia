@@ -42,17 +42,34 @@ public class VueChat extends Vue {
 	private JPanel pnlListeUtilisateur;
 
 	public VueChat(ControleurChatClient ctrl){
+		this.addComponents();
 		this.controleur = ctrl;
+		btnSeConnecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				seConnecterAuChat();
+			}
+		});
+		txtSeConnecterA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				seConnecterAuChat();
+			}
+		});
+
+		txtMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				envoyerMessageChat();
+			}
+		});
 		
 		this.setPanelOptions();
-		this.addComponents();
 	}
+
 
 	protected void envoyerMessageChat() {
 		if(!txtMessage.getText().isEmpty()){
-			this.controleur.cmdEnvoyerMessageChat(txtMessage.getText());
+			controleur.cmdEnvoyerMessageChat();
 		}
-		
+
 	}
 
 
@@ -60,11 +77,10 @@ public class VueChat extends Vue {
 	protected void seConnecterAuChat() {
 		if(txtSeConnecterA.getText().isEmpty()){
 			txtSeConnecterA.setText("entrez un nom de salle ici");
+		}else{
+			controleur.cmdSeConnecterAuChat();
 		}
-		else {
-			this.controleur.cmdSeConnecterAuChat();
-		}
-		
+
 	}
 
 	/**
@@ -127,37 +143,37 @@ public class VueChat extends Vue {
 		gbl_pnlChat.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_pnlChat.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlChat.setLayout(gbl_pnlChat);
+
+		this.txtChat = new JTextArea();
+		GridBagConstraints gbc_txtChat = new GridBagConstraints();
+		gbc_txtChat.fill = GridBagConstraints.BOTH;
+		gbc_txtChat.gridwidth = 2;
+		gbc_txtChat.insets = new Insets(0, 0, 5, 0);
+		gbc_txtChat.gridx = 0;
+		gbc_txtChat.gridy = 1;
+		pnlChat.add(txtChat, gbc_txtChat);
+		txtChat.setLineWrap(true);
+		txtChat.setEditable(false);
+		txtChat.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+		txtChat.setBackground(Color.WHITE);
+		txtChat.setForeground(new Color(0, 0, 0));
 		
-				this.txtChat = new JTextArea();
-				GridBagConstraints gbc_txtChat = new GridBagConstraints();
-				gbc_txtChat.fill = GridBagConstraints.BOTH;
-				gbc_txtChat.gridwidth = 2;
-				gbc_txtChat.insets = new Insets(0, 0, 5, 0);
-				gbc_txtChat.gridx = 0;
-				gbc_txtChat.gridy = 1;
-				pnlChat.add(txtChat, gbc_txtChat);
-				txtChat.setLineWrap(true);
-				txtChat.setEditable(false);
-				txtChat.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-				txtChat.setBackground(Color.WHITE);
-				txtChat.setForeground(new Color(0, 0, 0));
-						
-								this.txtMessage = new JTextField();
-								GridBagConstraints gbc_txtMessage = new GridBagConstraints();
-								gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
-								gbc_txtMessage.gridwidth = 2;
-								gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
-								gbc_txtMessage.gridx = 0;
-								gbc_txtMessage.gridy = 2;
-								pnlChat.add(txtMessage, gbc_txtMessage);
-								txtMessage.setToolTipText("Entr\u00E9e pour envoyer");
-								txtMessage.setColumns(10);
-						
-						txtMessage.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								envoyerMessageChat();
-							}
-						});
+		this.txtMessage = new JTextField();
+		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
+		gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMessage.gridwidth = 2;
+		gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
+		gbc_txtMessage.gridx = 0;
+		gbc_txtMessage.gridy = 2;
+		pnlChat.add(txtMessage, gbc_txtMessage);
+		txtMessage.setToolTipText("Entr\u00E9e pour envoyer");
+		txtMessage.setColumns(10);
+
+		txtMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				envoyerMessageChat();
+			}
+		});
 
 		this.scrollPane = new JScrollPane();
 		scrollPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
@@ -221,11 +237,7 @@ public class VueChat extends Vue {
 		
 
 	public void setLstConnecteModel(DefaultListModel model){
-		if(!txtMessage.getText().isEmpty()) {
-			this.controleur.cmdEnvoyerMessageChat(txtMessage.getText());
-			txtMessage.setText("");
-			txtMessage.setFocusable(true);
-		}
+		lstConnecte.setModel(model);
 	}
 
 	@Override

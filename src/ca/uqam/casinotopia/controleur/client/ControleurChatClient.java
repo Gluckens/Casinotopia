@@ -49,8 +49,7 @@ public class ControleurChatClient extends ControleurClient {
 	}
 
 
-	public void cmdSeConnecterAuChat(/*String salle*/) {
-		//TODO le setting de la salle devrait se faire uniquement si le serveur le décide (ie, si l'utilisateur a acces, si sa fonctionné, bug du serveur, etc)
+	public void cmdSeConnecterAuChat() {
 		//changer le setSalle
 		this.modele.setSalle(this.vue.txtSeConnecterA.getText());
 		
@@ -62,7 +61,7 @@ public class ControleurChatClient extends ControleurClient {
 		this.modele.setSalle(salle);
 	}
 
-	public void cmdEnvoyerMessageChat(String string) {
+	public void cmdEnvoyerMessageChat() {
 		this.connexion.envoyerCommande(new CmdEnvoyerMessageChat(this.vue.txtMessage.getText(), this.modele.getSalle()));
 		this.vue.txtMessage.setText("");
 		this.vue.txtMessage.setFocusable(true);
