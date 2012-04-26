@@ -62,7 +62,7 @@ public class ControleurChatClient extends ControleurClient {
 		this.modele.setSalle(salle);
 	}
 
-	public void cmdEnvoyerMessageChat() {
+	public void cmdEnvoyerMessageChat(String string) {
 		this.connexion.envoyerCommande(new CmdEnvoyerMessageChat(this.vue.txtMessage.getText(), this.modele.getSalle()));
 		this.vue.txtMessage.setText("");
 		this.vue.txtMessage.setFocusable(true);

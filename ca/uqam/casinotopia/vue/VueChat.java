@@ -21,6 +21,7 @@ import ca.uqam.casinotopia.observateur.Observable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -49,7 +50,7 @@ public class VueChat extends Vue {
 
 	protected void envoyerMessageChat() {
 		if(!txtMessage.getText().isEmpty()){
-			controleur.envoyerMessageChat();
+			this.controleur.cmdEnvoyerMessageChat(txtMessage.getText());
 		}
 		
 	}
@@ -126,6 +127,37 @@ public class VueChat extends Vue {
 		gbl_pnlChat.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_pnlChat.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlChat.setLayout(gbl_pnlChat);
+		
+				this.txtChat = new JTextArea();
+				GridBagConstraints gbc_txtChat = new GridBagConstraints();
+				gbc_txtChat.fill = GridBagConstraints.BOTH;
+				gbc_txtChat.gridwidth = 2;
+				gbc_txtChat.insets = new Insets(0, 0, 5, 0);
+				gbc_txtChat.gridx = 0;
+				gbc_txtChat.gridy = 1;
+				pnlChat.add(txtChat, gbc_txtChat);
+				txtChat.setLineWrap(true);
+				txtChat.setEditable(false);
+				txtChat.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
+				txtChat.setBackground(Color.WHITE);
+				txtChat.setForeground(new Color(0, 0, 0));
+						
+								this.txtMessage = new JTextField();
+								GridBagConstraints gbc_txtMessage = new GridBagConstraints();
+								gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
+								gbc_txtMessage.gridwidth = 2;
+								gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
+								gbc_txtMessage.gridx = 0;
+								gbc_txtMessage.gridy = 2;
+								pnlChat.add(txtMessage, gbc_txtMessage);
+								txtMessage.setToolTipText("Entr\u00E9e pour envoyer");
+								txtMessage.setColumns(10);
+						
+						txtMessage.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								envoyerMessageChat();
+							}
+						});
 
 		this.scrollPane = new JScrollPane();
 		scrollPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
@@ -137,32 +169,6 @@ public class VueChat extends Vue {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
 		this.add(scrollPane, gbc_scrollPane);
-
-		this.txtChat = new JTextArea();
-		txtChat.setLineWrap(true);
-		txtChat.setEditable(false);
-		txtChat.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		txtChat.setBackground(Color.WHITE);
-		txtChat.setForeground(new Color(0, 0, 0));
-		scrollPane.setViewportView(txtChat);
-
-		this.txtMessage = new JTextField();
-		txtMessage.setToolTipText("Entr\u00E9e pour envoyer");
-		txtMessage.setColumns(10);
-		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
-		gbc_txtMessage.anchor = GridBagConstraints.NORTH;
-		gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtMessage.insets = new Insets(0, 0, 5, 0);
-		gbc_txtMessage.gridwidth = 2;
-		gbc_txtMessage.gridx = 0;
-		gbc_txtMessage.gridy = 2;
-		this.add(txtMessage, gbc_txtMessage);
-		
-		txtMessage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				envoyerMessageChat();
-			}
-		});
 
 		JLabel lblToi = new JLabel("Toi");
 		lblToi.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -219,6 +225,7 @@ public class VueChat extends Vue {
 			this.controleur.cmdEnvoyerMessageChat(txtMessage.getText());
 			txtMessage.setText("");
 			txtMessage.setFocusable(true);
+		}
 	}
 
 	@Override
@@ -243,5 +250,6 @@ public class VueChat extends Vue {
 			this.txtChat.setCaretPosition(this.txtChat.getText().length());
 			JScrollBar jsb = this.scrollPane.getVerticalScrollBar();
 			jsb.setValue(jsb.getMaximum());
+		}
 	}
 }

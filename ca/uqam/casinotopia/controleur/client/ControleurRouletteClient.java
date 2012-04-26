@@ -3,6 +3,7 @@ package ca.uqam.casinotopia.controleur.client;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.commande.serveur.CmdCalculerGainRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -86,6 +87,6 @@ public class ControleurRouletteClient extends ControleurClient {
 	
 	public void cmdCalculerGainRoulette(){
 		System.out.println("TEST DE CALCULER GAIN");
-		this.connexion.envoyerCommande(new cmdCalculerGainRoulette());
+		this.connexion.envoyerCommande(new CmdCalculerGainRoulette());
 	}
 }

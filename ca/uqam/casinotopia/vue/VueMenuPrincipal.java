@@ -1,6 +1,5 @@
 package ca.uqam.casinotopia.vue;
 
-import ca.uqam.casinotopia.controleur.client.ControleurClientPrincipal;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurMenuPrincipal;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
@@ -40,7 +39,7 @@ public class VueMenuPrincipal extends Vue {
 		btnJoueurLa.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				VueMenuPrincipal.this.controleur.cmdJouerRoulette();
+				controleur.cmdJouerRoulette();
 			}
 		});
 		GridBagConstraints gbc_btnJoueurLa = new GridBagConstraints();
@@ -54,7 +53,7 @@ public class VueMenuPrincipal extends Vue {
 		btnAllerSurLe.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				this.controleur.actionAfficherChat(new ModeleChatClient());
+				controleur.actionAfficherChat(new ModeleChatClient());
 			}
 		});
 		GridBagConstraints gbc_btnAllerSurLe = new GridBagConstraints();

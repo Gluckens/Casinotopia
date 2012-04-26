@@ -3,6 +3,8 @@ package ca.uqam.casinotopia.controleur.client;
 import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 
@@ -32,5 +34,10 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	 */
 	public VueMenuPrincipal getVue() {
 		return this.vue;
+	}
+
+	public void actionAfficherChat(ModeleChatClient modeleChatClient) {
+		System.out.println("ICI LA LA");
+		((ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 	}
 }

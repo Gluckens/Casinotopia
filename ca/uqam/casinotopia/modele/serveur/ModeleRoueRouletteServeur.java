@@ -1,16 +1,16 @@
 package ca.uqam.casinotopia.modele.serveur;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleRoueRouletteServeur implements Modele, Observable {
+	
+	private static final long serialVersionUID = 5023027204466225842L;
 	
 	private Case caseResultat;
 	private HashMap<Integer,Case> listeCases;
@@ -22,7 +22,7 @@ public class ModeleRoueRouletteServeur implements Modele, Observable {
 	
 	private void initialiserListeCases() {
 		
-		listeCases.put(0, new Case(0,"noire",true,TypeCase.CHIFFRE)); // à voir pour 0 qui n'a pas de notion paire impaire et de couleur
+		/*listeCases.put(0, new Case(0,"noire",true,TypeCase.CHIFFRE)); // à voir pour 0 qui n'a pas de notion paire impaire et de couleur
 		
 		listeCases.put(1, new Case(1,"rouge",false,TypeCase.CHIFFRE));
 		listeCases.put(2, new Case(2,"noir",true,TypeCase.CHIFFRE));
@@ -62,7 +62,7 @@ public class ModeleRoueRouletteServeur implements Modele, Observable {
 		listeCases.put(33, new Case(33,"noir",false,TypeCase.CHIFFRE));
 		listeCases.put(34, new Case(34,"rouge",true,TypeCase.CHIFFRE));
 		listeCases.put(35, new Case(35,"noir",false,TypeCase.CHIFFRE));
-		listeCases.put(36, new Case(36,"rouge",true,TypeCase.CHIFFRE));
+		listeCases.put(36, new Case(36,"rouge",true,TypeCase.CHIFFRE));*/
 				
 	}
 

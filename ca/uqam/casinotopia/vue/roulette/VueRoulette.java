@@ -37,7 +37,7 @@ public class VueRoulette extends Vue {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		/*gridBagLayout.columnWidths = new int[]{500, 300, 224};
 		gridBagLayout.rowHeights = new int[]{294, 294, 192};*/
-		gridBagLayout.columnWidths = new int[] { 248, 302, 474 };
+		gridBagLayout.columnWidths = new int[] { 400, 302, 322 };
 		gridBagLayout.rowHeights = new int[] { 300, 300, 80 };
 		// gridBagLayout.rowHeights = new int[]{300, 300, 140};
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0 };

@@ -8,7 +8,7 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
-public class cmdCalculerGainRoulette implements CommandeServeurControleurRoulette {
+public class CmdCalculerGainRoulette implements CommandeServeurControleurRoulette {
 	
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class cmdCalculerGainRoulette implements CommandeServeurControleurRoulett
 	//private static final long serialVersionUID = 3728163550640486131L;
 
 	
-	public cmdCalculerGainRoulette() {
+	public CmdCalculerGainRoulette() {
 	}
 
 	public void action(Controleur controleur) {
