@@ -1,4 +1,6 @@
 nbproject
+.settings
+bin
 .classpath
 .project
 *.orig
