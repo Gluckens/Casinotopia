@@ -93,7 +93,7 @@ public class VueRouletteActions extends Vue {
 			}
 		});
 		btnPret.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnPret.setToolTipText("Pr\u00EAt \u00E0 tourner la ca.uqam.casinotopia.vue.roulette");
+		btnPret.setToolTipText("Pr\u00EAt \u00E0 tourner la roulette");
 		/*
 		 * GridBagConstraints gbc_btnPrt = new GridBagConstraints();
 		 * gbc_btnPrt.insets = new Insets(0, 0, 5, 0); gbc_btnPrt.gridx = 2;
