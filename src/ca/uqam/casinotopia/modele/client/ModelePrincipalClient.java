@@ -47,6 +47,10 @@ public class ModelePrincipalClient {
 	public void ajouterControleur(String nom, ControleurClient ctrl) {
 		this.lstControleurs.put(nom, ctrl);
 	}
+	
+	public void retirerControleur(String nom) {
+		this.lstControleurs.remove(nom);
+	}
 
 	public void cacherFrameConnexion() {
 		this.frameConnexion.dispose();
@@ -57,12 +61,12 @@ public class ModelePrincipalClient {
 	}
 
 	public void changerVueFrameApplication(String nom, Vue vue) {
-		this.frameApplication.removeAll();
+		this.frameApplication.removeAllVue();
 		this.frameApplication.addOrReplaceVue(nom, vue);
 	}
 
 	public void changerMenuFrameApplication(String nom, Vue vue) {
-		this.frameApplication.removeAll();
+		this.frameApplication.removeAllMenu();
 		this.frameApplication.addOrReplaceMenu(nom, vue);
 	}
 }

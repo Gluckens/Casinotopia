@@ -7,6 +7,7 @@ import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.client.CmdAfficherMenuPrincipal;
 import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
@@ -67,5 +68,11 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		if(this.modele.isToutesMisesTerminees()) {
 			this.actionTournerRoulette();
 		}
+	}
+
+	public void actionQuitterPartie(int idJoueur) {
+		//TODO Comment on quitte une partie en cours? perd automatiquement ses gains misées?
+		this.modele.quitterPartie(idJoueur);
+		this.connexion.envoyerCommande(new CmdAfficherMenuPrincipal());
 	}
 }

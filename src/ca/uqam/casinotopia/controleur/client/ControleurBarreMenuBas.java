@@ -28,6 +28,10 @@ public class ControleurBarreMenuBas extends ControleurClient {
 		 * this.modele = modele; this.modele.ajouterObservateur(this.vue);
 		 */
 	}
+	
+	public VueBarreMenuBas getVue() {
+		return this.vue;
+	}
 
 	public FrameApplication getFrame() {
 		return this.modeleNav.getFrameApplication();

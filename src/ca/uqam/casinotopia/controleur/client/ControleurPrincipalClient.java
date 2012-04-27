@@ -32,37 +32,21 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.afficherConnexion();
 	}
 
-	/*
-	 * public void ajouterControleur(String nom, ControleurClient ctrl) {
-	 * this.lstControleurs.put(nom, ctrl); }
-	 * 
-	 * public void afficherFrameApplication() {
-	 * ModelePrincipalClient.frameApplication = new FrameApplication();
-	 * EventQueue.invokeLater(ModelePrincipalClient.frameApplication); }
-	 */
-
-	/*
-	 * private void initControleur() { this.ctrlClientClient = new
-	 * ControleurClientClient(this.getConnexion()); this.ctrlRouletteClient =
-	 * new ControleurRouletteClient(this.getConnexion()); }
-	 */
-
 	/**
 	 * Afficher l'interface de connexion au serveur
 	 */
 	private void afficherConnexion() {
-		// this.modele.frameConnexion = new FrameConnexion(this);
 		EventQueue.invokeLater(this.modeleNav.getFrameConnexion());
 	}
 
 	public void afficherFrameApplication() {
-		// ModelePrincipalClient.frameApplication = new FrameApplication();
-		VueBarreMenuBas vueBarreMenuBas = new VueBarreMenuBas(new ControleurBarreMenuBas(this.connexion, this.client, this.getModeleNav()));
-		this.modeleNav.changerMenuFrameApplication("VueBarreMenuBas", vueBarreMenuBas);
+		ControleurBarreMenuBas ctrl = new ControleurBarreMenuBas(this.connexion, this.client, this.getModeleNav());
+		this.modeleNav.ajouterControleur("ControleurBarreMenuBas", ctrl);
+		this.modeleNav.changerMenuFrameApplication("VueBarreMenuBas", ctrl.getVue());
 		EventQueue.invokeLater(this.modeleNav.getFrameApplication());
 	}
 
-	public void connexionAuServeur() {
+	public void cmdConnexionAuServeur(String nomUtilisateur, char[] motDePasse) {
 		if (!this.connexion.isConnected()) {
 			System.out.println("recherche de serveur...");
 			this.setMessageConnexion("recherche de serveur...");
@@ -76,12 +60,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		if (this.connexion.isConnected()) {
 			this.setMessageConnexion("connecté!");
 
-			// this.initControleur();
-			// this.afficherFrameApplicationRoulette();
-			// this.afficherMenuPrincipal();
-
-			Commande cmd = new CmdAuthentifierClient(this.modeleNav.getFrameConnexion().getTxtNomUtilisateur().getText(), this.modeleNav.getFrameConnexion()
-					.getTxtMotDePasse().getPassword());
+			Commande cmd = new CmdAuthentifierClient(nomUtilisateur, motDePasse);
 			this.connexion.envoyerCommande(cmd);
 
 			this.receptionCommandes();
@@ -116,13 +95,14 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionAfficherMenuPrincipal() {
-		/*
-		 * if(this.modele.getFrameApplication() == null) {
-		 * this.afficherFrameApplication(); }
-		 */
+		if(this.modeleNav.getFrameApplication() == null) {
+			this.afficherFrameApplication();
+		}
 
-		this.afficherFrameApplication();
-
+		this.afficherMenuPrincipal();
+	}
+	
+	private void afficherMenuPrincipal() {
 		ControleurMenuPrincipal ctrlMenuPrincipal = new ControleurMenuPrincipal(this.connexion, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurMenuPrincipal", ctrlMenuPrincipal);
 		this.modeleNav.cacherFrameConnexion();
@@ -136,48 +116,22 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionAfficherJeuRoulette(ModelePartieRouletteClient modele) {
+		
+		
+		
 		System.out.println("AFFICHER ROULETTE CHEZ CLIENT");
 
 		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurRouletteClient", ctrlRouletteClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlRouletteClient.getVue());
-
-		// this.modele.ajouterControleur("ControleurRouletteClient", new
-		// ControleurRouletteClient(this.connexion, modele,
-		// this.modele.getFrameApplication()));
-
-		/*
-		 * VueRoulette vueRoulette = new
-		 * VueRoulette(this.modele.lstControleurs.get
-		 * ("ControleurRouletteClient"), this.frameApplication);
-		 * ((ModelePartieRouletteClient
-		 * )this.lstControleurs.get("ControleurRouletteClient"
-		 * ).getModele("ModelePartieRouletteClient"
-		 * )).ajouterObservateur(vueRoulette); //VueRouletteTapis_bad
-		 * vueRoulette = new
-		 * VueRouletteTapis_bad(this.lstControleurs.get("ControleurRouletteClient"
-		 * )); this.frameApplication.removeAll();
-		 * this.frameApplication.addOrReplace("VueRoulette", vueRoulette);
-		 * //this.frameApplication.changeContentPane(vueRoulette);
-		 * //EventQueue.invokeLater(this.frameApplication);
-		 * 
-		 * System.out.println(this.frameApplication.getComponentMap());
-		 * 
-		 * this.lstControleurs.get("ControleurRouletteClient").ajouterVue(
-		 * vueRoulette);
-		 */
 	}
 
-	/*
-	 * public ControleurClientClient getCtrlClientClient() { return
-	 * this.ctrlClientClient; }
-	 * 
-	 * public ControleurRouletteClient getCtrlRouletteClient() { return
-	 * this.ctrlRouletteClient; }
-	 * 
-	 * public ControleurChatClient getCtrlChatClient() { return ctrlChatClient;
-	 * }
-	 */
+	public void actionQuitterPartieRouletteClient() {
+		//TODO Permet de coder des choses a faire dans al vue avant de quitter (et d'enlever le controleur)
+		//Si on voudrait appeler directement la cmd AfficherMenuPrincipal, il faudrait envoyer en param le nom du controleur a enlever (et on perd la customisation avant le quittage)
+		this.modeleNav.retirerControleur("ControleurRouletteClient");
+		this.afficherMenuPrincipal();
+	}
 
 }
 

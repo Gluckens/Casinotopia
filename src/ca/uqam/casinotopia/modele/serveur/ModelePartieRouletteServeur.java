@@ -70,4 +70,9 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		// TODO Auto-generated method stub
 	}
 
+	public void quitterPartie(int idJoueur) {
+		JoueurServeur joueur = this.getJoueur(idJoueur);
+		this.retirerJoueur(joueur);
+	}
+
 }
