@@ -7,6 +7,7 @@ import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.commande.serveur.CmdCalculerGainRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdMisesTermineesRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -89,6 +90,10 @@ public class ControleurRouletteClient extends ControleurClient {
 	public void cmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
 		System.out.println("TEST DE MISE");
 		this.connexion.envoyerCommande(new CmdMiserRoulette(mises));
+	}
+	
+	public void cmdMisesTermineesRoulette() {
+		this.connexion.envoyerCommande(new CmdMisesTermineesRoulette(this.client.getId()));
 	}
 
 	public void cmdTournerRoulette(){

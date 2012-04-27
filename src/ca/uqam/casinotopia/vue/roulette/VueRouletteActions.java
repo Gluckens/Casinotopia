@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
 import javax.swing.border.EtchedBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VueRouletteActions extends Vue {
@@ -85,6 +87,11 @@ public class VueRouletteActions extends Vue {
 		this.add(btnMiser, new GridBagHelper().setXY(1, 1).end());
 
 		JButton btnPret = new JButton("Pr\u00EAt");
+		btnPret.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.cmdMisesTermineesRoulette();
+			}
+		});
 		btnPret.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnPret.setToolTipText("Pr\u00EAt \u00E0 tourner la ca.uqam.casinotopia.vue.roulette");
 		/*
