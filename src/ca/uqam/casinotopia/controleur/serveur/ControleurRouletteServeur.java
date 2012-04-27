@@ -1,14 +1,19 @@
 package ca.uqam.casinotopia.controleur.serveur;
 
 import java.util.Map;
+import java.util.Set;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.JoueurRoulette;
+import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleRoueRouletteServeur;
+
+//TODO étant donné que les controleurs serveur sont unique pour chaque client loggué, on pourrait rajouté un attribut client dans la classe ControleurServeur
 
 public class ControleurRouletteServeur extends ControleurServeur {
 
@@ -16,22 +21,8 @@ public class ControleurRouletteServeur extends ControleurServeur {
 
 	private ModelePartieRouletteServeur modele;
 
-	/*
-	 * public ControleurRouletteServeur(Connexion connexion) { super(connexion);
-	 * 
-	 * ModelePartieRouletteServeur modeleRoulette = new
-	 * ModelePartieRouletteServeur
-	 * (ControleurPrincipalServeur.getInstance().getIdPartieLibre(), true,
-	 * true); this.ajouterModele(modeleRoulette);
-	 * 
-	 * if(!this.lstModeles.containsKey("ModelePartieRouletteServeur")) {
-	 * ModelePartieRouletteServeur modeleRoulette = new
-	 * ModelePartieRouletteServeur(0, true, true);
-	 * this.ajouterModele(modeleRoulette); } }
-	 */
-
-	public ControleurRouletteServeur(Connexion connexion, ModelePartieRouletteServeur modele) {
-		super(connexion);
+	public ControleurRouletteServeur(Connexion connexion, ModeleClientServeur client, ModelePartieRouletteServeur modele) {
+		super(connexion, client);
 		this.modele = modele;
 	}
 
@@ -39,33 +30,42 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		System.out.println("ACTION_EFFECTUER_MISES");
 		this.modele.effectuerMises(mises);
 
-		this.cmdUpdateTableJoueurs(this.modele.getId(), this.modele.getTableJeu().getCases());
+		this.cmdUpdateTableJoueurs(this.modele.getId());
 	}
 
-	// TODO Les cases (mises) seront récupérées à partie de la partie, je le
-	// passe en paramètre pour les tests
-	public void cmdUpdateTableJoueurs(int partieId, Map<Case, Map<Integer, Integer>> cases) {
-		// TODO Rechercher les joueurs de la partie et mettre à jour leur table
-		// de jeu
+	public void cmdUpdateTableJoueurs(int idPartie) {
+		// TODO Rechercher les joueurs de la partie et mettre à jour leur table de jeu
+		
 
-		Commande cmd = new CmdUpdateCasesRoulette(cases);
 
-		System.out.println("AVANT ENVOI UPDATE ROULLETE");
+		Commande cmd = new CmdUpdateCasesRoulette(this.modele.getTableJeu().getCases());
+		
+		Set<JoueurServeur> lstJoueurs = this.modele.getLstJoueurs();
 
-		this.getConnexion().envoyerCommande(cmd);
+		System.out.println("AVANT ENVOI UPDATE ROULLETE PARTIE ==> " + this.modele.getId());
+		
+		for(JoueurServeur joueur : lstJoueurs) {
+			joueur.getClient().getConnexion().envoyerCommande(cmd);
+		}
+
+		//this.getConnexion().envoyerCommande(cmd);
 	}
 
 	public void actionTournerRoulette() {
 		System.out.println("ACTION_TOURNER_ROULETTE");
 		this.modele.tournerRoulette();
-		//ModeleRoueRouletteServeur modele = (ModeleRoueRouletteServeur) this.getModele("ModeleRoueRouletteServeur");
-		//modele.tournerRoulette();
 	}
 
 	public void actionCalculerGainRoulette() {
 		System.out.println("ACTION_CALCULER_GAIN_ROULETTE");
-		//ModeleRoueRouletteServeur modele = (ModeleRoueRouletteServeur) this.getModele("ModeleRoueRouletteServeur");
-		modele.calculerGainRoulette();
+		this.modele.calculerGainRoulette();
 	}
 
+	public void actionMisesTerminees(int idJoueur) {
+		((JoueurRoulette) this.modele.getJoueur(idJoueur)).setMisesTerminees(true);
+		
+		if(this.modele.isToutesMisesTerminees()) {
+			this.actionTournerRoulette();
+		}
+	}
 }

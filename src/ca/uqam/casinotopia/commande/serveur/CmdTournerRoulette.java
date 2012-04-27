@@ -1,19 +1,12 @@
 package ca.uqam.casinotopia.commande.serveur;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
 public class CmdTournerRoulette implements CommandeServeurControleurRoulette {
 	
-	/**
-	 * 
-	 */
-	//private static final long serialVersionUID = 3728163550640486131L;
+	private static final long serialVersionUID = -4241009660193135927L;
 
 	
 	public CmdTournerRoulette() {

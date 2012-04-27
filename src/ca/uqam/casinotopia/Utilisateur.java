@@ -14,8 +14,8 @@ public class Utilisateur implements Serializable {
 	 */
 	private static final long serialVersionUID = 5258124701942436737L;
 	private int id;
-	private String nomUtilisateur;
-	private String motDePasse;
+	protected String nomUtilisateur;
+	protected String motDePasse;
 
 	List<Connectable> connectables = new ArrayList<Connectable>();
 

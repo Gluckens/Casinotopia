@@ -4,11 +4,14 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JoueurRoulette;
+import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.modele.Modele;
 
 @SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
+	
 	private Case resultat;
 	private ModeleTableJeuServeur tableJeu;
 	private ModeleRoueRouletteServeur roueRoulette;
@@ -23,10 +26,16 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		this.tableJeu.effectuerMises(mises);
 	}
-
-	/*
-	 * @Override public TypeJeu getTypeJeu() { return TypeJeu.ROULETTE; }
-	 */
+	
+	public boolean isToutesMisesTerminees() {
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			if(!((JoueurRoulette) joueur).isMisesTerminees()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	/**
 	 * @return the tableJeu
@@ -44,7 +53,7 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	}
 	
 	public ModeleRoueRouletteServeur getRoueRoulette() {
-		return roueRoulette;
+		return this.roueRoulette;
 	}
 	
 	public void setRoueRoulette(ModeleRoueRouletteServeur roueRoulette) {

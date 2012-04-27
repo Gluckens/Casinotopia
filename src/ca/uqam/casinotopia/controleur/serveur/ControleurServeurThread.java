@@ -20,6 +20,7 @@ import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleUtilisateurServeur;
 
@@ -29,14 +30,17 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
 
-	private ModeleUtilisateurServeur modele = new ModeleUtilisateurServeur();
+	private ModeleUtilisateurServeur modele;
 
 	public ControleurServeurThread(Socket clientSocket, int number) {
 		this.setConnexion(new Connexion(clientSocket));
 		this.modele.number = number;
 
 		this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
-		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion()));
+		ModeleClientServeur client = new ModeleClientServeur();
+		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), client));
+		
+		this.modele = 
 	}
 
 	public void ajouterControleur(String nom, ControleurServeur ctrl) {
