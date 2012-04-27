@@ -1,13 +1,17 @@
 package ca.uqam.casinotopia.controleur.client;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.commande.serveur.CmdCalculerGainRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdMisesTermineesRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.FrameApplication;
@@ -20,8 +24,8 @@ public class ControleurRouletteClient extends ControleurClient {
 	private VueRoulette vue;
 	private ModelePartieRouletteClient modele;
 
-	public ControleurRouletteClient(Connexion connexion, ModelePartieRouletteClient modele, ModelePrincipalClient modeleNav) {
-		super(connexion, modeleNav);
+	public ControleurRouletteClient(Connexion connexion, ModelePartieRouletteClient modele, ModeleClientClient client, ModelePrincipalClient modeleNav) {
+		super(connexion, client, modeleNav);
 
 		this.vue = new VueRoulette(this);
 		this.modele = modele;
@@ -75,9 +79,21 @@ public class ControleurRouletteClient extends ControleurClient {
 		return this.modeleNav.getFrameApplication();
 	}
 
+	public void cmdMiserRoulette(Case caseMisee, TypeMise typeMise) {
+		Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
+		Map<Case, Integer> mise = new HashMap<Case, Integer>();
+		mise.put(caseMisee, typeMise.getMontant());
+		mises.put(this.client.getId(), mise);
+		this.cmdMiserRoulette(mises);
+	}
+
 	public void cmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
 		System.out.println("TEST DE MISE");
 		this.connexion.envoyerCommande(new CmdMiserRoulette(mises));
+	}
+	
+	public void cmdMisesTermineesRoulette() {
+		this.connexion.envoyerCommande(new CmdMisesTermineesRoulette(this.client.getId()));
 	}
 
 	public void cmdTournerRoulette(){

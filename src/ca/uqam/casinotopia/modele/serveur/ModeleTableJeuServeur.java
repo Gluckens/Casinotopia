@@ -57,12 +57,12 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 	}
 
 	private void initialiserCases() {
-		this.ajouterCase(1, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
-		this.ajouterCase(2, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(1, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(2, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
 		this.ajouterCase(3, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
 		this.ajouterCase(4, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
-		this.ajouterCase(5, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
-		this.ajouterCase(6, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(5, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18);
+		this.ajouterCase(6, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18);
 	}
 
 	public void ajouterCase(int numero, TypeCouleurCase couleur, TypeCase type, double multiplicateurGain) {

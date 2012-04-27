@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
-import ca.uqam.casinotopia.drag_n_drop.DroppableReceiver;
+import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
 import ca.uqam.casinotopia.drag_n_drop.GhostDropListener;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.drag_n_drop.GhostMotionAdapter;
@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
 import javax.swing.border.EtchedBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VueRouletteActions extends Vue {
@@ -40,7 +42,7 @@ public class VueRouletteActions extends Vue {
 	 * 
 	 * @param tapis
 	 */
-	public VueRouletteActions(ControleurClient controleur, FrameApplication frame, JComponent dropTarget, DroppableReceiver dropReceiver) {
+	public VueRouletteActions(ControleurClient controleur, FrameApplication frame, JComponent dropTarget, MisesDroppableReceiver dropReceiver) {
 		this.setMinimumSize(new Dimension(700, 80));
 		this.setMaximumSize(new Dimension(700, 80));
 		this.controleur = (ControleurRouletteClient) controleur;
@@ -85,8 +87,13 @@ public class VueRouletteActions extends Vue {
 		this.add(btnMiser, new GridBagHelper().setXY(1, 1).end());
 
 		JButton btnPret = new JButton("Pr\u00EAt");
+		btnPret.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.cmdMisesTermineesRoulette();
+			}
+		});
 		btnPret.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnPret.setToolTipText("Pr\u00EAt \u00E0 tourner la ca.uqam.casinotopia.vue.roulette");
+		btnPret.setToolTipText("Pr\u00EAt \u00E0 tourner la roulette");
 		/*
 		 * GridBagConstraints gbc_btnPrt = new GridBagConstraints();
 		 * gbc_btnPrt.insets = new Insets(0, 0, 5, 0); gbc_btnPrt.gridx = 2;
@@ -155,11 +162,11 @@ public class VueRouletteActions extends Vue {
 		this.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 	}
 
-	public void initDragAndDrop(JComponent target, DroppableReceiver receiver) {
+	public void initDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		this.initMisesDragAndDrop(target, receiver);
 	}
 
-	private void initMisesDragAndDrop(JComponent target, DroppableReceiver receiver) {
+	private void initMisesDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		// VueRouletteTapis tapis = (VueRouletteTapis)
 		// ((Vue)this.frame.getVueComponentByName("VueRoulette")).getComponentByName("tapis");
 		GhostDropListener ghostDropListener = new MisesGhostDropManager(target, receiver);
@@ -170,8 +177,8 @@ public class VueRouletteActions extends Vue {
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip50"), TypeMise.MISE_50);
 	}
 
-	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, TypeMise type) {
-		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_5);
+	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, TypeMise typeMise) {
+		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), typeMise);
 		component.addMouseListener(misesGhostComponentAdapter);
 		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
 		component.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));

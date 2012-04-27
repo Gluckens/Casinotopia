@@ -16,10 +16,11 @@ import javax.swing.JLabel;
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.TypeCouleurCase;
+import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.TypePariteCase;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
-import ca.uqam.casinotopia.drag_n_drop.DroppableReceiver;
+import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
 import ca.uqam.casinotopia.modele.client.ModeleTableJeuClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
@@ -27,7 +28,7 @@ import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
 
 @SuppressWarnings("serial")
-public class VueRouletteTapis extends Vue implements DroppableReceiver {
+public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
@@ -161,12 +162,15 @@ public class VueRouletteTapis extends Vue implements DroppableReceiver {
 	}
 
 	@Override
-	public void processDrop(Point p) {
+	public void processDrop(Point p, TypeMise typeMise) {
 		System.out.println("JE PROCESS LE DROP ==> " + p);
 
 		Case droppedCase = this.getDroppedCase(p);
 
 		System.out.println(droppedCase);
+		
+		
+		this.controleur.cmdMiserRoulette(droppedCase, typeMise);
 		
 		//TODO appeler une méthode du controleur en envoyant la case misée (vus qu'on update a chaque mise?)
 		//Le controleur pourra retrouver l'id du joueur via le modele, et envoyer sa au serveur.

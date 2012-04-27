@@ -22,7 +22,7 @@ public class CmdEnvoyerMessageChat implements CommandeServeurControleurThread {
 
 	@Override
 	public void action(Controleur controleur) {
-		this.message = ((ControleurServeurThread) controleur).getModele().getUtilisateur().getNomUtilisateur() + ": " + this.message;
-		ControleurPrincipalServeur.getInstance().getModeleServeur().getChat(this.salle).addMessage(this.message);
+		this.message = ((ControleurServeurThread) controleur).getModele().getNomUtilisateur() + ": " + this.message;
+		ControleurPrincipalServeur.getInstance().getModele().getChat(this.salle).addMessage(this.message);
 	}
 }

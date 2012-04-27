@@ -6,15 +6,15 @@ import java.awt.Point;
 import javax.swing.JOptionPane;
 import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.drag_n_drop.AbstractGhostDropManager;
-import ca.uqam.casinotopia.drag_n_drop.DroppableReceiver;
+import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
 import ca.uqam.casinotopia.drag_n_drop.GhostDropEvent;
 import ca.uqam.casinotopia.drag_n_drop.MisesGhostDropEvent;
 
 public class MisesGhostDropManager extends AbstractGhostDropManager {
 
-	private DroppableReceiver receiver;
+	private MisesDroppableReceiver receiver;
 
-	public MisesGhostDropManager(Component target, DroppableReceiver receiver) {
+	public MisesGhostDropManager(Component target, MisesDroppableReceiver receiver) {
 		super(target);
 		this.receiver = receiver;
 	}
@@ -47,7 +47,7 @@ public class MisesGhostDropManager extends AbstractGhostDropManager {
 			 * SwingUtilities.convertPointFromScreen(p2, this.target);
 			 * System.out.println(p2);
 			 */
-			this.receiver.processDrop(p);
+			this.receiver.processDrop(p, type);
 		}
 	}
 

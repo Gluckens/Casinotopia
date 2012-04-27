@@ -4,7 +4,7 @@ import ca.uqam.casinotopia.Utilisateur;
 
 public class ModeleUtilisateurServeur {
 
-	public int number = 0;
+	/*public int number = 0;
 	private Utilisateur utilisateur = new Utilisateur();
 
 	public ModeleUtilisateurServeur() {
@@ -14,7 +14,7 @@ public class ModeleUtilisateurServeur {
 	/**
 	 * @return the utilisateur
 	 */
-	public Utilisateur getUtilisateur() {
+	/*public Utilisateur getUtilisateur() {
 		return this.utilisateur;
 	}
 
@@ -22,8 +22,8 @@ public class ModeleUtilisateurServeur {
 	 * @param utilisateur
 	 *            the utilisateur to set
 	 */
-	public void setUtilisateur(Utilisateur utilisateur) {
+	/*public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
-	}
+	}*/
 
 }

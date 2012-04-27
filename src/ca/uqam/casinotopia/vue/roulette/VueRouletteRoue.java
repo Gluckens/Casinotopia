@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.vue;
+package ca.uqam.casinotopia.vue.roulette;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,6 +16,8 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleTableJeuClient;
 import ca.uqam.casinotopia.observateur.Observable;
+import ca.uqam.casinotopia.vue.FrameApplication;
+import ca.uqam.casinotopia.vue.Vue;
 
 /*
  * To change this template, choose Tools | Templates

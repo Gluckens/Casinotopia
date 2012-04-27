@@ -10,7 +10,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.Joueur;
+import ca.uqam.casinotopia.JoueurRoulette;
+import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.Salle;
 import ca.uqam.casinotopia.TypeEtatPartie;
@@ -44,7 +45,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	private Map<Integer, Partie> lstParties;
 
 	private ControleurPrincipalServeur() {
-		this.setModeleServeur(new ModeleServeurPrincipal());
+		this.modele = new ModeleServeurPrincipal();
 
 		this.lstParties = new HashMap<Integer, Partie>();
 
@@ -120,9 +121,9 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		this.ajouterPartie(new ModelePartieRouletteServeur(8, false, true, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
 		this.ajouterPartie(new ModelePartieRouletteServeur(16, false, false, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
 
-		this.getPartie(8).ajouterJoueur(new Joueur());
-		this.getPartie(8).ajouterJoueur(new Joueur());
-		this.getPartie(16).ajouterJoueur(new Joueur());
+		this.getPartie(8).ajouterJoueur(new JoueurRoulette(null, this.getPartie(8)));
+		this.getPartie(8).ajouterJoueur(new JoueurRoulette(null, this.getPartie(8)));
+		this.getPartie(16).ajouterJoueur(new JoueurRoulette(null, this.getPartie(16)));
 
 		this.ajouterPartie(new ModelePartieRouletteServeur(1, true, true, this.getJeu(4)), TypeEtatPartie.EN_COURS);
 		this.ajouterPartie(new ModelePartieRouletteServeur(24, true, false, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
@@ -146,8 +147,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		return lstKeys.toArray(new Jeu[colJeu.size()]);
 	}
 
-	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, int posXJeu, int posYJeu, int minJoueursJeu, int maxJoueursJeu,
-			Salle salle, TypeJeu type) {
+	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, int posXJeu, int posYJeu, int minJoueursJeu, int maxJoueursJeu, Salle salle, TypeJeu type) {
 		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, posXJeu, posYJeu, minJoueursJeu, maxJoueursJeu, salle, type);
 		// System.out.println("JEU DANS SERVEUR_PRINCIPAL : " + jeu);
 		this.lstJeux.get(TypeJeu.ROULETTE).put(jeu.getId(), jeu);
@@ -294,15 +294,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	/**
 	 * @return the modele
 	 */
-	public ModeleServeurPrincipal getModeleServeur() {
+	public ModeleServeurPrincipal getModele() {
 		return this.modele;
-	}
-
-	/**
-	 * @param modele
-	 *            the modele to set
-	 */
-	public void setModeleServeur(ModeleServeurPrincipal modele) {
-		this.modele = modele;
 	}
 }

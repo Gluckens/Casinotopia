@@ -5,6 +5,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 
@@ -14,8 +15,8 @@ public class ControleurMenuPrincipal extends ControleurClient {
 
 	private VueMenuPrincipal vue;
 
-	public ControleurMenuPrincipal(Connexion connexion, ModelePrincipalClient modeleNavigation) {
-		super(connexion, modeleNavigation);
+	public ControleurMenuPrincipal(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNavigation) {
+		super(connexion, client, modeleNavigation);
 		this.vue = new VueMenuPrincipal(this);
 	}
 

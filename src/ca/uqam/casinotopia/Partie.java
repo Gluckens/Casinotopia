@@ -9,12 +9,12 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7444457352604436900L;
-	private int id;
-	private boolean optionArgent;
-	private boolean optionMultijoueur;
-	private Clavardage clavardage;
-	private Set<Joueur> lstJoueurs;
-	private Jeu infoJeu;
+	protected int id;
+	protected boolean optionArgent;
+	protected boolean optionMultijoueur;
+	protected Clavardage clavardage;
+	protected Set<JoueurServeur> lstJoueurs;
+	protected Jeu infoJeu;
 
 	public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
 		this.id = id;
@@ -26,16 +26,34 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 
 		this.infoJeu = infoJeu;
 
-		this.lstJoueurs = new HashSet<Joueur>();
+		this.lstJoueurs = new HashSet<JoueurServeur>();
 	}
 
 
-	public void ajouterJoueur(Joueur joueur) {
-		this.lstJoueurs.add(joueur);
+	public void ajouterJoueur(JoueurServeur joueurServeur) {
+		if(this.lstJoueurs.size() < this.infoJeu.getNbrJoueursMax()) {
+			this.lstJoueurs.add(joueurServeur);
+		}
 	}
 
-	public void retirerJoueur(Joueur joueur) {
-		this.lstJoueurs.remove(joueur);
+	public void retirerJoueur(JoueurServeur joueurServeur) {
+		this.lstJoueurs.remove(joueurServeur);
+	}
+	
+	public JoueurServeur getJoueur(int idJoueur) {
+		JoueurServeur joueurTrouve = null;
+		
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			if(joueur.getId() == idJoueur) {
+				joueurTrouve = joueur;
+			}
+		}
+		
+		return joueurTrouve;
+	}
+	
+	public Set<JoueurServeur> getLstJoueurs() {
+		return this.lstJoueurs;
 	}
 
 	public TypeJeu getTypeJeu() {

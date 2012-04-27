@@ -6,6 +6,7 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
@@ -22,7 +23,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 	// private ModelePrincipalClient modele;
 
 	public ControleurPrincipalClient() {
-		super(new ModelePrincipalClient());
+		super(new ModeleClientClient(1), new ModelePrincipalClient());
 		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
@@ -56,7 +57,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 
 	public void afficherFrameApplication() {
 		// ModelePrincipalClient.frameApplication = new FrameApplication();
-		VueBarreMenuBas vueBarreMenuBas = new VueBarreMenuBas(new ControleurBarreMenuBas(this.connexion, this.getModeleNav()));
+		VueBarreMenuBas vueBarreMenuBas = new VueBarreMenuBas(new ControleurBarreMenuBas(this.connexion, this.client, this.getModeleNav()));
 		this.modeleNav.changerMenuFrameApplication("VueBarreMenuBas", vueBarreMenuBas);
 		EventQueue.invokeLater(this.modeleNav.getFrameApplication());
 	}
@@ -122,14 +123,14 @@ public class ControleurPrincipalClient extends ControleurClient {
 
 		this.afficherFrameApplication();
 
-		ControleurMenuPrincipal ctrlMenuPrincipal = new ControleurMenuPrincipal(this.connexion, this.modeleNav);
+		ControleurMenuPrincipal ctrlMenuPrincipal = new ControleurMenuPrincipal(this.connexion, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurMenuPrincipal", ctrlMenuPrincipal);
 		this.modeleNav.cacherFrameConnexion();
 		this.modeleNav.changerVueFrameApplication("VueChat", ctrlMenuPrincipal.getVue());
 	}
 
 	public void actionAfficherChat(ModeleChatClient modele) {
-		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.connexion, modele, this.modeleNav);
+		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurChatClient", ctrlChatClient);
 		this.modeleNav.changerVueFrameApplication("VueChat", ctrlChatClient.getVue());
 	}
@@ -137,7 +138,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 	public void actionAfficherJeuRoulette(ModelePartieRouletteClient modele) {
 		System.out.println("AFFICHER ROULETTE CHEZ CLIENT");
 
-		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.modeleNav);
+		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurRouletteClient", ctrlRouletteClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlRouletteClient.getVue());
 
