@@ -6,17 +6,17 @@ import ca.uqam.casinotopia.TypeMise;
 
 public class MisesGhostComponentAdapter extends GhostComponentAdapter {
 
-	private TypeMise type;
+	private TypeMise typeMise;
 
-	public MisesGhostComponentAdapter(GhostGlassPane glassPane, TypeMise type) {
+	public MisesGhostComponentAdapter(GhostGlassPane glassPane, TypeMise typeMise) {
 		super(glassPane);
-		this.type = type;
+		this.typeMise = typeMise;
 	}
 
 	@Override
 	protected void sendGhostDropEvent(Point eventPoint) {
 		System.out.println("GHOST DROPPED MISES");
-		this.fireGhostDropEvent(new MisesGhostDropEvent(eventPoint, this.type));
+		this.fireGhostDropEvent(new MisesGhostDropEvent(eventPoint, this.typeMise));
 	}
 
 }

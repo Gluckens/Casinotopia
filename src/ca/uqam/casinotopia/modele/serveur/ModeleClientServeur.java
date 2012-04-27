@@ -11,7 +11,7 @@ import ca.uqam.casinotopia.Salle;
 import ca.uqam.casinotopia.Utilisateur;
 import ca.uqam.casinotopia.modele.Modele;
 
-public class ModeleClientServeur extends ModeleUtilisateurServeur implements Modele {
+public class ModeleClientServeur extends Utilisateur implements Modele {
 	
 	private int id;
 	private String prenom;

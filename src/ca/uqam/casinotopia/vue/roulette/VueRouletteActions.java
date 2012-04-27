@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
-import ca.uqam.casinotopia.drag_n_drop.DroppableReceiver;
+import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
 import ca.uqam.casinotopia.drag_n_drop.GhostDropListener;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.drag_n_drop.GhostMotionAdapter;
@@ -40,7 +40,7 @@ public class VueRouletteActions extends Vue {
 	 * 
 	 * @param tapis
 	 */
-	public VueRouletteActions(ControleurClient controleur, FrameApplication frame, JComponent dropTarget, DroppableReceiver dropReceiver) {
+	public VueRouletteActions(ControleurClient controleur, FrameApplication frame, JComponent dropTarget, MisesDroppableReceiver dropReceiver) {
 		this.setMinimumSize(new Dimension(700, 80));
 		this.setMaximumSize(new Dimension(700, 80));
 		this.controleur = (ControleurRouletteClient) controleur;
@@ -155,11 +155,11 @@ public class VueRouletteActions extends Vue {
 		this.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 	}
 
-	public void initDragAndDrop(JComponent target, DroppableReceiver receiver) {
+	public void initDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		this.initMisesDragAndDrop(target, receiver);
 	}
 
-	private void initMisesDragAndDrop(JComponent target, DroppableReceiver receiver) {
+	private void initMisesDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		// VueRouletteTapis tapis = (VueRouletteTapis)
 		// ((Vue)this.frame.getVueComponentByName("VueRoulette")).getComponentByName("tapis");
 		GhostDropListener ghostDropListener = new MisesGhostDropManager(target, receiver);
@@ -170,8 +170,8 @@ public class VueRouletteActions extends Vue {
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip50"), TypeMise.MISE_50);
 	}
 
-	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, TypeMise type) {
-		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), TypeMise.MISE_5);
+	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, TypeMise typeMise) {
+		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), typeMise);
 		component.addMouseListener(misesGhostComponentAdapter);
 		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
 		component.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));

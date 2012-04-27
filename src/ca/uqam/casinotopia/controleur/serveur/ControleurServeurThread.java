@@ -33,14 +33,13 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	private ModeleUtilisateurServeur modele;
 
 	public ControleurServeurThread(Socket clientSocket, int number) {
-		this.setConnexion(new Connexion(clientSocket));
+		super(new Connexion(clientSocket), new ModeleClientServeur());
+		//this.setConnexion(new Connexion(clientSocket));
+		this.modele = new ModeleUtilisateurServeur();
 		this.modele.number = number;
 
 		this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
-		ModeleClientServeur client = new ModeleClientServeur();
-		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), client));
-		
-		this.modele = 
+		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), this.client));
 	}
 
 	public void ajouterControleur(String nom, ControleurServeur ctrl) {
@@ -159,16 +158,15 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		System.out.println("MAP<JEU> DANS SERVEUR_THREAD : " + ctrlPrincipal.getLstJeux().get(TypeJeu.ROULETTE));
 
 		System.out.println("PARTIE DANS SERVEUR_THREAD : " + partieRoulette);
+		
+		//TODO À enlever (pour des tests)
+		partieRoulette = null;
 
-		// TODO comment faire pour trouver un id unique a une partie? Parcourir
-		// le map de jeu AU COMPLET (tout type de jeux confondus)?
-		// Genre, dans une boucle de i=0 ... 99999999, pour chaque i on test si
-		// une partie avec cet id existe?
+		// TODO comment faire pour trouver un id unique a une partie? Parcourir le map de jeu AU COMPLET (tout type de jeux confondus)?
+		// Genre, dans une boucle de i=0 ... 99999999, pour chaque i on test si une partie avec cet id existe?
 		// Ou encore, se faire un Map simple de Map<Integer, Partie>, et à
-		// chaque fois qu'on crée/supprime une partie, on met à jourle map de
-		// partie et le map de Jeu.
-		// Donc, toutes les parties du map de partie se retrouvent à quelque
-		// part dans le map de jeu
+		// chaque fois qu'on crée/supprime une partie, on met à jourle map de partie et le map de Jeu.
+		// Donc, toutes les parties du map de partie se retrouvent à quelque part dans le map de jeu
 		if (partieRoulette == null) {
 			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), true, true, ctrlPrincipal.getJeu(idJeu));
 			ctrlPrincipal.ajouterPartie(partieRoulette, TypeEtatPartie.EN_ATTENTE);
@@ -178,7 +176,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			System.out.println("PARTIE EN ATTENTE TROUVÉE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
 
-		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, partieRoulette));
+		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this.client, partieRoulette));
 
 		this.cmdAfficherJeuRoulette(partieRoulette);
 	}

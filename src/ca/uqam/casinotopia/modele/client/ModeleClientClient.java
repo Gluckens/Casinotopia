@@ -12,6 +12,7 @@ public class ModeleClientClient implements Modele, Observable {
 	 */
 	private static final long serialVersionUID = -7675443359819747622L;
 
+	private int id;
 	private String username;
 	private String prenom;
 	private String nom;
@@ -19,8 +20,27 @@ public class ModeleClientClient implements Modele, Observable {
 
 	private BaseObservable sujet = new BaseObservable(this);
 
+	public ModeleClientClient(int id) {
+		this.id = id;
+	}
+
+	//TODO ???
 	public void initDefault() {
 
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**

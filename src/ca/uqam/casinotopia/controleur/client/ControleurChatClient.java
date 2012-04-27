@@ -10,6 +10,7 @@ import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.VueChat;
 
@@ -21,8 +22,8 @@ public class ControleurChatClient extends ControleurClient {
 	private VueChat vue;
 
 	
-	public ControleurChatClient(Connexion connexion, ModeleChatClient modele, ModelePrincipalClient modeleNavigation) {
-		super(connexion, modeleNavigation);
+	public ControleurChatClient(Connexion connexion, ModeleChatClient modele, ModeleClientClient client, ModelePrincipalClient modeleNavigation) {
+		super(connexion, client, modeleNavigation);
 		this.vue = new VueChat(this);
 		this.modele = modele;
 		this.modele.ajouterObservateur(this.vue);
