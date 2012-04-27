@@ -84,24 +84,20 @@ public class Jeu implements Serializable {
 		this.lstParties.get(etat).put(partie.getId(), partie);
 	}
 
-	// Quelle est la politique de recherche de partie en cours? On cherche celle
-	// avec le moins de joueur manquant avant d'attendre le nombre maximal?
+	// Quelle est la politique de recherche de partie en cours? On cherche celle avec le moins de joueur manquant avant d'attendre le nombre maximal?
 	// TODO Cette fonction sera appelé lorsqu'un joueur veut jouer à un jeu.
-	// Elle devra regarder dans la liste de partie s'il y en a une en attente et
-	// dont le nombre maximale de joueur n'est pas atteint
+	// Elle devra regarder dans la liste de partie s'il y en a une en attente et dont le nombre maximale de joueur n'est pas atteint
 	// (possible que le nbrMaxJoueur d'une partie en attente soit atteinte?
-	// quand le dernier joueur entre dans une partie en attente, elle ne s'en va
-	// directement dans partie en cours?)
+	// quand le dernier joueur entre dans une partie en attente, elle ne s'en va directement dans partie en cours?)
 	public Partie rechercherPartieEnAttente() {
 		Partie partieEnAttente = null;
 
 		if (!this.lstParties.get(TypeEtatPartie.EN_ATTENTE).isEmpty()) {
-			System.out.println("PartiesEnAttente : " + this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
+			//System.out.println("PartiesEnAttente : " + this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 
-			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties
-					.get(TypeEtatPartie.EN_ATTENTE));
+			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 
-			System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
+			//System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
 
 			partieEnAttente = lstPartiesSorted.first().getValue();
 		}

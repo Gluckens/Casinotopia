@@ -1,10 +1,14 @@
 package ca.uqam.casinotopia.commande.serveur;
 
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
+import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
-public class CmdQuitterPartieRoulette implements CommandeServeurControleurRoulette {
+public class CmdQuitterPartieRoulette implements CommandeServeurControleurThread {
+	
+	private static final long serialVersionUID = -232195630606747437L;
 	
 	private int idJoueur;
 	
@@ -14,7 +18,7 @@ public class CmdQuitterPartieRoulette implements CommandeServeurControleurRoulet
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurRouletteServeur) controleur).actionQuitterPartie(this.idJoueur);
+		((ControleurServeurThread) controleur).actionQuitterPartieRoulette(this.idJoueur);
 	}
 
 }

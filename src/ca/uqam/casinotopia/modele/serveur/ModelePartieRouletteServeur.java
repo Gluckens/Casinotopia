@@ -6,13 +6,14 @@ import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
+import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.modele.Modele;
 
 @SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
 	
-	private Case resultat;
+	private Case caseResultat;
 	private ModeleTableJeuServeur tableJeu;
 	private ModeleRoueRouletteServeur roueRoulette;
 
@@ -62,8 +63,11 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	
 
 	public void tournerRoulette() {
-		this.roueRoulette.tournerRoulette();
-		
+		int res;
+        res = (int)(Math.random()*36);
+        this.caseResultat = ListeCases.INSTANCE.getCaseNumero(res);
+        
+        System.out.println("le resultat est : " + caseResultat.toString());
 	}
 
 	public void calculerGainRoulette() {

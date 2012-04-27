@@ -22,6 +22,7 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.CmdAfficherMenuPrincipal;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
+import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
@@ -137,11 +138,11 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu);
 
-		System.out.println("JEU DANS SERVEUR_THREAD : " + ctrlPrincipal.getJeu(idJeu));
+		/*System.out.println("JEU DANS SERVEUR_THREAD : " + ctrlPrincipal.getJeu(idJeu));
 
 		System.out.println("MAP<JEU> DANS SERVEUR_THREAD : " + ctrlPrincipal.getLstJeux().get(TypeJeu.ROULETTE));
 
-		System.out.println("PARTIE DANS SERVEUR_THREAD : " + partieRoulette);
+		System.out.println("PARTIE DANS SERVEUR_THREAD : " + partieRoulette);*/
 		
 		//TODO À enlever (pour des tests)
 		partieRoulette = null;
@@ -161,9 +162,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	}
 
 	public void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
-		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.isOptionArgent(),
-				modeleServeur.isOptionMultijoueur(), modeleServeur.getInfoJeu());
-		System.out.println("CONNEXION DANS CMD_AFFICHER_JEU_ROULETTE --> " + this.connexion);
+		//INITIALISER CASE SERVEUR POUR CLIENT 
+		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.isOptionArgent(), modeleServeur.isOptionMultijoueur(), modeleServeur.getInfoJeu(), modeleServeur.getTableJeu().getCases());
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
 	}
 
@@ -225,5 +225,12 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		int solde = 0;
 		
 		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde);
+	}
+
+	public void actionQuitterPartieRoulette(int idJoueur) {
+		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
+		
+		this.lstControleurs.remove("ControleurRouletteServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
 	}
 }

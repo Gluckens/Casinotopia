@@ -73,6 +73,8 @@ public class ControleurRouletteServeur extends ControleurServeur {
 	public void actionQuitterPartie(int idJoueur) {
 		//TODO Comment on quitte une partie en cours? perd automatiquement ses gains misées?
 		this.modele.quitterPartie(idJoueur);
-		this.connexion.envoyerCommande(new CmdAfficherMenuPrincipal());
+		if(this.modele.isPartieVide()) {
+			ControleurPrincipalServeur.getInstance().retirerPartie(this.modele);
+		}
 	}
 }

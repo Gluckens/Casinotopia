@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.TypeCase;
+import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.TypeCouleurCase;
 import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.TypePariteCase;
@@ -53,17 +53,7 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 
 	@Override
 	protected void addComponents() {
-		System.out.println("DESSIN DE TAPIS");
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		/*
-		 * gridBagLayout.columnWidths = new int[]{75, 75, 75};
-		 * gridBagLayout.rowHeights = new int[]{15, 18, 21, 24, 27, 30, 33, 36,
-		 * 39, 42, 45};
-		 */
-		/*
-		 * gridBagLayout.columnWidths = new int[]{300}; gridBagLayout.rowHeights
-		 * = new int[]{588};
-		 */
 		gridBagLayout.columnWidths = new int[] { 302 };
 		gridBagLayout.rowHeights = new int[] { 600 };
 		gridBagLayout.columnWeights = new double[] { 0.0 };
@@ -73,8 +63,7 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		// setPreferredSize(new Dimension(302, 600));
 		/*
 		 * this.setPreferredSize(new Dimension(302, 600));
-		 * this.setMinimumSize(new Dimension(302, 600)); this.setMaximumSize(new
-		 * Dimension(302, 600));
+		 * this.setMinimumSize(new Dimension(302, 600)); this.setMaximumSize(new Dimension(302, 600));
 		 */
 
 		JLabel lblImgTapis = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/roulette-table-grand.jpg")));
@@ -84,70 +73,65 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 
 	private void initImageMap() {
 		this.imageMaps = new HashMap<Shape, Case>();
-
 		
-		this.imageMaps.put(new Rectangle(new Point(9, 236), new Dimension(29, 77)), new Case(TypeCouleurCase.ROUGE, TypeCase.COULEUR, 4));
-		this.imageMaps.put(new Rectangle(new Point(9, 314), new Dimension(29, 77)), new Case(TypeCouleurCase.NOIRE, TypeCase.COULEUR, 4));
+		this.imageMaps.put(new Rectangle(new Point(9, 236), new Dimension(29, 77)), ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.ROUGE));
+		this.imageMaps.put(new Rectangle(new Point(9, 314), new Dimension(29, 77)), ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.NOIRE));
 		
-		this.imageMaps.put(new Rectangle(new Point(9, 157), new Dimension(29, 77)), new Case(TypePariteCase.PAIRE, TypeCase.PARITE, 4));
-		this.imageMaps.put(new Rectangle(new Point(9, 392), new Dimension(29, 77)), new Case(TypePariteCase.IMPAIRE, TypeCase.PARITE, 4));
+		this.imageMaps.put(new Rectangle(new Point(9, 157), new Dimension(29, 77)), ListeCases.INSTANCE.getCaseParite(TypePariteCase.PAIRE));
+		this.imageMaps.put(new Rectangle(new Point(9, 392), new Dimension(29, 77)), ListeCases.INSTANCE.getCaseParite(TypePariteCase.IMPAIRE));
 		
 		int[] x = {67, 67, 178, 291, 291};
 		int[] y = {77, 41, 7, 41, 77};
-		this.imageMaps.put(new Polygon(x, y, 5), new Case(0, TypeCase.CHIFFRE, 2));
+		this.imageMaps.put(new Polygon(x, y, 5), ListeCases.INSTANCE.getCaseNumero(0));
 		
 		
-		this.imageMaps.put(new Rectangle(new Point(67, 78), new Dimension(74, 40)), new Case(1, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 78), new Dimension(74, 40)), new Case(2, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 78), new Dimension(74, 40)), new Case(3, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 78), new Dimension(74, 40)), ListeCases.INSTANCE.getCaseNumero(1));
+		this.imageMaps.put(new Rectangle(new Point(142, 78), new Dimension(74, 40)), ListeCases.INSTANCE.getCaseNumero(2));
+		this.imageMaps.put(new Rectangle(new Point(217, 78), new Dimension(74, 40)), ListeCases.INSTANCE.getCaseNumero(3));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 119), new Dimension(74, 38)), new Case(4, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 119), new Dimension(74, 38)), new Case(5, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 119), new Dimension(74, 38)), new Case(6, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 119), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(4));
+		this.imageMaps.put(new Rectangle(new Point(142, 119), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(5));
+		this.imageMaps.put(new Rectangle(new Point(217, 119), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(6));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 158), new Dimension(74, 38)), new Case(7, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 158), new Dimension(74, 38)), new Case(8, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 158), new Dimension(74, 38)), new Case(9, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 158), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(7));
+		this.imageMaps.put(new Rectangle(new Point(142, 158), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(8));
+		this.imageMaps.put(new Rectangle(new Point(217, 158), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(9));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 197), new Dimension(74, 38)), new Case(10, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 197), new Dimension(74, 38)), new Case(11, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 197), new Dimension(74, 38)), new Case(12, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 197), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(10));
+		this.imageMaps.put(new Rectangle(new Point(142, 197), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(11));
+		this.imageMaps.put(new Rectangle(new Point(217, 197), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(12));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 236), new Dimension(74, 38)), new Case(13, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 236), new Dimension(74, 38)), new Case(14, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 236), new Dimension(74, 38)), new Case(15, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 236), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(13));
+		this.imageMaps.put(new Rectangle(new Point(142, 236), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(14));
+		this.imageMaps.put(new Rectangle(new Point(217, 236), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(15));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 275), new Dimension(74, 38)), new Case(16, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 275), new Dimension(74, 38)), new Case(17, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 275), new Dimension(74, 38)), new Case(18, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 275), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(16));
+		this.imageMaps.put(new Rectangle(new Point(142, 275), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(17));
+		this.imageMaps.put(new Rectangle(new Point(217, 275), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(18));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 314), new Dimension(74, 38)), new Case(19, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 314), new Dimension(74, 38)), new Case(20, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 314), new Dimension(74, 38)), new Case(21, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 314), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(19));
+		this.imageMaps.put(new Rectangle(new Point(142, 314), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(20));
+		this.imageMaps.put(new Rectangle(new Point(217, 314), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(21));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 353), new Dimension(74, 38)), new Case(22, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 353), new Dimension(74, 38)), new Case(23, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 353), new Dimension(74, 38)), new Case(24, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 353), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(22));
+		this.imageMaps.put(new Rectangle(new Point(142, 353), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(23));
+		this.imageMaps.put(new Rectangle(new Point(217, 353), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(24));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 392), new Dimension(74, 38)), new Case(25, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 392), new Dimension(74, 38)), new Case(26, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 392), new Dimension(74, 38)), new Case(27, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 392), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(25));
+		this.imageMaps.put(new Rectangle(new Point(142, 392), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(26));
+		this.imageMaps.put(new Rectangle(new Point(217, 392), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(27));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 431), new Dimension(74, 38)), new Case(28, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 431), new Dimension(74, 38)), new Case(29, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 431), new Dimension(74, 38)), new Case(30, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 431), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(28));
+		this.imageMaps.put(new Rectangle(new Point(142, 431), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(29));
+		this.imageMaps.put(new Rectangle(new Point(217, 431), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(30));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 470), new Dimension(74, 38)), new Case(31, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 470), new Dimension(74, 38)), new Case(32, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 470), new Dimension(74, 38)), new Case(33, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
+		this.imageMaps.put(new Rectangle(new Point(67, 470), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(31));
+		this.imageMaps.put(new Rectangle(new Point(142, 470), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(32));
+		this.imageMaps.put(new Rectangle(new Point(217, 470), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(33));
 
-		this.imageMaps.put(new Rectangle(new Point(67, 509), new Dimension(74, 38)), new Case(34, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(142, 509), new Dimension(74, 38)), new Case(35, TypeCouleurCase.NOIRE, TypeCase.CHIFFRE, 18));
-		this.imageMaps.put(new Rectangle(new Point(217, 509), new Dimension(74, 38)), new Case(36, TypeCouleurCase.ROUGE, TypeCase.CHIFFRE, 18));
-	}
-
-	private void ajouterImageMap() {
-
+		this.imageMaps.put(new Rectangle(new Point(67, 509), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(34));
+		this.imageMaps.put(new Rectangle(new Point(142, 509), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(35));
+		this.imageMaps.put(new Rectangle(new Point(217, 509), new Dimension(74, 38)), ListeCases.INSTANCE.getCaseNumero(36));
 	}
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
@@ -163,24 +147,15 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 
 	@Override
 	public void processDrop(Point p, TypeMise typeMise) {
-		System.out.println("JE PROCESS LE DROP ==> " + p);
-
 		Case droppedCase = this.getDroppedCase(p);
 
-		System.out.println(droppedCase);
-		
+		System.out.println("DROPPED CASE ==> " + droppedCase);
 		
 		this.controleur.cmdMiserRoulette(droppedCase, typeMise);
 		
 		//TODO appeler une méthode du controleur en envoyant la case misée (vus qu'on update a chaque mise?)
 		//Le controleur pourra retrouver l'id du joueur via le modele, et envoyer sa au serveur.
 		//Ca ne devrait plus etre utile d'envoyer un map si on met à jour à chaque mise de chaque client (est-ce que ce sera trop demandant pour le serveur?)
-		//this.controleur.
-
-		// TODO Faire un map pour regarder dans quelle case tombe le point
-		// (ajouter sa au map déjà existant des case? (ou encore à l'objet case
-		// direct? non pcq le serveur utilise la meme classe et il a pas besoin
-		// de savoir sa))
 	}
 
 	private Case getDroppedCase(Point p) {
@@ -193,5 +168,4 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		}
 		return droppedCase;
 	}
-
 }

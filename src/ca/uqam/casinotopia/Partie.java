@@ -28,6 +28,10 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 
 		this.lstJoueurs = new HashSet<JoueurServeur>();
 	}
+	
+	public boolean isPartieVide() {
+		return (this.lstJoueurs.size() == 0);
+	}
 
 
 	public void ajouterJoueur(JoueurServeur joueurServeur) {
@@ -129,8 +133,7 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 		int placeRestante1 = this.infoJeu.getNbrJoueursMax() - this.lstJoueurs.size();
 		int placeRestante2 = p.infoJeu.getNbrJoueursMax() - p.lstJoueurs.size();
 
-		System.out.println(this + " --> " + this.infoJeu.getNom() + "(" + String.valueOf(placeRestante1) + ") compareTo " + p + " --> " + p.infoJeu.getNom()
-				+ "(" + String.valueOf(placeRestante2) + ")");
+		System.out.println(this + " --> " + this.infoJeu.getNom() + "(" + String.valueOf(placeRestante1) + ") compareTo " + p + " --> " + p.infoJeu.getNom() + "(" + String.valueOf(placeRestante2) + ")");
 
 		return Integer.valueOf(placeRestante1).compareTo(placeRestante2);
 	}

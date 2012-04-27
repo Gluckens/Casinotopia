@@ -11,7 +11,6 @@ import java.util.TreeSet;
 
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.JoueurRoulette;
-import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.Salle;
 import ca.uqam.casinotopia.TypeEtatPartie;

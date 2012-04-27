@@ -1,6 +1,5 @@
 package ca.uqam.casinotopia.vue;
 
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;

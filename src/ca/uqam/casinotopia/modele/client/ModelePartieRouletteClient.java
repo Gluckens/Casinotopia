@@ -12,19 +12,24 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModelePartieRouletteClient extends Partie implements Modele, Observable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1587373503556245991L;
 
-	private Case resultat;
+	private Case caseResultat;
 	private ModeleTableJeuClient tableJeu;
 	private BaseObservable sujet = new BaseObservable(this);
 
 	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
+		this(id, optionArgent, optionMultijoueur, infoJeu, new ModeleTableJeuClient());
+	}
+	
+	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu, Map<Case, Map<Integer, Integer>> cases) {
+		this(id, optionArgent, optionMultijoueur, infoJeu, new ModeleTableJeuClient(cases));
+	}
+	
+	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu, ModeleTableJeuClient tableJeu) {
 		super(id, optionArgent, optionMultijoueur, infoJeu);
 
-		this.tableJeu = new ModeleTableJeuClient();
+		this.tableJeu = tableJeu;
 	}
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
@@ -33,10 +38,6 @@ public class ModelePartieRouletteClient extends Partie implements Modele, Observ
 		// TODO enlever ce notifier et le traite dans tableJeu
 		this.notifierObservateur();
 	}
-
-	/*
-	 * @Override public TypeJeu getTypeJeu() { return TypeJeu.ROULETTE; }
-	 */
 
 	/**
 	 * @return the tableJeu

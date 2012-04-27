@@ -5,9 +5,11 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.TypeMise;
+import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
 import ca.uqam.casinotopia.commande.serveur.CmdCalculerGainRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMisesTermineesRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterPartieRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -107,6 +109,6 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 
 	public void cmdQuitterPartie() {
-		//this.modele.quitterPartie(this.client.getId());
+		this.connexion.envoyerCommande(new CmdQuitterPartieRoulette(this.client.getId()));
 	}
 }

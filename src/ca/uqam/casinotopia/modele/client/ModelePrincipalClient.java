@@ -25,6 +25,9 @@ public class ModelePrincipalClient {
 	public void initFrame() {
 		// TODO Faudrait créer une vue séparée du frame pour la connexion
 		this.frameConnexion = new FrameConnexion((ControleurPrincipalClient) this.getControleur("ControleurPrincipalClient"));
+	}
+	
+	public void initFrameApplication() {
 		this.frameApplication = new FrameApplication();
 	}
 

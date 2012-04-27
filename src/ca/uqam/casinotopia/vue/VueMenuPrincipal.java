@@ -1,6 +1,5 @@
 package ca.uqam.casinotopia.vue;
 
-import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurMenuPrincipal;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.observateur.Observable;

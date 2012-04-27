@@ -10,7 +10,6 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
-import ca.uqam.casinotopia.vue.VueBarreMenuBas;
 
 public class ControleurPrincipalClient extends ControleurClient {
 
@@ -40,6 +39,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void afficherFrameApplication() {
+		this.modeleNav.initFrameApplication();
 		ControleurBarreMenuBas ctrl = new ControleurBarreMenuBas(this.connexion, this.client, this.getModeleNav());
 		this.modeleNav.ajouterControleur("ControleurBarreMenuBas", ctrl);
 		this.modeleNav.changerMenuFrameApplication("VueBarreMenuBas", ctrl.getVue());
@@ -66,7 +66,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 			this.receptionCommandes();
 
 			System.out.println("FIN DE CONNEXION");
-
 		}
 	}
 
@@ -76,15 +75,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 			new Thread(new ClientThread(this)).start();
 		}
 	}
-
-	/*
-	 * public FrameConnexion getFrameConnexion() { return this.frameConnexion; }
-	 */
-
-	/*
-	 * public void setVueFrameConnexion(FrameConnexion vueConnexionFrame) {
-	 * this.frameConnexion = vueConnexionFrame; }
-	 */
 
 	public void setMessageConnexionErreur(String message) {
 		this.modeleNav.getFrameConnexion().setMessageErreur(message);
@@ -106,7 +96,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		ControleurMenuPrincipal ctrlMenuPrincipal = new ControleurMenuPrincipal(this.connexion, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurMenuPrincipal", ctrlMenuPrincipal);
 		this.modeleNav.cacherFrameConnexion();
-		this.modeleNav.changerVueFrameApplication("VueChat", ctrlMenuPrincipal.getVue());
+		this.modeleNav.changerVueFrameApplication("VueMenuPrincipal", ctrlMenuPrincipal.getVue());
 	}
 
 	public void actionAfficherChat(ModeleChatClient modele) {
@@ -116,11 +106,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionAfficherJeuRoulette(ModelePartieRouletteClient modele) {
-		
-		
-		
-		System.out.println("AFFICHER ROULETTE CHEZ CLIENT");
-
 		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurRouletteClient", ctrlRouletteClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlRouletteClient.getVue());
@@ -132,22 +117,4 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.modeleNav.retirerControleur("ControleurRouletteClient");
 		this.afficherMenuPrincipal();
 	}
-
 }
-
-/*
- * private FrameApplication frameApplication; //Utile de mettre sa dans un if?
- * si on est ici = on est connecté? if(this.getConnexion().isConnected()) {
- * this.frameApplication = new FrameApplication();
- * EventQueue.invokeLater(this.frameApplication); }
- * while(this.getConnexion().isConnected()){ Commande cmd = null; try { cmd =
- * (Commande) getConnexion().getObjectInputStream().readObject(); if(cmd !=
- * null){ if(cmd instanceof CommandeClient) { if(cmd instanceof
- * CommandeClientControleurClient) { cmd.action(new
- * ControleurClientClient(this.getConnexion()), this.frameApplication); } else
- * if(cmd instanceof CommandeClientControleurRoulette) { cmd.action(new
- * ControleurRouletteClient(this.getConnexion()), this.frameApplication); } }
- * else { System.err.println(
- * "Seulement des commandes destinées aux clients sont recevables!"); } } else{
- * System.err.println("Un problème est survenu (commande nulle)."); }
- */
