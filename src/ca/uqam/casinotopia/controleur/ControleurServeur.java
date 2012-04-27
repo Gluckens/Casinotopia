@@ -8,9 +8,13 @@ public abstract class ControleurServeur extends Controleur {
 	private static final long serialVersionUID = 3250928097030158541L;
 	
 	protected ModeleClientServeur client;
-
+	
 	public ControleurServeur() {
+		
+	}
 
+	public ControleurServeur(Connexion connexion) {
+		this(connexion, null);
 	}
 
 	public ControleurServeur(Connexion connexion, ModeleClientServeur client) {

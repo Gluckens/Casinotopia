@@ -45,7 +45,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	private Map<Integer, Partie> lstParties;
 
 	private ControleurPrincipalServeur() {
-		this.setModeleServeur(new ModeleServeurPrincipal());
+		this.modele = new ModeleServeurPrincipal();
 
 		this.lstParties = new HashMap<Integer, Partie>();
 
@@ -294,15 +294,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	/**
 	 * @return the modele
 	 */
-	public ModeleServeurPrincipal getModeleServeur() {
+	public ModeleServeurPrincipal getModele() {
 		return this.modele;
-	}
-
-	/**
-	 * @param modele
-	 *            the modele to set
-	 */
-	public void setModeleServeur(ModeleServeurPrincipal modele) {
-		this.modele = modele;
 	}
 }

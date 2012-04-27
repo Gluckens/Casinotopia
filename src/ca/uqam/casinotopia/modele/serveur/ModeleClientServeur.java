@@ -9,8 +9,10 @@ import ca.uqam.casinotopia.ListeAmis;
 import ca.uqam.casinotopia.PartageGainsClient;
 import ca.uqam.casinotopia.Salle;
 import ca.uqam.casinotopia.Utilisateur;
+import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.Modele;
 
+@SuppressWarnings("serial")
 public class ModeleClientServeur extends Utilisateur implements Modele {
 	
 	private int id;
@@ -25,6 +27,36 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 	private Vector<DonUniqueClient> donsUniques = new Vector<DonUniqueClient>();
 	private ListeAmis listeAmis;
 	private Avatar avatar;
+	
+	public ModeleClientServeur() {
+		
+	}
+	
+	public ModeleClientServeur(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
+		this(nomUtilisateur, "", connexion, id, prenom, nom, dateNaissance, courriel, solde, solde, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), new Avatar());
+	}
+	
+	public ModeleClientServeur(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
+		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, solde, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), new Avatar());
+	}
+	
+	private ModeleClientServeur(String nomUtilisateur, String motDePasse, Connexion connexion,
+								int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, int pourcentageGlobal,
+								Vector<PartageGainsClient> partageGains, Vector<DonUniqueClient> donsUniques, ListeAmis listeAmis, Avatar avatar) {
+		super(nomUtilisateur, motDePasse, connexion);
+		
+		this.id = id;
+		this.prenom = prenom;
+		this.nom = nom;
+		this.dateNaissance = dateNaissance;
+		this.courriel = courriel;
+		this.solde = solde;
+		this.pourcentageGlobal = pourcentageGlobal;
+		this.partageGains = partageGains;
+		this.donsUniques = donsUniques;
+		this.listeAmis = listeAmis;
+		this.avatar = avatar;
+	}
 
 	public Avatar getAvatar() {
 		return this.avatar;
