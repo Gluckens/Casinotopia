@@ -13,9 +13,11 @@ import ca.uqam.casinotopia.vue.Vue;
 
 import java.awt.GridBagLayout;
 
-@SuppressWarnings("serial")
+//@SuppressWarnings("serial")
 public class VueRoulette extends Vue {
 
+	private static final long serialVersionUID = 318782139342189455L;
+	
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
 
@@ -34,7 +36,7 @@ public class VueRoulette extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 400, 302, 322 };
+		gridBagLayout.columnWidths = new int[] { 400, 302, 422 };
 		gridBagLayout.rowHeights = new int[] { 300, 300, 80 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0 };

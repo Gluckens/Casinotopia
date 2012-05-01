@@ -23,8 +23,8 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 	private int solde;
 	private int pourcentageGlobal;
 	private Salle salleCourante;
-	private Vector<PartageGainsClient> partageGains = new Vector<PartageGainsClient>();
-	private Vector<DonUniqueClient> donsUniques = new Vector<DonUniqueClient>();
+	private Vector<PartageGainsClient> partageGains;
+	private Vector<DonUniqueClient> donsUniques;
 	private ListeAmis listeAmis;
 	private Avatar avatar;
 	

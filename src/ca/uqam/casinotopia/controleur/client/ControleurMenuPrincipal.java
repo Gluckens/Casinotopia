@@ -11,8 +11,8 @@ import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 
 public class ControleurMenuPrincipal extends ControleurClient {
 
-	private static final long serialVersionUID = -223658182174135843L;
-
+	private static final long serialVersionUID = -3188096152156233418L;
+	
 	private VueMenuPrincipal vue;
 
 	public ControleurMenuPrincipal(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNavigation) {
@@ -21,8 +21,6 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	}
 
 	public void cmdJouerRoulette() {
-		System.out.println("Envoyer Commande Jouer Roulette");
-
 		// TODO Récupérer l'id du jeu de roulette auquel le client veut jouer.
 
 		int idJeu = 2;
@@ -38,7 +36,6 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	}
 
 	public void actionAfficherChat(ModeleChatClient modeleChatClient) {
-		System.out.println("ICI LA LA");
 		((ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 	}
 }

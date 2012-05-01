@@ -3,8 +3,9 @@ package ca.uqam.casinotopia.observateur;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("serial")
 public class BaseObservable implements Observable {
+
+	private static final long serialVersionUID = -2611781316325159310L;
 
 	Set<Observateur> observateurs = new HashSet<Observateur>();
 

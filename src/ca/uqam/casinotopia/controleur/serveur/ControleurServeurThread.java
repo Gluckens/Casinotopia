@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Clavardage;
+import ca.uqam.casinotopia.JoueurRoulette;
+import ca.uqam.casinotopia.JoueurServeur;
+import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.commande.Commande;
@@ -22,9 +25,11 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.CmdAfficherMenuPrincipal;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
+import ca.uqam.casinotopia.commande.client.CmdInitClient;
 import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
@@ -137,15 +142,10 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 
 		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu);
-
-		/*System.out.println("JEU DANS SERVEUR_THREAD : " + ctrlPrincipal.getJeu(idJeu));
-
-		System.out.println("MAP<JEU> DANS SERVEUR_THREAD : " + ctrlPrincipal.getLstJeux().get(TypeJeu.ROULETTE));
-
-		System.out.println("PARTIE DANS SERVEUR_THREAD : " + partieRoulette);*/
 		
 		//TODO À enlever (pour des tests)
 		partieRoulette = null;
+		partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.getPartie(3);
 
 		if (partieRoulette == null) {
 			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), true, true, ctrlPrincipal.getJeu(idJeu));
@@ -155,6 +155,12 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		else {
 			System.out.println("PARTIE EN ATTENTE TROUVÉE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
+		
+		partieRoulette.ajouterJoueur(this.client);
+		
+		/*for(JoueurServeur joueur : partieRoulette.getLstJoueurs()) {
+			System.out.println("AJOUT JOUEUR : " + joueur.getId());
+		}*/
 
 		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this.client, partieRoulette));
 
@@ -174,7 +180,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		if (Arrays.equals(motDePasse, nomUtilisateur.toCharArray())) {
 			this.setModele(nomUtilisateur);
 			this.initControleur();
-			this.connexion.envoyerCommande(new CmdAfficherMenuPrincipal());
+			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId());
+			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
+			//this.connexion.envoyerCommande(new CmdAfficherMenuPrincipal());
 		}
 		else {
 			this.connexion.envoyerCommande(new CmdInformationInvalide("Les données d'authentification sont incorrectes."));
@@ -217,7 +225,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	
 	private void setModele(String nomUtilisateur) {
 		//TODO Récupérer les infos du clients dans la BD en rapport avec le nom d'utilisateur
-		int id = 1;
+		int id = Integer.parseInt(nomUtilisateur) ;
+		//System.out.println("SET MODELE : " + id);
 		String prenom = "Prénom";
 		String nom = "Nom";
 		Date dateNaissance = new Date(0);
@@ -225,6 +234,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		int solde = 0;
 		
 		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde);
+		this.client = this.modele;
 	}
 
 	public void actionQuitterPartieRoulette(int idJoueur) {

@@ -7,7 +7,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 public abstract class Controleur implements Serializable {
 
 	private static final long serialVersionUID = 8167862234465864178L;
-
+	
 	protected Connexion connexion;
 
 	public Controleur() {

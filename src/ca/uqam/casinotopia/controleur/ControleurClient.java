@@ -10,6 +10,10 @@ public abstract class ControleurClient extends Controleur {
 
 	protected ModelePrincipalClient modeleNav;
 	protected ModeleClientClient client;
+	
+	public ControleurClient(ModelePrincipalClient modeleNav) {
+		this(new Connexion(), null, modeleNav);
+	}
 
 	public ControleurClient(ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		this(new Connexion(), client, modeleNav);

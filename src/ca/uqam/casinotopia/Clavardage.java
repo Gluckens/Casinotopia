@@ -1,6 +1,5 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +8,9 @@ import ca.uqam.casinotopia.commande.client.CmdEnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
 
-public class Clavardage implements Connectable, Serializable {
+public class Clavardage implements Connectable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6879038283303975273L;
+	private static final long serialVersionUID = -2661913218185990338L;
 
 	private static int MAXMESSAGE = 10;
 

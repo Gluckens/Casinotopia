@@ -28,28 +28,19 @@ public class ControleurRouletteServeur extends ControleurServeur {
 	}
 
 	public void actionEffectuerMises(Map<Integer, Map<Case, Integer>> mises) {
-		System.out.println("ACTION_EFFECTUER_MISES");
 		this.modele.effectuerMises(mises);
 
 		this.cmdUpdateTableJoueurs(this.modele.getId());
 	}
 
 	public void cmdUpdateTableJoueurs(int idPartie) {
-		// TODO Rechercher les joueurs de la partie et mettre à jour leur table de jeu
-		
-
-
 		Commande cmd = new CmdUpdateCasesRoulette(this.modele.getTableJeu().getCases());
 		
 		Set<JoueurServeur> lstJoueurs = this.modele.getLstJoueurs();
-
-		System.out.println("AVANT ENVOI UPDATE ROULLETE PARTIE ==> " + this.modele.getId());
 		
 		for(JoueurServeur joueur : lstJoueurs) {
 			joueur.getClient().getConnexion().envoyerCommande(cmd);
 		}
-
-		//this.getConnexion().envoyerCommande(cmd);
 	}
 
 	public void actionTournerRoulette() {
@@ -67,6 +58,7 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		
 		if(this.modele.isToutesMisesTerminees()) {
 			this.actionTournerRoulette();
+			this.modele.resetMisesTerminees();
 		}
 	}
 

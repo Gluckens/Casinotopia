@@ -8,8 +8,8 @@ import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.connexion.Connexion;
 
 public /*abstract*/ class Utilisateur implements Serializable {
-
-	private static final long serialVersionUID = 5258124701942436737L;
+	
+	private static final long serialVersionUID = 1967013417447817664L;
 	
 	private int id;
 	protected String nomUtilisateur;
@@ -18,7 +18,8 @@ public /*abstract*/ class Utilisateur implements Serializable {
 
 	List<Connectable> connectables = new ArrayList<Connectable>();
 
-	private Connexion connexion;
+	//Les sockets ne sont pas serializable
+	private transient Connexion connexion;
 
 	public Utilisateur() {
 		this("", "", null);

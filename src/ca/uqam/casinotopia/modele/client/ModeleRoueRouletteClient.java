@@ -1,10 +1,8 @@
 package ca.uqam.casinotopia.modele.client;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
@@ -12,6 +10,8 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleRoueRouletteClient implements Modele, Observable {
 
+	private static final long serialVersionUID = 3547778398611217008L;
+	
 	private Case caseResultat;
 	private HashMap<Integer,Case> listeCases;
 	private BaseObservable sujet = new BaseObservable(this);

@@ -1,15 +1,19 @@
 package ca.uqam.casinotopia.modele.client;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
+import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.FrameConnexion;
 import ca.uqam.casinotopia.vue.Vue;
 
-public class ModelePrincipalClient {
+public class ModelePrincipalClient implements Modele, Serializable {
+
+	private static final long serialVersionUID = -1636594066378148905L;
 
 	private Map<String, ControleurClient> lstControleurs = new HashMap<String, ControleurClient>();
 

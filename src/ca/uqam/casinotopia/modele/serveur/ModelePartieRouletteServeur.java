@@ -8,6 +8,7 @@ import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.Partie;
+import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.modele.Modele;
 
 @SuppressWarnings("serial")
@@ -23,6 +24,42 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		this.tableJeu = new ModeleTableJeuServeur();
 		this.roueRoulette = new ModeleRoueRouletteServeur();
 	}
+	
+	private TypeCouleurJoueurRoulette getCouleurLibre() {
+		//TODO coder sa
+		
+		/*for(TypeCouleurJoueurRoulette typeCouleur : TypeCouleurJoueurRoulette.values()) {
+			if(this.isCouleurJoueurLibre(typeCouleur)) {
+				return typeCouleur;
+			}
+		}
+		
+		return null;*/
+		
+		return TypeCouleurJoueurRoulette.BLEU;
+	}
+	
+	private boolean isCouleurJoueurLibre(TypeCouleurJoueurRoulette typeCouleur) {
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			if(((JoueurRoulette) joueur).getCouleur() == typeCouleur ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void ajouterJoueur(ModeleClientServeur client) {
+		if(!this.isPartiePleine()) {
+			this.ajouterJoueur(new JoueurRoulette(client, this, this.getCouleurLibre()));
+		}
+	}
+	
+	/*public void ajouterJoueur(ModeleClientServeur client, TypeCouleurJoueurRoulette couleur) {
+		if(!this.isPartiePleine()) {
+			this.ajouterJoueur(new JoueurRoulette(client, this, couleur));
+		}
+	}*/
 
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		this.tableJeu.effectuerMises(mises);
@@ -36,6 +73,12 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		}
 		
 		return true;
+	}
+	
+	public void resetMisesTerminees() {
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			((JoueurRoulette) joueur).setMisesTerminees(false);
+		}
 	}
 
 	/**

@@ -1,9 +1,7 @@
 package ca.uqam.casinotopia.commande.serveur;
 
-import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdQuitterPartieRoulette implements CommandeServeurControleurThread {

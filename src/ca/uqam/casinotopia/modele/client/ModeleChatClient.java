@@ -3,7 +3,6 @@ package ca.uqam.casinotopia.modele.client;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JScrollBar;
 
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseObservable;
@@ -12,9 +11,6 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleChatClient implements Modele, Observable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1197460785333129913L;
 
 	private String salle;

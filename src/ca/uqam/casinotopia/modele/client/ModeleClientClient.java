@@ -7,11 +7,8 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleClientClient implements Modele, Observable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7675443359819747622L;
-
+	private static final long serialVersionUID = -1820292102084346435L;
+	
 	private int id;
 	private String username;
 	private String prenom;
@@ -19,6 +16,10 @@ public class ModeleClientClient implements Modele, Observable {
 	private int solde;
 
 	private BaseObservable sujet = new BaseObservable(this);
+	
+	public ModeleClientClient() {
+		
+	}
 
 	public ModeleClientClient(int id) {
 		this.id = id;

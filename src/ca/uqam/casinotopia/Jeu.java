@@ -9,10 +9,9 @@ import java.util.Map.Entry;
 import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
 
 public class Jeu implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 7375777588643978481L;
+	
 	private int id;
 	private String nom;
 	private String description;

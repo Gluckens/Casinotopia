@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.uqam.casinotopia;
 
 import java.io.Serializable;
@@ -11,10 +7,9 @@ import java.io.Serializable;
  * @author Alexei
  */
 public class PartageGainsClient implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4431084544215397445L;
+	
+	private static final long serialVersionUID = -5080255358704810523L;
+	
 	private int pourcentage;
 	public Client client;
 	public Fondation fondation;

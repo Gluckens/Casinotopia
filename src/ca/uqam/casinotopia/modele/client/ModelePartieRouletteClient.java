@@ -4,16 +4,16 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.Partie;
+import ca.uqam.casinotopia.PartieClient;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModelePartieRouletteClient extends Partie implements Modele, Observable {
-
-	private static final long serialVersionUID = -1587373503556245991L;
-
+public class ModelePartieRouletteClient extends PartieClient implements Modele, Observable {
+	
+	private static final long serialVersionUID = -1713451671266579670L;
+	
 	private Case caseResultat;
 	private ModeleTableJeuClient tableJeu;
 	private BaseObservable sujet = new BaseObservable(this);
@@ -36,7 +36,7 @@ public class ModelePartieRouletteClient extends Partie implements Modele, Observ
 		this.tableJeu.updateTableJeu(cases);
 
 		// TODO enlever ce notifier et le traite dans tableJeu
-		this.notifierObservateur();
+		//this.notifierObservateur();
 	}
 
 	/**

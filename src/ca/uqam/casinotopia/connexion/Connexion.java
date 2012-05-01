@@ -7,14 +7,17 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.commande.Commande;
 
-public class Connexion {
-
+public class Connexion implements Serializable {
+	
+	private static final long serialVersionUID = 268756810206780744L;
+	
 	private Socket socket;
 	private boolean connected = false;
 

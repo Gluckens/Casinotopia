@@ -4,8 +4,8 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public abstract class ControleurServeur extends Controleur {
-
-	private static final long serialVersionUID = 3250928097030158541L;
+	
+	private static final long serialVersionUID = 8989454498758078372L;
 	
 	protected ModeleClientServeur client;
 	

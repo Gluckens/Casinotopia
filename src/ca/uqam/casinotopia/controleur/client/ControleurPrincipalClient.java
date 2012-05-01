@@ -13,7 +13,7 @@ import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 
 public class ControleurPrincipalClient extends ControleurClient {
 
-	private static final long serialVersionUID = 7304176355439547634L;
+	private static final long serialVersionUID = 8686179456363168242L;
 
 	private String[] listeServeur;
 
@@ -22,11 +22,11 @@ public class ControleurPrincipalClient extends ControleurClient {
 	// private ModelePrincipalClient modele;
 
 	public ControleurPrincipalClient() {
-		super(new ModeleClientClient(1), new ModelePrincipalClient());
+		super(new ModelePrincipalClient());
 		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
-		this.listeServeur = new String[] { "localhost", "oli.dnsd.me", "dan.dnsd.me" };
+		this.listeServeur = new String[] { "192.168.1.82", "localhost", "dan.dnsd.me", "oli.dnsd.me" };
 		this.enReceptionDeCommande = false;
 		this.afficherConnexion();
 	}
@@ -84,10 +84,17 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.modeleNav.getFrameConnexion().setMessage(message);
 	}
 
+	public void actionInitClient(ModeleClientClient modele) {
+		this.client = modele;
+		
+		this.afficherFrameApplication();
+		this.afficherMenuPrincipal();
+	}
+
 	public void actionAfficherMenuPrincipal() {
-		if(this.modeleNav.getFrameApplication() == null) {
+		/*if(this.modeleNav.getFrameApplication() == null) {
 			this.afficherFrameApplication();
-		}
+		}*/
 
 		this.afficherMenuPrincipal();
 	}

@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Partie implements Comparable<Partie>, Serializable {
+public abstract class PartieClient implements Comparable<PartieClient>, Serializable {
 	
-	private static final long serialVersionUID = 2847945782668066206L;
+	private static final long serialVersionUID = -2380888793385476200L;
 	
 	protected int id;
 	protected boolean optionArgent;
 	protected boolean optionMultijoueur;
 	protected Clavardage clavardage;
-	protected Set<JoueurServeur> lstJoueurs;
+	protected Set<JoueurClient> lstJoueurs;
 	protected Jeu infoJeu;
 
-	public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
+	public PartieClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
 		this.id = id;
 		this.setOptionArgent(optionArgent);
 		this.setOptionMultijoueur(optionMultijoueur);
@@ -25,7 +25,7 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 
 		this.infoJeu = infoJeu;
 
-		this.lstJoueurs = new HashSet<JoueurServeur>();
+		this.lstJoueurs = new HashSet<JoueurClient>();
 	}
 	
 	public boolean isPartieVide() {
@@ -36,20 +36,20 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 		return this.lstJoueurs.size() >= this.infoJeu.getNbrJoueursMax();
 	}
 	
-	public void ajouterJoueur(JoueurServeur joueurServeur) {
+	public void ajouterJoueur(JoueurClient joueur) {
 		if(!this.isPartiePleine()) {
-			this.lstJoueurs.add(joueurServeur);
+			this.lstJoueurs.add(joueur);
 		}
 	}
 
-	public void retirerJoueur(JoueurServeur joueurServeur) {
-		this.lstJoueurs.remove(joueurServeur);
+	public void retirerJoueur(JoueurClient joueur) {
+		this.lstJoueurs.remove(joueur);
 	}
 	
-	public JoueurServeur getJoueur(int idJoueur) {
-		JoueurServeur joueurTrouve = null;
+	public JoueurClient getJoueur(int idJoueur) {
+		JoueurClient joueurTrouve = null;
 		
-		for(JoueurServeur joueur : this.lstJoueurs) {
+		for(JoueurClient joueur : this.lstJoueurs) {
 			if(joueur.getId() == idJoueur) {
 				joueurTrouve = joueur;
 			}
@@ -58,7 +58,7 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 		return joueurTrouve;
 	}
 	
-	public Set<JoueurServeur> getLstJoueurs() {
+	public Set<JoueurClient> getLstJoueurs() {
 		return this.lstJoueurs;
 	}
 
@@ -131,7 +131,7 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	}
 
 	@Override
-	public int compareTo(Partie p) {
+	public int compareTo(PartieClient p) {
 		int placeRestante1 = this.infoJeu.getNbrJoueursMax() - this.lstJoueurs.size();
 		int placeRestante2 = p.infoJeu.getNbrJoueursMax() - p.lstJoueurs.size();
 

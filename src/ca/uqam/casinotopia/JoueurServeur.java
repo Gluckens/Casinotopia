@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public class JoueurServeur implements Serializable {
 	
-	private static final long serialVersionUID = 5066114473579769199L;
+	private static final long serialVersionUID = 3156168097836093668L;
 	
 	private ModeleClientServeur client;
 	private Partie partie;
