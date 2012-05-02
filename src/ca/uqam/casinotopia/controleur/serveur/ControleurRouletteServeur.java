@@ -8,6 +8,7 @@ import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.client.CmdAfficherMenuPrincipal;
+import ca.uqam.casinotopia.commande.client.CmdEnvoyerResultatRoulette;
 import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
@@ -43,20 +44,32 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		}
 	}
 
+	//aaa
 	public void actionTournerRoulette() {
 		System.out.println("ACTION_TOURNER_ROULETTE");
 		this.modele.tournerRoulette();
+		Case result = this.modele.getCaseResultat();
+		Commande cmd = new CmdEnvoyerResultatRoulette(result);
+		
+		Set<JoueurServeur> lstJoueurs = this.modele.getLstJoueurs();
+		
+		for(JoueurServeur joueur : lstJoueurs) {
+			actionCalculerGainRoulette(joueur);
+			joueur.getClient().getConnexion().envoyerCommande(cmd);
+		}
 	}
 
-	public void actionCalculerGainRoulette() {
+	public void actionCalculerGainRoulette(JoueurServeur joueur) {
 		System.out.println("ACTION_CALCULER_GAIN_ROULETTE");
-		this.modele.calculerGainRoulette();
+		this.modele.calculerGainRoulette(joueur);
 	}
 
 	public void actionMisesTerminees(int idJoueur) {
 		((JoueurRoulette) this.modele.getJoueur(idJoueur)).setMisesTerminees(true);
 		
-		if(this.modele.isToutesMisesTerminees()) {
+		if(this.modele.isToutesMisesTerminees()) 
+			{
+			//aaa
 			this.actionTournerRoulette();
 			this.modele.resetMisesTerminees();
 		}

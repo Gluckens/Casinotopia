@@ -14,6 +14,6 @@ public class CmdCalculerGainRoulette implements CommandeServeurControleurRoulett
 
 	public void action(Controleur controleur) {
 		System.out.println("ACTION DE LA COMMANDE CMD_CALCULER_GAIN_ROULETTE");
-		((ControleurRouletteServeur)controleur).actionCalculerGainRoulette();
+		//((ControleurRouletteServeur)controleur).actionCalculerGainRoulette();
 	}
 }

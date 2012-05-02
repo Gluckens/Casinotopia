@@ -82,4 +82,11 @@ public class ControleurRouletteClient extends ControleurClient {
 	public void cmdQuitterPartie() {
 		this.connexion.envoyerCommande(new CmdQuitterPartieRoulette(this.client.getId()));
 	}
+
+	//aaa
+	public void actionupdateResultat(Case resultat) {
+		System.out.println("Alexei --> ControleurRouletteClient.actionupdateResultat()");
+		this.modele.setCaseResultat(resultat);
+		// TODO Auto-generated method stub
+	}
 }

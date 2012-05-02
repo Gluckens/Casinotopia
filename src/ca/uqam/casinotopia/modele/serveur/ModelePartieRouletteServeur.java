@@ -1,6 +1,7 @@
 package ca.uqam.casinotopia.modele.serveur;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
@@ -23,6 +24,14 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 
 		this.tableJeu = new ModeleTableJeuServeur();
 		this.roueRoulette = new ModeleRoueRouletteServeur();
+	}
+	
+	public Case getCaseResultat() {
+		return caseResultat;
+	}
+	
+	public void setCaseResultat(Case caseResultat) {
+		this.caseResultat = caseResultat;
 	}
 	
 	private TypeCouleurJoueurRoulette getCouleurLibre() {
@@ -104,7 +113,7 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		this.roueRoulette = roueRoulette;
 	}
 	
-
+	//aaa
 	public void tournerRoulette() {
 		int res;
         res = (int)(Math.random()*36);
@@ -113,7 +122,16 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
         System.out.println("le resultat est : " + caseResultat.toString());
 	}
 
-	public void calculerGainRoulette() {
+	public void calculerGainRoulette(JoueurServeur joueur) {
+		System.out.println("gain cases : " + this.tableJeu.getCases().toString());
+		for (Entry<Case, Map<Integer, Integer>> mCase : this.tableJeu.getCases().entrySet()){
+			for(Entry<Integer, Integer> mMise :  mCase.getValue().entrySet()){
+				if(mMise.getKey()==joueur.getId()){
+					System.out.println("joueur a misé sur : " + mCase.getKey() + " le montant : " + mMise.getValue());
+				}
+			}
+		}
+		//joueur.getPartie().
 		// TODO Auto-generated method stub
 	}
 

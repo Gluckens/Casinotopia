@@ -31,6 +31,17 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 
 		this.tableJeu = tableJeu;
 	}
+	
+	public Case getCaseResultat() {
+		return caseResultat;
+	}
+	
+	public void setCaseResultat(Case caseResultat) {
+		System.out.println("Alexei --> ModelePartieRouletteClient.setCaseResultat()");
+		this.caseResultat = caseResultat;
+		this.notifierObservateur();
+	}
+	
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.tableJeu.updateTableJeu(cases);
@@ -71,6 +82,7 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 
 	@Override
 	public void notifierObservateur() {
+		System.out.println("Alexei --> ModelePartieRouletteClient.notifierObservateur()");
 		this.sujet.notifierObservateur();
 	}
 }
