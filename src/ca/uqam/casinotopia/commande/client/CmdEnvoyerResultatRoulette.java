@@ -11,20 +11,20 @@ public class CmdEnvoyerResultatRoulette implements CommandeClientControleurRoule
 	private static final long serialVersionUID = 3520768426950865395L;
 
 	private Case resultat;
-	//private int gain;
+	private int gain;
 
 	public CmdEnvoyerResultatRoulette (Case resultat) {
 		this.resultat = resultat;
 	}
 
-//	public CmdEnvoyerResultatRoulette(Case resultat2, int gain) {
-//		this.resultat = resultat;
-//		//this.gain = gain;
-//	}
+	public CmdEnvoyerResultatRoulette(Case resultat, int gain) {
+		this.resultat = resultat;
+		this.gain = gain;
+	}
 
 	@Override
 	public void action(Controleur controleur) {
 		System.out.println("cmdEnvoyerResultatRoulette : client");
-		((ControleurRouletteClient) controleur).actionupdateResultat(resultat);
+		((ControleurRouletteClient) controleur).actionupdateResultat(resultat, gain);
 	}
 }

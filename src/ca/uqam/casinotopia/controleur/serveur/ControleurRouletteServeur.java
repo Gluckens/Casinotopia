@@ -49,19 +49,21 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		System.out.println("ACTION_TOURNER_ROULETTE");
 		this.modele.tournerRoulette();
 		Case result = this.modele.getCaseResultat();
-		Commande cmd = new CmdEnvoyerResultatRoulette(result);
+		
 		
 		Set<JoueurServeur> lstJoueurs = this.modele.getLstJoueurs();
 		
 		for(JoueurServeur joueur : lstJoueurs) {
-			actionCalculerGainRoulette(joueur);
+			int gain = actionCalculerGainRoulette(joueur);
+			System.out.println("Vous avez gagné au total : " + gain);
+			Commande cmd = new CmdEnvoyerResultatRoulette(result,gain);
 			joueur.getClient().getConnexion().envoyerCommande(cmd);
 		}
 	}
 
-	public void actionCalculerGainRoulette(JoueurServeur joueur) {
+	public int actionCalculerGainRoulette(JoueurServeur joueur) {
 		System.out.println("ACTION_CALCULER_GAIN_ROULETTE");
-		this.modele.calculerGainRoulette(joueur);
+		return this.modele.calculerGainRoulette(joueur);
 	}
 
 	public void actionMisesTerminees(int idJoueur) {

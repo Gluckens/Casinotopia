@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia.modele.serveur;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,6 +10,7 @@ import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.Partie;
+import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.modele.Modele;
 
@@ -16,6 +18,7 @@ import ca.uqam.casinotopia.modele.Modele;
 public class ModelePartieRouletteServeur extends Partie implements Modele {
 	
 	private Case caseResultat;
+	private Map <Integer, Integer> listeGains = new HashMap <Integer,Integer>();
 	private ModeleTableJeuServeur tableJeu;
 	private ModeleRoueRouletteServeur roueRoulette;
 
@@ -32,6 +35,10 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	
 	public void setCaseResultat(Case caseResultat) {
 		this.caseResultat = caseResultat;
+	}
+	
+	public Map<Integer, Integer> getListeGains() {
+		return listeGains;
 	}
 	
 	private TypeCouleurJoueurRoulette getCouleurLibre() {
@@ -122,17 +129,35 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
         System.out.println("le resultat est : " + caseResultat.toString());
 	}
 
-	public void calculerGainRoulette(JoueurServeur joueur) {
+	public int calculerGainRoulette(JoueurServeur joueur) {
+		int gainTotal = 0;
 		System.out.println("gain cases : " + this.tableJeu.getCases().toString());
 		for (Entry<Case, Map<Integer, Integer>> mCase : this.tableJeu.getCases().entrySet()){
 			for(Entry<Integer, Integer> mMise :  mCase.getValue().entrySet()){
 				if(mMise.getKey()==joueur.getId()){
 					System.out.println("joueur a misé sur : " + mCase.getKey() + " le montant : " + mMise.getValue());
+					gainTotal +=calculerGainCase(mCase.getKey(), mMise.getValue());
 				}
 			}
 		}
-		//joueur.getPartie().
-		// TODO Auto-generated method stub
+		
+		return gainTotal;
+	}
+
+	private int calculerGainCase(Case caseMise, Integer montantMise) {
+		int gain = 0;
+		if (caseResultat.equals(caseMise))
+		{
+			if (caseMise.getType()==TypeCase.COULEUR || caseMise.getType()==TypeCase.PARITE ){
+				//System.out.println("Le joueur gagne avec la case : " + caseMise + " le montant de " + (10*montantMise));
+				gain = 2 * montantMise;
+			}
+			else
+			{
+				gain = 36 * montantMise;
+			}
+		}
+		return gain;
 	}
 
 	public void quitterPartie(int idJoueur) {

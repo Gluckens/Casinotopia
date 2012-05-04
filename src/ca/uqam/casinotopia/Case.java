@@ -101,26 +101,52 @@ public class Case implements Serializable {
 		return result;
 	}
 
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		Case other = (Case) obj;
+//		if (couleur != other.couleur)
+//			return false;
+//		if (Double.doubleToLongBits(multiplicateurGain) != Double.doubleToLongBits(other.multiplicateurGain))
+//			return false;
+//		if (numero != other.numero)
+//			return false;
+//		if (parite != other.parite)
+//			return false;
+//		if (type != other.type)
+//			return false;
+//		return true;
+//	}
+	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Case other = (Case) obj;
-		if (couleur != other.couleur)
-			return false;
-		if (Double.doubleToLongBits(multiplicateurGain) != Double.doubleToLongBits(other.multiplicateurGain))
-			return false;
-		if (numero != other.numero)
-			return false;
-		if (parite != other.parite)
-			return false;
-		if (type != other.type)
-			return false;
-		return true;
+		boolean egale = false;
+		if (obj != null && obj.getClass()==this.getClass())
+		{
+			Case cObj = (Case) obj;
+			if (cObj.getType() == TypeCase.COULEUR)
+			{
+				if (cObj.getCouleur()==this.getCouleur()){
+					egale = true;
+				}
+			}
+			else if (cObj.getType() == TypeCase.PARITE){
+				if (cObj.estPaire()==this.estPaire()){
+					egale = true;
+				}
+			}
+			else if (cObj.getType() == TypeCase.CHIFFRE){
+				if (cObj.getNumero()==this.getNumero()){
+					egale = true;
+				}
+			}
+		}
+		return egale;
 	}
 
 	/*@Override

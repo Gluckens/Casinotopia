@@ -84,9 +84,10 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 
 	//aaa
-	public void actionupdateResultat(Case resultat) {
+	public void actionupdateResultat(Case resultat, int gain) {
 		System.out.println("Alexei --> ControleurRouletteClient.actionupdateResultat()");
 		this.modele.setCaseResultat(resultat);
+		this.modele.setGain(gain);
 		// TODO Auto-generated method stub
 	}
 }

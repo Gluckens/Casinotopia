@@ -42,6 +42,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
     private int nbTours;
     private HashMap<Integer, Double> positionsNumeros;
     private int resultat; 
+    private int gain;
     
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
@@ -93,7 +94,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 		setLayout(gridBagLayout);
 //		
 //
-		setPreferredSize(new Dimension(300, 300));
+		setPreferredSize(new Dimension(400, 400));
 //		
 //		JLabel lblImgTapis = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/roulette-table.jpg")));
 //		lblImgTapis.setName("imgTapis");
@@ -198,6 +199,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
                 position = positionsNumeros.get(resultat).doubleValue();
                 repaint();
                 m_rotateTimer.stop();
+                JOptionPane.showMessageDialog(null, "Vous avez gagné : " + gain);
             }
         }
 
@@ -208,8 +210,8 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 		if (observable instanceof ModelePartieRouletteClient) {
 			System.out.println("Alexei --> vueRouletteClient.update()");
 			this.tournerRoulette(((ModelePartieRouletteClient) observable).getCaseResultat().getNumero());
-			//int j = ((ModelePartieRouletteClient) observable).getGain();
-			//System.out.println("gain = " + j);
+			gain = ((ModelePartieRouletteClient) observable).getGain();
+			System.out.println("gain = " + gain);
 		}
 		System.out.println("Update fonctionne!!!");
 	}
