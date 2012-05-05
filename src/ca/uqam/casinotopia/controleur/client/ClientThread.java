@@ -9,6 +9,7 @@ import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
+import ca.uqam.casinotopia.commande.CommandeClientControleurSalle;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
 /**
@@ -32,12 +33,15 @@ public class ClientThread implements Runnable, Serializable {
 		while (this.controleur.getConnexion().isConnected()) {
 			Commande cmd = null;
 			try {
-				System.out.println("ATTENTE DE COMMANDE DU SERVEUR");
+				//System.out.println("ATTENTE DE COMMANDE DU SERVEUR");
 				cmd = (Commande) this.controleur.getConnexion().getObjectInputStream().readObject();
-				System.out.println("COMMANDE SERVEUR OBTENUE");
+				//System.out.println("COMMANDE SERVEUR OBTENUE");
 				if (cmd != null) {
 					if (cmd instanceof CommandeClient) {
-						if (cmd instanceof CommandeClientControleurClient) {
+						if (cmd instanceof CommandeClientControleurPrincipal) {
+							cmd.action(this.controleur);
+						}
+						else if (cmd instanceof CommandeClientControleurClient) {
 							if (!this.controleur.getModeleNav().hasControleur("ControleurClientClient")) {
 								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurClientClient)");
 							}
@@ -55,8 +59,14 @@ public class ClientThread implements Runnable, Serializable {
 							}
 							cmd.action(this.controleur.getModeleNav().getControleur("ControleurChatClient"));
 						}
-						else if (cmd instanceof CommandeClientControleurPrincipal) {
-							cmd.action(this.controleur);
+						else if (cmd instanceof CommandeClientControleurSalle) {
+							if (!this.controleur.getModeleNav().hasControleur("ControleurSalleClient")) {
+								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurSalleClient)");
+							}
+							cmd.action(this.controleur.getModeleNav().getControleur("ControleurSalleClient"));
+						}
+						else {
+							System.err.println("Ce type de commande n'est pas géré par le client");
 						}
 					}
 					else {

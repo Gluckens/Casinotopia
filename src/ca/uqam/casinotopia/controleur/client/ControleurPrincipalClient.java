@@ -10,6 +10,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 
 public class ControleurPrincipalClient extends ControleurClient {
 
@@ -105,6 +106,27 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.modeleNav.cacherFrameConnexion();
 		this.modeleNav.changerVueFrameApplication("VueMenuPrincipal", ctrlMenuPrincipal.getVue());
 	}
+
+	public void actionAfficherSalle(ModeleSalleClient modele) {
+		//TODO Est-ce que le modeleSalleClient a besoin d'avoir la liste des autres clients?
+		//Ou alors il lui faut seulement une reference vers le client lui-même?
+		modele.ajouterClient(this.client);
+		ControleurSalleClient ctrlSalle = new ControleurSalleClient(this.connexion, modele, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
+		this.modeleNav.changerVueFrameApplication("VueSalle", ctrlSalle.getVue());
+		
+		ctrlSalle.getVue().demarrerMondeVirtuel();
+		
+		/*Thread threadMondeVirtuel = new Thread(ctrlSalle.getVue());
+		threadMondeVirtuel.start();*/
+	}
+	
+	/*public void afficherSalle(String nomSalle) {
+		ControleurSalleClient ctrlSalle = new ControleurSalleClient(this.connexion, new ModeleSalleClient(nomSalle), this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
+		this.modeleNav.cacherFrameConnexion();
+		this.modeleNav.changerVueFrameApplication("VueSalle", ctrlSalle.getVue());
+	}*/
 
 	public void actionAfficherChat(ModeleChatClient modele) {
 		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.connexion, modele, this.client, this.modeleNav);

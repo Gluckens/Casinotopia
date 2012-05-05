@@ -42,7 +42,7 @@ public class ControleurBD {
 		System.out.println("client id inseré : " + unCl.getId());
 
 		Avatar unAvatar = new Avatar();
-		unAvatar.setNomImage("cassie.jpeg");
+		unAvatar.setPathImage("cassie.jpeg");
 		unAvatar.setTexte("Yooo");
 
 		ajouterAvatar(unAvatar, unCl);
@@ -93,7 +93,7 @@ public class ControleurBD {
 		System.out.println("client id inseré : " + unCl2.getId());
 
 		Avatar unAvatar2 = new Avatar();
-		unAvatar2.setNomImage("marius.jpeg");
+		unAvatar2.setPathImage("marius.jpeg");
 		unAvatar2.setTexte("Miauuuuuu Miauuuuuuu");
 
 		ajouterAvatar(unAvatar2, unCl2);
@@ -323,7 +323,7 @@ public class ControleurBD {
 			if (rsAvatar.next()) {
 
 				unAvatar.setId(id);
-				unAvatar.setNomImage(rsAvatar.getString("nomFichier"));
+				unAvatar.setPathImage(rsAvatar.getString("nomFichier"));
 				unAvatar.setTexte(rsAvatar.getString("nomFichier"));
 			}
 
@@ -425,7 +425,7 @@ public class ControleurBD {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "BEGIN insert into BD_CASINOTOPIA.Avatar (idClient, nomFichier, texte) VALUES (" + unClient.getId() + ", '" + unAvatar.getNomImage()
+			String query = "BEGIN insert into BD_CASINOTOPIA.Avatar (idClient, nomFichier, texte) VALUES (" + unClient.getId() + ", '" + unAvatar.getPathImage()
 					+ "' , '" + unAvatar.getTexte() + "') returning id into ?; END;  ";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
@@ -629,7 +629,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.avatar set nomFichier = '" + unAvatar.getNomImage() + "', texte = '" + unAvatar.getTexte() + " where id = "
+			String query = "update BD_CASINOTOPIA.avatar set nomFichier = '" + unAvatar.getPathImage() + "', texte = '" + unAvatar.getTexte() + " where id = "
 					+ unAvatar.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();

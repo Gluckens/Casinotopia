@@ -28,38 +28,39 @@ public class VueMenuPrincipal extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 450, 0 };
-		gridBagLayout.rowHeights = new int[] { 139, 159, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[] { 450 };
+		gridBagLayout.rowHeights = new int[] { 100, 100, 100 };
+		/*gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };*/
 		this.setLayout(gridBagLayout);
+		
+		JButton btnSalle = new JButton("Afficher la salle");
+		btnSalle.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.cmdJoindreSalle("MEGAFUN");
+				//controleur.afficherSalle("MEGAFUN");
+			}
+		});
+		this.add(btnSalle, new GridBagHelper().setXY(0, 0).end());
 
-		JButton btnJoueurLa = new JButton("Joueur \u00E0 la roulette");
-		btnJoueurLa.addActionListener(new ActionListener() {
+		JButton btnRoulette = new JButton("Joueur \u00E0 la roulette");
+		btnRoulette.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controleur.cmdJouerRoulette();
 			}
 		});
-		GridBagConstraints gbc_btnJoueurLa = new GridBagConstraints();
-		gbc_btnJoueurLa.anchor = GridBagConstraints.SOUTH;
-		gbc_btnJoueurLa.insets = new Insets(0, 0, 5, 0);
-		gbc_btnJoueurLa.gridx = 0;
-		gbc_btnJoueurLa.gridy = 0;
-		this.add(btnJoueurLa, gbc_btnJoueurLa);
+		this.add(btnRoulette, new GridBagHelper().setXY(0, 1).end());
 
-		JButton btnAllerSurLe = new JButton("Aller sur le chat");
-		btnAllerSurLe.addActionListener(new ActionListener() {
+		JButton btnChat = new JButton("Aller sur le chat");
+		btnChat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controleur.actionAfficherChat(new ModeleChatClient());
 			}
 		});
-		GridBagConstraints gbc_btnAllerSurLe = new GridBagConstraints();
-		gbc_btnAllerSurLe.anchor = GridBagConstraints.NORTH;
-		gbc_btnAllerSurLe.gridx = 0;
-		gbc_btnAllerSurLe.gridy = 1;
-		this.add(btnAllerSurLe, gbc_btnAllerSurLe);
+		this.add(btnChat, new GridBagHelper().setXY(0, 2).end());
 	}
 
 	@Override

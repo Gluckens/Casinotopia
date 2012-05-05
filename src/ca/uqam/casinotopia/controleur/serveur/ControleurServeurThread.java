@@ -9,21 +9,21 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.uqam.casinotopia.Avatar;
+import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.Clavardage;
-import ca.uqam.casinotopia.JoueurRoulette;
-import ca.uqam.casinotopia.JoueurServeur;
-import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeEtatPartie;
-import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurSalle;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
-import ca.uqam.casinotopia.commande.client.CmdAfficherMenuPrincipal;
+import ca.uqam.casinotopia.commande.client.CmdAfficherSalle;
+import ca.uqam.casinotopia.commande.client.CmdAjouterClientSalle;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
 import ca.uqam.casinotopia.commande.client.CmdInitClient;
 import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
@@ -31,8 +31,10 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 
@@ -66,12 +68,15 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			while (this.connexion.isConnected()) {
 				Commande cmd = null;
 				try {
-					System.out.println("ATTENTE DE COMMANDE DU CLIENT");
+					//System.out.println("ATTENTE DE COMMANDE DU CLIENT");
 					cmd = (Commande) this.connexion.getObjectInputStream().readObject();
-					System.out.println("COMMANDE CLIENT OBTENUE");
+					//System.out.println("COMMANDE CLIENT OBTENUE");
 					if (cmd != null) {
 						if (cmd instanceof CommandeServeur) {
-							if (cmd instanceof CommandeServeurControleurClient) {
+							if (cmd instanceof CommandeServeurControleurThread) {
+								cmd.action(this);
+							}
+							else if (cmd instanceof CommandeServeurControleurClient) {
 								if (!this.lstControleurs.containsKey("ControleurClientServeur")) {
 									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurClientServeur)");
 								}
@@ -84,16 +89,22 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 								cmd.action(this.lstControleurs.get("ControleurRouletteServeur"));
 							}
 							else if (cmd instanceof CommandeServeurControleurChat) {
-								if (!this.lstControleurs.containsKey("CommandeServeurControleurChat")) {
-									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (CommandeServeurControleurChat)");
+								if (!this.lstControleurs.containsKey("ControleurChatServeur")) {
+									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurChatClient)");
 								}
-								cmd.action(this.lstControleurs.get("CommandeServeurControleurChat"));
+								cmd.action(this.lstControleurs.get("ControleurChatServeur"));
+							}
+							else if (cmd instanceof CommandeServeurControleurSalle) {
+								if (!this.lstControleurs.containsKey("ControleurSalleServeur")) {
+									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurSalleServeur)");
+								}
+								cmd.action(this.lstControleurs.get("ControleurSalleServeur"));
 							}
 							else if (cmd instanceof CommandeServeurControleurPrincipal) {
 								cmd.action(this.lstControleurs.get("ControleurPrincipalServeur"));
 							}
-							else if (cmd instanceof CommandeServeurControleurThread) {
-								cmd.action(this);
+							else {
+								System.err.println("Ce type de commande n'est pas géré par le serveur");
 							}
 						}
 						else {
@@ -123,6 +134,50 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 
 	}
+	
+	
+
+
+	public void actionJoindreSalle(String nom) {
+		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		
+		ModeleSalleServeur salle = ctrlPrincipal.getSalle(nom);
+		
+		if(salle == null) {
+			salle = new ModeleSalleServeur(nom);
+			ctrlPrincipal.ajouterSalle(salle);
+			System.out.println("AUCUNE SALLE \"" + nom + "\" N'EXISTE AVEC CE NOM, CRÉATION D'UNE NOUVELLE");
+		}
+		else {
+			System.out.println("LA SALLE \"" + nom + "\" EXISTE");
+		}
+		
+		salle.ajouterClient(this.client);
+		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this.client, salle));
+		
+		/*ModeleSalleServeur modele = new ModeleSalleServeur(nom);
+		modele.ajouterClient(client);
+		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this.client, modele));*/
+
+		this.cmdAfficherSalle(salle);
+	}
+	
+	private void cmdAfficherSalle(ModeleSalleServeur modele) {
+		//TODO Est-ce que le modeleSalleClient a besoin d'avoir la liste des autres clients?
+		ModeleSalleClient modeleClient = new ModeleSalleClient(modele.getNom());
+		
+		for(ModeleClientServeur client : modele.getLstClients()) {
+			modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
+			if(client.getId() != this.client.getId()) {
+				client.getConnexion().envoyerCommande(new CmdAjouterClientSalle(new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage(), this.client.getAvatar().getPosition())));
+			}
+		}
+		
+		
+		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));
+	}
+	
+	
 
 	/*
 	 * public void actionAjouterJoueurDansPartie(TypeJeu type) { switch(type) {
@@ -167,7 +222,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.cmdAfficherJeuRoulette(partieRoulette);
 	}
 
-	public void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
+	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
 		//INITIALISER CASE SERVEUR POUR CLIENT 
 		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.isOptionArgent(), modeleServeur.isOptionMultijoueur(), modeleServeur.getInfoJeu(), modeleServeur.getTableJeu().getCases());
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
@@ -180,7 +235,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		if (Arrays.equals(motDePasse, nomUtilisateur.toCharArray())) {
 			this.setModele(nomUtilisateur);
 			this.initControleur();
-			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId());
+			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage());
 			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
 			//this.connexion.envoyerCommande(new CmdAfficherMenuPrincipal());
 		}
@@ -233,7 +288,24 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		String courriel = "courriel@user.com";
 		int solde = 0;
 		
-		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde);
+		//Temporaire, pour les tests de déplacement d'avatar
+		String pathImage = "";
+		switch(id) {
+			case 1 :
+				pathImage = "/img/chip_5.png";
+				break;
+			case 2 :
+				pathImage = "/img/chip_10.png";
+				break;
+			case 3 :
+				pathImage = "/img/chip_25.png";
+				break;
+			case 4 :
+				pathImage = "/img/chip_50.png";
+				break;
+		}
+		
+		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage);
 		this.client = this.modele;
 	}
 

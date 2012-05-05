@@ -60,5 +60,11 @@ public abstract class Vue extends JPanel implements Observateur {
 			return null;
 		}
 	}
+	
+
+
+	public Map<String, JComponent> getComponentMap() {
+		return this.componentMap;
+	}
 
 }

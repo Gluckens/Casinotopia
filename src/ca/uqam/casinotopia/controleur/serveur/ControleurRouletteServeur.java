@@ -33,7 +33,7 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		this.cmdUpdateTableJoueurs(this.modele.getId());
 	}
 
-	public void cmdUpdateTableJoueurs(int idPartie) {
+	private void cmdUpdateTableJoueurs(int idPartie) {
 		Commande cmd = new CmdUpdateCasesRoulette(this.modele.getTableJeu().getCases());
 		
 		Set<JoueurServeur> lstJoueurs = this.modele.getLstJoueurs();

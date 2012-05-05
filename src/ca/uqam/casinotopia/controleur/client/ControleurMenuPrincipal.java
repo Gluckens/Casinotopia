@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia.controleur.client;
 
+import ca.uqam.casinotopia.commande.serveur.CmdJoindreSalle;
 import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -38,4 +39,16 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	public void actionAfficherChat(ModeleChatClient modeleChatClient) {
 		((ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 	}
+	
+	public void cmdJoindreSalle(String nomSalle) {
+		this.connexion.envoyerCommande(new CmdJoindreSalle(nomSalle));
+	}
+
+	/*public void afficherSalle(String nomSalle) {
+		ControleurSalleClient ctrlSalle = new ControleurSalleClient(this.connexion, new ModeleSalleClient(nomSalle), this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
+		this.modeleNav.cacherFrameConnexion();
+		this.modeleNav.changerVueFrameApplication("VueSalle", ctrlSalle.getVue());
+		//ctrlSalle.getVue().loopMouvement();
+	}*/
 }

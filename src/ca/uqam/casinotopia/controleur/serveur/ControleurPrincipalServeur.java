@@ -26,6 +26,7 @@ import java.net.UnknownHostException;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
 
 public final class ControleurPrincipalServeur extends ControleurServeur {
@@ -44,11 +45,15 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 
 	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
 	private Map<Integer, Partie> lstParties;
+	
+	private Map<String, ModeleSalleServeur> lstSalles;
 
 	private ControleurPrincipalServeur() {
 		this.modele = new ModeleServeurPrincipal();
 
 		this.lstParties = new HashMap<Integer, Partie>();
+		
+		this.lstSalles = new HashMap<String, ModeleSalleServeur>();
 
 		this.initJeux();
 	}
@@ -290,6 +295,22 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 
 	public Map<TypeJeu, Map<Integer, Jeu>> getLstJeux() {
 		return this.lstJeux;
+	}
+	
+	public ModeleSalleServeur getSalle(String nom) {
+		return this.lstSalles.get(nom);
+	}
+	
+	public void ajouterSalle(ModeleSalleServeur salle) {
+		this.lstSalles.put(salle.getNom(), salle);
+	}
+	
+	public void retirerSalle(ModeleSalleServeur salle) {
+		this.retirerSalle(salle.getNom());
+	}
+	
+	public void retirerSalle(String nom) {
+		this.lstSalles.remove(nom);
 	}
 
 	/**

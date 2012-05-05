@@ -4,18 +4,19 @@ import java.awt.Point;
 import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modif.TypeModif;
+import ca.uqam.casinotopia.modif.TypeModifAvatar;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class Avatar implements Modele, Observable, Serializable {
+public class AvatarClient implements Modele, Observable, Serializable {
 	
 	private static final long serialVersionUID = 6908585380935996326L;
 	
 	//TODO Référence au client nécessaire?
-	private ModeleClientServeur client;
+	private ModeleClientClient client;
 	private int id;
 	private String pathImage;
 	private String texte;
@@ -24,42 +25,49 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	private int largeur;
 	private int hauteur;
+	
+	private TypeModifAvatar typeModif;
 
 	private BaseObservable sujet = new BaseObservable(this);
 	
-	public Avatar() {
+	public AvatarClient() {
 		
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage) {
+	public AvatarClient(ModeleClientClient client, int id, String pathImage) {
 		this(client, id, pathImage, 40, 40);
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage, int largeur, int hauteur) {
+	public AvatarClient(ModeleClientClient client, int id, String pathImage, Point position) {
+		this(client, id, pathImage, 40, 40, "", position);
+	}
+	
+	public AvatarClient(ModeleClientClient client, int id, String pathImage, int largeur, int hauteur) {
 		this(client, id, pathImage, largeur, hauteur, "", new Point(0, 0));
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
+	public AvatarClient(ModeleClientClient client, int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
 		this.setClient(client);
 		this.id = id;
 		this.pathImage = pathImage;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		this.texte = texte;
-		this.setPosition(position);
+		this.position = position;
+		//this.setPosition(position);
 	}
 
 	/**
 	 * @return the client
 	 */
-	public ModeleClientServeur getClient() {
+	public ModeleClientClient getClient() {
 		return this.client;
 	}
 
 	/**
 	 * @param client the client to set
 	 */
-	public void setClient(ModeleClientServeur client) {
+	public void setClient(ModeleClientClient client) {
 		this.client = client;
 	}
 
@@ -99,6 +107,7 @@ public class Avatar implements Modele, Observable, Serializable {
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
+		this.typeModif = TypeModifAvatar.DEPLACEMENT;
 		this.notifierObservateur();
 	}
 	
@@ -108,6 +117,7 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	public void setX(int x) {
 		this.position.x = x;
+		this.typeModif = TypeModifAvatar.DEPLACEMENT;
 		this.notifierObservateur();
 	}
 	
@@ -117,6 +127,7 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	public void setY(int y) {
 		this.position.y = y;
+		this.typeModif = TypeModifAvatar.DEPLACEMENT;
 		this.notifierObservateur();
 	}
 	
@@ -149,8 +160,7 @@ public class Avatar implements Modele, Observable, Serializable {
 	}
 
 	@Override
-	public TypeModif getTypeModif() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeModifAvatar getTypeModif() {
+		return this.typeModif;
 	}
 }
