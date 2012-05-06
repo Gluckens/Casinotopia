@@ -15,6 +15,7 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 	
 	private static final long serialVersionUID = -1713451671266579670L;
 	
+	private int gain;
 	private Case caseResultat;
 	private ModeleTableJeuClient tableJeu;
 	private BaseObservable sujet = new BaseObservable(this);
@@ -32,6 +33,28 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 
 		this.tableJeu = tableJeu;
 	}
+	
+	public Case getCaseResultat() {
+		return caseResultat;
+	}
+	
+	public void setCaseResultat(Case caseResultat) {
+		System.out.println("Alexei --> ModelePartieRouletteClient.setCaseResultat()");
+		this.caseResultat = caseResultat;
+		
+	}
+	
+	public int getGain() {
+		return gain;
+		
+	}
+	
+	public void setGain(int gain) {
+		System.out.println("Alexei --> ModelePartieRouletteClient.setGain()");
+		this.gain = gain;
+		this.notifierObservateur();
+	}
+	
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.tableJeu.updateTableJeu(cases);
@@ -72,6 +95,7 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 
 	@Override
 	public void notifierObservateur() {
+		System.out.println("Alexei --> ModelePartieRouletteClient.notifierObservateur()");
 		this.sujet.notifierObservateur();
 	}
 

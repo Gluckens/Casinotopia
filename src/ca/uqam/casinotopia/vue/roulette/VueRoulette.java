@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
@@ -83,6 +84,11 @@ public class VueRoulette extends Vue {
 		 * (((ModelePartieRouletteClient)observable).getTableJeu().getCases());
 		 * }
 		 */
+		
+		  if(observable instanceof ModelePartieRouletteClient) {
+			 VueRouletteRoue vR = (VueRouletteRoue)this.getComponentByName("roue");
+			 vR.update(controleur.getModele());
+		  }
 	}
 }
 
