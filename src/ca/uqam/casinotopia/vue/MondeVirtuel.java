@@ -1,15 +1,10 @@
-package ca.uqam.casinotopia.controleur.client;
+package ca.uqam.casinotopia.vue;
 
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import ca.uqam.casinotopia.TypeDeplacement;
-import ca.uqam.casinotopia.vue.VueSalle;
 
-public class MondeVirtuel implements Runnable, KeyListener {
-	
-	//private Avatar avatarClient;
+public class MondeVirtuel implements Runnable {
 	
 	private Point position;
 	
@@ -19,11 +14,6 @@ public class MondeVirtuel implements Runnable, KeyListener {
 	private int lastY;
 	
 	private VueSalle vue;
-	
-	
-	
-	//Sert a gérer les multiple keyPress
-	//private Map<TypeDeplacement, Boolean> keysPressed;
 	
 	private boolean running = false;
 	private int fps = 60;
@@ -37,24 +27,12 @@ public class MondeVirtuel implements Runnable, KeyListener {
 		
 		this.position = new Point(0, 0);
 		this.lastPosition = (Point) this.position.clone();
-		
-		//this.position = this.vue.avatarClient.getPosition();
+		this.lastX = this.position.x;
+		this.lastY = this.position.y;
 	}
-	
-	/*public MondeVirtuel(Avatar avatarClient) {
-		this.avatarClient = avatarClient;
-		this.position = this.avatarClient.getPosition();
-		
-		this.keysPressed = new HashMap<TypeDeplacement, Boolean>();
-		this.keysPressed.put(TypeDeplacement.HAUT, false);
-		this.keysPressed.put(TypeDeplacement.BAS, false);
-		this.keysPressed.put(TypeDeplacement.GAUCHE, false);
-		this.keysPressed.put(TypeDeplacement.DROITE, false);
-	}*/
 
 	@Override
 	public void run() {
-		System.out.println("DEBUT DU THREAD LOOP");
 		this.running = true;
 		this.movementLoop();
 	}
@@ -124,12 +102,6 @@ public class MondeVirtuel implements Runnable, KeyListener {
 	}
 	
 	private void update() {
-		/*this.lastX = this.position.x;
-		this.lastY = this.position.y;*/
-		
-		//this.lastPosition = (Point) this.position.clone();
-		
-		
 		if(this.vue.getKeysPressed().get(TypeDeplacement.HAUT)) {
 			this.position.y -= 5;
 		}
@@ -145,69 +117,28 @@ public class MondeVirtuel implements Runnable, KeyListener {
 	}
 	
 	private void draw(float interpolation) {
-		
+		//TODO Dépendamment d'où la validation de déplacement se fait, modifier ou non le client avant l'envoi de la commande
 		if(!this.position.equals(this.lastPosition)) {
-			System.out.println("CLIENT " + this.vue.idClient + " VEUT SE DÉPLACER (" + this.lastPosition + ") vers (" + this.position + ")");
+			//System.out.println("CLIENT " + this.vue.idClient + " VEUT SE DÉPLACER (" + this.lastPosition + ") vers (" + this.position + ")");
         	this.vue.getControleur().cmdDeplacerAvatar(this.position);
         	this.lastPosition = (Point) this.position.clone();
+        	this.lastX = this.position.x;
+    		this.lastY = this.position.y;
         }
-		
 		
 		/*int drawX = (int) ((this.position.getX() - this.lastX) * interpolation + this.lastX - 40/2);
-        int drawY = (int) ((this.position.getY() - this.lastY) * interpolation + this.lastY - 40/2);*/
+        int drawY = (int) ((this.position.getY() - this.lastY) * interpolation + this.lastY - 40/2);
         
-        /*Point newPosition = new Point(drawX, drawY);
+        this.position = new Point(drawX, drawY);
         
-        
-        //System.out.println("(" + this.position.x + ", " + this.position.y + ") vers (" + newPosition.x + ", " + newPosition.y + ")");
-        
-        if(!this.position.equals(newPosition)) {
-        	this.vue.getControleur().cmdDeplacerAvatar(new Point(drawX, drawY));
-        }
-        
-        this.position = newPosition;*/
+        System.out.println("(" + this.lastPosition.x + ", " + this.lastPosition.y + ") vers (" + this.position.x + ", " + this.position.y + ")");
 		
-        //this.vue.avatarClient.setPosition(new Point(drawX, drawY));
-		
-		//this.vue.avatarClient.setPosition(this.position);
+        if(!this.position.equals(this.lastPosition)) {
+        	this.vue.getControleur().cmdDeplacerAvatar(this.position);
+        	
+        	this.lastPosition = (Point) this.position.clone();
+        	this.lastX = this.position.x;
+    		this.lastY = this.position.y;
+        }*/
 	}
-	
-	/*private void update() {
-		if(this.keysPressed.get(TypeDeplacement.HAUT)) {
-			this.position.y -= 5;
-		}
-		if(this.keysPressed.get(TypeDeplacement.BAS)) {
-			this.position.y += 5;
-		}
-		if(this.keysPressed.get(TypeDeplacement.GAUCHE)) {
-			this.position.x -= 5;
-		}
-		if(this.keysPressed.get(TypeDeplacement.DROITE)) {
-			this.position.x += 5;
-		}
-	}
-	
-	private void draw(float interpolation) {
-		this.avatarClient.setPosition(this.position);
-	}*/
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		System.out.println("BOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBOBO");
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -95,51 +95,6 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 		
 		this.avatar = avatar;
 	}
-	
-	
-	
-	/*public ModeleClientServeur(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
-		this(nomUtilisateur, connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage, null);
-	}
-	
-	public ModeleClientServeur(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(nomUtilisateur, connexion, id, prenom, nom, dateNaissance, courriel, solde, "", null);
-	}
-	
-	public ModeleClientServeur(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage, Avatar avatar) {
-		this(nomUtilisateur, "", connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), pathImage, avatar);
-	}
-	
-	public ModeleClientServeur(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage, null);
-	}
-	
-	public ModeleClientServeur(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage, Avatar avatar) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), pathImage, avatar);
-	}
-	
-	private ModeleClientServeur(String nomUtilisateur, String motDePasse, Connexion connexion,
-								int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, int pourcentageGlobal,
-								Vector<PartageGainsClient> partageGains, Vector<DonUniqueClient> donsUniques, ListeAmis listeAmis, String pathImage, Avatar avatar) {
-		super(nomUtilisateur, motDePasse, connexion);
-		
-		this.id = id;
-		this.prenom = prenom;
-		this.nom = nom;
-		this.dateNaissance = dateNaissance;
-		this.courriel = courriel;
-		this.solde = solde;
-		this.pourcentageGlobal = pourcentageGlobal;
-		this.partageGains = partageGains;
-		this.donsUniques = donsUniques;
-		this.listeAmis = listeAmis;
-		
-		if(avatar == null) {
-			avatar = new Avatar(this, this.id, pathImage);
-		}
-		
-		this.avatar = avatar;
-	}*/
 
 	public Avatar getAvatar() {
 		return this.avatar;

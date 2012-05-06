@@ -6,7 +6,6 @@ import java.util.Map;
 import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.modif.TypeModifSalle;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;

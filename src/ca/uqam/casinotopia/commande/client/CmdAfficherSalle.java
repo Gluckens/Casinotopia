@@ -19,5 +19,4 @@ public class CmdAfficherSalle implements CommandeClientControleurPrincipal {
 	public void action(Controleur controleur) {
 		((ControleurPrincipalClient) controleur).actionAfficherSalle(this.modele);
 	}
-
 }

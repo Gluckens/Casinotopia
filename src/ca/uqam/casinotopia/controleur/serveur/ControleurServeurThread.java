@@ -9,8 +9,6 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.Avatar;
-import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.commande.Commande;
@@ -155,10 +153,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		salle.ajouterClient(this.client);
 		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this.client, salle));
 		
-		/*ModeleSalleServeur modele = new ModeleSalleServeur(nom);
-		modele.ajouterClient(client);
-		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this.client, modele));*/
-
 		this.cmdAfficherSalle(salle);
 	}
 	
@@ -212,10 +206,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 		
 		partieRoulette.ajouterJoueur(this.client);
-		
-		/*for(JoueurServeur joueur : partieRoulette.getLstJoueurs()) {
-			System.out.println("AJOUT JOUEUR : " + joueur.getId());
-		}*/
 
 		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this.client, partieRoulette));
 
@@ -281,7 +271,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	private void setModele(String nomUtilisateur) {
 		//TODO Récupérer les infos du clients dans la BD en rapport avec le nom d'utilisateur
 		int id = Integer.parseInt(nomUtilisateur) ;
-		//System.out.println("SET MODELE : " + id);
 		String prenom = "Prénom";
 		String nom = "Nom";
 		Date dateNaissance = new Date(0);

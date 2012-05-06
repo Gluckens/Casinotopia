@@ -45,17 +45,7 @@ public class ControleurSalleClient extends ControleurClient {
 	}
 
 	public void actionAfficherDeplacementAvatar(int idClient, Point position) {
-		//System.out.println("DEPLACEMENT CLIENT ###############################################################");
-		if(this.client.getId() == 2 && idClient == 1) {
-			//System.out.println("DEPLACEMENT CLIENT ###############################################################");
-		}
-		if(this.client.getId() == 1) {
-			//System.out.println("DEPLACEMENT CLIENT ###############################################################");
-		}
-		
-		//TODO DEBUGUER STE LIGNE LA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		this.modele.getClient(idClient).getAvatar().setPosition(position);
-		//this.client.getAvatar().setPosition(position);
 	}
 
 	public void actionAjouterClientSalle(ModeleClientClient nouveauClient) {
@@ -70,5 +60,4 @@ public class ControleurSalleClient extends ControleurClient {
 	public ModeleSalleClient getModele() {
 		return this.modele;
 	}
-
 }

@@ -191,7 +191,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 					return i;
 				}
 			}
-			// Attente de 30 secondes avant de rechercher à nouveau.
+			//TODO Attente de 30 secondes avant de rechercher à nouveau.
 			try {
 				Thread.sleep(30000);
 			} catch (InterruptedException e) {
@@ -218,9 +218,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	public void transfererPartieEnAttenteVersEnCours(int idPartie) {
 		Partie partieEnAttente = this.getPartie(idPartie);
 		if (partieEnAttente != null) {
-			// TODO est-ce que sa dérange si je supprime la partie avant de
-			// l'insérer? (Je peux pas faire l'inverse car retirer se
-			// retrouverait avec 2 parties identiques
+			// TODO est-ce que sa dérange si je supprime la partie avant de l'insérer?
+			// (Je peux pas faire l'inverse car retirer se retrouverait avec 2 parties identiques)
 			this.retirerPartie(idPartie);
 			this.ajouterPartie(partieEnAttente, TypeEtatPartie.EN_COURS);
 		}
@@ -230,15 +229,12 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		this.transfererPartieEnAttenteVersEnCours(partie.getId());
 	}
 
-	// Peut-être inutile... qu'est-ce qu'on fait quand une partie exige un
-	// nombre minimal de joueur et qu'un joueur quitte, entrainant la partie
-	// sous le seuil de joueurs?
+	// Peut-être inutile... qu'est-ce qu'on fait quand une partie exige un nombre minimal de joueur et qu'un joueur quitte, entrainant la partie sous le seuil de joueurs?
 	public void transfererPartieEnCoursVersEnAttente(int idPartie) {
 		Partie partieEnCours = this.getPartie(idPartie);
 		if (partieEnCours != null) {
-			// TODO est-ce que sa dérange si je supprime la partie avant de
-			// l'insérer? (Je peux pas faire l'inverse car retirer se
-			// retrouverait avec 2 partie identique
+			// TODO est-ce que sa dérange si je supprime la partie avant de l'insérer?
+			// (Je peux pas faire l'inverse car retirer se retrouverait avec 2 parties identiques)
 			this.retirerPartie(idPartie);
 			this.ajouterPartie(partieEnCours, TypeEtatPartie.EN_ATTENTE);
 		}

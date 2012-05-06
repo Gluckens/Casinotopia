@@ -27,7 +27,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
-		this.listeServeur = new String[] { "192.168.1.82", "localhost", "dan.dnsd.me", "oli.dnsd.me" };
+		this.listeServeur = new String[] { "192.168.1.96", "localhost", "dan.dnsd.me", "oli.dnsd.me" };
 		this.enReceptionDeCommande = false;
 		this.afficherConnexion();
 	}
@@ -108,8 +108,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionAfficherSalle(ModeleSalleClient modele) {
-		//TODO Est-ce que le modeleSalleClient a besoin d'avoir la liste des autres clients?
-		//Ou alors il lui faut seulement une reference vers le client lui-même?
 		modele.ajouterClient(this.client);
 		ControleurSalleClient ctrlSalle = new ControleurSalleClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
@@ -141,7 +139,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionQuitterPartieRouletteClient() {
-		//TODO Permet de coder des choses a faire dans al vue avant de quitter (et d'enlever le controleur)
+		//TODO Permet de coder des choses a faire dans la vue avant de quitter (et d'enlever le controleur)
 		//Si on voudrait appeler directement la cmd AfficherMenuPrincipal, il faudrait envoyer en param le nom du controleur a enlever (et on perd la customisation avant le quittage)
 		this.modeleNav.retirerControleur("ControleurRouletteClient");
 		this.afficherMenuPrincipal();
