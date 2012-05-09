@@ -330,7 +330,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void lancerPartieMachine() {
 		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this.client, new ModeleMachineServeur()));
 		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
-		
 	}
 	
 	public void actionQuitterPartieRoulette(int idJoueur) {
