@@ -152,7 +152,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 		ControleurMachineClient ctrlMachineClient = new ControleurMachineClient(this.connexion, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurMachineClient", ctrlMachineClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlMachineClient.getVue());
-		
 	}
 
 	public void actionQuitterSalleClient() {

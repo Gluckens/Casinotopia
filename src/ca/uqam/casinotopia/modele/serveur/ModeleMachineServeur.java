@@ -7,6 +7,8 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleMachineServeur implements Modele, Observable {
 
+	private static final long serialVersionUID = 8854771788955204109L;
+
 	@Override
 	public void ajouterObservateur(Observateur obs) {
 		// TODO Auto-generated method stub

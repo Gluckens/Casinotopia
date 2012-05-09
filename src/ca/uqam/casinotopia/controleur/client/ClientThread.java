@@ -1,7 +1,6 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClient;
@@ -19,10 +18,8 @@ import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
  * @author Olivier
  * 
  */
-public class ClientThread implements Runnable, Serializable {
+public class ClientThread implements Runnable {
 
-	private static final long serialVersionUID = -7255862757949954484L;
-	
 	private ControleurPrincipalClient controleur;
 
 	public ClientThread(ControleurPrincipalClient controleur) {
@@ -63,12 +60,6 @@ public class ClientThread implements Runnable, Serializable {
 						else if (cmd instanceof CommandeClientControleurMachine) {
 							if (!this.controleur.getModeleNav().hasControleur("ControleurMachineClient")) {
 								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurMachineClient)");
-								// THROW EXCEPTION
-								// On ne devrait jamais recevoir une commande
-								// pour un controleur en particulier sans que ce
-								// dernier ait été créé
-								// (par l'envoie d'une commande du client,
-								// généralement au ControleurServeurThread)
 							}
 							cmd.action(this.controleur.getModeleNav().getControleur("ControleurMachineClient"));
 						}

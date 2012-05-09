@@ -43,19 +43,10 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	
 	public void cmdJoindreSalle(String nomSalle) {
 		this.connexion.envoyerCommande(new CmdJoindreSalle(nomSalle));
-		
 	}
-	
+		
 	public void actionJouerMachine() {
 		this.connexion.envoyerCommande(new CmdJouerMachine());
 		
 	}
-
-	/*public void afficherSalle(String nomSalle) {
-		ControleurSalleClient ctrlSalle = new ControleurSalleClient(this.connexion, new ModeleSalleClient(nomSalle), this.client, this.modeleNav);
-		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
-		this.modeleNav.cacherFrameConnexion();
-		this.modeleNav.changerVueFrameApplication("VueSalle", ctrlSalle.getVue());
-		//ctrlSalle.getVue().loopMouvement();
-	}*/
 }

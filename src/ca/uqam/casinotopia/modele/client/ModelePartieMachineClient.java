@@ -9,6 +9,8 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModelePartieMachineClient implements Modele, Observable  {
 
+	private static final long serialVersionUID = -8592873550374651424L;
+
 	public ModelePartieMachineClient() {
 		// TODO Auto-generated constructor stub
 	}
