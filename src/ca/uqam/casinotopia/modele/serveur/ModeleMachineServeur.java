@@ -1,10 +1,13 @@
 package ca.uqam.casinotopia.modele.serveur;
 
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
 public class ModeleMachineServeur implements Modele, Observable {
+
+	private static final long serialVersionUID = 8854771788955204109L;
 
 	@Override
 	public void ajouterObservateur(Observateur obs) {
@@ -30,4 +33,9 @@ public class ModeleMachineServeur implements Modele, Observable {
 		
 	}
 
+	@Override
+	public TypeModif getTypeModif() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

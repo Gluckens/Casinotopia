@@ -29,7 +29,7 @@ public class VueMenuPrincipal extends Vue {
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 450 };
-		gridBagLayout.rowHeights = new int[] { 100, 100, 100 };
+		gridBagLayout.rowHeights = new int[] { 100, 100, 100, 100 };
 
 		this.setLayout(gridBagLayout);
 		
@@ -69,7 +69,7 @@ public class VueMenuPrincipal extends Vue {
 		});
 		GridBagConstraints gbc_btnMachine = new GridBagConstraints();
 		gbc_btnMachine.gridx = 0;
-		gbc_btnMachine.gridy = 2;
+		gbc_btnMachine.gridy = 3;
 		add(btnMachine, gbc_btnMachine);
 	}
 

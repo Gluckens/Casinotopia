@@ -68,7 +68,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		}
 		try {
 			System.out.println("création du server");
-			server = new ServerSocket(7778);
+			server = new ServerSocket(7777);
 			System.out.println("server démarré");
 			while (actif) {
 				System.out.println("ATTENTE DE NOUVELLES CONNEXIONS...");
