@@ -28,7 +28,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
-		this.listeServeur = new String[] { "192.168.1.96", "localhost", "dan.dnsd.me", "oli.dnsd.me" };
+		this.listeServeur = new String[] { "localhost", "dan.dnsd.me", "oli.dnsd.me" };
 		this.enReceptionDeCommande = false;
 		this.afficherConnexion();
 	}
@@ -54,7 +54,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 			this.setMessageConnexion("recherche de serveur...");
 			int i = 0;
 			while (this.connexion.isConnected() == false && i < this.listeServeur.length) {
-				this.setConnexion(new Connexion(this.listeServeur[i], 7778));
+				this.setConnexion(new Connexion(this.listeServeur[i], 7777));
 				i++;
 			}
 		}

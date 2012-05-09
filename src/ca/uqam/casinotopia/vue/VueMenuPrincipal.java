@@ -28,17 +28,16 @@ public class VueMenuPrincipal extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-<<<<<<< HEAD
+
 		gridBagLayout.columnWidths = new int[] { 450, 0 };
 		gridBagLayout.rowHeights = new int[] { 100, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-=======
-		gridBagLayout.columnWidths = new int[] { 450 };
-		gridBagLayout.rowHeights = new int[] { 100, 100, 100 };
+
+		//gridBagLayout.columnWidths = new int[] { 450 };
+		//gridBagLayout.rowHeights = new int[] { 100, 100, 100 };
 		/*gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };*/
->>>>>>> 6178ed470c5b0c0592e4f6f85187bc2aa922a10a
 		this.setLayout(gridBagLayout);
 		
 		JButton btnSalle = new JButton("Afficher la salle");
@@ -67,13 +66,12 @@ public class VueMenuPrincipal extends Vue {
 				controleur.actionAfficherChat(new ModeleChatClient());
 			}
 		});
-<<<<<<< HEAD
 		GridBagConstraints gbc_btnAllerSurLe = new GridBagConstraints();
 		gbc_btnAllerSurLe.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAllerSurLe.anchor = GridBagConstraints.NORTH;
 		gbc_btnAllerSurLe.gridx = 0;
 		gbc_btnAllerSurLe.gridy = 1;
-		this.add(btnAllerSurLe, gbc_btnAllerSurLe);
+		this.add(btnChat, gbc_btnAllerSurLe);
 		
 		JButton btnMachine = new JButton("Jouer \u00E0 la machine \u00E0 sous");
 		btnMachine.addActionListener(new ActionListener() {
@@ -85,9 +83,7 @@ public class VueMenuPrincipal extends Vue {
 		gbc_btnJouerLa.gridx = 0;
 		gbc_btnJouerLa.gridy = 2;
 		add(btnMachine, gbc_btnJouerLa);
-=======
 		this.add(btnChat, new GridBagHelper().setXY(0, 2).end());
->>>>>>> 6178ed470c5b0c0592e4f6f85187bc2aa922a10a
 	}
 
 	@Override
