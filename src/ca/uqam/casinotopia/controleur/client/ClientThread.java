@@ -6,6 +6,7 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClient;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
+import ca.uqam.casinotopia.commande.CommandeClientControleurMachine;
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
@@ -69,6 +70,18 @@ public class ClientThread implements Runnable {
 								// généralement au ControleurServeurThread)
 							}
 							cmd.action(this.controleur.getModeleNav().getControleur("ControleurChatClient"));
+						}
+						else if (cmd instanceof CommandeClientControleurMachine) {
+							if (!this.controleur.getModeleNav().hasControleur("ControleurMachineClient")) {
+								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurMachineClient)");
+								// THROW EXCEPTION
+								// On ne devrait jamais recevoir une commande
+								// pour un controleur en particulier sans que ce
+								// dernier ait été créé
+								// (par l'envoie d'une commande du client,
+								// généralement au ControleurServeurThread)
+							}
+							cmd.action(this.controleur.getModeleNav().getControleur("ControleurMachineClient"));
 						}
 						else if (cmd instanceof CommandeClientControleurPrincipal) {
 							cmd.action(this.controleur);

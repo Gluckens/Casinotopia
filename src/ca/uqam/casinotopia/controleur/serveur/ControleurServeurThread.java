@@ -16,16 +16,19 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurMachine;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.CmdAfficherMenuPrincipal;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
+import ca.uqam.casinotopia.commande.client.machine.CmdAfficherJeuMachine;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
@@ -85,6 +88,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 							}
 							else if (cmd instanceof CommandeServeurControleurPrincipal) {
 								cmd.action(this.lstControleurs.get("ControleurPrincipalServeur"));
+							}
+							else if (cmd instanceof CommandeServeurControleurMachine) {
+								cmd.action(this.lstControleurs.get("ControleurMachineServeur"));
 							}
 							else if (cmd instanceof CommandeServeurControleurThread) {
 								cmd.action(this);
@@ -225,5 +231,11 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		int solde = 0;
 		
 		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde);
+	}
+
+	public void lancerPartieMachine() {
+		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this.client, new ModeleMachineServeur()));
+		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
+		
 	}
 }

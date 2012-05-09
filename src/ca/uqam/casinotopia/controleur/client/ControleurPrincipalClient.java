@@ -68,7 +68,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 			this.setMessageConnexion("recherche de serveur...");
 			int i = 0;
 			while (this.connexion.isConnected() == false && i < this.listeServeur.length) {
-				this.setConnexion(new Connexion(this.listeServeur[i], 7777));
+				this.setConnexion(new Connexion(this.listeServeur[i], 7778));
 				i++;
 			}
 		}
@@ -166,6 +166,13 @@ public class ControleurPrincipalClient extends ControleurClient {
 		 * this.lstControleurs.get("ControleurRouletteClient").ajouterVue(
 		 * vueRoulette);
 		 */
+	}
+
+	public void actionAfficherJeuMachine() {
+		ControleurMachineClient ctrlMachineClient = new ControleurMachineClient(this.connexion, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurMachineClient", ctrlMachineClient);
+		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlMachineClient.getVue());
+		
 	}
 
 	/*
