@@ -10,7 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Clavardage;
+import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeEtatPartie;
+import ca.uqam.casinotopia.TypeJeuArgent;
+import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
@@ -25,6 +29,7 @@ import ca.uqam.casinotopia.commande.client.CmdAjouterClientSalle;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
 import ca.uqam.casinotopia.commande.client.CmdInitClient;
 import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
+import ca.uqam.casinotopia.commande.client.CmdQuitterSalleClient;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
@@ -157,8 +162,10 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	}
 	
 	private void cmdAfficherSalle(ModeleSalleServeur modele) {
-		//TODO Est-ce que le modeleSalleClient a besoin d'avoir la liste des autres clients?
 		ModeleSalleClient modeleClient = new ModeleSalleClient(modele.getNom());
+		for(Jeu jeu : modele.getLstJeux().values()) {
+			modeleClient.ajouterJeu(new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), modeleClient, jeu.getType()));
+		}
 		
 		for(ModeleClientServeur client : modele.getLstClients()) {
 			modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
@@ -184,12 +191,16 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * }
 	 */
 
-	// TODO Un Jeu possède une liste de parties associées... donc au départ on crée les jeu, et on ajoute des partie aux jeux?
-	public void actionAjouterJoueurDansRoulette(int idJeu) {
+	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
 		// TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
 
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 
+		//TODO Rechercher une partie en fonction des options choisies
+		//Si c'est seul, on en crée une nouvelle.
+		//Si c'est avec des amis, et qu'il est l'initiateur, on crée une nouvelle partie.
+		//Si c'est avec des amis, et qu'il est un invité, on récupère directement la partie (une autre fonction qui prends un id de partie directement actionAjouterJoueurDansRoulette(idPartie))
+		//Si c'est avec des inconnus, pattern de recherche de base (ie : on recherche la partie en attente dans laquelle il reste le moins de place de libre, et dont le typeArgent est le même. Si aucune, on en crée une nouvelle.
 		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu);
 		
 		//TODO À enlever (pour des tests)
@@ -197,7 +208,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.getPartie(3);
 
 		if (partieRoulette == null) {
-			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), true, true, ctrlPrincipal.getJeu(idJeu));
+			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), typeMultijoueurs, typeArgent, ctrlPrincipal.getJeu(idJeu));
 			ctrlPrincipal.ajouterPartie(partieRoulette, TypeEtatPartie.EN_ATTENTE);
 			System.out.println("AUCUNE PARTIE EN ATTENTE DISPONIBLE, CRÉATION D'UNE NOUVELLE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
@@ -213,8 +224,19 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	}
 
 	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
-		//INITIALISER CASE SERVEUR POUR CLIENT 
-		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.isOptionArgent(), modeleServeur.isOptionMultijoueur(), modeleServeur.getInfoJeu(), modeleServeur.getTableJeu().getCases());
+		//INITIALISER CASE SERVEUR POUR CLIENT
+		
+		//TODO WHAT A MESS!!!
+		//Trouver une facon de gerer correctement la génération des modeles clients... trop d'associations?
+		Jeu jeuServeur = modeleServeur.getInfoJeu();
+		ModeleSalleServeur salleServeur = jeuServeur.getSalle();
+		ModeleSalleClient salleClient = new ModeleSalleClient(salleServeur.getNom());
+		for(Jeu jeu : salleServeur.getLstJeux().values()) {
+			salleClient.getLstJeux().put(jeu.getId(), new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), salleClient, jeu.getType()));
+		}
+		/*ModeleSalleClient salleClient = new ModeleSalleClient(salleServeur.getNom(), lstJeux, lstClients, clavardage)
+		JeuClient jeuClient = new JeuClient(jeuServeur.getId(), jeuServeur.getNom(), jeuServeur.getDescription(), jeuServeur.getReglesJeu(), jeuServeur.getEmplacement(), jeuServeur.getNbrJoueursMin(), jeuServeur.getNbrJoueursMax(), jeuServeur.getSalle(), jeuServeur.getType());*/
+		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.getTypeMultijoueurs(), modeleServeur.getTypeArgent(), salleClient.getLstJeux().get(modeleServeur.getInfoJeu().getId()), modeleServeur.getTableJeu().getCases());
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
 	}
 
@@ -301,7 +323,18 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void actionQuitterPartieRoulette(int idJoueur) {
 		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
 		
+		//TODO Mettre à jour la vue de tous les joueurs de la partie
+		
 		this.lstControleurs.remove("ControleurRouletteServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
+	}
+	
+	public void actionQuitterSalle() {
+		((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).quitterSalle();
+		
+		//TODO Mettre à jour la vue de tous les joueurs de la partie
+		
+		this.lstControleurs.remove("ControleurSalleServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
 	}
 }

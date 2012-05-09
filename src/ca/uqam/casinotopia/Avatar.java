@@ -1,18 +1,11 @@
 package ca.uqam.casinotopia;
 
 import java.awt.Point;
-import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
-import ca.uqam.casinotopia.modif.TypeModif;
-import ca.uqam.casinotopia.observateur.BaseObservable;
-import ca.uqam.casinotopia.observateur.Observable;
-import ca.uqam.casinotopia.observateur.Observateur;
 
-public class Avatar implements Modele, Observable, Serializable {
-	
-	private static final long serialVersionUID = 6908585380935996326L;
+public class Avatar implements Modele {
 	
 	//TODO Référence au client nécessaire?
 	private ModeleClientServeur client;
@@ -24,8 +17,6 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	private int largeur;
 	private int hauteur;
-
-	private BaseObservable sujet = new BaseObservable(this);
 	
 	public Avatar() {
 		
@@ -99,7 +90,6 @@ public class Avatar implements Modele, Observable, Serializable {
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
-		this.notifierObservateur();
 	}
 	
 	public int getX() {
@@ -108,7 +98,6 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	public void setX(int x) {
 		this.position.x = x;
-		this.notifierObservateur();
 	}
 	
 	public int getY() {
@@ -117,7 +106,6 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	public void setY(int y) {
 		this.position.y = y;
-		this.notifierObservateur();
 	}
 	
 	public int getLargeur() {
@@ -126,31 +114,5 @@ public class Avatar implements Modele, Observable, Serializable {
 	
 	public int getHauteur() {
 		return this.hauteur;
-	}
-	
-	@Override
-	public void ajouterObservateur(Observateur obs) {
-		this.sujet.ajouterObservateur(obs);
-	}
-
-	@Override
-	public void retirerObservateur(Observateur obs) {
-		this.sujet.retirerObservateur(obs);
-	}
-
-	@Override
-	public boolean estObservePar(Observateur obs) {
-		return this.sujet.estObservePar(obs);
-	}
-
-	@Override
-	public void notifierObservateur() {
-		this.sujet.notifierObservateur();
-	}
-
-	@Override
-	public TypeModif getTypeModif() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

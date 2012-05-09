@@ -4,7 +4,6 @@ import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 
-//TODO Pas le bon controleur
 public class CmdAjouterMessageChat implements CommandeClientControleurChat {
 
 	/**

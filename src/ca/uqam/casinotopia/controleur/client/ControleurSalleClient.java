@@ -2,7 +2,12 @@ package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.Point;
 
+import ca.uqam.casinotopia.JeuClient;
+import ca.uqam.casinotopia.TypeJeuArgent;
+import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.commande.serveur.CmdDeplacerAvatar;
+import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterSalle;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
@@ -20,7 +25,7 @@ public class ControleurSalleClient extends ControleurClient {
 	public ControleurSalleClient(Connexion connexion, ModeleSalleClient modele, ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		super(connexion, client, modeleNav);
 
-		this.vue = new VueSalle(this, modele.getLstClients(), client.getId());
+		this.vue = new VueSalle(this, modele.getLstClients(), client.getId(), modele.getLstJeux());
 		this.modele = modele;
 		this.modele.ajouterObservateur(this.vue);
 		
@@ -51,6 +56,52 @@ public class ControleurSalleClient extends ControleurClient {
 	public void actionAjouterClientSalle(ModeleClientClient nouveauClient) {
 		nouveauClient.getAvatar().ajouterObservateur(this.vue);
 		this.modele.ajouterClient(nouveauClient);
+	}
+	
+	public void actionRetirerClientSalle(int idClient) {
+		this.modele.retirerClient(idClient);
+	}
+	
+	/*public void actionRetirerClientSalle(ModeleClientClient clientRetire) {
+		clientRetire.getAvatar().retirerObservateur(this.vue);
+		this.modele.retirerClient(clientRetire);
+	}*/
+
+	public void cmdQuitterSalle() {
+		this.connexion.envoyerCommande(new CmdQuitterSalle());
+	}
+	
+	public boolean validerDeplacement() {
+		return this.modele.validerDeplacement(this.client.getAvatar());
+	}
+	
+	public boolean validerDeplacement(Point position) {
+		return (this.vue.getBounds().contains(this.client.getAvatar().getBounds(position))) && (this.modele.validerDeplacement(this.client.getAvatar(), position));
+	}
+
+	public void checkProximites(Point position) {
+		JeuClient jeu = this.modele.checkProximites(this.client.getAvatar(), position);
+		
+		if(jeu != null) {
+			//System.out.println("À PROXIMITÉ DU JEU : " + jeu.getId());
+			
+			this.vue.afficherSelectionOptionJeu(jeu);
+		}
+		else {
+			//System.out.println("AUCUN JEU A PROXIMITÉ");
+			this.vue.cacherSelectionOptionJeu();
+		}
+		
+		
+		//return this.modele.checkProximites(this.client.getAvatar(), position);
+	}
+	
+	public void cmdJouerJeu(JeuClient jeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
+		switch(jeu.getType()) {
+			case ROULETTE :
+				this.connexion.envoyerCommande(new CmdJouerRoulette(jeu.getId(), typeMultijoueurs, typeArgent));
+				break;
+		}
 	}
 	
 	public VueSalle getVue() {

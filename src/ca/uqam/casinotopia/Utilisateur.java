@@ -24,6 +24,25 @@ public /*abstract*/ class Utilisateur implements Serializable {
 	public Utilisateur() {
 		this("", "", null);
 	}
+	
+	public Utilisateur(int id, String nomUtilisateur, String motDePasse) {
+		this(id, nomUtilisateur, motDePasse, null);
+	}
+	
+	public Utilisateur(int id, String nomUtilisateur) {
+		this(nomUtilisateur, "", null);
+	}
+	
+	public Utilisateur(int id, String nomUtilisateur, Connexion connexion) {
+		this(nomUtilisateur, "", connexion);
+	}
+	
+	public Utilisateur(int id, String nomUtilisateur, String motDePasse, Connexion connexion) {
+		this.id = id;
+		this.nomUtilisateur = nomUtilisateur;
+		this.motDePasse = motDePasse;
+		this.connexion = connexion;
+	}
 
 	public Utilisateur(String nomUtilisateur, Connexion connexion) {
 		this(nomUtilisateur, "", connexion);
@@ -31,6 +50,7 @@ public /*abstract*/ class Utilisateur implements Serializable {
 
 	public Utilisateur(String nomUtilisateur, String motDePasse, Connexion connexion) {
 		this.nomUtilisateur = nomUtilisateur;
+		this.motDePasse = motDePasse;
 		this.connexion = connexion;
 	}
 

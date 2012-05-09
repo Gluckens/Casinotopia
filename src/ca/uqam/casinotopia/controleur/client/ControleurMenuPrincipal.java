@@ -26,7 +26,7 @@ public class ControleurMenuPrincipal extends ControleurClient {
 
 		int idJeu = 2;
 
-		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu));
+		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu, null, null));
 	}
 
 	/**

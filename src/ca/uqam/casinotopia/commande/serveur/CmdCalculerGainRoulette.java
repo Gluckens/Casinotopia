@@ -2,7 +2,6 @@ package ca.uqam.casinotopia.commande.serveur;
 
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
 public class CmdCalculerGainRoulette implements CommandeServeurControleurRoulette {
 	

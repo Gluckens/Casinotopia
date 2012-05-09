@@ -8,9 +8,9 @@ import java.util.SortedSet;
 import java.util.Map.Entry;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
+import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 
-public class Jeu implements Serializable {
+public class JeuClient implements Serializable {
 	
 	private static final long serialVersionUID = 7375777588643978481L;
 	
@@ -21,7 +21,7 @@ public class Jeu implements Serializable {
 	private Rectangle emplacement;
 	private int nbrJoueursMin;
 	private int nbrJoueursMax;
-	private ModeleSalleServeur salle;
+	private ModeleSalleClient salle;
 
 	private Map<TypeEtatPartie, Map<Integer, Partie>> lstParties;
 
@@ -34,7 +34,7 @@ public class Jeu implements Serializable {
 	 * Partie>>(); //this.lstParties = new ArrayList<Partie>(); }
 	 */
 
-	public Jeu(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, ModeleSalleServeur salle, TypeJeu type) {
+	public JeuClient(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, ModeleSalleClient salleClient, TypeJeu type) {
 		this.setId(id);
 		this.nom = nom;
 		this.description = description;
@@ -42,7 +42,7 @@ public class Jeu implements Serializable {
 		this.emplacement = emplacement;
 		this.nbrJoueursMin = nbrJoueursMin;
 		this.nbrJoueursMax = nbrJoueursMax;
-		this.salle = salle;
+		this.salle = salleClient;
 
 		this.type = type;
 
@@ -170,6 +170,10 @@ public class Jeu implements Serializable {
 	public Rectangle getEmplacement() {
 		return emplacement;
 	}
+	
+	public Rectangle getEmplacement(int radius) {
+		return new Rectangle(this.emplacement.x - radius, this.emplacement.y - radius, this.emplacement.width + (2*radius), this.emplacement.height + (2*radius));
+	}
 
 	/**
 	 * @param emplacement the emplacement to set
@@ -211,7 +215,7 @@ public class Jeu implements Serializable {
 	/**
 	 * @return the salle
 	 */
-	public ModeleSalleServeur getSalle() {
+	public ModeleSalleClient getSalle() {
 		return this.salle;
 	}
 
@@ -219,7 +223,7 @@ public class Jeu implements Serializable {
 	 * @param salle
 	 *            the salle to set
 	 */
-	public void setSalle(ModeleSalleServeur salle) {
+	public void setSalle(ModeleSalleClient salle) {
 		this.salle = salle;
 	}
 
@@ -255,8 +259,8 @@ public class Jeu implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Jeu) {
-			Jeu other = (Jeu) o;
+		if (o instanceof JeuClient) {
+			JeuClient other = (JeuClient) o;
 			return (other.id == this.id);
 		}
 

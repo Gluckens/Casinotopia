@@ -1,6 +1,7 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.EventQueue;
+import java.awt.Point;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
@@ -141,7 +142,19 @@ public class ControleurPrincipalClient extends ControleurClient {
 	public void actionQuitterPartieRouletteClient() {
 		//TODO Permet de coder des choses a faire dans la vue avant de quitter (et d'enlever le controleur)
 		//Si on voudrait appeler directement la cmd AfficherMenuPrincipal, il faudrait envoyer en param le nom du controleur a enlever (et on perd la customisation avant le quittage)
+		
+		//TODO Au lieu d'afficher le menu principal, il faudrait afficher la salle où le jeu était
 		this.modeleNav.retirerControleur("ControleurRouletteClient");
 		this.afficherMenuPrincipal();
+	}
+
+	public void actionQuitterSalleClient() {
+		/*ControleurSalleClient ctrlSalle = (ControleurSalleClient) this.modeleNav.getControleur("ControleurSalleClient");
+		ctrlSalle.quitterSalleClient();*/
+		
+		this.modeleNav.retirerControleur("ControleurSalleClient");
+		this.afficherMenuPrincipal();
+		
+		this.client.getAvatar().setPosition(new Point(0, 0));
 	}
 }

@@ -12,6 +12,8 @@ import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
+import ca.uqam.casinotopia.TypeJeuArgent;
+import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.modele.Modele;
 
 @SuppressWarnings("serial")
@@ -22,8 +24,8 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	private ModeleTableJeuServeur tableJeu;
 	private ModeleRoueRouletteServeur roueRoulette;
 
-	public ModelePartieRouletteServeur(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
-		super(id, optionArgent, optionMultijoueur, infoJeu);
+	public ModelePartieRouletteServeur(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, Jeu infoJeu) {
+		super(id, typeMultijoueurs, typeArgent, infoJeu);
 
 		this.tableJeu = new ModeleTableJeuServeur();
 		this.roueRoulette = new ModeleRoueRouletteServeur();

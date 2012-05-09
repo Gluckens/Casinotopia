@@ -2,6 +2,8 @@ package ca.uqam.casinotopia.vue;
 
 import java.awt.Point;
 
+import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeDeplacement;
 
 public class MondeVirtuel implements Runnable {
@@ -101,7 +103,7 @@ public class MondeVirtuel implements Runnable {
 		}
 	}
 	
-	private void update() {
+	/*private void update() {
 		if(this.vue.getKeysPressed().get(TypeDeplacement.HAUT)) {
 			this.position.y -= 5;
 		}
@@ -114,6 +116,110 @@ public class MondeVirtuel implements Runnable {
 		if(this.vue.getKeysPressed().get(TypeDeplacement.DROITE)) {
 			this.position.x += 5;
 		}
+		
+		//TODO Si on valide pas à chaque changement de directions, on pourra pas longer un mur...
+		if(!this.validerDeplacement(this.position)) {
+			this.position = (Point) this.lastPosition.clone();
+		}
+		else {
+			//TODO Check de proximité seulement lors des draw?
+			this.checkProximites(this.position);
+		}
+	}*/
+	
+	private void update() {
+		Point temp = (Point) this.position.clone();
+		if(this.vue.getKeysPressed().get(TypeDeplacement.HAUT)) {
+			temp.y -= 5;
+			if(this.validerDeplacement(temp)) {
+				this.position.y = temp.y;
+			}
+		}
+		temp = (Point) this.position.clone();
+		if(this.vue.getKeysPressed().get(TypeDeplacement.BAS)) {
+			temp.y += 5;
+			if(this.validerDeplacement(temp)) {
+				this.position.y = temp.y;
+			}
+		}
+		temp = (Point) this.position.clone();
+		if(this.vue.getKeysPressed().get(TypeDeplacement.GAUCHE)) {
+			temp.x -= 5;
+			if(this.validerDeplacement(temp)) {
+				this.position.x = temp.x;
+			}
+		}
+		temp = (Point) this.position.clone();
+		if(this.vue.getKeysPressed().get(TypeDeplacement.DROITE)) {
+			temp.x += 5;
+			if(this.validerDeplacement(temp)) {
+				this.position.x = temp.x;
+			}
+		}
+		
+		//TODO Check de proximité seulement lors des draw?
+		this.checkProximites(this.position);
+		
+		/*//TODO Si on valide pas à chaque changement de directions, on pourra pas longer un mur...
+		if(!this.validerDeplacement(this.position)) {
+			this.position = (Point) this.lastPosition.clone();
+		}
+		else {
+			//TODO Check de proximité seulement lors des draw?
+			this.checkProximites(this.position);
+		}*/
+	}
+	
+	private void checkProximites(Point p) {
+		this.vue.getControleur().checkProximites(p);
+		
+		/*JeuClient jeu = this.vue.getControleur().checkProximites(p);
+		
+		if(jeu != null) {
+			System.out.println("À PROXIMITÉ DU JEU : " + jeu.getId());
+		}*/
+	}
+
+	/*private boolean validerDeplacement(Point p) {
+		if(this.vue.getControleur().validerDeplacement(p)) {
+			System.out.println("DEPLACEMENT VALIDE");
+		}
+		else {
+			System.out.println("DÉPLACEMENT INVALIDE");
+		}
+		
+		//if(this.vue.getBounds().contains(r))
+		
+		return this.vue.getControleur().validerDeplacement(p);
+		//return this.vue.getControleur().validerDeplacement(this.position);
+	}*/
+	
+	private boolean validerDeplacement(Point p) {
+		if(this.vue.getControleur().validerDeplacement(p)) {
+			//System.out.println("DEPLACEMENT VALIDE");
+			//this.lastPosition = (Point) this.position.clone();
+			//return true;
+		}
+		else {
+			//System.out.println("DÉPLACEMENT INVALIDE");
+			//this.position = (Point) this.lastPosition.clone();
+			//return false;
+		}
+		
+		return this.vue.getControleur().validerDeplacement(p);
+		//return this.vue.getControleur().validerDeplacement(this.position);
+	}
+	
+	private boolean validerDeplacement() {
+		if(this.vue.getControleur().validerDeplacement()) {
+			System.out.println("DEPLACEMENT VALIDE");
+		}
+		else {
+			System.out.println("DÉPLACEMENT INVALIDE");
+		}
+		
+		return this.vue.getControleur().validerDeplacement();
+		//return this.vue.getControleur().validerDeplacement(this.position);
 	}
 	
 	private void draw(float interpolation) {

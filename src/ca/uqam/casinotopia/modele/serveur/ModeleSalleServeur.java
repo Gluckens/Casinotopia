@@ -7,6 +7,7 @@ import java.util.Set;
 
 import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.modele.Modele;
 
 public class ModeleSalleServeur implements Modele {
@@ -47,6 +48,26 @@ public class ModeleSalleServeur implements Modele {
 	
 	public Set<ModeleClientServeur> getLstClients() {
 		return this.lstClients;
+	}
+	
+	public void ajouterJeu(Jeu jeu) {
+		this.lstJeux.put(jeu.getId(), jeu);
+	}
+	
+	public void retirerJeu(Jeu jeu) {
+		this.retirerJeu(jeu.getId());
+	}
+	
+	public void retirerJeu(int idJeu) {
+		this.lstJeux.remove(idJeu);
+	}
+	
+	public Jeu getJeu(int idJeu) {
+		return this.lstJeux.get(idJeu);
+	}
+	
+	public Map<Integer, Jeu> getLstJeux() {
+		return this.lstJeux;
 	}
 	
 	/*public void ajouterClient(ModeleClientServeur client) {

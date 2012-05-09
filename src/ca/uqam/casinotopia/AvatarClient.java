@@ -1,6 +1,8 @@
 package ca.uqam.casinotopia;
 
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.Modele;
@@ -137,6 +139,15 @@ public class AvatarClient implements Modele, Observable, Serializable {
 	
 	public int getHauteur() {
 		return this.hauteur;
+	}
+	
+	public Rectangle getBounds() {
+		//return new Rectangle(this.position, new Dimension(this.largeur, this.hauteur));
+		return this.getBounds(this.position);
+	}
+	
+	public Rectangle getBounds(Point p) {
+		return new Rectangle(p, new Dimension(this.largeur, this.hauteur));
 	}
 	
 	@Override

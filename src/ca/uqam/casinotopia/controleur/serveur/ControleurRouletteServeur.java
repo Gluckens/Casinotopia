@@ -69,9 +69,7 @@ public class ControleurRouletteServeur extends ControleurServeur {
 	public void actionMisesTerminees(int idJoueur) {
 		((JoueurRoulette) this.modele.getJoueur(idJoueur)).setMisesTerminees(true);
 		
-		if(this.modele.isToutesMisesTerminees()) 
-			{
-			//aaa
+		if(this.modele.isToutesMisesTerminees()) {
 			this.actionTournerRoulette();
 			this.modele.resetMisesTerminees();
 		}
@@ -79,6 +77,7 @@ public class ControleurRouletteServeur extends ControleurServeur {
 
 	public void actionQuitterPartie(int idJoueur) {
 		//TODO Comment on quitte une partie en cours? perd automatiquement ses gains misées?
+		//TODO On envoie l'ID du joueur, ou bedon on se base sur le modele client qu'on connait déjà côté serveur?
 		this.modele.quitterPartie(idJoueur);
 		if(this.modele.isPartieVide()) {
 			ControleurPrincipalServeur.getInstance().retirerPartie(this.modele);

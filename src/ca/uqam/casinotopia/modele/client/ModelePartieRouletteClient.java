@@ -3,8 +3,10 @@ package ca.uqam.casinotopia.modele.client;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.PartieClient;
+import ca.uqam.casinotopia.TypeJeuArgent;
+import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.BaseObservable;
@@ -20,16 +22,16 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 	private ModeleTableJeuClient tableJeu;
 	private BaseObservable sujet = new BaseObservable(this);
 
-	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
-		this(id, optionArgent, optionMultijoueur, infoJeu, new ModeleTableJeuClient());
+	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu) {
+		this(id, typeMultijoueurs, typeArgent, infoJeu, new ModeleTableJeuClient());
 	}
 	
-	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu, Map<Case, Map<Integer, Integer>> cases) {
-		this(id, optionArgent, optionMultijoueur, infoJeu, new ModeleTableJeuClient(cases));
+	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu, Map<Case, Map<Integer, Integer>> cases) {
+		this(id, typeMultijoueurs, typeArgent, infoJeu, new ModeleTableJeuClient(cases));
 	}
 	
-	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu, ModeleTableJeuClient tableJeu) {
-		super(id, optionArgent, optionMultijoueur, infoJeu);
+	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu, ModeleTableJeuClient tableJeu) {
+		super(id, typeMultijoueurs, typeArgent, infoJeu);
 
 		this.tableJeu = tableJeu;
 	}
@@ -58,9 +60,6 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.tableJeu.updateTableJeu(cases);
-
-		// TODO enlever ce notifier et le traite dans tableJeu
-		//this.notifierObservateur();
 	}
 
 	/**

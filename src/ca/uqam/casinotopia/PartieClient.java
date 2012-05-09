@@ -9,19 +9,17 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 	private static final long serialVersionUID = -2380888793385476200L;
 	
 	protected int id;
-	protected boolean optionArgent;
-	protected boolean optionMultijoueur;
+	protected TypeJeuMultijoueurs typeMultijoueurs;
+	protected TypeJeuArgent typeArgent;
 	protected Clavardage clavardage;
 	protected Set<JoueurClient> lstJoueurs;
-	protected Jeu infoJeu;
+	protected JeuClient infoJeu;
 
-	public PartieClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
+	public PartieClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu) {
 		this.id = id;
-		this.setOptionArgent(optionArgent);
-		this.setOptionMultijoueur(optionMultijoueur);
-		// this.clavardage = new Clavardage(this.getTypeJeu() +
-		// String.valueOf(this.id));
-		this.setClavardage(new Clavardage(infoJeu.getNom() + String.valueOf(this.id)));
+		this.typeMultijoueurs = typeMultijoueurs;
+		this.typeArgent = typeArgent;
+		this.clavardage = new Clavardage(infoJeu.getNom() + this.id);
 
 		this.infoJeu = infoJeu;
 
@@ -70,34 +68,20 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 		return this.id;
 	}
 
-	/**
-	 * @return the optionArgent
-	 */
-	public boolean isOptionArgent() {
-		return this.optionArgent;
+	public boolean isAvecArgent() {
+		return this.typeArgent == TypeJeuArgent.ARGENT;
 	}
-
-	/**
-	 * @param optionArgent
-	 *            the optionArgent to set
-	 */
-	public void setOptionArgent(boolean optionArgent) {
-		this.optionArgent = optionArgent;
+	
+	public boolean isMultijoueurs() {
+		return (this.isAvecInconnus() || this.isAvecAmis());
 	}
-
-	/**
-	 * @return the optionMultijoueur
-	 */
-	public boolean isOptionMultijoueur() {
-		return this.optionMultijoueur;
+	
+	public boolean isAvecInconnus() {
+		return this.typeMultijoueurs == TypeJeuMultijoueurs.INCONNUS;
 	}
-
-	/**
-	 * @param optionMultijoueur
-	 *            the optionMultijoueur to set
-	 */
-	public void setOptionMultijoueur(boolean optionMultijoueur) {
-		this.optionMultijoueur = optionMultijoueur;
+	
+	public boolean isAvecAmis() {
+		return this.typeMultijoueurs == TypeJeuMultijoueurs.AMIS;
 	}
 
 	/**
@@ -118,7 +102,7 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 	/**
 	 * @return the infoJeu
 	 */
-	public Jeu getInfoJeu() {
+	public JeuClient getInfoJeu() {
 		return this.infoJeu;
 	}
 
@@ -126,7 +110,7 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 	 * @param infoJeu
 	 *            the infoJeu to set
 	 */
-	public void setInfoJeu(Jeu infoJeu) {
+	public void setInfoJeu(JeuClient infoJeu) {
 		this.infoJeu = infoJeu;
 	}
 

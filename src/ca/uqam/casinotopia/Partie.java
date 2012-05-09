@@ -9,19 +9,18 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	private static final long serialVersionUID = 2847945782668066206L;
 	
 	protected int id;
-	protected boolean optionArgent;
-	protected boolean optionMultijoueur;
+	protected TypeJeuMultijoueurs typeMultijoueurs;
+	protected TypeJeuArgent typeArgent;
 	protected Clavardage clavardage;
 	protected Set<JoueurServeur> lstJoueurs;
 	protected Jeu infoJeu;
 
-	public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
+	//public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
+	public Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, Jeu infoJeu) {
 		this.id = id;
-		this.setOptionArgent(optionArgent);
-		this.setOptionMultijoueur(optionMultijoueur);
-		// this.clavardage = new Clavardage(this.getTypeJeu() +
-		// String.valueOf(this.id));
-		this.setClavardage(new Clavardage(infoJeu.getNom() + String.valueOf(this.id)));
+		this.typeMultijoueurs = typeMultijoueurs;
+		this.typeArgent = typeArgent;
+		this.clavardage = new Clavardage(infoJeu.getNom() + this.id);
 
 		this.infoJeu = infoJeu;
 
@@ -69,35 +68,29 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	public int getId() {
 		return this.id;
 	}
-
-	/**
-	 * @return the optionArgent
-	 */
-	public boolean isOptionArgent() {
-		return this.optionArgent;
+	
+	public TypeJeuMultijoueurs getTypeMultijoueurs() {
+		return this.typeMultijoueurs;
 	}
-
-	/**
-	 * @param optionArgent
-	 *            the optionArgent to set
-	 */
-	public void setOptionArgent(boolean optionArgent) {
-		this.optionArgent = optionArgent;
+	
+	public boolean isMultijoueurs() {
+		return (this.isAvecInconnus() || this.isAvecAmis());
 	}
-
-	/**
-	 * @return the optionMultijoueur
-	 */
-	public boolean isOptionMultijoueur() {
-		return this.optionMultijoueur;
+	
+	public boolean isAvecInconnus() {
+		return this.typeMultijoueurs == TypeJeuMultijoueurs.INCONNUS;
 	}
-
-	/**
-	 * @param optionMultijoueur
-	 *            the optionMultijoueur to set
-	 */
-	public void setOptionMultijoueur(boolean optionMultijoueur) {
-		this.optionMultijoueur = optionMultijoueur;
+	
+	public boolean isAvecAmis() {
+		return this.typeMultijoueurs == TypeJeuMultijoueurs.AMIS;
+	}
+	
+	public TypeJeuArgent getTypeArgent() {
+		return this.typeArgent;
+	}
+	
+	public boolean isAvecArgent() {
+		return this.typeArgent == TypeJeuArgent.ARGENT;
 	}
 
 	/**

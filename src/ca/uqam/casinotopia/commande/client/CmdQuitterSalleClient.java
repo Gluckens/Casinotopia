@@ -4,13 +4,12 @@ import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
-public class CmdQuitterPartieRouletteClient implements CommandeClientControleurPrincipal {
+public class CmdQuitterSalleClient implements CommandeClientControleurPrincipal {
 
-	private static final long serialVersionUID = 5251282327843831449L;
+	private static final long serialVersionUID = 6337531978606582486L;
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurPrincipalClient) controleur).actionQuitterPartieRouletteClient();
+		((ControleurPrincipalClient) controleur).actionQuitterSalleClient();
 	}
-
 }

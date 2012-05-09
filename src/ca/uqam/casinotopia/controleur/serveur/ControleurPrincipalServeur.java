@@ -10,12 +10,13 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.Salle;
-import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeu;
+import ca.uqam.casinotopia.TypeJeuArgent;
+import ca.uqam.casinotopia.TypeJeuMultijoueurs;
+
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.InetAddress;
@@ -104,41 +105,46 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 
 	private void initJeux() {
 		// TODO Créer les instance de jeux via la BD
-
-		// TODO Créer des partie dans chaque jeu pour les tests
+		
+		
+		this.lstSalles = new HashMap<String, ModeleSalleServeur>();
+		
+		ModeleSalleServeur salle = new ModeleSalleServeur("MEGAFUN");
 
 		this.lstJeux = new HashMap<TypeJeu, Map<Integer, Jeu>>();
 
 		this.lstJeux.put(TypeJeu.ROULETTE, new HashMap<Integer, Jeu>());
-		this.creerJeuTest(1, "nom1", "description1", "reglesJeu1", 1, 1, 4, 8, new Salle(), TypeJeu.ROULETTE);
-		this.creerJeuTest(2, "nom2", "description2", "reglesJeu2", 2, 2, 2, 4, new Salle(), TypeJeu.ROULETTE);
-		this.creerJeuTest(3, "nom3", "description3", "reglesJeu3", 3, 3, 2, 8, new Salle(), TypeJeu.ROULETTE);
-		this.creerJeuTest(4, "nom4", "description4", "reglesJeu4", 4, 4, 3, 5, new Salle(), TypeJeu.ROULETTE);
+		this.creerJeuTest(1, "nom1", "description1", "reglesJeu1", new Rectangle(70, 70, 220, 120), 4, 8, salle, TypeJeu.ROULETTE);
+		this.creerJeuTest(2, "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 220, 120), 2, 4, salle, TypeJeu.ROULETTE);
+		this.creerJeuTest(3, "nom3", "description3", "reglesJeu3", new Rectangle(70, 270, 220, 120), 2, 8, salle, TypeJeu.ROULETTE);
+		this.creerJeuTest(4, "nom4", "description4", "reglesJeu4", new Rectangle(370, 320, 220, 120), 3, 5, salle, TypeJeu.ROULETTE);
 
-		this.ajouterPartie(new ModelePartieRouletteServeur(3, true, true, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(5, true, false, this.getJeu(1)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(7, true, true, this.getJeu(1)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(9, false, true, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(11, true, true, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(3, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(5, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.SANS_ARGENT, this.getJeu(1)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(7, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(9, TypeJeuMultijoueurs.SEUL, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(11, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
 
-		this.ajouterPartie(new ModelePartieRouletteServeur(13, true, true, this.getJeu(2)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(14, true, false, this.getJeu(2)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(15, true, true, this.getJeu(2)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(8, false, true, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(16, false, false, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(13, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(14, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(15, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.SANS_ARGENT, this.getJeu(2)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(8, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(16, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
 
 		((ModelePartieRouletteServeur) this.getPartie(8)).ajouterJoueur(new ModeleClientServeur());
 		//((ModelePartieRouletteServeur) this.getPartie(8)).ajouterJoueur(new ModeleClientServeur(), TypeCouleurJoueurRoulette.ROUGE);
 		((ModelePartieRouletteServeur) this.getPartie(8)).ajouterJoueur(new ModeleClientServeur());
 		((ModelePartieRouletteServeur) this.getPartie(16)).ajouterJoueur(new ModeleClientServeur());
 
-		this.ajouterPartie(new ModelePartieRouletteServeur(1, true, true, this.getJeu(4)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(24, true, false, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(6, true, true, this.getJeu(4)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(4, false, true, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(18, false, false, this.getJeu(4)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(1, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(24, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(6, TypeJeuMultijoueurs.SEUL, TypeJeuArgent.SANS_ARGENT, this.getJeu(4)), TypeEtatPartie.EN_COURS);
+		this.ajouterPartie(new ModelePartieRouletteServeur(4, TypeJeuMultijoueurs.SEUL, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
+		this.ajouterPartie(new ModelePartieRouletteServeur(18, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_COURS);
 
 		this.lstJeux.put(TypeJeu.BLACKJACK, new HashMap<Integer, Jeu>());
+		
+		this.lstSalles.put(salle.getNom(), salle);
 	}
 
 	@SuppressWarnings("unused")
@@ -154,8 +160,9 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		return lstKeys.toArray(new Jeu[colJeu.size()]);
 	}
 
-	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, int posXJeu, int posYJeu, int minJoueursJeu, int maxJoueursJeu, Salle salle, TypeJeu type) {
-		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, posXJeu, posYJeu, minJoueursJeu, maxJoueursJeu, salle, type);
+	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, Rectangle emplacement, int minJoueursJeu, int maxJoueursJeu, ModeleSalleServeur salle, TypeJeu type) {
+		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, emplacement, minJoueursJeu, maxJoueursJeu, salle, type);
+		salle.ajouterJeu(jeu);
 		this.lstJeux.get(TypeJeu.ROULETTE).put(jeu.getId(), jeu);
 	}
 
