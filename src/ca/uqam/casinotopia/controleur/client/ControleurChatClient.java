@@ -2,9 +2,6 @@ package ca.uqam.casinotopia.controleur.client;
 
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JScrollBar;
-
 import ca.uqam.casinotopia.commande.serveur.CmdEnvoyerMessageChat;
 import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -16,8 +13,8 @@ import ca.uqam.casinotopia.vue.VueChat;
 
 public class ControleurChatClient extends ControleurClient {
 
-	private static final long serialVersionUID = 2286997653732479251L;
-
+	private static final long serialVersionUID = -6432521365486691646L;
+	
 	private ModeleChatClient modele;
 	private VueChat vue;
 

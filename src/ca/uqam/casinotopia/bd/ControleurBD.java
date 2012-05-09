@@ -1,10 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.uqam.casinotopia.bd;
 
 import ca.uqam.casinotopia.*;
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+
 import java.sql.*;
 import java.util.Vector;
 import java.util.logging.*;
@@ -23,7 +21,7 @@ public class ControleurBD {
 	 */
 	public static void main(String[] args) {
 
-		Client unCl = new Client();
+		ModeleClientServeur unCl = new ModeleClientServeur();
 		unCl.setNomUtilisateur("CassieCLT");
 		// unCl.setMotDePasse("Cassie1");
 		ajouterUtilisateur(unCl);
@@ -42,7 +40,7 @@ public class ControleurBD {
 		System.out.println("client id inseré : " + unCl.getId());
 
 		Avatar unAvatar = new Avatar();
-		unAvatar.setNomImage("cassie.jpeg");
+		unAvatar.setPathImage("cassie.jpeg");
 		unAvatar.setTexte("Yooo");
 
 		ajouterAvatar(unAvatar, unCl);
@@ -57,7 +55,7 @@ public class ControleurBD {
 
 		DonUniqueClient dU = new DonUniqueClient();
 		dU.setClient_(unCl);
-		dU.setFondation_(uneF);
+		dU.setFondation(uneF);
 		dU.setMontant(100);
 		ajouterDonUnique(dU);
 		System.out.println("don unique id inseré : " + dU.getId());
@@ -74,7 +72,7 @@ public class ControleurBD {
 
 		// --------------------
 
-		Client unCl2 = new Client();
+		ModeleClientServeur unCl2 = new ModeleClientServeur();
 		unCl2.setNomUtilisateur("Mariue");
 		// unCl2.setMotDePasse("Marius1");
 		ajouterUtilisateur(unCl2);
@@ -93,7 +91,7 @@ public class ControleurBD {
 		System.out.println("client id inseré : " + unCl2.getId());
 
 		Avatar unAvatar2 = new Avatar();
-		unAvatar2.setNomImage("marius.jpeg");
+		unAvatar2.setPathImage("marius.jpeg");
 		unAvatar2.setTexte("Miauuuuuu Miauuuuuuu");
 
 		ajouterAvatar(unAvatar2, unCl2);
@@ -105,7 +103,7 @@ public class ControleurBD {
 
 		supprimerUtilisateur(unCl2);
 
-		Client clAlex = getClient("AlexeiCLT", "AlexeiCLT1");
+		ModeleClientServeur clAlex = getClient("AlexeiCLT", "AlexeiCLT1");
 		System.out.println("client select : " + clAlex);
 
 	}
@@ -117,25 +115,26 @@ public class ControleurBD {
 			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
-		Connection dbConnection;
+		Connection conn;
 		try {
-			dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "SYSTEM", "123");
+			//conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "SYSTEM", "admin");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "SYSTEM", "admin");
 
 		} catch (Exception x) {
 			System.out.println("Couldn't get connection!");
-			dbConnection = null;
+			conn = null;
 		}
-		return dbConnection;
+		return conn;
 	}
 
-	public static Client getClient(String identifiant, String motPasse) {
-		Client unClient = new Client();
+	public static ModeleClientServeur getClient(String identifiant, String motPasse) {
+		ModeleClientServeur unClient = new ModeleClientServeur();
 
-		Connection dbConnection = connecterBD();
+		Connection conn = connecterBD();
 
 		try {
-			Statement stmt = dbConnection.createStatement();
-			ResultSet rsUtilisateur = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.UTILISATEUR WHERE IDENTIFIANT = '" + identifiant + "' AND MOTPASSE = '"
+			Statement stmt = conn.createStatement();
+			ResultSet rsUtilisateur = stmt.executeQuery("SELECT * FROM USERS.UTILISATEUR WHERE IDENTIFIANT = '" + identifiant + "' AND MOTPASSE = '"
 					+ motPasse + "'");
 
 			if (rsUtilisateur.next()) {
@@ -145,24 +144,52 @@ public class ControleurBD {
 				// unClient.setMotDePasse(motPasse);
 				unClient.setIdUtilisateur(rsUtilisateur.getInt("id"));
 			}
-
-			dbConnection.close();
-
 		} catch (SQLException ex) {
 			System.out.println("erreur Client");
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
 		}
 
 		return unClient;
 	}
 
-	public static Client getClientByIdUtilisateur(int id) {
-		Client unClient = new Client();
+	public static ModeleClientServeur getClientByIdUtilisateur(int id) {
+		/*Connection conn = connecterBD();
+		
+		ModeleClientServeur client = null;
+		
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rsClient = stmt.executeQuery("SELECT * FROM SYSTEM.CLIENT INNER JOIN SYSTEM.UTILISATEUR WHERE idutilisateur = " + id);
 
-		Connection dbConnection = connecterBD();
+			if (rsClient.next()) {
+				client = new ModeleClientServeur(
+					rsClient.getInt("UTILISATEUR.id"),
+					rsClient.getString("identifiant"),
+					rsClient.getInt("CLIENT.id"),
+					rsClient.getString("prenom"),
+					rsClient.getString("nom"),
+					rsClient.getDate("nom"),
+					rsClient.getString("datenaissance"),
+					rsClient.getInt("solde")
+				);
+			}
+		} catch (SQLException ex) {
+			System.out.println("erreur Client");
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+		
+		return client;*/
+		
+		
+		ModeleClientServeur unClient = new ModeleClientServeur();
+
+		Connection conn = connecterBD();
 
 		try {
-			Statement stmt = dbConnection.createStatement();
-			ResultSet rsClient = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.CLIENT WHERE idutilisateur = " + id);
+			Statement stmt = conn.createStatement();
+			ResultSet rsClient = stmt.executeQuery("SELECT * FROM USERS.CLIENT WHERE idutilisateur = " + id);
 
 			if (rsClient.next()) {
 				unClient.setId(rsClient.getInt("id"));
@@ -172,10 +199,10 @@ public class ControleurBD {
 				unClient.setSolde(rsClient.getInt("solde"));
 				unClient.setPourcentageGlobal(rsClient.getInt("prcglobal"));
 			}
-
-			dbConnection.close();
 		} catch (SQLException ex) {
 			System.out.println("erreur Client");
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
 		}
 
 		return unClient;
@@ -188,7 +215,7 @@ public class ControleurBD {
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsFondation = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.FONDATION WHERE ID = " + idFondation);
+			ResultSet rsFondation = stmt.executeQuery("SELECT * FROM USERS.FONDATION WHERE ID = " + idFondation);
 
 			if (rsFondation.next()) {
 				uneFondation.setId(idFondation);
@@ -212,11 +239,11 @@ public class ControleurBD {
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsPartageGain = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.PARTAGEGAIN WHERE IDCLIENT = " + idClient);
+			ResultSet rsPartageGain = stmt.executeQuery("SELECT * FROM USERS.PARTAGEGAIN WHERE IDCLIENT = " + idClient);
 
 			while (rsPartageGain.next()) {
 				Fondation uneFondation = getFondationById(rsPartageGain.getInt("idfondation"));
-				Client unClient = getClientById(idClient);
+				ModeleClientServeur unClient = getClientById(idClient);
 				PartageGainsClient unPartageGain = new PartageGainsClient();
 
 				unPartageGain.setClient(unClient);
@@ -242,7 +269,7 @@ public class ControleurBD {
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsUtilisateur = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.Utilisateur WHERE id = " + id);
+			ResultSet rsUtilisateur = stmt.executeQuery("SELECT * FROM USERS.Utilisateur WHERE id = " + id);
 
 			if (rsUtilisateur.next()) {
 				unUtilisateur.setIdUtilisateur(id);
@@ -259,14 +286,14 @@ public class ControleurBD {
 		return unUtilisateur;
 	}
 
-	public static Client getClientById(int id) {
-		Client unClient = new Client();
+	public static ModeleClientServeur getClientById(int id) {
+		ModeleClientServeur unClient = new ModeleClientServeur();
 
 		Connection dbConnection = connecterBD();
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsClient = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.CLIENT WHERE id = " + id);
+			ResultSet rsClient = stmt.executeQuery("SELECT * FROM USERS.CLIENT WHERE id = " + id);
 
 			if (rsClient.next()) {
 				unClient.setIdUtilisateur(id);
@@ -293,9 +320,9 @@ public class ControleurBD {
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsListeAmis = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.amiClient WHERE IDCLIENT = " + idClient);
+			ResultSet rsListeAmis = stmt.executeQuery("SELECT * FROM USERS.amiClient WHERE IDCLIENT = " + idClient);
 
-			Vector<Client> listeClients = new Vector<Client>();
+			Vector<ModeleClientServeur> listeClients = new Vector<ModeleClientServeur>();
 			while (rsListeAmis.next()) {
 
 				listeClients.add(getClientById(rsListeAmis.getInt("idAmi")));
@@ -318,12 +345,12 @@ public class ControleurBD {
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsAvatar = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.AVATAR WHERE idClient = " + id);
+			ResultSet rsAvatar = stmt.executeQuery("SELECT * FROM USERS.AVATAR WHERE idClient = " + id);
 
 			if (rsAvatar.next()) {
 
 				unAvatar.setId(id);
-				unAvatar.setNomImage(rsAvatar.getString("nomFichier"));
+				unAvatar.setPathImage(rsAvatar.getString("nomFichier"));
 				unAvatar.setTexte(rsAvatar.getString("nomFichier"));
 			}
 
@@ -342,15 +369,15 @@ public class ControleurBD {
 
 		try {
 			Statement stmt = dbConnection.createStatement();
-			ResultSet rsDonUnique = stmt.executeQuery("SELECT * FROM BD_CASINOTOPIA.DONUNIQUE WHERE IDCLIENT = " + idClient);
+			ResultSet rsDonUnique = stmt.executeQuery("SELECT * FROM USERS.DONUNIQUE WHERE IDCLIENT = " + idClient);
 
 			while (rsDonUnique.next()) {
 				Fondation uneFondation = getFondationById(rsDonUnique.getInt("idfondation"));
-				Client unClient = getClientById(rsDonUnique.getInt("idClient"));
+				ModeleClientServeur unClient = getClientById(rsDonUnique.getInt("idClient"));
 
 				DonUniqueClient unDonUnique = new DonUniqueClient();
 				unDonUnique.setClient_(unClient);
-				unDonUnique.setFondation_(uneFondation);
+				unDonUnique.setFondation(uneFondation);
 				unDonUnique.setDateDon(rsDonUnique.getDate("dateDon"));
 				unDonUnique.setId(rsDonUnique.getInt("id"));
 				unDonUnique.setMontant((int) (rsDonUnique.getDouble("montant") * 100));
@@ -371,7 +398,7 @@ public class ControleurBD {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "BEGIN insert into BD_CASINOTOPIA.Utilisateur (identifiant, motPasse, typeCompte) VALUES ('" + unUtilisateur.getNomUtilisateur()
+			String query = "BEGIN insert into USERS.Utilisateur (identifiant, motPasse, typeCompte) VALUES ('" + unUtilisateur.getNomUtilisateur()
 					+ /* "', '" + unUtilisateur.getMotDePasse() + */"' , 'CLT') returning id into ?; END;  ";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
@@ -386,11 +413,13 @@ public class ControleurBD {
 		return ajoutReussi;
 	}
 
-	public static boolean ajouterClient(Client unClient) {
+	public static boolean ajouterClient(ModeleClientServeur unClient) {
 		boolean ajoutReussi = false;
+		
+		Connection conn = connecterBD();
+		
 		try {
-			Connection conn = connecterBD();
-			String query = "BEGIN insert into BD_CASINOTOPIA.Client (idUtilisateur, prenom, nom, dateNaissance, courriel, solde, prcGlobal) VALUES ('"
+			String query = "BEGIN insert into USERS.Client (idUtilisateur, prenom, nom, dateNaissance, courriel, solde, prcGlobal) VALUES ('"
 					+ unClient.getIdUtilisateur() + "', '" + unClient.getPrenom() + "' , '" + unClient.getNom() + "' , '" + unClient.getDateNaissance()
 					+ "' ,'" + unClient.getCourriel() + "' ," + unClient.getSolde() + " , " + unClient.getPourcentageGlobal() + ") returning id into ?; END;  ";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
@@ -402,15 +431,18 @@ public class ControleurBD {
 
 		} catch (SQLException ex) {
 			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+		    try { conn.close(); } catch (Exception e) { /* ignored */ }
 		}
+		
 		return ajoutReussi;
 	}
 
-	public static boolean ajouterAmiClient(Client unClient, Client ami) {
+	public static boolean ajouterAmiClient(ModeleClientServeur unClient, ModeleClientServeur ami) {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "insert into BD_CASINOTOPIA.amiClient (idClient, idAmi) VALUES (" + unClient.getId() + ", " + ami.getId() + ")";
+			String query = "insert into USERS.amiClient (idClient, idAmi) VALUES (" + unClient.getId() + ", " + ami.getId() + ")";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			ajoutReussi = true;
@@ -421,11 +453,11 @@ public class ControleurBD {
 		return ajoutReussi;
 	}
 
-	public static boolean ajouterAvatar(Avatar unAvatar, Client unClient) {
+	public static boolean ajouterAvatar(Avatar unAvatar, ModeleClientServeur unClient) {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "BEGIN insert into BD_CASINOTOPIA.Avatar (idClient, nomFichier, texte) VALUES (" + unClient.getId() + ", '" + unAvatar.getNomImage()
+			String query = "BEGIN insert into USERS.Avatar (idClient, nomFichier, texte) VALUES (" + unClient.getId() + ", '" + unAvatar.getPathImage()
 					+ "' , '" + unAvatar.getTexte() + "') returning id into ?; END;  ";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
@@ -444,7 +476,7 @@ public class ControleurBD {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "BEGIN insert into BD_CASINOTOPIA.Fondation (nom, description) VALUES ('" + uneFondation.getNom() + "', '"
+			String query = "BEGIN insert into USERS.Fondation (nom, description) VALUES ('" + uneFondation.getNom() + "', '"
 					+ uneFondation.getDescription() + "') returning id into ?; END;  ";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
@@ -462,8 +494,8 @@ public class ControleurBD {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "BEGIN insert into BD_CASINOTOPIA.donUnique (idClient, idFondation, montant) VALUES (" + unDon.getClient_().getId() + ", "
-					+ unDon.getFondation_().getId() + ", " + unDon.getMontant() + " ) returning id into ?; END;  ";
+			String query = "BEGIN insert into USERS.donUnique (idClient, idFondation, montant) VALUES (" + unDon.getClient().getId() + ", "
+					+ unDon.getFondation().getId() + ", " + unDon.getMontant() + " ) returning id into ?; END;  ";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
 			cs.execute();
@@ -480,7 +512,7 @@ public class ControleurBD {
 		boolean ajoutReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "insert into BD_CASINOTOPIA.partageGain (idClient, idFondation, pourcentage) VALUES (" + unPartageGain.getClient().getId() + ", "
+			String query = "insert into USERS.partageGain (idClient, idFondation, pourcentage) VALUES (" + unPartageGain.getClient().getId() + ", "
 					+ unPartageGain.getFondation().getId() + ", " + unPartageGain.getPourcentage() + " )";
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
@@ -496,7 +528,7 @@ public class ControleurBD {
 		boolean supprimerReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "delete from BD_CASINOTOPIA.utilisateur where id = " + unUtilisateur.getIdUtilisateur();
+			String query = "delete from USERS.utilisateur where id = " + unUtilisateur.getIdUtilisateur();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			supprimerReussi = true;
@@ -511,7 +543,7 @@ public class ControleurBD {
 		boolean supprimerReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "delete from BD_CASINOTOPIA.client where id = " + unClient.getId();
+			String query = "delete from USERS.client where id = " + unClient.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			supprimerReussi = true;
@@ -526,7 +558,7 @@ public class ControleurBD {
 		boolean supprimerReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "delete from BD_CASINOTOPIA.amiClient where idClient = " + unClient.getId() + " AND idAmi = " + ami.getId();
+			String query = "delete from USERS.amiClient where idClient = " + unClient.getId() + " AND idAmi = " + ami.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			supprimerReussi = true;
@@ -541,7 +573,7 @@ public class ControleurBD {
 		boolean supprimerReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "delete from BD_CASINOTOPIA.avatar where id = " + unAvatar.getId();
+			String query = "delete from USERS.avatar where id = " + unAvatar.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			supprimerReussi = true;
@@ -556,7 +588,7 @@ public class ControleurBD {
 		boolean supprimerReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "delete from BD_CASINOTOPIA.fondation where id = " + uneFondation.getId();
+			String query = "delete from USERS.fondation where id = " + uneFondation.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			supprimerReussi = true;
@@ -571,7 +603,7 @@ public class ControleurBD {
 		boolean supprimerReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "delete from BD_CASINOTOPIA.partageGain where idClient = " + unPartageGain.getClient().getId() + " AND "
+			String query = "delete from USERS.partageGain where idClient = " + unPartageGain.getClient().getId() + " AND "
 					+ unPartageGain.getFondation().getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
@@ -587,7 +619,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.utilisateur set identifiant = '" + unUtilisateur.getNomUtilisateur() + /*
+			String query = "update USERS.utilisateur set identifiant = '" + unUtilisateur.getNomUtilisateur() + /*
 																														 * "', motPasse = '"
 																														 * +
 																														 * unUtilisateur
@@ -612,7 +644,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.client set prenom = '" + unClient.getPrenom() + "', nom = '" + unClient.getNom() + "', dateNaissance = '"
+			String query = "update USERS.client set prenom = '" + unClient.getPrenom() + "', nom = '" + unClient.getNom() + "', dateNaissance = '"
 					+ unClient.getDateNaissance() + "', courriel = '" + unClient.getCourriel() + "', solde = " + unClient.getSolde() + ", prcGlobal = "
 					+ unClient.getPourcentageGlobal() + " where id = " + unClient.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
@@ -629,7 +661,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.avatar set nomFichier = '" + unAvatar.getNomImage() + "', texte = '" + unAvatar.getTexte() + " where id = "
+			String query = "update USERS.avatar set nomFichier = '" + unAvatar.getPathImage() + "', texte = '" + unAvatar.getTexte() + " where id = "
 					+ unAvatar.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
@@ -645,7 +677,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.fondation set nom = '" + uneFondation.getNom() + "', description = '" + uneFondation.getDescription()
+			String query = "update USERS.fondation set nom = '" + uneFondation.getNom() + "', description = '" + uneFondation.getDescription()
 					+ " where id = " + uneFondation.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
@@ -661,7 +693,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.partageGain set pourcentage = " + unPartageGain.getPourcentage() + " where idClient = "
+			String query = "update USERS.partageGain set pourcentage = " + unPartageGain.getPourcentage() + " where idClient = "
 					+ unPartageGain.getClient().getId() + " AND idFondation = " + unPartageGain.getFondation().getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
@@ -677,7 +709,7 @@ public class ControleurBD {
 		boolean modifierReussi = false;
 		try {
 			Connection conn = connecterBD();
-			String query = "update BD_CASINOTOPIA.client set solde = " + unClient.getSolde() + " where id = " + unClient.getId();
+			String query = "update USERS.client set solde = " + unClient.getSolde() + " where id = " + unClient.getId();
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
 			modifierReussi = true;

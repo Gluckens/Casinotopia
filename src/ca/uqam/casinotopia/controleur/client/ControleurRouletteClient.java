@@ -8,6 +8,7 @@ import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.commande.serveur.CmdCalculerGainRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMisesTermineesRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterPartieRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -16,11 +17,12 @@ import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.roulette.VueRoulette;
+import ca.uqam.casinotopia.vue.roulette.VueRouletteTapis;
 
 public class ControleurRouletteClient extends ControleurClient {
 
-	private static final long serialVersionUID = -8588955394361302868L;
-
+	private static final long serialVersionUID = 4718341989471372885L;
+	
 	private VueRoulette vue;
 	private ModelePartieRouletteClient modele;
 
@@ -30,40 +32,11 @@ public class ControleurRouletteClient extends ControleurClient {
 		this.vue = new VueRoulette(this);
 		this.modele = modele;
 		this.modele.ajouterObservateur(this.vue);
+		
+		this.modele.getTableJeu().ajouterObservateur((VueRouletteTapis)this.vue.getComponentByName("tapis"));
 	}
 
-	// public void updateTableJeu(Map<Integer, Map<Case, Integer>> mises, JFrame
-	// frame) {
 	public void actionUpdateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
-		/*
-		 * if(!this.lstVues.containsKey("VueRoulette")) { VueRoulette
-		 * vueRoulette = new VueRoulette(); this.ajouterVue(vueRoulette);
-		 * 
-		 * //TODO Si la vue n'existait pas, on devrait pas changer le
-		 * contentPane mais seulement l'ajouter au contentPane
-		 * ((FrameApplication)frame).changeContentPane(vueRoulette); }
-		 * ((VueRoulette)this.lstVues.get("VueRoulette")).updateTableJeu(cases);
-		 */
-
-		// TODO Les modele ici ne devrait jamais etre vide, il devrait etre
-		// créer lors de la construction du controleur???
-		// ModelePartieRouletteClient modeleRoulette =
-		// (ModelePartieRouletteClient)this.lstModeles.get("ModelePartieRouletteClient");
-
-		/*
-		 * if(modeleRoulette == null) { System.out.println("LE MODÈLE EST NUL");
-		 * modeleRoulette = new ModelePartieRouletteClient(0, false, false,
-		 * null); this.ajouterModele(modeleRoulette); }
-		 * 
-		 * VueRoulette vueRoulette =
-		 * (VueRoulette)this.lstVues.get("VueRoulette"); if(vueRoulette == null)
-		 * { System.out.println("LA VUE EST NULLE"); vueRoulette = new
-		 * VueRoulette(this, this.frame); this.ajouterVue(vueRoulette); }
-		 * 
-		 * if(!modeleRoulette.estObservePar(vueRoulette)) {
-		 * modeleRoulette.ajouterObservateur(vueRoulette); }
-		 */
-
 		this.modele.updateTableJeu(cases);
 	}
 
@@ -84,11 +57,11 @@ public class ControleurRouletteClient extends ControleurClient {
 		Map<Case, Integer> mise = new HashMap<Case, Integer>();
 		mise.put(caseMisee, typeMise.getMontant());
 		mises.put(this.client.getId(), mise);
+		System.out.println("Joueur " + this.client.getId() + " mise " + typeMise.getMontant() + " sur " + caseMisee);
 		this.cmdMiserRoulette(mises);
 	}
 
 	public void cmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
-		System.out.println("TEST DE MISE");
 		this.connexion.envoyerCommande(new CmdMiserRoulette(mises));
 	}
 	
@@ -104,5 +77,17 @@ public class ControleurRouletteClient extends ControleurClient {
 	public void cmdCalculerGainRoulette(){
 		System.out.println("TEST DE CALCULER GAIN");
 		this.connexion.envoyerCommande(new CmdCalculerGainRoulette());
+	}
+
+	public void cmdQuitterPartie() {
+		this.connexion.envoyerCommande(new CmdQuitterPartieRoulette(this.client.getId()));
+	}
+
+	//aaa
+	public void actionupdateResultat(Case resultat, int gain) {
+		System.out.println("Alexei --> ControleurRouletteClient.actionupdateResultat()");
+		this.modele.setCaseResultat(resultat);
+		this.modele.setGain(gain);
+		// TODO Auto-generated method stub
 	}
 }

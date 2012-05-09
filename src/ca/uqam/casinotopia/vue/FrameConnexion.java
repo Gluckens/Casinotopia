@@ -47,14 +47,14 @@ public class FrameConnexion extends JFrame implements Runnable {
 		this.btnConnexion.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				FrameConnexion.this.controleur.connexionAuServeur();
+				controleur.cmdConnexionAuServeur(txtNomUtilisateur.getText(), txtMotDePasse.getPassword());
 			}
 		});
 
 		this.txtMotDePasse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FrameConnexion.this.controleur.connexionAuServeur();
+				controleur.cmdConnexionAuServeur(txtNomUtilisateur.getText(), txtMotDePasse.getPassword());
 			}
 		});
 	}

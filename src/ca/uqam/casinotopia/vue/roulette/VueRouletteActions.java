@@ -31,9 +31,11 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-@SuppressWarnings("serial")
+//@SuppressWarnings("serial")
 public class VueRouletteActions extends Vue {
 
+	private static final long serialVersionUID = -8953871997652793760L;
+	
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
 
@@ -68,23 +70,7 @@ public class VueRouletteActions extends Vue {
 
 		JLabel lblVosOptions = new JLabel("Vos options :");
 		lblVosOptions.setFont(new Font("Tahoma", Font.ITALIC, 24));
-		/*
-		 * GridBagConstraints gbc_lblVosOptions = new GridBagConstraints();
-		 * gbc_lblVosOptions.insets = new Insets(0, 0, 5, 5);
-		 * gbc_lblVosOptions.gridx = 0; gbc_lblVosOptions.gridy = 0;
-		 * add(lblVosOptions, gbc_lblVosOptions);
-		 */
 		this.add(lblVosOptions, new GridBagHelper().setXY(0, 0).end());
-
-		JButton btnMiser = new JButton("Miser");
-		btnMiser.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnMiser.setToolTipText("Ouvrir la fen\u00EAtre de mise");
-		/*
-		 * GridBagConstraints gbc_btnMiser = new GridBagConstraints();
-		 * gbc_btnMiser.insets = new Insets(0, 0, 5, 5); gbc_btnMiser.gridx = 1;
-		 * gbc_btnMiser.gridy = 1; add(btnMiser, gbc_btnMiser);
-		 */
-		this.add(btnMiser, new GridBagHelper().setXY(1, 1).end());
 
 		JButton btnPret = new JButton("Pr\u00EAt");
 		btnPret.addActionListener(new ActionListener() {
@@ -94,23 +80,22 @@ public class VueRouletteActions extends Vue {
 		});
 		btnPret.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnPret.setToolTipText("Pr\u00EAt \u00E0 tourner la roulette");
-		/*
-		 * GridBagConstraints gbc_btnPrt = new GridBagConstraints();
-		 * gbc_btnPrt.insets = new Insets(0, 0, 5, 0); gbc_btnPrt.gridx = 2;
-		 * gbc_btnPrt.gridy = 1; add(btnPrt, gbc_btnPrt);
-		 */
-		this.add(btnPret, new GridBagHelper().setXY(2, 1).end());
+		this.add(btnPret, new GridBagHelper().setXY(1, 1).end());
+		
+
+
+		JButton btnQuitter = new JButton("Quitter");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.cmdQuitterPartie();
+			}
+		});
+		btnQuitter.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnQuitter.setToolTipText("Quitter la partie");
+		this.add(btnQuitter, new GridBagHelper().setXY(2, 1).end());
 
 		JPanel pnlJetons = new JPanel();
 		pnlJetons.setName("pnlJetons");
-		/*
-		 * lblChip5.addMouseListener(misesGhostComponentAdapter = new
-		 * MisesGhostComponentAdapter((GhostGlassPane)
-		 * this.frame.getGlassPane(), TypeMise.MISE_5));
-		 * misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
-		 * lblChip5.addMouseMotionListener(new
-		 * GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
-		 */
 		pnlJetons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JLabel lblChip5 = new JLabel(new ImageIcon(VueRouletteActions.class.getResource("/img/chip_5.png")));
@@ -127,30 +112,6 @@ public class VueRouletteActions extends Vue {
 		lblChip25.setName("lblChip25");
 		lblChip25.setTransferHandler(new TransferHandler("text"));
 		pnlJetons.add(lblChip25);
-		/*
-		 * lblChip10.addMouseListener(misesGhostComponentAdapter = new
-		 * MisesGhostComponentAdapter((GhostGlassPane)
-		 * this.frame.getGlassPane(), TypeMise.MISE_10));
-		 * misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
-		 * lblChip10.addMouseMotionListener(new
-		 * GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
-		 */
-		/*
-		 * lblChip25.addMouseListener(misesGhostComponentAdapter = new
-		 * MisesGhostComponentAdapter((GhostGlassPane)
-		 * this.frame.getGlassPane(), TypeMise.MISE_25));
-		 * misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
-		 * lblChip25.addMouseMotionListener(new
-		 * GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
-		 */
-		/*
-		 * lblChip50.addMouseListener(misesGhostComponentAdapter = new
-		 * MisesGhostComponentAdapter((GhostGlassPane)
-		 * this.frame.getGlassPane(), TypeMise.MISE_50));
-		 * misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
-		 * lblChip50.addMouseMotionListener(new
-		 * GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
-		 */
 
 		JLabel lblChip50 = new JLabel(new ImageIcon(VueRouletteActions.class.getResource("/img/chip_50.png")));
 		lblChip50.setName("lblChip50");
@@ -167,10 +128,7 @@ public class VueRouletteActions extends Vue {
 	}
 
 	private void initMisesDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
-		// VueRouletteTapis tapis = (VueRouletteTapis)
-		// ((Vue)this.frame.getVueComponentByName("VueRoulette")).getComponentByName("tapis");
 		GhostDropListener ghostDropListener = new MisesGhostDropManager(target, receiver);
-		// JPanel pnlJetons = this.getComponentByName("lblChip5")
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip5"), TypeMise.MISE_5);
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip10"), TypeMise.MISE_10);
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip25"), TypeMise.MISE_25);

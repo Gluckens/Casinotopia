@@ -1,41 +1,38 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.uqam.casinotopia;
 
 import java.io.Serializable;
 import java.sql.Date;
+
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 /**
  * 
  * @author Alexei
  */
 public class DonUniqueClient implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1796189943288471211L;
+	
 	private int id;
 	private int montant;
-	private Client unClient;
-	private Fondation uneFondation;
+	private ModeleClientServeur client;
+	private Fondation fondation;
 	private Date dateDon;
 
-	public void setClient_(Client unnamed_Client_) {
-		this.unClient = unnamed_Client_;
+	public void setClient_(ModeleClientServeur client) {
+		this.client = client;
 	}
 
-	public Client getClient_() {
-		return this.unClient;
+	public ModeleClientServeur getClient() {
+		return this.client;
 	}
 
-	public void setFondation_(Fondation unnamed_Fondation_) {
-		this.uneFondation = unnamed_Fondation_;
+	public void setFondation(Fondation fondation) {
+		this.fondation = fondation;
 	}
 
-	public Fondation getFondation_() {
-		return this.uneFondation;
+	public Fondation getFondation() {
+		return this.fondation;
 	}
 
 	public int getId() {

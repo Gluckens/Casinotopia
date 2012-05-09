@@ -1,10 +1,10 @@
 package ca.uqam.casinotopia.commande.serveur;
 
-import ca.uqam.casinotopia.commande.CommandeServeur;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
-public class CmdMisesTermineesRoulette implements CommandeServeur {
+public class CmdMisesTermineesRoulette implements CommandeServeurControleurRoulette {
 
 	private static final long serialVersionUID = -924725531305179986L;
 	

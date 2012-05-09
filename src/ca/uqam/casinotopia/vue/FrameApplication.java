@@ -110,9 +110,9 @@ public class FrameApplication extends JFrame implements Runnable {
 	}
 
 	public void addOrReplaceVue(String name, JPanel panel) {
-		System.out.println("Frame contient avant add : " + this.getComponentCount());
+		/*System.out.println("Frame contient avant add : " + this.getComponentCount());
 		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelVue contient avant add : " + this.pnlVue.getComponentCount());
+		System.out.println("PanelVue contient avant add : " + this.pnlVue.getComponentCount());*/
 
 		// Si je retourne le panel directement et que je le modifie, sa va pas
 		// modifier le vrai dans le frame?
@@ -140,15 +140,15 @@ public class FrameApplication extends JFrame implements Runnable {
 
 		this.setVisible(true);
 
-		System.out.println("Frame contient apres add : " + this.getComponentCount());
+		/*System.out.println("Frame contient apres add : " + this.getComponentCount());
 		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelVue contient apres add : " + this.pnlVue.getComponentCount());
+		System.out.println("PanelVue contient apres add : " + this.pnlVue.getComponentCount());*/
 	}
 
 	public void addOrReplaceMenu(String name, JPanel panel) {
-		System.out.println("Frame contient avant add : " + this.getComponentCount());
+		/*System.out.println("Frame contient avant add : " + this.getComponentCount());
 		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelMenu contient avant add : " + this.pnlMenu.getComponentCount());
+		System.out.println("PanelMenu contient avant add : " + this.pnlMenu.getComponentCount());*/
 
 		Component component = this.getMenuComponentByName(name);
 		if (component != null) {
@@ -169,9 +169,9 @@ public class FrameApplication extends JFrame implements Runnable {
 
 		this.setVisible(true);
 
-		System.out.println("Frame contient apres add : " + this.getComponentCount());
+		/*System.out.println("Frame contient apres add : " + this.getComponentCount());
 		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelMenu contient apres add : " + this.pnlMenu.getComponentCount());
+		System.out.println("PanelMenu contient apres add : " + this.pnlMenu.getComponentCount());*/
 	}
 
 	public Map<String, Component> getComponentMapVue() {
@@ -189,16 +189,8 @@ public class FrameApplication extends JFrame implements Runnable {
 	}
 
 	public void removeAllVue() {
-		// super.removeAll();
-
 		this.pnlVue.removeAll();
 		this.componentMapVue.clear();
-
-		/*
-		 * this.contentPane = new JPanel(); this.contentPane.setBorder(new
-		 * EmptyBorder(5, 5, 5, 5)); this.contentPane.setLayout(new
-		 * BorderLayout(0, 0)); this.setContentPane(contentPane);
-		 */
 	}
 
 	public void removeAllMenu() {
@@ -206,11 +198,5 @@ public class FrameApplication extends JFrame implements Runnable {
 
 		this.pnlMenu.removeAll();
 		this.componentMapMenu.clear();
-
-		/*
-		 * this.contentPane = new JPanel(); this.contentPane.setBorder(new
-		 * EmptyBorder(5, 5, 5, 5)); this.contentPane.setLayout(new
-		 * BorderLayout(0, 0)); this.setContentPane(contentPane);
-		 */
 	}
 }

@@ -6,7 +6,6 @@ import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 
-//TODO Pas le bon controleur
 public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 
 	/**
@@ -27,7 +26,5 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 	@Override
 	public void action(Controleur controleur) {
 		((ControleurChatClient)controleur).initChat(this.listeUtilisateurs, this.messages, this.nom);
-
 	}
-
 }

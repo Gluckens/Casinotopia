@@ -3,40 +3,64 @@ package ca.uqam.casinotopia.modele.client;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.Partie;
+import ca.uqam.casinotopia.JeuClient;
+import ca.uqam.casinotopia.PartieClient;
+import ca.uqam.casinotopia.TypeJeuArgent;
+import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 
-public class ModelePartieRouletteClient extends Partie implements Modele, Observable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1587373503556245991L;
-
-	private Case resultat;
+public class ModelePartieRouletteClient extends PartieClient implements Modele, Observable {
+	
+	private static final long serialVersionUID = -1713451671266579670L;
+	
+	private int gain;
+	private Case caseResultat;
 	private ModeleTableJeuClient tableJeu;
 	private BaseObservable sujet = new BaseObservable(this);
 
-	public ModelePartieRouletteClient(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
-		super(id, optionArgent, optionMultijoueur, infoJeu);
-
-		this.tableJeu = new ModeleTableJeuClient();
+	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu) {
+		this(id, typeMultijoueurs, typeArgent, infoJeu, new ModeleTableJeuClient());
 	}
+	
+	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu, Map<Case, Map<Integer, Integer>> cases) {
+		this(id, typeMultijoueurs, typeArgent, infoJeu, new ModeleTableJeuClient(cases));
+	}
+	
+	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu, ModeleTableJeuClient tableJeu) {
+		super(id, typeMultijoueurs, typeArgent, infoJeu);
+
+		this.tableJeu = tableJeu;
+	}
+	
+	public Case getCaseResultat() {
+		return caseResultat;
+	}
+	
+	public void setCaseResultat(Case caseResultat) {
+		System.out.println("Alexei --> ModelePartieRouletteClient.setCaseResultat()");
+		this.caseResultat = caseResultat;
+		
+	}
+	
+	public int getGain() {
+		return gain;
+		
+	}
+	
+	public void setGain(int gain) {
+		System.out.println("Alexei --> ModelePartieRouletteClient.setGain()");
+		this.gain = gain;
+		this.notifierObservateur();
+	}
+	
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.tableJeu.updateTableJeu(cases);
-
-		// TODO enlever ce notifier et le traite dans tableJeu
-		this.notifierObservateur();
 	}
-
-	/*
-	 * @Override public TypeJeu getTypeJeu() { return TypeJeu.ROULETTE; }
-	 */
 
 	/**
 	 * @return the tableJeu
@@ -70,6 +94,13 @@ public class ModelePartieRouletteClient extends Partie implements Modele, Observ
 
 	@Override
 	public void notifierObservateur() {
+		System.out.println("Alexei --> ModelePartieRouletteClient.notifierObservateur()");
 		this.sujet.notifierObservateur();
+	}
+
+	@Override
+	public TypeModif getTypeModif() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

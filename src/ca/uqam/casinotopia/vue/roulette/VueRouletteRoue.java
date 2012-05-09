@@ -3,7 +3,6 @@ package ca.uqam.casinotopia.vue.roulette;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -14,7 +13,7 @@ import javax.swing.*;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
-import ca.uqam.casinotopia.modele.client.ModeleTableJeuClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.Vue;
@@ -43,6 +42,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
     private int nbTours;
     private HashMap<Integer, Double> positionsNumeros;
     private int resultat; 
+    private int gain;
     
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
@@ -60,7 +60,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
         positionsNumeros = initialiserPositions();
         m_rotateTimer = new Timer(40, this);
         resultat = 0;
-        tournerRoulette(6);
+        //tournerRoulette(6);
     }
 
     /** This method is called from within the constructor to
@@ -94,7 +94,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 		setLayout(gridBagLayout);
 //		
 //
-		setPreferredSize(new Dimension(300, 300));
+		setPreferredSize(new Dimension(400, 400));
 //		
 //		JLabel lblImgTapis = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/roulette-table.jpg")));
 //		lblImgTapis.setName("imgTapis");
@@ -199,6 +199,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
                 position = positionsNumeros.get(resultat).doubleValue();
                 repaint();
                 m_rotateTimer.stop();
+                JOptionPane.showMessageDialog(null, "Vous avez gagné : " + gain);
             }
         }
 
@@ -206,6 +207,13 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 
 	@Override
 	public void update(Observable observable) {
+		if (observable instanceof ModelePartieRouletteClient) {
+			System.out.println("Alexei --> vueRouletteClient.update()");
+			this.tournerRoulette(((ModelePartieRouletteClient) observable).getCaseResultat().getNumero());
+			gain = ((ModelePartieRouletteClient) observable).getGain();
+			System.out.println("gain = " + gain);
+		}
+		System.out.println("Update fonctionne!!!");
 	}
 
 	@Override

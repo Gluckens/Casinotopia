@@ -1,18 +1,15 @@
 package ca.uqam.casinotopia;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Case implements Serializable {
-
-	private static final long serialVersionUID = -1687051630860379950L;
+	
+	private static final long serialVersionUID = -3295656245096943860L;
 	
 	private int numero;
 	private TypeCouleurCase couleur;
 	private TypePariteCase parite;
 	private TypeCase type;
-	private List<Case> lstCases;
 	private double multiplicateurGain;
 	
 	/**
@@ -22,6 +19,13 @@ public class Case implements Serializable {
 	 */
 	public Case(int numero, TypeCase type, double multiplicateurGain) {
 		this.numero = numero;
+		this.type = type;
+		this.multiplicateurGain = multiplicateurGain;
+	}
+	
+	public Case(int numero, TypeCouleurCase couleur, TypeCase type, double multiplicateurGain) {
+		this.numero = numero;
+		this.couleur = couleur;
 		this.type = type;
 		this.multiplicateurGain = multiplicateurGain;
 	}
@@ -46,49 +50,6 @@ public class Case implements Serializable {
 	public Case(TypePariteCase parite, TypeCase type, double multiplicateurGain) {
 		this.type = type;
 		this.parite = parite;
-		this.multiplicateurGain = multiplicateurGain;
-	}
-	
-	/**
-	 * Constructeur de couleur
-	 * @param couleur
-	 * @param type
-	 * @param lstCases
-	 */
-	public Case(TypeCouleurCase couleur, TypeCase type, List<Case> lstCases, double multiplicateurGain) {
-		this.couleur = couleur;
-		this.type = type;
-		this.lstCases = lstCases;
-		this.multiplicateurGain = multiplicateurGain;
-	}
-	
-	/**
-	 * Constructeur de parité
-	 * @param type
-	 * @param lstCases
-	 */
-	public Case(TypeCase type, List<Case> lstCases, double multiplicateurGain) {
-		this.type = type;
-		this.lstCases = lstCases;
-		this.multiplicateurGain = multiplicateurGain;
-	}
-
-	// TODO quand une case représente une couleur, je fait koi?
-	// Serait mieux de faire une liste de numero toujours, et si le type est
-	// numero il n'y en aurait qu'un seul
-	// Ou plutot une liste de case?
-	public Case(int numero, TypeCouleurCase couleur, TypeCase type, double multiplicateurGain) {
-		this(numero, couleur, type, new ArrayList<Case>(), multiplicateurGain);
-	}
-
-	public Case(int numero, TypeCouleurCase couleur, TypeCase type, List<Case> lstCases, double multiplicateurGain) {
-		this.numero = numero;
-		this.couleur = couleur;
-
-		this.type = type;
-
-		this.lstCases = lstCases;
-		
 		this.multiplicateurGain = multiplicateurGain;
 	}
 
@@ -130,8 +91,69 @@ public class Case implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((couleur == null) ? 0 : couleur.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(multiplicateurGain);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + numero;
+		result = prime * result + ((parite == null) ? 0 : parite.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		Case other = (Case) obj;
+//		if (couleur != other.couleur)
+//			return false;
+//		if (Double.doubleToLongBits(multiplicateurGain) != Double.doubleToLongBits(other.multiplicateurGain))
+//			return false;
+//		if (numero != other.numero)
+//			return false;
+//		if (parite != other.parite)
+//			return false;
+//		if (type != other.type)
+//			return false;
+//		return true;
+//	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean egale = false;
+		if (obj != null && obj.getClass()==this.getClass())
+		{
+			Case cObj = (Case) obj;
+			if (cObj.getType() == TypeCase.COULEUR)
+			{
+				if (cObj.getCouleur()==this.getCouleur()){
+					egale = true;
+				}
+			}
+			else if (cObj.getType() == TypeCase.PARITE){
+				if (cObj.estPaire()==this.estPaire()){
+					egale = true;
+				}
+			}
+			else if (cObj.getType() == TypeCase.CHIFFRE){
+				if (cObj.getNumero()==this.getNumero()){
+					egale = true;
+				}
+			}
+		}
+		return egale;
+	}
+
+	/*@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
 		result = prime * result + ((this.couleur == null) ? 0 : this.couleur.hashCode());
-		result = prime * result + ((this.lstCases == null) ? 0 : this.lstCases.hashCode());
 		result = prime * result + this.numero;
 		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
 		return result;
@@ -152,14 +174,6 @@ public class Case implements Serializable {
 		if (this.couleur != other.couleur) {
 			return false;
 		}
-		if (this.lstCases == null) {
-			if (other.lstCases != null) {
-				return false;
-			}
-		}
-		else if (!this.lstCases.equals(other.lstCases)) {
-			return false;
-		}
 		if (this.numero != other.numero) {
 			return false;
 		}
@@ -167,7 +181,7 @@ public class Case implements Serializable {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	// TODO Vérifier les égalités
 

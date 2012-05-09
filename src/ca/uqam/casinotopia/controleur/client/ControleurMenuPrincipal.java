@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia.controleur.client;
 
+import ca.uqam.casinotopia.commande.serveur.CmdJoindreSalle;
 import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
 import ca.uqam.casinotopia.commande.serveur.machine.CmdJouerMachine;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -12,8 +13,8 @@ import ca.uqam.casinotopia.vue.VueMenuPrincipal;
 
 public class ControleurMenuPrincipal extends ControleurClient {
 
-	private static final long serialVersionUID = -223658182174135843L;
-
+	private static final long serialVersionUID = -3188096152156233418L;
+	
 	private VueMenuPrincipal vue;
 
 	public ControleurMenuPrincipal(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNavigation) {
@@ -22,13 +23,11 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	}
 
 	public void cmdJouerRoulette() {
-		System.out.println("Envoyer Commande Jouer Roulette");
-
 		// TODO Récupérer l'id du jeu de roulette auquel le client veut jouer.
 
 		int idJeu = 2;
 
-		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu));
+		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu, null, null));
 	}
 
 	/**
@@ -39,12 +38,24 @@ public class ControleurMenuPrincipal extends ControleurClient {
 	}
 
 	public void actionAfficherChat(ModeleChatClient modeleChatClient) {
-		System.out.println("ICI LA LA");
 		((ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 	}
-
+	
+	public void cmdJoindreSalle(String nomSalle) {
+		this.connexion.envoyerCommande(new CmdJoindreSalle(nomSalle));
+		
+	}
+	
 	public void actionJouerMachine() {
 		this.connexion.envoyerCommande(new CmdJouerMachine());
 		
 	}
+
+	/*public void afficherSalle(String nomSalle) {
+		ControleurSalleClient ctrlSalle = new ControleurSalleClient(this.connexion, new ModeleSalleClient(nomSalle), this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
+		this.modeleNav.cacherFrameConnexion();
+		this.modeleNav.changerVueFrameApplication("VueSalle", ctrlSalle.getVue());
+		//ctrlSalle.getVue().loopMouvement();
+	}*/
 }

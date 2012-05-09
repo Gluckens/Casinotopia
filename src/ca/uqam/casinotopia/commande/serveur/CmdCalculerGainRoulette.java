@@ -2,7 +2,6 @@ package ca.uqam.casinotopia.commande.serveur;
 
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
 public class CmdCalculerGainRoulette implements CommandeServeurControleurRoulette {
 	
@@ -14,6 +13,6 @@ public class CmdCalculerGainRoulette implements CommandeServeurControleurRoulett
 
 	public void action(Controleur controleur) {
 		System.out.println("ACTION DE LA COMMANDE CMD_CALCULER_GAIN_ROULETTE");
-		((ControleurRouletteServeur)controleur).actionCalculerGainRoulette();
+		//((ControleurRouletteServeur)controleur).actionCalculerGainRoulette();
 	}
 }

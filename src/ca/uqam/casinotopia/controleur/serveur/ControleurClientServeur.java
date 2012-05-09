@@ -11,5 +11,4 @@ public class ControleurClientServeur extends ControleurServeur {
 	public ControleurClientServeur(Connexion connexion, ModeleClientServeur client) {
 		super(connexion, client);
 	}
-
 }

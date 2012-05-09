@@ -1,6 +1,11 @@
 package ca.uqam.casinotopia;
 
-public class PartageGainsCasino {
+import java.io.Serializable;
+
+public class PartageGainsCasino implements Serializable {
+	
+	private static final long serialVersionUID = 6459672523482512318L;
+	
 	private int pourcentage;
 	public CompteCasino unnamed_CompteCasino_;
 	public Fondation unnamed_Fondation_;

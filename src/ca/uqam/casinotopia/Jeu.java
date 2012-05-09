@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia;
 
+import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,21 +8,20 @@ import java.util.SortedSet;
 import java.util.Map.Entry;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
 public class Jeu implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 7375777588643978481L;
+	
 	private int id;
 	private String nom;
 	private String description;
 	private String reglesJeu;
-	private int posX;
-	private int posY;
+	private Rectangle emplacement;
 	private int nbrJoueursMin;
 	private int nbrJoueursMax;
-	private Salle salle;
+	private ModeleSalleServeur salle;
 
 	private Map<TypeEtatPartie, Map<Integer, Partie>> lstParties;
 
@@ -34,13 +34,12 @@ public class Jeu implements Serializable {
 	 * Partie>>(); //this.lstParties = new ArrayList<Partie>(); }
 	 */
 
-	public Jeu(int id, String nom, String description, String reglesJeu, int posX, int posY, int nbrJoueursMin, int nbrJoueursMax, Salle salle, TypeJeu type) {
+	public Jeu(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, ModeleSalleServeur salle, TypeJeu type) {
 		this.setId(id);
 		this.nom = nom;
 		this.description = description;
 		this.reglesJeu = reglesJeu;
-		this.posX = posX;
-		this.posY = posY;
+		this.emplacement = emplacement;
 		this.nbrJoueursMin = nbrJoueursMin;
 		this.nbrJoueursMax = nbrJoueursMax;
 		this.salle = salle;
@@ -84,24 +83,20 @@ public class Jeu implements Serializable {
 		this.lstParties.get(etat).put(partie.getId(), partie);
 	}
 
-	// Quelle est la politique de recherche de partie en cours? On cherche celle
-	// avec le moins de joueur manquant avant d'attendre le nombre maximal?
+	// Quelle est la politique de recherche de partie en cours? On cherche celle avec le moins de joueur manquant avant d'attendre le nombre maximal?
 	// TODO Cette fonction sera appelé lorsqu'un joueur veut jouer à un jeu.
-	// Elle devra regarder dans la liste de partie s'il y en a une en attente et
-	// dont le nombre maximale de joueur n'est pas atteint
+	// Elle devra regarder dans la liste de partie s'il y en a une en attente et dont le nombre maximale de joueur n'est pas atteint
 	// (possible que le nbrMaxJoueur d'une partie en attente soit atteinte?
-	// quand le dernier joueur entre dans une partie en attente, elle ne s'en va
-	// directement dans partie en cours?)
+	// quand le dernier joueur entre dans une partie en attente, elle ne s'en va directement dans partie en cours?)
 	public Partie rechercherPartieEnAttente() {
 		Partie partieEnAttente = null;
 
 		if (!this.lstParties.get(TypeEtatPartie.EN_ATTENTE).isEmpty()) {
-			System.out.println("PartiesEnAttente : " + this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
+			//System.out.println("PartiesEnAttente : " + this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 
-			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties
-					.get(TypeEtatPartie.EN_ATTENTE));
+			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 
-			System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
+			//System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
 
 			partieEnAttente = lstPartiesSorted.first().getValue();
 		}
@@ -170,33 +165,17 @@ public class Jeu implements Serializable {
 	}
 
 	/**
-	 * @return the posX
+	 * @return the emplacement
 	 */
-	public int getPosX() {
-		return this.posX;
+	public Rectangle getEmplacement() {
+		return emplacement;
 	}
 
 	/**
-	 * @param posX
-	 *            the posX to set
+	 * @param emplacement the emplacement to set
 	 */
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-
-	/**
-	 * @return the posY
-	 */
-	public int getPosY() {
-		return this.posY;
-	}
-
-	/**
-	 * @param posY
-	 *            the posY to set
-	 */
-	public void setPosY(int posY) {
-		this.posY = posY;
+	public void setEmplacement(Rectangle emplacement) {
+		this.emplacement = emplacement;
 	}
 
 	/**
@@ -232,7 +211,7 @@ public class Jeu implements Serializable {
 	/**
 	 * @return the salle
 	 */
-	public Salle getSalle() {
+	public ModeleSalleServeur getSalle() {
 		return this.salle;
 	}
 
@@ -240,7 +219,7 @@ public class Jeu implements Serializable {
 	 * @param salle
 	 *            the salle to set
 	 */
-	public void setSalle(Salle salle) {
+	public void setSalle(ModeleSalleServeur salle) {
 		this.salle = salle;
 	}
 

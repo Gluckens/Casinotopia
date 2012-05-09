@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
@@ -94,6 +95,12 @@ public class ModeleRoueRouletteServeur implements Modele, Observable {
 	@Override
 	public void notifierObservateur() {
 		this.sujet.notifierObservateur();
+	}
+
+	@Override
+	public TypeModif getTypeModif() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

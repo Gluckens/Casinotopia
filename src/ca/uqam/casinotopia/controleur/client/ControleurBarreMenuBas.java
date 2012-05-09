@@ -9,8 +9,8 @@ import ca.uqam.casinotopia.vue.VueBarreMenuBas;
 
 public class ControleurBarreMenuBas extends ControleurClient {
 
-	private static final long serialVersionUID = -1237502765377625983L;
-
+	private static final long serialVersionUID = -2128979284720466267L;
+	
 	private VueBarreMenuBas vue;
 
 	// private ModelePartieRouletteClient modele;
@@ -27,6 +27,10 @@ public class ControleurBarreMenuBas extends ControleurClient {
 		/*
 		 * this.modele = modele; this.modele.ajouterObservateur(this.vue);
 		 */
+	}
+	
+	public VueBarreMenuBas getVue() {
+		return this.vue;
 	}
 
 	public FrameApplication getFrame() {

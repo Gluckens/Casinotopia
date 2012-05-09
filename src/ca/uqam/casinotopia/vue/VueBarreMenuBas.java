@@ -35,7 +35,7 @@ public class VueBarreMenuBas extends Vue {
 		gridBagLayout.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		this.setLayout(gridBagLayout);
 
-		// setPreferredSize(new Dimension(1024, 45));
+		//setPreferredSize(new Dimension(1024, 45));
 
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setName("btnMenu");

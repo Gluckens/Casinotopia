@@ -3,17 +3,23 @@ package ca.uqam.casinotopia;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public class JoueurRoulette extends JoueurServeur {
+
+	private static final long serialVersionUID = 6359607753125692254L;
 	
-	private static final long serialVersionUID = -780970187450291078L;
-	
+	private TypeCouleurJoueurRoulette couleur;
 	private boolean misesTerminees;
 	
 	//TODO Mise dans joueur???
 	//private Vector<Case> mises = new Vector<Case>();
 
-	public JoueurRoulette(ModeleClientServeur client, Partie partie) {
+	public JoueurRoulette(ModeleClientServeur client, Partie partie, TypeCouleurJoueurRoulette couleur) {
 		super(client, partie);
-		this.setMisesTerminees(false);
+		this.couleur = couleur;
+		this.misesTerminees = false;
+	}
+	
+	public TypeCouleurJoueurRoulette getCouleur() {
+		return this.couleur;
 	}
 
 	/**

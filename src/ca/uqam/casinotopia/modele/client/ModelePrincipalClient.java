@@ -1,15 +1,19 @@
 package ca.uqam.casinotopia.modele.client;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
+import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.FrameConnexion;
 import ca.uqam.casinotopia.vue.Vue;
 
-public class ModelePrincipalClient {
+public class ModelePrincipalClient implements Modele, Serializable {
+
+	private static final long serialVersionUID = -1636594066378148905L;
 
 	private Map<String, ControleurClient> lstControleurs = new HashMap<String, ControleurClient>();
 
@@ -25,6 +29,9 @@ public class ModelePrincipalClient {
 	public void initFrame() {
 		// TODO Faudrait créer une vue séparée du frame pour la connexion
 		this.frameConnexion = new FrameConnexion((ControleurPrincipalClient) this.getControleur("ControleurPrincipalClient"));
+	}
+	
+	public void initFrameApplication() {
 		this.frameApplication = new FrameApplication();
 	}
 
@@ -47,6 +54,10 @@ public class ModelePrincipalClient {
 	public void ajouterControleur(String nom, ControleurClient ctrl) {
 		this.lstControleurs.put(nom, ctrl);
 	}
+	
+	public void retirerControleur(String nom) {
+		this.lstControleurs.remove(nom);
+	}
 
 	public void cacherFrameConnexion() {
 		this.frameConnexion.dispose();
@@ -57,12 +68,12 @@ public class ModelePrincipalClient {
 	}
 
 	public void changerVueFrameApplication(String nom, Vue vue) {
-		this.frameApplication.removeAll();
+		this.frameApplication.removeAllVue();
 		this.frameApplication.addOrReplaceVue(nom, vue);
 	}
 
 	public void changerMenuFrameApplication(String nom, Vue vue) {
-		this.frameApplication.removeAll();
+		this.frameApplication.removeAllMenu();
 		this.frameApplication.addOrReplaceMenu(nom, vue);
 	}
 }

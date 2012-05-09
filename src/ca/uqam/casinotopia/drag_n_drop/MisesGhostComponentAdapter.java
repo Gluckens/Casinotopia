@@ -15,7 +15,6 @@ public class MisesGhostComponentAdapter extends GhostComponentAdapter {
 
 	@Override
 	protected void sendGhostDropEvent(Point eventPoint) {
-		System.out.println("GHOST DROPPED MISES");
 		this.fireGhostDropEvent(new MisesGhostDropEvent(eventPoint, this.typeMise));
 	}
 
