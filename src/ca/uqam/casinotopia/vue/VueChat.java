@@ -35,11 +35,11 @@ public class VueChat extends Vue {
 	public JTextField txtMessage;
 	public JList lstConnecte;
 	public JButton btnSeConnecter;
-	public JScrollPane scrollPane;
 	public JTextField txtSeConnecterA;
 	public JLabel lblTitre;
 	private JPanel pnlChat;
 	private JPanel pnlListeUtilisateur;
+	private JScrollPane scrollPane;
 
 	public VueChat(ControleurChatClient ctrl){
 		this.addComponents();
@@ -91,7 +91,7 @@ public class VueChat extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{142, 93, 177, 0};
+		gridBagLayout.columnWidths = new int[]{142, 93, 168, 0};
 		gridBagLayout.rowHeights = new int[]{15, 20, 23, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -138,20 +138,22 @@ public class VueChat extends Vue {
 		gbc_pnlChat.gridy = 0;
 		add(pnlChat, gbc_pnlChat);
 		GridBagLayout gbl_pnlChat = new GridBagLayout();
-		gbl_pnlChat.columnWidths = new int[]{93, 177, 0};
-		gbl_pnlChat.rowHeights = new int[]{15, 228, 20, 0};
-		gbl_pnlChat.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_pnlChat.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlChat.columnWidths = new int[]{258, 0};
+		gbl_pnlChat.rowHeights = new int[]{255, 20, 0};
+		gbl_pnlChat.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_pnlChat.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		pnlChat.setLayout(gbl_pnlChat);
+		
+		scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		pnlChat.add(scrollPane, gbc_scrollPane);
 
 		this.txtChat = new JTextArea();
-		GridBagConstraints gbc_txtChat = new GridBagConstraints();
-		gbc_txtChat.fill = GridBagConstraints.BOTH;
-		gbc_txtChat.gridwidth = 2;
-		gbc_txtChat.insets = new Insets(0, 0, 5, 0);
-		gbc_txtChat.gridx = 0;
-		gbc_txtChat.gridy = 1;
-		pnlChat.add(txtChat, gbc_txtChat);
+		scrollPane.setViewportView(txtChat);
 		txtChat.setLineWrap(true);
 		txtChat.setEditable(false);
 		txtChat.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
@@ -161,10 +163,8 @@ public class VueChat extends Vue {
 		this.txtMessage = new JTextField();
 		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
 		gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtMessage.gridwidth = 2;
-		gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
 		gbc_txtMessage.gridx = 0;
-		gbc_txtMessage.gridy = 2;
+		gbc_txtMessage.gridy = 1;
 		pnlChat.add(txtMessage, gbc_txtMessage);
 		txtMessage.setToolTipText("Entr\u00E9e pour envoyer");
 		txtMessage.setColumns(10);
@@ -174,17 +174,6 @@ public class VueChat extends Vue {
 				envoyerMessageChat();
 			}
 		});
-
-		this.scrollPane = new JScrollPane();
-		scrollPane.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridheight = 2;
-		gbc_scrollPane.gridwidth = 2;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
-		this.add(scrollPane, gbc_scrollPane);
 
 		JLabel lblToi = new JLabel("Toi");
 		lblToi.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -230,7 +219,7 @@ public class VueChat extends Vue {
 
 		DefaultListModel model = new DefaultListModel();
 
-		this.setSize(new Dimension(400, 400));
+		this.setSize(new Dimension(410, 400));
 
 	}
 		

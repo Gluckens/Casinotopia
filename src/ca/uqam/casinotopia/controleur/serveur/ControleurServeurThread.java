@@ -19,15 +19,18 @@ import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurMachine;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurSalle;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
+
+import ca.uqam.casinotopia.commande.client.CmdInitClient;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.CmdAfficherSalle;
 import ca.uqam.casinotopia.commande.client.CmdAjouterClientSalle;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
-import ca.uqam.casinotopia.commande.client.CmdInitClient;
+import ca.uqam.casinotopia.commande.client.machine.CmdAfficherJeuMachine;
 import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
 import ca.uqam.casinotopia.commande.client.CmdQuitterSalleClient;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -36,6 +39,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
@@ -102,6 +106,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurSalleServeur)");
 								}
 								cmd.action(this.lstControleurs.get("ControleurSalleServeur"));
+							}
+							else if (cmd instanceof CommandeServeurControleurMachine) {
+								cmd.action(this.lstControleurs.get("ControleurMachineServeur"));
 							}
 							else if (cmd instanceof CommandeServeurControleurPrincipal) {
 								cmd.action(this.lstControleurs.get("ControleurPrincipalServeur"));
@@ -319,7 +326,13 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage);
 		this.client = this.modele;
 	}
-
+	
+	public void lancerPartieMachine() {
+		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this.client, new ModeleMachineServeur()));
+		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
+		
+	}
+	
 	public void actionQuitterPartieRoulette(int idJoueur) {
 		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
 		

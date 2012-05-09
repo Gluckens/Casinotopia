@@ -27,6 +27,7 @@ public class FrameApplication extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public FrameApplication() {
+		setResizable(false);
 		this.setTitle("Casinotopia");
 		// this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		// this.setUndecorated(true);

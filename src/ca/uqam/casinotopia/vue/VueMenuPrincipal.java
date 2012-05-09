@@ -30,8 +30,7 @@ public class VueMenuPrincipal extends Vue {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 450 };
 		gridBagLayout.rowHeights = new int[] { 100, 100, 100 };
-		/*gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };*/
+
 		this.setLayout(gridBagLayout);
 		
 		JButton btnSalle = new JButton("Afficher la salle");
@@ -61,6 +60,17 @@ public class VueMenuPrincipal extends Vue {
 			}
 		});
 		this.add(btnChat, new GridBagHelper().setXY(0, 2).end());
+		
+		JButton btnMachine = new JButton("Jouer \u00E0 la machine \u00E0 sous");
+		btnMachine.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.actionJouerMachine();
+			}
+		});
+		GridBagConstraints gbc_btnMachine = new GridBagConstraints();
+		gbc_btnMachine.gridx = 0;
+		gbc_btnMachine.gridy = 2;
+		add(btnMachine, gbc_btnMachine);
 	}
 
 	@Override
@@ -68,5 +78,4 @@ public class VueMenuPrincipal extends Vue {
 		// TODO Auto-generated method stub
 
 	}
-
 }

@@ -1,12 +1,12 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeClient;
 import ca.uqam.casinotopia.commande.CommandeClientControleurChat;
 import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
+import ca.uqam.casinotopia.commande.CommandeClientControleurMachine;
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeClientControleurSalle;
@@ -18,10 +18,8 @@ import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
  * @author Olivier
  * 
  */
-public class ClientThread implements Runnable, Serializable {
+public class ClientThread implements Runnable {
 
-	private static final long serialVersionUID = -7255862757949954484L;
-	
 	private ControleurPrincipalClient controleur;
 
 	public ClientThread(ControleurPrincipalClient controleur) {
@@ -58,6 +56,12 @@ public class ClientThread implements Runnable, Serializable {
 								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurChatClient)");
 							}
 							cmd.action(this.controleur.getModeleNav().getControleur("ControleurChatClient"));
+						}
+						else if (cmd instanceof CommandeClientControleurMachine) {
+							if (!this.controleur.getModeleNav().hasControleur("ControleurMachineClient")) {
+								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurMachineClient)");
+							}
+							cmd.action(this.controleur.getModeleNav().getControleur("ControleurMachineClient"));
 						}
 						else if (cmd instanceof CommandeClientControleurSalle) {
 							if (!this.controleur.getModeleNav().hasControleur("ControleurSalleClient")) {
