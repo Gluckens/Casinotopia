@@ -300,6 +300,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	private void setModele(String nomUtilisateur) {
 		//TODO Récupérer les infos du clients dans la BD en rapport avec le nom d'utilisateur
 		int id = Integer.parseInt(nomUtilisateur) ;
+		String motDePasse = "mdp" + id;
 		String prenom = "Prénom";
 		String nom = "Nom";
 		Date dateNaissance = new Date(0);
@@ -323,7 +324,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				break;
 		}
 		
-		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage);
+		//this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage);
+		this.modele = new ModeleClientServeur(id, nomUtilisateur, motDePasse, id, prenom, nom, dateNaissance, courriel, solde, pathImage);
+		this.modele.setConnexion(this.connexion);
 		this.client = this.modele;
 	}
 	

@@ -3,12 +3,9 @@ package ca.uqam.casinotopia;
 import java.awt.Point;
 
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public class Avatar implements Modele {
 	
-	//TODO Référence au client nécessaire?
-	private ModeleClientServeur client;
 	private int id;
 	private String pathImage;
 	private String texte;
@@ -22,36 +19,21 @@ public class Avatar implements Modele {
 		
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage) {
-		this(client, id, pathImage, 40, 40);
+	public Avatar(int id, String pathImage) {
+		this(id, pathImage, 40, 40);
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage, int largeur, int hauteur) {
-		this(client, id, pathImage, largeur, hauteur, "", new Point(0, 0));
+	public Avatar(int id, String pathImage, int largeur, int hauteur) {
+		this(id, pathImage, largeur, hauteur, "", new Point(0, 0));
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
-		this.setClient(client);
+	public Avatar(int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
 		this.id = id;
 		this.pathImage = pathImage;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		this.texte = texte;
 		this.setPosition(position);
-	}
-
-	/**
-	 * @return the client
-	 */
-	public ModeleClientServeur getClient() {
-		return this.client;
-	}
-
-	/**
-	 * @param client the client to set
-	 */
-	public void setClient(ModeleClientServeur client) {
-		this.client = client;
 	}
 
 	public int getId() {
