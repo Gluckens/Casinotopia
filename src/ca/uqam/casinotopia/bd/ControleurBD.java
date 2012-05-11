@@ -19,7 +19,7 @@ public class ControleurBD {
 	 * @param args
 	 *            the command line arguments
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		
 		ModeleClientServeur unCl = new ModeleClientServeur();
 		unCl.setNomUtilisateur("CassieCLT");
@@ -389,28 +389,6 @@ public class ControleurBD {
 		}
 		
 		return ajoutReussi;
-		
-		
-		
-		
-		/*try {
-			String query = "INSERT INTO bd.Client (idUtilisateur, prenom, nom, dateNaissance, courriel, solde, prcGlobal) VALUES ('"
-					+ unClient.getIdUtilisateur() + "', '" + unClient.getPrenom() + "' , '" + unClient.getNom() + "' , '" + unClient.getDateNaissance()
-					+ "' ,'" + unClient.getCourriel() + "' ," + unClient.getSolde() + " , " + unClient.getPourcentageGlobal() + ") returning id into ?; END;  ";
-			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
-			cs.registerOutParameter(1, OracleTypes.NUMBER);
-			cs.execute();
-			System.out.println(cs.getInt(1));
-			unClient.setId(cs.getInt(1));
-			ajoutReussi = true;
-
-		} catch (SQLException ex) {
-			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-		    try { conn.close(); } catch (Exception e) { }
-		}
-		
-		return ajoutReussi;*/
 	}
 	
 	private static boolean ajouterUtilisateur(ModeleClientServeur client, String typeCompte, Connection conn) {
@@ -706,5 +684,5 @@ public class ControleurBD {
 			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return modifierReussi;
-	}
+	}*/
 }
