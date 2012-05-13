@@ -83,15 +83,17 @@ create table donUnique
  );
     
 prompt 
-prompt Création de la table partageGain...
-create table partageGain
+prompt Création de la table partageGains...
+create table partageGains
 (
+  id               	number not null,
   idClient			number not null,
   idFondation		number not null,
   pourcentage		number(3) not null,
-  constraint partageGain_pk primary key (idClient, idFondation),
-  constraint partageGain_client_fk foreign key (idClient) references client (id) on delete cascade,
-  constraint partageGain_fondation_fk foreign key (idFondation) references fondation (id) on delete cascade
+  --constraint partageGains_pk primary key (idClient, idFondation),
+  constraint partageGains_pk primary key (id),
+  constraint partageGains_client_fk foreign key (idClient) references client (id) on delete cascade,
+  constraint partageGains_fondation_fk foreign key (idFondation) references fondation (id) on delete cascade
  );
 
 prompt 
@@ -112,7 +114,11 @@ create sequence fondation_id_seq start with 1 increment by 1 nocache;
 
 prompt 
 prompt Création de la séquence donUnique_id_seq...
-create sequence donUnique_id_seq start with 1 increment by 1 nocache; 
+create sequence donUnique_id_seq start with 1 increment by 1 nocache;
+
+prompt 
+prompt Création de la séquence partageGains_id_seq...
+create sequence partageGains_id_seq start with 1 increment by 1 nocache;
  
 prompt 
 prompt Fin du script. 

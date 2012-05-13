@@ -2,6 +2,8 @@ package ca.uqam.casinotopia;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
@@ -17,11 +19,15 @@ public class DonUniqueClient implements Serializable {
 	
 	public DonUniqueClient(ModeleClientServeur client, Fondation fondation, int montant) {
 		//TODO Au lieu de null, mettre la date du jour
-		this(-1, client, fondation, montant, null);
+		this(-1, client, fondation, montant, (Date) Calendar.getInstance().getTime());
+		
+		/*Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String time = sdf.format(cal.getTime());*/
 	}
 	
 	public DonUniqueClient(int id, ModeleClientServeur client, Fondation fondation, int montant) {
-		this(id, client, fondation, montant, null);
+		this(id, client, fondation, montant, (Date) Calendar.getInstance().getTime());
 	}
 	
 	public DonUniqueClient(int id, ModeleClientServeur client, Fondation fondation, int montant, Date dateDon) {

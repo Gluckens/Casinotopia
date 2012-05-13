@@ -31,23 +31,46 @@ public enum CtrlBD {
 			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
-		Connection conn;
+		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "bd", "admin");
 
 		} catch (Exception x) {
-			System.out.println("Couldn't get connection!");
-			conn = null;
+			System.err.println("Couldn't get connection!");
 		}
 		return conn;
 	}
 	
-	public ModeleClientServeur authentifierClient(String identifiant, String motPasse) {
-		ModeleClientServeur client = null;
+	public boolean execQuery(String query) {
+		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
+		
+
+		System.out.println(query);
 		
 		try {
+			conn = this.connecterBD();
+			conn.createStatement().execute(query);
+			succes = true;
+			System.out.println("MARCHE");
+		} catch (SQLException ex) {
+			if(ex.getErrorCode() != 942) {
+				System.err.println("erreur Client : " + ex.getMessage());
+			}
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+		
+		return succes;
+	}
+	
+	public ModeleClientServeur authentifierClient(String identifiant, String motPasse) {
+		Connection conn = null;
+		ModeleClientServeur client = null;
+		
+		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsUtilisateur = stmt.executeQuery(String.format("SELECT id FROM utilisateur WHERE identifiant='%s' AND motpasse='%s'", identifiant, motPasse));
 			
@@ -55,7 +78,7 @@ public enum CtrlBD {
 				client = this.getClientByIdUtilisateur(rsUtilisateur.getInt("id"));
 			}
 		} catch (SQLException ex) {
-			System.out.println("erreur Client : " + ex.getMessage());
+			System.err.println("erreur Client : " + ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -64,11 +87,11 @@ public enum CtrlBD {
 	}
 	
 	public ModeleClientServeur getClientByIdUtilisateur(int id) {
-		Connection conn = this.connecterBD();
-		
+		Connection conn = null;
 		ModeleClientServeur client = null;
 		
 		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsClient = stmt.executeQuery(
 					"SELECT client.*, utilisateur.identifiant " +
@@ -92,7 +115,7 @@ public enum CtrlBD {
 				client.setListeAmis(this.getListeAmis(client.getId()));
 			}
 		} catch (SQLException ex) {
-			System.out.println("erreur Client : " + ex.getMessage());
+			System.err.println("erreur Client : " + ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -101,11 +124,11 @@ public enum CtrlBD {
 	}
 	
 	public ModeleClientServeur getClientById(int id) {
-		Connection conn = this.connecterBD();
-		
+		Connection conn = null;
 		ModeleClientServeur client = null;
 		
 		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsClient = stmt.executeQuery(
 					"SELECT client.*, utilisateur.identifiant " +
@@ -127,9 +150,10 @@ public enum CtrlBD {
 				);
 				
 				client.setListeAmis(this.getListeAmis(client.getId()));
+				client.setAvatar(this.getAvatarClient(client.getId()));
 			}
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -137,12 +161,54 @@ public enum CtrlBD {
 		return client;
 	}
 	
-	public ListeAmis getListeAmis(int idClient) {
-
-		Connection conn = this.connecterBD();
-		ListeAmis listeAmisClient = new ListeAmis();
-
+	public Avatar getAvatar(int idAvatar) {
+		Connection conn = null;
+		Avatar avatar = null;
+		
 		try {
+			conn = this.connecterBD();
+			Statement stmt = conn.createStatement();
+			ResultSet rsAvatar = stmt.executeQuery("SELECT * FROM avatar WHERE id = " + idAvatar);
+			
+			if(rsAvatar.next()) {
+				avatar = new Avatar(rsAvatar.getInt("id"), rsAvatar.getString("nomFichier"), rsAvatar.getString("texte"));
+			}
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+
+		return avatar;
+	}
+	
+	public Avatar getAvatarClient(int idClient) {
+		Connection conn = null;
+		Avatar avatar = null;
+		
+		try {
+			conn = this.connecterBD();
+			Statement stmt = conn.createStatement();
+			ResultSet rsAvatar = stmt.executeQuery("SELECT avatar.* FROM client INNER JOIN avatar ON client.idAvatar = avatar.id WHERE client.id = " + idClient);
+			
+			if(rsAvatar.next()) {
+				avatar = new Avatar(rsAvatar.getInt("id"), rsAvatar.getString("nomFichier"), rsAvatar.getString("texte"));
+			}
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+
+		return avatar;
+	}
+	
+	public ListeAmis getListeAmis(int idClient) {
+		Connection conn = null;
+		ListeAmis listeAmisClient = new ListeAmis();
+		
+		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsListeAmis = stmt.executeQuery("SELECT idAmi FROM amiClient WHERE idClient = " + idClient);
 			
@@ -151,7 +217,7 @@ public enum CtrlBD {
 			}
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -160,11 +226,11 @@ public enum CtrlBD {
 	}
 	
 	public List<DonUniqueClient> getDonsUniquesClient(int idClient) {
-
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		List<DonUniqueClient> lstDonsUniques = new Vector<DonUniqueClient>();
-
+		
 		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsDonUnique = stmt.executeQuery("SELECT * FROM donUnique WHERE idClient = " + idClient);
 
@@ -183,7 +249,7 @@ public enum CtrlBD {
 			}
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -192,11 +258,11 @@ public enum CtrlBD {
 	}
 	
 	public List<PartageGainsClient> getPartageGainsClient(int idClient) {
-
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		List<PartageGainsClient> lstPartageGains = new Vector<PartageGainsClient>();
-
+		
 		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsPartageGains = stmt.executeQuery("SELECT * FROM partageGains WHERE idClient = " + idClient);
 
@@ -214,7 +280,7 @@ public enum CtrlBD {
 			}
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -223,10 +289,11 @@ public enum CtrlBD {
 	}
 	
 	public Fondation getFondation(int idFondation) {
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		Fondation fondation = null;
-
+		
 		try {
+			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
 			ResultSet rsFondation = stmt.executeQuery("SELECT * FROM fondation WHERE id = " + idFondation);
 			
@@ -234,7 +301,7 @@ public enum CtrlBD {
 				fondation = new Fondation(rsFondation.getInt("id"), rsFondation.getString("nom"), rsFondation.getString("description"));
 			}
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -245,17 +312,14 @@ public enum CtrlBD {
 	public boolean ajouterClient(ModeleClientServeur client) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
-		if(ajouterUtilisateur(client, "CLT", conn)) {
-			try {
-				/*Calendar cal = Calendar.getInstance(); SimpleDateFormat sdf = new
-				SimpleDateFormat("HH:mm:ss"); String time = sdf.format(cal.getTime());
-				txt.setText(String.valueOf(cases.size()) + " " + time);*/
-				
+		try {
+			conn = this.connecterBD();
+			if(this.ajouterUtilisateur(client, "CLT", conn) && this.ajouterAvatar(client.getAvatar(), client) ) {
 				String query = String.format(
-					"BEGIN INSERT INTO client (idUtilisateur, prenom, nom, dateNaissance, courriel, solde, prcGlobal) VALUES (%d, '%s', '%s', '%s', '%s', %d, %d) RETURNING id INTO ?; END;",
-					client.getIdUtilisateur(), client.getPrenom(), client.getNom(), client.getDateNaissance(), client.getCourriel(), client.getSolde(), client.getPrcGlobal()
+					"BEGIN INSERT INTO client (idUtilisateur, prenom, nom, dateNaissance, courriel, solde, prcGlobal, idAvatar) VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, %d) RETURNING id INTO ?; END;",
+					client.getIdUtilisateur(), client.getPrenom(), client.getNom(), client.getDateNaissance(), client.getCourriel(), client.getSolde(), client.getPrcGlobal(), client.getAvatar().getId()
 				);
 				OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 				cs.registerOutParameter(1, OracleTypes.NUMBER);
@@ -263,14 +327,11 @@ public enum CtrlBD {
 				System.out.println("Ajout client id : " + cs.getInt(1));
 				client.setId(cs.getInt(1));
 				succes = true;
-			} catch (SQLException ex) {
-				Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
-			} finally {
-			    try { conn.close(); } catch (Exception e) { }
 			}
-		}
-		else {
-			try { conn.close(); } catch (Exception e) { }
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
 		}
 		
 		return succes;
@@ -291,18 +352,44 @@ public enum CtrlBD {
 			client.setIdUtilisateur(cs.getInt(1));
 			succes = true;
 		} catch (SQLException ex) {
-			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
+			System.err.println(ex.getMessage());
 		}
 		
+		return succes;
+	}
+	
+	//TODO ou bedon retourner l'id et valider le succes si pas = -1?
+	public boolean ajouterAvatar(Avatar avatar, ModeleClientServeur client) {
+		boolean succes = false;
+		
+		Connection conn = null;
+		
+		try {
+			conn = this.connecterBD();
+			String query = String.format(
+					"BEGIN INSERT INTO avatar (nomFichier, texte) VALUES ('%s', '%s') RETURNING id INTO ?; END;",
+					avatar.getPathImage(), avatar.getTexte()
+			);
+			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
+			cs.registerOutParameter(1, OracleTypes.NUMBER);
+			cs.execute();
+			client.getAvatar().setId(cs.getInt(1));
+			succes = true;
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
 		return succes;
 	}
 	
 	public boolean ajouterAmiClient(ModeleClientServeur client, ModeleClientServeur ami) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 					"INSERT INTO amiClient (idClient, idAmi) VALUES (%d, %d)",
 					client.getId(), ami.getId()
@@ -313,29 +400,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
-		} finally {
-		    try { conn.close(); } catch (Exception e) { }
-		}
-		return succes;
-	}
-	
-	public boolean ajouterAvatar(Avatar avatar, ModeleClientServeur client) {
-		boolean succes = false;
-		
-		Connection conn = this.connecterBD();
-		
-		try {
-			String query = String.format(
-					"INSERT INTO avatar (idClient, nomFichier, texte) VALUES (%d, '%s', '%s')",
-					client.getId(), avatar.getPathImage(), avatar.getTexte()
-			);
-			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
-			cs.execute();
-			succes = true;
-
-		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -345,9 +410,10 @@ public enum CtrlBD {
 	public boolean ajouterFondation(Fondation fondation) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"BEGIN INSERT INTO fondation (nom, description) VALUES ('%s', '%s') RETURNING id INTO ?; END;",
 				fondation.getNom(), fondation.getDescription()
@@ -359,7 +425,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -370,9 +436,10 @@ public enum CtrlBD {
 	public boolean ajouterDonUnique(DonUniqueClient don) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"BEGIN INSERT INTO donUnique (idClient, idFondation, montant) VALUES (%d, %d, %d) RETURNING id INTO ?; END;",
 				don.getClient().getId(), don.getFondation().getId(), don.getMontant()
@@ -384,7 +451,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -395,9 +462,10 @@ public enum CtrlBD {
 	public boolean ajouterPartageGains(PartageGainsClient partageGains) {
 		boolean succes = false;
 
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"BEGIN INSERT INTO partageGains (idClient, idFondation, pourcentage) VALUES (%d, %d, %d) RETURNING id INTO ?; END;",
 				partageGains.getClient().getId(), partageGains.getFondation().getId(), partageGains.getPourcentage()
@@ -408,7 +476,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -418,9 +486,10 @@ public enum CtrlBD {
 	public boolean modifierClient(int idClient, String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"UPDATE client SET prenom = '%s', nom = '%s', dateNaissance = '%s', courriel = '%s', prcGlobal = %d WHERE id = %d",
 				prenom, nom, dateNaissance, courriel, prcGlobal, idClient
@@ -430,7 +499,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -440,9 +509,10 @@ public enum CtrlBD {
 	public boolean modifierMotDePasse(int idUtilisateur, String motDePasse) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"UPDATE utilisateur SET motPasse = '%s' WHERE id = %d",
 				motDePasse, idUtilisateur
@@ -452,7 +522,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -462,9 +532,10 @@ public enum CtrlBD {
 	public boolean modifierAvatar(int idAvatar, String pathImage, String texte) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"UPDATE avatar SET nomFichier = '%s', texte = '%s' WHERE id = %d",
 				pathImage, texte, idAvatar
@@ -474,7 +545,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -484,9 +555,10 @@ public enum CtrlBD {
 	public boolean modifierPartageGains(int idClient, int idFondation, int nouveauPourcentage) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"UPDATE partageGains SET pourcentage = %d WHERE idClient = %d AND idFondation = %d",
 				nouveauPourcentage, idClient, idFondation
@@ -496,7 +568,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -506,9 +578,10 @@ public enum CtrlBD {
 	public boolean modifierSoldeClient(ModeleClientServeur client, int nouveauSolde) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"UPDATE client SET solde = %d WHERE id = %d",
 				nouveauSolde, client.getId()
@@ -518,7 +591,7 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
@@ -528,9 +601,10 @@ public enum CtrlBD {
 	public boolean modifierFondation(int idFondation, String nouveauNom, String nouvelleDescription) {
 		boolean succes = false;
 		
-		Connection conn = this.connecterBD();
+		Connection conn = null;
 		
 		try {
+			conn = this.connecterBD();
 			String query = String.format(
 				"UPDATE fondation SET nom = '%s', description = '%s' WHERE id = %d",
 				nouveauNom, nouvelleDescription, idFondation
@@ -540,10 +614,96 @@ public enum CtrlBD {
 			succes = true;
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+			System.err.println(ex.getMessage());
 		} finally {
 		    try { conn.close(); } catch (Exception e) { }
 		}
+		return succes;
+	}
+	
+	//TODO Supprimer un client implique, via ON DELETE CASCADE, de supprimer toutes les données afférentes?
+	//Utilisateur, Avatar, AssociationAmi, DonUnique, PartageGains
+	public boolean supprimerClient(ModeleClientServeur client) {
+		boolean succes = false;
+		
+		Connection conn = null;
+		
+		try {
+			conn = this.connecterBD();
+			String query = "DELETE FROM client WHERE id = " + client.getId();
+			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
+			cs.execute();
+			succes = true;
+
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+		
+		return succes;
+	}
+	
+	public boolean supprimerAvatar(Avatar avatar) {
+		boolean succes = false;
+		
+		Connection conn = null;
+		
+		try {
+			conn = this.connecterBD();
+			String query = "DELETE FROM avatar WHERE id = " + avatar.getId();
+			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
+			cs.execute();
+			succes = true;
+
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+		
+		return succes;
+	}
+	
+	public boolean supprimerAssociationAmi(ModeleClientServeur client, ModeleClientServeur ami) {
+		boolean succes = false;
+		
+		Connection conn = null;
+		
+		try {
+			conn = this.connecterBD();
+			String query = String.format("DELETE FROM amiClient WHERE idClient = %d AND idAmi = %d", client.getId(), ami.getId());
+			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
+			cs.execute();
+			succes = true;
+
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+		
+		return succes;
+	}
+	
+	public boolean supprimerFondation(ModeleClientServeur client) {
+		boolean succes = false;
+		
+		Connection conn = null;
+		
+		try {
+			conn = this.connecterBD();
+			String query = "DELETE FROM client WHERE id = " + client.getId();
+			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
+			cs.execute();
+			succes = true;
+
+		} catch (SQLException ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+		    try { conn.close(); } catch (Exception e) { }
+		}
+		
 		return succes;
 	}
 }

@@ -20,19 +20,27 @@ public class Avatar implements Modele {
 	}
 	
 	public Avatar(int id, String pathImage) {
-		this(id, pathImage, 40, 40);
+		this(id, pathImage, "");
+	}
+	
+	public Avatar(int id, String pathImage, String texte) {
+		this(id, pathImage, texte, 40, 40);
 	}
 	
 	public Avatar(int id, String pathImage, int largeur, int hauteur) {
-		this(id, pathImage, largeur, hauteur, "", new Point(0, 0));
+		this(id, pathImage, "", largeur, hauteur);
 	}
 	
-	public Avatar(int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
+	public Avatar(int id, String pathImage, String texte, int largeur, int hauteur) {
+		this(id, pathImage, "", largeur, hauteur, new Point(0, 0));
+	}
+	
+	public Avatar(int id, String pathImage, String texte, int largeur, int hauteur, Point position) {
 		this.id = id;
 		this.pathImage = pathImage;
+		this.texte = texte;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
-		this.texte = texte;
 		this.setPosition(position);
 	}
 
@@ -40,20 +48,20 @@ public class Avatar implements Modele {
 		return this.id;
 	}
 
-	public String getPathImage() {
-		return this.pathImage;
-	}
-
-	public String getTexte() {
-		return this.texte;
-	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	public String getPathImage() {
+		return this.pathImage;
+	}
+
 	public void setPathImage(String pathImage) {
 		this.pathImage = pathImage;
+	}
+
+	public String getTexte() {
+		return this.texte;
 	}
 
 	public void setTexte(String texte) {

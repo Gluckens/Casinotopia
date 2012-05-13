@@ -11,6 +11,7 @@ DROP SEQUENCE client_id_seq;
 DROP SEQUENCE avatar_id_seq;
 DROP SEQUENCE fondation_id_seq;
 DROP SEQUENCE donUnique_id_seq;
+DROP SEQUENCE partageGains_id_seq;
 
 
 
@@ -24,6 +25,16 @@ create table utilisateur
   constraint identifiant_uk1 unique (identifiant),
   constraint typeCompte_ck check (typeCompte in ('ADM', 'TEC', 'CLT'))
 );
+ 
+ create table avatar
+(
+  id               	number not null,
+  --idClient			number not null,
+  nomFichier		varchar2(50) not null,
+  texte				varchar2(300),
+  constraint avatar_pk primary key (id)
+  --constraint avatar_client_fk foreign key (idClient) references client (id) on delete cascade
+ );
 
 create table client
 (
@@ -35,8 +46,10 @@ create table client
   courriel			varchar2(200) not null,
   solde				number(9,2),
   prcGlobal			number(3),
+  idAvatar			number not null,
   constraint client_pk primary key (id),
   constraint client_utilisateur_fk foreign key (idUtilisateur) references utilisateur (id) on delete cascade,
+  constraint client_avatar_fk foreign key (idAvatar) references avatar (id) on delete cascade,
   constraint courriel_uk1 unique (courriel),
   constraint prcGlobal_ck check (prcGlobal <= 100 AND prcGlobal >= 0)
  );
@@ -48,16 +61,6 @@ create table client
   constraint amiclient_pk primary key (idClient, idAmi),
   constraint amiclient_client_fk foreign key (idClient) references client (id) on delete cascade,
   constraint amiclient_ami_fk foreign key (idAmi) references client (id) on delete cascade
- );
- 
- create table avatar
-(
-  id               	number not null,
-  idClient			number not null,
-  nomFichier		varchar2(50) not null,
-  texte				varchar2(300),
-  constraint avatar_pk primary key (id),
-  constraint avatar_client_fk foreign key (idClient) references client (id) on delete cascade
  );
  
  create table fondation
@@ -100,6 +103,7 @@ create sequence client_id_seq start with 1 increment by 1 nocache;
 create sequence avatar_id_seq start with 1 increment by 1 nocache;
 create sequence fondation_id_seq start with 1 increment by 1 nocache;
 create sequence donUnique_id_seq start with 1 increment by 1 nocache;
+create sequence partageGains_id_seq start with 1 increment by 1 nocache;
 
 
 
@@ -148,7 +152,7 @@ begin
 end;
 /
 
-create trigger prtgGain_bir_prcnt_100_trg
+create trigger prtgGains_bir_prcnt_100_trg
 before insert on partageGains
 for each row
 when (new.idClient is not null)
@@ -161,7 +165,7 @@ begin
   where  idClient = :new.idClient;
 
   if ((l_total_pourcentage + :new.pourcentage) > 100) then
-    raise_application_error(-20000, 'Un client ne peut pas parteger des gains plus que 100%.');
+    raise_application_error(-20000, 'Un client ne peut pas partager plus que 100% de ses gains.');
   end if;
 end;
 /

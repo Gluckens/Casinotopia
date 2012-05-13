@@ -72,17 +72,17 @@ commit;
 
 prompt 
 prompt Création des données demo pour la table partageGain...
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (2,1,80);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (2,2,10);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (2,3,10);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (3,1,100);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (4,1,50);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (4,3,50);
 commit;
 
