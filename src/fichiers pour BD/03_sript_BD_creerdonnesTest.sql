@@ -4,17 +4,17 @@ prompt --------------------------------------------------
 
 prompt 
 prompt Création des données demo pour la table utilisateur...
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('casinotopia', 'casinotopia1', 'CLT');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('OlivierADM', 'OlivierADM1', 'ADM');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('DannyTEC', 'DannyTEC1', 'TEC');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('AlexeiCLT', 'AlexeiCLT1', 'CLT');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('OlivierCLT', 'OlivierCLT1', 'CLT');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('DannyCLT', 'DannyCLT1', 'CLT');
 commit;
 

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +14,7 @@ import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
+import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
@@ -250,8 +250,23 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void actionAuthentifierClient(String nomUtilisateur, char[] motDePasse) {
 		int no = this.number;
 		System.out.println("le client " + no + " a envoyer le username " + nomUtilisateur + "!");
+		
+		ModeleClientServeur client = CtrlBD.BD.authentifierClient(nomUtilisateur, new String(motDePasse));
+		
+		if(client != null) {
+			this.modele = client;
+			this.modele.setConnexion(this.connexion);
+			this.client = this.modele;
+			
+			this.initControleur();
+			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage());
+			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
+		}
+		else {
+			this.connexion.envoyerCommande(new CmdInformationInvalide("Les données d'authentification sont incorrectes."));
+		}
 
-		if (Arrays.equals(motDePasse, nomUtilisateur.toCharArray())) {
+		/*if (Arrays.equals(motDePasse, nomUtilisateur.toCharArray())) {
 			this.setModele(nomUtilisateur);
 			this.initControleur();
 			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage());
@@ -260,7 +275,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 		else {
 			this.connexion.envoyerCommande(new CmdInformationInvalide("Les données d'authentification sont incorrectes."));
-		}
+		}*/
 	}
 	
 	public void actionSeConnecterAuChat(String salle) {

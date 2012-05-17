@@ -9,7 +9,7 @@ create table utilisateur
 (
   id     				number not null,
   identifiant    		varchar2(50) not null,
-  motPasse 				varchar2(50) not null,
+  motDePasse 				varchar2(50) not null,
   typeCompte char(3) 	not null,
   constraint utilisateur_pk primary key (id),
   constraint identifiant_uk1 unique (identifiant),

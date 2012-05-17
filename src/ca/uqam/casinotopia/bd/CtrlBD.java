@@ -65,14 +65,16 @@ public enum CtrlBD {
 		return succes;
 	}
 	
-	public ModeleClientServeur authentifierClient(String identifiant, String motPasse) {
+	public ModeleClientServeur authentifierClient(String identifiant, String motDePasse) {
+		System.out.println("identifiant : " + identifiant + " , motDePasse : " + motDePasse);
+		
 		Connection conn = null;
 		ModeleClientServeur client = null;
 		
 		try {
 			conn = this.connecterBD();
 			Statement stmt = conn.createStatement();
-			ResultSet rsUtilisateur = stmt.executeQuery(String.format("SELECT id FROM utilisateur WHERE identifiant='%s' AND motpasse='%s'", identifiant, motPasse));
+			ResultSet rsUtilisateur = stmt.executeQuery(String.format("SELECT id FROM utilisateur WHERE identifiant='%s' AND motDePasse='%s'", identifiant, motDePasse));
 			
 			if (rsUtilisateur.next()) {
 				client = this.getClientByIdUtilisateur(rsUtilisateur.getInt("id"));
@@ -342,7 +344,7 @@ public enum CtrlBD {
 		
 		try {
 			String query = String.format(
-				"BEGIN INSERT INTO utilisateur (identifiant, motPasse, typeCompte) VALUES ('%s', '%s', '%s') RETURNING id INTO ?; END;",
+				"BEGIN INSERT INTO utilisateur (identifiant, motDePasse, typeCompte) VALUES ('%s', '%s', '%s') RETURNING id INTO ?; END;",
 				client.getNomUtilisateur(), client.getMotDePasse(), typeCompte
 			);
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
@@ -514,7 +516,7 @@ public enum CtrlBD {
 		try {
 			conn = this.connecterBD();
 			String query = String.format(
-				"UPDATE utilisateur SET motPasse = '%s' WHERE id = %d",
+				"UPDATE utilisateur SET motDePasse = '%s' WHERE id = %d",
 				motDePasse, idUtilisateur
 			);
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);

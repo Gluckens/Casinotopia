@@ -87,6 +87,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionInitClient(ModeleClientClient modele) {
+		System.out.println("actionInitClient");
 		this.client = modele;
 		
 		this.afficherFrameApplication();

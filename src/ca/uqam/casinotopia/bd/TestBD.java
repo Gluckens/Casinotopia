@@ -10,13 +10,13 @@ public abstract class TestBD {
 	public static void main(String[] args) {
 		resetBD();
 		
-		ModeleClientServeur client = new ModeleClientServeur("username1", "mdp1", "prenom1", "nom1", java.sql.Date.valueOf("1988-03-01"), "courriel1", 1001);
+		ModeleClientServeur client = new ModeleClientServeur("username1", "mdp1", "prenom1", "nom1", java.sql.Date.valueOf("1988-03-01"), "courriel1", 1001, "/img/chip_5.png");
 		CtrlBD.BD.ajouterClient(client);
 		
-		ModeleClientServeur client2 = new ModeleClientServeur("username2", "mdp2", "prenom2", "nom2", java.sql.Date.valueOf("1988-03-02"), "courriel2", 1002);
+		ModeleClientServeur client2 = new ModeleClientServeur("username2", "mdp2", "prenom2", "nom2", java.sql.Date.valueOf("1988-03-02"), "courriel2", 1002, "/img/chip_10.png");
 		CtrlBD.BD.ajouterClient(client2);
 		
-		ModeleClientServeur client3 = new ModeleClientServeur("username3", "mdp3", "prenom3", "nom3", java.sql.Date.valueOf("1988-03-03"), "courriel3", 1003);
+		ModeleClientServeur client3 = new ModeleClientServeur("username3", "mdp3", "prenom3", "nom3", java.sql.Date.valueOf("1988-03-03"), "courriel3", 1003, "/img/chip_25.png");
 		CtrlBD.BD.ajouterClient(client3);
 		
 		CtrlBD.BD.ajouterAmiClient(client, client3);
@@ -55,7 +55,7 @@ public abstract class TestBD {
 				"(" +
 				"  id     				number not null," +
 				"  identifiant    		varchar2(50) not null," +
-				"  motPasse 			varchar2(50) not null," +
+				"  motDePasse 			varchar2(50) not null," +
 				"  typeCompte char(3) 	not null," +
 				"  constraint utilisateur_pk primary key (id)," +
 				"  constraint identifiant_uk1 unique (identifiant)," +

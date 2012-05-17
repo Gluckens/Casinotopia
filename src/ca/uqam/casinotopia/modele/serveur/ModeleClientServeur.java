@@ -153,7 +153,7 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 	}
 	
 	public ModeleClientServeur(int idUtilisateur, String nomUtilisateur, String motDePasse, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(idUtilisateur, nomUtilisateur, motDePasse, idClient, prenom, nom, dateNaissance, courriel, solde, "sans_image.jpg");
+		this(idUtilisateur, nomUtilisateur, motDePasse, idClient, prenom, nom, dateNaissance, courriel, solde, "/img/sans_avatar.gif");
 	}
 	
 	public ModeleClientServeur(int idUtilisateur, String nomUtilisateur, String motDePasse, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
@@ -206,7 +206,7 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 	}
 	
 	public ModeleClientServeur(int idUtilisateur, String nomUtilisateur, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(idUtilisateur, nomUtilisateur, idClient, prenom, nom, dateNaissance, courriel, solde, "sans_image.jpg");
+		this(idUtilisateur, nomUtilisateur, idClient, prenom, nom, dateNaissance, courriel, solde, "/img/sans_avatar.gif");
 	}
 	
 	public ModeleClientServeur(int idUtilisateur, String nomUtilisateur, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
@@ -225,7 +225,7 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 	
 	
 	/*public ModeleClientServeur(int idUtilisateur, String nomUtilisateur, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(idUtilisateur, nomUtilisateur, idClient, prenom, nom, dateNaissance, courriel, solde, "sans_image.jpg");
+		this(idUtilisateur, nomUtilisateur, idClient, prenom, nom, dateNaissance, courriel, solde, "/img/sans_avatar.gif");
 	}
 	
 	public ModeleClientServeur(int idUtilisateur, String nomUtilisateur, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
