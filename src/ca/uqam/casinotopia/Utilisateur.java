@@ -11,7 +11,7 @@ public /*abstract*/ class Utilisateur implements Serializable {
 	
 	private static final long serialVersionUID = 1967013417447817664L;
 	
-	private int idUtilisateur;
+	protected int idUtilisateur;
 	protected String nomUtilisateur;
 	protected String motDePasse;
 	//public transient int number = 0;

@@ -120,6 +120,12 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 	public Map<Case, Map<Integer, Integer>> getCases() {
 		return this.cases;
 	}
+	
+	public void resetMises() {
+		for(Map<Integer, Integer> mises : this.cases.values()) {
+			mises.clear();
+		}
+	}
 
 	@Override
 	public void ajouterObservateur(Observateur obs) {

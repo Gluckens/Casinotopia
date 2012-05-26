@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Vector;
 
 import ca.uqam.casinotopia.Avatar;
+import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.DonUniqueClient;
 import ca.uqam.casinotopia.Fondation;
 import ca.uqam.casinotopia.ListeAmis;
@@ -12,6 +13,7 @@ import ca.uqam.casinotopia.Utilisateur;
 import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 @SuppressWarnings("serial")
 public class ModeleClientServeur extends Utilisateur implements Modele {
@@ -335,6 +337,23 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 		}
 		
 		return false;
+	}
+	
+	public ModeleClientClient creerModeleClient() {
+		ModeleClientClient modeleClientClient = new ModeleClientClient(
+				this.idUtilisateur,
+				this.nomUtilisateur,
+				this.motDePasse,
+				this.id,
+				this.prenom,
+				this.nom,
+				this.dateNaissance,
+				this.courriel,
+				this.solde,
+				this.avatar.creerModeleClient()
+		);
+		
+		return modeleClientClient;
 	}
 	
 

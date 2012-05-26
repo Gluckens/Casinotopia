@@ -138,6 +138,8 @@ public class ControleurPrincipalClient extends ControleurClient {
 		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurRouletteClient", ctrlRouletteClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlRouletteClient.getVue());
+		//TODO Forcer le refresh via le pattern observeur?
+		ctrlRouletteClient.actionUpdateTableJeu(modele.getTableJeu().getCases());
 	}
 
 	public void actionQuitterPartieRouletteClient() {

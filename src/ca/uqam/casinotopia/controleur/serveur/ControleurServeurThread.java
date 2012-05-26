@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.uqam.casinotopia.Avatar;
+import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.JeuClient;
@@ -174,13 +176,15 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			modeleClient.ajouterJeu(new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), modeleClient, jeu.getType()));
 		}
 		
+		ModeleClientClient modeleClientClient = this.client.creerModeleClient();
+		
 		for(ModeleClientServeur client : modele.getLstClients()) {
-			modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
+			//modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
+			modeleClient.ajouterClient(client.creerModeleClient());
 			if(client.getId() != this.client.getId()) {
-				client.getConnexion().envoyerCommande(new CmdAjouterClientSalle(new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage(), this.client.getAvatar().getPosition())));
+				client.getConnexion().envoyerCommande(new CmdAjouterClientSalle(modeleClientClient));
 			}
 		}
-		
 		
 		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));
 	}
@@ -259,7 +263,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			this.client = this.modele;
 			
 			this.initControleur();
-			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage());
+			
+			ModeleClientClient modeleClient = this.client.creerModeleClient();
+			//ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage());
 			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
 		}
 		else {

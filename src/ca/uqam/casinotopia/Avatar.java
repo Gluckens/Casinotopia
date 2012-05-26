@@ -3,6 +3,7 @@ package ca.uqam.casinotopia;
 import java.awt.Point;
 
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class Avatar implements Modele {
 	
@@ -42,6 +43,10 @@ public class Avatar implements Modele {
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		this.setPosition(position);
+	}
+	
+	public AvatarClient creerModeleClient() {
+		return new AvatarClient(this.id, this.pathImage, this.texte, this.largeur, this.hauteur, this.position);
 	}
 
 	public int getId() {

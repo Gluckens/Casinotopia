@@ -83,11 +83,10 @@ public class ControleurRouletteClient extends ControleurClient {
 		this.connexion.envoyerCommande(new CmdQuitterPartieRoulette(this.client.getId()));
 	}
 
-	//aaa
-	public void actionupdateResultat(Case resultat, int gain) {
+	public void actionUpdateResultat(Case resultat, int gain) {
 		System.out.println("Alexei --> ControleurRouletteClient.actionupdateResultat()");
 		this.modele.setCaseResultat(resultat);
 		this.modele.setGain(gain);
-		// TODO Auto-generated method stub
+		this.client.updateSolde(gain);
 	}
 }
