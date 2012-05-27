@@ -60,6 +60,19 @@ public class ControleurRouletteClient extends ControleurClient {
 		System.out.println("Joueur " + this.client.getId() + " mise " + typeMise.getMontant() + " sur " + caseMisee);
 		this.cmdMiserRoulette(mises);
 	}
+	
+	public Map<Integer, Map<Case, Integer>> creerMapMises() {
+		return new HashMap<Integer, Map<Case, Integer>>();
+	}
+	
+	public void ajouterMise(Case caseMisee, int montant, Map<Integer, Map<Case, Integer>> mises) {
+		Map<Case, Integer> mise = mises.get(this.client.getId());
+		if(mise == null) {
+			mise = new HashMap<Case, Integer>();
+		}
+		mise.put(caseMisee, montant);
+		mises.put(this.client.getId(), mise);
+	}
 
 	public void cmdMiserRoulette(Map<Integer, Map<Case, Integer>> mises) {
 		this.connexion.envoyerCommande(new CmdMiserRoulette(mises));

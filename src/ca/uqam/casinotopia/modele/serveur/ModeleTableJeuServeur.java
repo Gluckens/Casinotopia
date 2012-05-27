@@ -47,8 +47,13 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 					if (misesCourantesCase.containsKey(idJoueur)) {
 						nbrJetonsMises += misesCourantesCase.get(idJoueur);
 					}
-
-					misesCourantesCase.put(idJoueur, nbrJetonsMises);
+					
+					if(nbrJetonsMises == 0) {
+						misesCourantesCase.remove(idJoueur);
+					}
+					else {
+						misesCourantesCase.put(idJoueur, nbrJetonsMises);
+					}
 				}
 				else {
 					System.out.println(caseMisee.hashCode() + " est pas trouvable!");

@@ -129,14 +129,14 @@ public class VueRouletteActions extends Vue {
 
 	private void initMisesDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		GhostDropListener ghostDropListener = new MisesGhostDropManager(target, receiver);
-		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip5"), TypeMise.MISE_5);
-		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip10"), TypeMise.MISE_10);
-		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip25"), TypeMise.MISE_25);
-		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip50"), TypeMise.MISE_50);
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip5"), TypeMise.MISE_5.getMontant());
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip10"), TypeMise.MISE_10.getMontant());
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip25"), TypeMise.MISE_25.getMontant());
+		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip50"), TypeMise.MISE_50.getMontant());
 	}
 
-	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, TypeMise typeMise) {
-		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), typeMise);
+	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, int montant) {
+		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), montant, component.getName());
 		component.addMouseListener(misesGhostComponentAdapter);
 		misesGhostComponentAdapter.addGhostDropListener(ghostDropListener);
 		component.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
