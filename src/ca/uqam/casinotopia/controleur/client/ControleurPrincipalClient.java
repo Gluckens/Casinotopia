@@ -90,6 +90,9 @@ public class ControleurPrincipalClient extends ControleurClient {
 		System.out.println("actionInitClient");
 		this.client = modele;
 		
+		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
+		
 		this.afficherFrameApplication();
 		this.afficherMenuPrincipal();
 	}

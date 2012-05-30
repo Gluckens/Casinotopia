@@ -100,6 +100,6 @@ public class ControleurRouletteClient extends ControleurClient {
 		System.out.println("Alexei --> ControleurRouletteClient.actionupdateResultat()");
 		this.modele.setCaseResultat(resultat);
 		this.modele.setGain(gain);
-		this.client.updateSolde(gain);
+		//this.client.updateSolde(gain);
 	}
 }

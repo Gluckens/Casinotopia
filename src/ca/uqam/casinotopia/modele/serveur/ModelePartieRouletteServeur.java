@@ -14,7 +14,12 @@ import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
+import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.client.CmdEnvoyerResultatRoulette;
+import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 
 @SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
@@ -101,6 +106,19 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	
 	public void resetMises() {
 		this.tableJeu.resetMises();
+		
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			joueur.getClient().getConnexion().envoyerCommande(new CmdUpdateCasesRoulette(this.tableJeu.getCases()));
+		}
+	}
+	
+	public ModelePartieRouletteClient creerModeleClient() {
+		return new ModelePartieRouletteClient(
+				this.id,
+				this.typeMultijoueurs,
+				this.typeArgent,
+				this.infoJeu.creerModeleClient()
+		);
 	}
 	
 

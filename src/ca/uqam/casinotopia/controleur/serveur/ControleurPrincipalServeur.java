@@ -42,6 +42,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	private ModeleServeurPrincipal modele;
 	public static Thread[] thread = new Thread[NUMCONNEXION];
 	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
+	
 	private static Boolean actif = true;
 
 	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
@@ -74,6 +75,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 				System.out.println("ATTENTE DE NOUVELLES CONNEXIONS...");
 				Socket skt = server.accept();
 				System.out.println("NOUVELLE CONNEXION RECUE");
+				
 				for (int i = 0; i < NUMCONNEXION; i++) {
 					if (thread[i] != null && !thread[i].isAlive()) {
 						thread[i] = null;
@@ -161,7 +163,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	}
 
 	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, Rectangle emplacement, int minJoueursJeu, int maxJoueursJeu, ModeleSalleServeur salle, TypeJeu type) {
-		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, emplacement, minJoueursJeu, maxJoueursJeu, salle, type);
+		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, emplacement, minJoueursJeu, maxJoueursJeu, type);
 		salle.ajouterJeu(jeu);
 		this.lstJeux.get(TypeJeu.ROULETTE).put(jeu.getId(), jeu);
 	}

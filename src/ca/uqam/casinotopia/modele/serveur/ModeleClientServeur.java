@@ -329,6 +329,10 @@ public class ModeleClientServeur extends Utilisateur implements Modele {
 		
 		return false;
 	}
+	
+	public boolean updateSolde(int montant) {
+		return this.modifierSolde(this.solde + montant);
+	}
 
 	public boolean modifierSolde(int nouveauSolde) {
 		if(CtrlBD.BD.modifierSoldeClient(this, nouveauSolde)) {

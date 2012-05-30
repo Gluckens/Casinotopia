@@ -34,6 +34,5 @@ public class CmdEnvoyerResultatRoulette implements CommandeClientControleurRoule
 	public void action(Controleur controleur) {
 		System.out.println("cmdEnvoyerResultatRoulette : client");
 		((ControleurRouletteClient) controleur).actionUpdateResultat(this.resultat, this.gain);
-		((ControleurRouletteClient) controleur).actionUpdateTableJeu(this.cases);
 	}
 }
