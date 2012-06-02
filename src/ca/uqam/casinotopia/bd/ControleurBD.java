@@ -118,7 +118,7 @@ public class ControleurBD {
 		Connection conn;
 		try {
 			//conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "SYSTEM", "admin");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "SYSTEM", "admin");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "BD", "admin");
 
 		} catch (Exception x) {
 			System.out.println("Couldn't get connection!");
