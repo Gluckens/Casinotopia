@@ -4,17 +4,19 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.uqam.casinotopia.Avatar;
+import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeEtatPartie;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
+import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurChat;
@@ -54,9 +56,10 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	private ModeleClientServeur modele;
 
 	public ControleurServeurThread(Socket clientSocket, int number) {
-		super(new Connexion(clientSocket), new ModeleClientServeur());
+		super(new Connexion(clientSocket));
 		this.number = number;
-		this.modele = this.client;
+		//TODO Hum...
+		this.modele = this.getModeleClient();
 	}
 
 	private void ajouterControleur(String nom, ControleurServeur ctrl) {
@@ -65,7 +68,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	
 	private void initControleur() {
 		this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
-		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), this.client));
+		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), this, this.modele));
 	}
 
 	@Override
@@ -84,34 +87,22 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 								cmd.action(this);
 							}
 							else if (cmd instanceof CommandeServeurControleurClient) {
-								if (!this.lstControleurs.containsKey("ControleurClientServeur")) {
-									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurClientServeur)");
-								}
-								cmd.action(this.lstControleurs.get("ControleurClientServeur"));
+								this.executerCommande(cmd, "ControleurClientServeur");
 							}
 							else if (cmd instanceof CommandeServeurControleurRoulette) {
-								if (!this.lstControleurs.containsKey("ControleurRouletteServeur")) {
-									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurRouletteServeur)");
-								}
-								cmd.action(this.lstControleurs.get("ControleurRouletteServeur"));
+								this.executerCommande(cmd, "ControleurRouletteServeur");
 							}
 							else if (cmd instanceof CommandeServeurControleurChat) {
-								if (!this.lstControleurs.containsKey("ControleurChatServeur")) {
-									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurChatClient)");
-								}
-								cmd.action(this.lstControleurs.get("ControleurChatServeur"));
+								this.executerCommande(cmd, "ControleurChatServeur");
 							}
 							else if (cmd instanceof CommandeServeurControleurSalle) {
-								if (!this.lstControleurs.containsKey("ControleurSalleServeur")) {
-									System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurSalleServeur)");
-								}
-								cmd.action(this.lstControleurs.get("ControleurSalleServeur"));
+								this.executerCommande(cmd, "ControleurSalleServeur");
 							}
 							else if (cmd instanceof CommandeServeurControleurMachine) {
-								cmd.action(this.lstControleurs.get("ControleurMachineServeur"));
+								this.executerCommande(cmd, "ControleurMachineServeur");
 							}
 							else if (cmd instanceof CommandeServeurControleurPrincipal) {
-								cmd.action(this.lstControleurs.get("ControleurPrincipalServeur"));
+								this.executerCommande(cmd, "ControleurPrincipalServeur");
 							}
 							else {
 								System.err.println("Ce type de commande n'est pas géré par le serveur");
@@ -145,6 +136,20 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 	}
 	
+	private void executerCommande(Commande cmd, String nomControleur) {
+		ControleurServeur ctrl = this.getControleur(nomControleur);
+		if (ctrl == null) {
+			System.err.format("ERREUR : Envoie d'une commande à un controleur non-instancié! (%s)", nomControleur);
+		}
+		else {
+			cmd.action(ctrl);
+		}
+	}
+	
+	public ControleurServeur getControleur(String nom) {
+		return this.lstControleurs.get(nom);
+	}
+	
 	
 
 
@@ -162,27 +167,41 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			System.out.println("LA SALLE \"" + nom + "\" EXISTE");
 		}
 		
-		salle.ajouterClient(this.client);
-		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this.client, salle));
+		salle.ajouterClient(this.modele);
+		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
 		
 		this.cmdAfficherSalle(salle);
 	}
 	
-	private void cmdAfficherSalle(ModeleSalleServeur modele) {
-		ModeleSalleClient modeleClient = new ModeleSalleClient(modele.getNom());
-		for(Jeu jeu : modele.getLstJeux().values()) {
-			modeleClient.ajouterJeu(new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), modeleClient, jeu.getType()));
-		}
+	private void cmdAfficherSalle(ModeleSalleServeur modeleServeur) {
+		ModeleSalleClient modeleClient = modeleServeur.creerModeleClient();
+		ModeleClientClient modeleClientClient = this.modele.creerModeleClient();
 		
-		for(ModeleClientServeur client : modele.getLstClients()) {
-			modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
-			if(client.getId() != this.client.getId()) {
-				client.getConnexion().envoyerCommande(new CmdAjouterClientSalle(new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage(), this.client.getAvatar().getPosition())));
+		for(ModeleClientServeur modeleClientServeur : modeleServeur.getLstClients().values()) {
+			if(modeleClientServeur.getId() != this.modele.getId()) {
+				modeleClientServeur.getConnexion().envoyerCommande(new CmdAjouterClientSalle(modeleClientClient));
 			}
 		}
 		
-		
 		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));
+		
+		
+		/*ModeleSalleClient modeleClient = new ModeleSalleClient(modeleServeur.getNom());
+		for(Jeu jeu : modeleServeur.getLstJeux().values()) {
+			modeleClient.ajouterJeu(new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), modeleClient, jeu.getType()));
+		}
+		
+		ModeleClientClient modeleClientClient = this.client.creerModeleClient();
+		
+		for(ModeleClientServeur client : modeleServeur.getLstClients()) {
+			//modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
+			modeleClient.ajouterClient(client.creerModeleClient());
+			if(client.getId() != this.client.getId()) {
+				client.getConnexion().envoyerCommande(new CmdAjouterClientSalle(modeleClientClient));
+			}
+		}
+		
+		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));*/
 	}
 	
 	
@@ -223,40 +242,47 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			System.out.println("PARTIE EN ATTENTE TROUVÉE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
 		
-		partieRoulette.ajouterJoueur(this.client);
+		partieRoulette.ajouterJoueur(this.modele);
 
-		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this.client, partieRoulette));
+		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this, partieRoulette));
 
 		this.cmdAfficherJeuRoulette(partieRoulette);
 	}
 
 	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
-		//INITIALISER CASE SERVEUR POUR CLIENT
+		//TODO ??? INITIALISER CASE SERVEUR POUR CLIENT
+		
+		ModelePartieRouletteClient modeleClient = modeleServeur.creerModeleClient();
+		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
 		
 		//TODO WHAT A MESS!!!
 		//Trouver une facon de gerer correctement la génération des modeles clients... trop d'associations?
-		Jeu jeuServeur = modeleServeur.getInfoJeu();
+		/*Jeu jeuServeur = modeleServeur.getInfoJeu();
 		ModeleSalleServeur salleServeur = jeuServeur.getSalle();
 		ModeleSalleClient salleClient = new ModeleSalleClient(salleServeur.getNom());
 		for(Jeu jeu : salleServeur.getLstJeux().values()) {
 			salleClient.getLstJeux().put(jeu.getId(), new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), salleClient, jeu.getType()));
-		}
+		}*/
 		/*ModeleSalleClient salleClient = new ModeleSalleClient(salleServeur.getNom(), lstJeux, lstClients, clavardage)
 		JeuClient jeuClient = new JeuClient(jeuServeur.getId(), jeuServeur.getNom(), jeuServeur.getDescription(), jeuServeur.getReglesJeu(), jeuServeur.getEmplacement(), jeuServeur.getNbrJoueursMin(), jeuServeur.getNbrJoueursMax(), jeuServeur.getSalle(), jeuServeur.getType());*/
-		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.getTypeMultijoueurs(), modeleServeur.getTypeArgent(), salleClient.getLstJeux().get(modeleServeur.getInfoJeu().getId()), modeleServeur.getTableJeu().getCases());
-		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
+		/*ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.getTypeMultijoueurs(), modeleServeur.getTypeArgent(), salleClient.getLstJeux().get(modeleServeur.getInfoJeu().getId()), modeleServeur.getTableJeu().getCases());
+		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));*/
 	}
 
 	public void actionAuthentifierClient(String nomUtilisateur, char[] motDePasse) {
 		int no = this.number;
 		System.out.println("le client " + no + " a envoyer le username " + nomUtilisateur + "!");
-
-		if (Arrays.equals(motDePasse, nomUtilisateur.toCharArray())) {
-			this.setModele(nomUtilisateur);
+		
+		ModeleClientServeur client = CtrlBD.BD.authentifierClient(nomUtilisateur, new String(motDePasse));
+		
+		if(client != null) {
+			this.modele = client;
+			this.modele.setConnexion(this.connexion);
+			
 			this.initControleur();
-			ModeleClientClient modeleClient = new ModeleClientClient(this.client.getId(), this.client.getAvatar().getPathImage());
+			
+			ModeleClientClient modeleClient = this.modele.creerModeleClient();
 			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
-			//this.connexion.envoyerCommande(new CmdAfficherMenuPrincipal());
 		}
 		else {
 			this.connexion.envoyerCommande(new CmdInformationInvalide("Les données d'authentification sont incorrectes."));
@@ -297,38 +323,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 	}
 	
-	private void setModele(String nomUtilisateur) {
-		//TODO Récupérer les infos du clients dans la BD en rapport avec le nom d'utilisateur
-		int id = Integer.parseInt(nomUtilisateur) ;
-		String prenom = "Prénom";
-		String nom = "Nom";
-		Date dateNaissance = new Date(0);
-		String courriel = "courriel@user.com";
-		int solde = 0;
-		
-		//Temporaire, pour les tests de déplacement d'avatar
-		String pathImage = "";
-		switch(id) {
-			case 1 :
-				pathImage = "/img/chip_5.png";
-				break;
-			case 2 :
-				pathImage = "/img/chip_10.png";
-				break;
-			case 3 :
-				pathImage = "/img/chip_25.png";
-				break;
-			case 4 :
-				pathImage = "/img/chip_50.png";
-				break;
-		}
-		
-		this.modele = new ModeleClientServeur(nomUtilisateur, this.connexion, id, prenom, nom, dateNaissance, courriel, solde, pathImage);
-		this.client = this.modele;
-	}
-	
 	public void lancerPartieMachine() {
-		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this.client, new ModeleMachineServeur()));
+		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, new ModeleMachineServeur()));
 		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
 	}
 	

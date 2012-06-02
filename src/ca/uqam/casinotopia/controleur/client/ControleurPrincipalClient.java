@@ -28,7 +28,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
-		this.listeServeur = new String[] { "localhost", "dan.dnsd.me", "oli.dnsd.me" };
+		this.listeServeur = new String[] { "localhost", "oli.dnsd.me", "dan.dnsd.me" };
 		this.enReceptionDeCommande = false;
 		this.afficherConnexion();
 	}
@@ -87,7 +87,11 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionInitClient(ModeleClientClient modele) {
+		System.out.println("actionInitClient");
 		this.client = modele;
+		
+		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
 		
 		this.afficherFrameApplication();
 		this.afficherMenuPrincipal();
@@ -137,6 +141,8 @@ public class ControleurPrincipalClient extends ControleurClient {
 		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurRouletteClient", ctrlRouletteClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlRouletteClient.getVue());
+		//TODO Forcer le refresh via le pattern observeur?
+		ctrlRouletteClient.actionUpdateTableJeu(modele.getTableJeu().getCases());
 	}
 
 	public void actionQuitterPartieRouletteClient() {

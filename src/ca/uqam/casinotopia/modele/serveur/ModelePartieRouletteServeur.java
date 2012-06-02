@@ -14,7 +14,12 @@ import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
+import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.commande.client.CmdEnvoyerResultatRoulette;
+import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 
 @SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
@@ -98,6 +103,24 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 			((JoueurRoulette) joueur).setMisesTerminees(false);
 		}
 	}
+	
+	public void resetMises() {
+		this.tableJeu.resetMises();
+		
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			joueur.getClient().getConnexion().envoyerCommande(new CmdUpdateCasesRoulette(this.tableJeu.getCases()));
+		}
+	}
+	
+	public ModelePartieRouletteClient creerModeleClient() {
+		return new ModelePartieRouletteClient(
+				this.id,
+				this.typeMultijoueurs,
+				this.typeArgent,
+				this.infoJeu.creerModeleClient()
+		);
+	}
+	
 
 	/**
 	 * @return the tableJeu
@@ -134,11 +157,11 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	public int calculerGainRoulette(JoueurServeur joueur) {
 		int gainTotal = 0;
 		System.out.println("gain cases : " + this.tableJeu.getCases().toString());
-		for (Entry<Case, Map<Integer, Integer>> mCase : this.tableJeu.getCases().entrySet()){
-			for(Entry<Integer, Integer> mMise :  mCase.getValue().entrySet()){
-				if(mMise.getKey()==joueur.getId()){
+		for (Entry<Case, Map<Integer, Integer>> mCase : this.tableJeu.getCases().entrySet()) {
+			for(Entry<Integer, Integer> mMise :  mCase.getValue().entrySet()) {
+				if(mMise.getKey() == joueur.getId()) {
 					System.out.println("joueur a misé sur : " + mCase.getKey() + " le montant : " + mMise.getValue());
-					gainTotal +=calculerGainCase(mCase.getKey(), mMise.getValue());
+					gainTotal += calculerGainCase(mCase.getKey(), mMise.getValue());
 				}
 			}
 		}
@@ -148,8 +171,29 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 
 	private int calculerGainCase(Case caseMise, Integer montantMise) {
 		int gain = 0;
-		if (caseResultat.equals(caseMise))
-		{
+		
+		switch(caseMise.getType()) {
+			case CHIFFRE :
+				if(caseMise.getNumero() == caseResultat.getNumero()) {
+					gain = caseMise.getMultiplicateurGain() * montantMise;
+				}
+				break;
+			case COULEUR :
+				if(caseMise.getCouleur() == caseResultat.getCouleur()) {
+					gain = caseMise.getMultiplicateurGain() * montantMise;
+				}
+				break;
+			case PARITE :
+				if(caseMise.estPaire() == caseResultat.estPaire()) {
+					gain = caseMise.getMultiplicateurGain() * montantMise;
+				}
+				break;
+		}
+		
+		//TODO On update son solde seulement apres le tour? (donc ses mises sont prise en compte seulement lorsque la roue est tournée
+		return gain - montantMise;
+		
+		/*if (caseResultat.equals(caseMise)) {
 			if (caseMise.getType()==TypeCase.COULEUR || caseMise.getType()==TypeCase.PARITE ){
 				//System.out.println("Le joueur gagne avec la case : " + caseMise + " le montant de " + (10*montantMise));
 				gain = 2 * montantMise;
@@ -159,7 +203,7 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 				gain = 36 * montantMise;
 			}
 		}
-		return gain;
+		return gain;*/
 	}
 
 	public void quitterPartie(int idJoueur) {

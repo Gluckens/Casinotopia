@@ -2,10 +2,6 @@ package ca.uqam.casinotopia;
 
 import java.io.Serializable;
 
-/**
- * 
- * @author Alexei
- */
 public class Fondation implements Serializable {
 	
 	private static final long serialVersionUID = -816700186537050374L;
@@ -13,6 +9,24 @@ public class Fondation implements Serializable {
 	private int id;
 	private String nom;
 	private String description;
+	
+	public Fondation(String nom, String description) {
+		this(-1, nom, description);
+	}
+	
+	public Fondation(int id, String nom, String description) {
+		this.id = id;
+		this.nom = nom;
+		this.description = description;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getDescription() {
 		return this.description;
@@ -30,17 +44,8 @@ public class Fondation implements Serializable {
 		this.nom = nom;
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	@Override
 	public String toString() {
 		return "Fondation : nom " + this.getNom() + ", description " + this.getDescription();
 	}
-
 }

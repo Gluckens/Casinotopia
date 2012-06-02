@@ -59,9 +59,9 @@ end;
 /
 
 prompt 
-prompt Création du déclencheur prtgGain_bir_prcnt_100_trg...
-create trigger prtgGain_bir_prcnt_100_trg
-before insert on partageGain
+prompt Création du déclencheur prtgGains_bir_prcnt_100_trg...
+create trigger prtgGains_bir_prcnt_100_trg
+before insert on partageGains
 for each row
 when (new.idClient is not null)
 declare
@@ -69,11 +69,11 @@ declare
 begin
   select sum(1)
   into   l_total_pourcentage
-  from   partageGain
+  from   partageGains
   where  idClient = :new.idClient;
 
   if ((l_total_pourcentage + :new.pourcentage) > 100) then
-    raise_application_error(-20000, 'Un client ne peut pas parteger des gains plus que 100%.');
+    raise_application_error(-20000, 'Un client ne peut pas partager plus que 100% de ses gains.');
   end if;
 end;
 /

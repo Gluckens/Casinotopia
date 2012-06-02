@@ -4,17 +4,17 @@ prompt --------------------------------------------------
 
 prompt 
 prompt Création des données demo pour la table utilisateur...
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('casinotopia', 'casinotopia1', 'CLT');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('OlivierADM', 'OlivierADM1', 'ADM');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('DannyTEC', 'DannyTEC1', 'TEC');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('AlexeiCLT', 'AlexeiCLT1', 'CLT');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('OlivierCLT', 'OlivierCLT1', 'CLT');
-insert into utilisateur (identifiant, motPasse, typeCompte)
+insert into utilisateur (identifiant, motDePasse, typeCompte)
 values ('DannyCLT', 'DannyCLT1', 'CLT');
 commit;
 
@@ -72,17 +72,17 @@ commit;
 
 prompt 
 prompt Création des données demo pour la table partageGain...
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (2,1,80);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (2,2,10);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (2,3,10);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (3,1,100);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (4,1,50);
-insert into partageGain (idClient, idFondation, pourcentage)
+insert into partageGains (idClient, idFondation, pourcentage)
 values (4,3,50);
 commit;
 

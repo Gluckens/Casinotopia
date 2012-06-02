@@ -3,12 +3,10 @@ package ca.uqam.casinotopia;
 import java.awt.Point;
 
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class Avatar implements Modele {
 	
-	//TODO Référence au client nécessaire?
-	private ModeleClientServeur client;
 	private int id;
 	private String pathImage;
 	private String texte;
@@ -22,56 +20,53 @@ public class Avatar implements Modele {
 		
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage) {
-		this(client, id, pathImage, 40, 40);
+	public Avatar(int id, String pathImage) {
+		this(id, pathImage, "");
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage, int largeur, int hauteur) {
-		this(client, id, pathImage, largeur, hauteur, "", new Point(0, 0));
+	public Avatar(int id, String pathImage, String texte) {
+		this(id, pathImage, texte, 40, 40);
 	}
 	
-	public Avatar(ModeleClientServeur client, int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
-		this.setClient(client);
+	public Avatar(int id, String pathImage, int largeur, int hauteur) {
+		this(id, pathImage, "", largeur, hauteur);
+	}
+	
+	public Avatar(int id, String pathImage, String texte, int largeur, int hauteur) {
+		this(id, pathImage, "", largeur, hauteur, new Point(0, 0));
+	}
+	
+	public Avatar(int id, String pathImage, String texte, int largeur, int hauteur, Point position) {
 		this.id = id;
 		this.pathImage = pathImage;
+		this.texte = texte;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
-		this.texte = texte;
 		this.setPosition(position);
 	}
-
-	/**
-	 * @return the client
-	 */
-	public ModeleClientServeur getClient() {
-		return this.client;
-	}
-
-	/**
-	 * @param client the client to set
-	 */
-	public void setClient(ModeleClientServeur client) {
-		this.client = client;
+	
+	public AvatarClient creerModeleClient() {
+		return new AvatarClient(this.id, this.pathImage, this.texte, this.largeur, this.hauteur, this.position);
 	}
 
 	public int getId() {
 		return this.id;
 	}
 
-	public String getPathImage() {
-		return this.pathImage;
-	}
-
-	public String getTexte() {
-		return this.texte;
-	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	public String getPathImage() {
+		return this.pathImage;
+	}
+
 	public void setPathImage(String pathImage) {
 		this.pathImage = pathImage;
+	}
+
+	public String getTexte() {
+		return this.texte;
 	}
 
 	public void setTexte(String texte) {

@@ -21,12 +21,14 @@ public class MisesGhostDropManager extends AbstractGhostDropManager {
 	@Override
 	public void ghostDropped(GhostDropEvent e) {
 		MisesGhostDropEvent evt = (MisesGhostDropEvent) e;
-		TypeMise type = evt.getTypeMise();
 		Point p = this.getTranslatedPoint(evt.getDropLocation());
+		int montant = evt.getMontantMise();
+		String componentName = evt.getComponentname();
+		Point posDepart = this.getTranslatedPoint(evt.getPositionDepart());
 
 		if (this.isInTarget(p)) {
 			//JOptionPane.showMessageDialog(this.target, "Type de mise : " + type);
-			this.receiver.processDrop(p, type);
+			this.receiver.processDrop(p, montant, componentName, posDepart);
 		}
 	}
 

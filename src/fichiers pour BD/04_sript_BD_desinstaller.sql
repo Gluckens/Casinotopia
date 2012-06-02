@@ -27,8 +27,8 @@ alter table amiClient drop constraint amiclient_ami_fk;
 alter table avatar drop constraint avatar_client_fk;
 alter table donUnique drop constraint donUnique_client_fk;
 alter table donUnique drop constraint donUnique_fondation_fk;
-alter table partageGain drop constraint partageGain_client_fk;
-alter table partageGain drop constraint partageGain_fondation_fk;
+alter table partageGains drop constraint partageGains_client_fk;
+alter table partageGains drop constraint partageGains_fondation_fk;
 
 prompt 
 prompt Désinstallation des clés uniques...
@@ -47,7 +47,7 @@ alter table avatar drop constraint avatar_pk;
 alter table compteCasino drop constraint compteCasino_pk;
 alter table fondation drop constraint fondation_pk;
 alter table donUnique drop constraint donUnique_pk;
-alter table partageGain drop constraint partageGain_pk;
+alter table partageGains drop constraint partageGains_pk;
 
 prompt 
 prompt Désinstallation des séquences...
@@ -70,7 +70,7 @@ drop table amiClient;
 drop table avatar;
 drop table fondation;
 drop table donUnique;
-drop table partageGain;
+drop table partageGains;
 
 prompt 
 prompt Fin du script.
