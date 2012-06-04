@@ -8,8 +8,10 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurSalleServeur;
 
 public class CmdDeplacerAvatar implements CommandeServeurControleurSalle {
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -3403015283306065119L;
-	
 	private Point position;
 	
 	public CmdDeplacerAvatar(Point position) {
