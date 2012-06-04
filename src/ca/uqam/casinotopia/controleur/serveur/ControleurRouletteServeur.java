@@ -56,7 +56,8 @@ public class ControleurRouletteServeur extends ControleurServeur {
 			//TODO Trouver un moyen de récupérer le ControleurClientServeur pour modifier le solde par là.
 			//Faudrait passer par le ControleurPrincipalServeur pour récupérer le ControleurServerThread du client
 			//ControleurPrincipalServeur.getInstance().get
-			joueur.getClient().updateSolde(gain);
+			((ControleurClientServeur) this.ctrlThread.getControleur("ControleurClientServeur")).ajouterSolde(gain);
+			//joueur.getClient().updateSolde(gain);
 			joueur.getClient().getConnexion().envoyerCommande(new CmdModifierSolde(joueur.getClient().getSolde()));
 			
 			System.out.println("Vous avez gagné au total : " + gain);

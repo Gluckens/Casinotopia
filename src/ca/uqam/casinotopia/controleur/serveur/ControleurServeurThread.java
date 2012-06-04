@@ -59,7 +59,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		super(new Connexion(clientSocket));
 		this.number = number;
 		//TODO Hum...
-		this.modele = this.getModeleClient();
+		//this.modele = this.getModeleClient();
+		this.modele = null;
 	}
 
 	private void ajouterControleur(String nom, ControleurServeur ctrl) {
@@ -152,13 +153,23 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	
 	
 
-
-	public void actionJoindreSalle(String nom) {
+	public void actionJoindreSalle(int idSalle) {
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
-		ModeleSalleServeur salle = ctrlPrincipal.getSalle(nom);
+		ModeleSalleServeur salle = ctrlPrincipal.getSalle(idSalle);
 		
-		if(salle == null) {
+		if(salle != null) {
+			salle.ajouterClient(this.modele);
+			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
+			
+			this.cmdAfficherSalle(salle);
+		}
+		else {
+			//TODO Faire une commande pour donner du feedback au client
+			System.err.println("LA SALLE \"" + idSalle + "\" N'EXISTE PAS");
+		}
+		
+		/*if(salle == null) {
 			salle = new ModeleSalleServeur(nom);
 			ctrlPrincipal.ajouterSalle(salle);
 			System.out.println("AUCUNE SALLE \"" + nom + "\" N'EXISTE AVEC CE NOM, CRÉATION D'UNE NOUVELLE");
@@ -170,7 +181,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		salle.ajouterClient(this.modele);
 		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
 		
-		this.cmdAfficherSalle(salle);
+		this.cmdAfficherSalle(salle);*/
 	}
 	
 	private void cmdAfficherSalle(ModeleSalleServeur modeleServeur) {

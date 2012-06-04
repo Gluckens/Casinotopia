@@ -6,7 +6,6 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.Clavardage;
-import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modif.TypeModifSalle;
@@ -18,6 +17,7 @@ public class ModeleSalleClient implements Modele, Observable {
 	
 	private static final long serialVersionUID = 4068837934110957774L;
 	
+	private int id;
 	private String nom;
 	private Map<Integer, JeuClient> lstJeux;
 	private Map<Integer, ModeleClientClient> lstClients;
@@ -32,15 +32,16 @@ public class ModeleSalleClient implements Modele, Observable {
 
 	private BaseObservable sujet = new BaseObservable(this);
 	
-	public ModeleSalleClient(String nom) {
-		this(nom, new HashMap<Integer, JeuClient>());
+	public ModeleSalleClient(int id, String nom) {
+		this(id, nom, new HashMap<Integer, JeuClient>());
 	}
 	
-	public ModeleSalleClient(String nom, Map<Integer, JeuClient> lstJeux) {
-		this(nom, lstJeux, new HashMap<Integer, ModeleClientClient>(), new Clavardage("Chat salle " + nom));
+	public ModeleSalleClient(int id, String nom, Map<Integer, JeuClient> lstJeux) {
+		this(id, nom, lstJeux, new HashMap<Integer, ModeleClientClient>(), new Clavardage("Chat salle " + nom));
 	}
 	
-	public ModeleSalleClient(String nom, Map<Integer, JeuClient> lstJeux, Map<Integer, ModeleClientClient> lstClients, Clavardage clavardage) {
+	public ModeleSalleClient(int id, String nom, Map<Integer, JeuClient> lstJeux, Map<Integer, ModeleClientClient> lstClients, Clavardage clavardage) {
+		this.id = id;
 		this.nom = nom;
 		this.lstJeux = lstJeux;
 		this.lstClients = lstClients;
@@ -67,11 +68,11 @@ public class ModeleSalleClient implements Modele, Observable {
 		}
 		
 		//TODO Gérer les collisions inter-clients?
-		for(ModeleClientClient client : this.getLstClients().values()) {
+		/*for(ModeleClientClient client : this.getLstClients().values()) {
 			if(client.getAvatar().getId() != avatar.getId() && client.getAvatar().getBounds().intersects(avatar.getBounds(position))) {
 				return false;
 			}
-		}
+		}*/
 		
 		
 		
@@ -126,6 +127,14 @@ public class ModeleSalleClient implements Modele, Observable {
 		this.clientRetire = this.lstClients.remove(idClient);
 		this.typeModif = TypeModifSalle.RETIRER_CLIENT;
 		this.notifierObservateur();
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public ModeleClientClient getClient(int idClient) {

@@ -1,6 +1,11 @@
 package ca.uqam.casinotopia.bd;
 
+import java.awt.Rectangle;
+
+import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
 public abstract class TestBD {
 
@@ -8,7 +13,11 @@ public abstract class TestBD {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		CtrlBD.BD.initDatabase();
+		
 		resetBD();
+		
+		CtrlBD.BD.initData();
 		
 		ModeleClientServeur client = new ModeleClientServeur("username1", "mdp1", "prenom1", "nom1", java.sql.Date.valueOf("1988-03-01"), "courriel1", 1001, "/img/chip_5.png");
 		CtrlBD.BD.ajouterClient(client);
@@ -24,6 +33,13 @@ public abstract class TestBD {
 		
 		ModeleClientServeur client4 = CtrlBD.BD.authentifierClient("username1", "mdp1");
 		
+		ModeleSalleServeur salle = new ModeleSalleServeur(-1, "MEGAFUN");
+		salle.ajouterJeu(new Jeu(-1, "nom1", "description1", "reglesJeu1", new Rectangle(70, 70, 220, 120), 4, 8, TypeJeu.ROULETTE));
+		salle.ajouterJeu(new Jeu(-1, "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 220, 120), 2, 4, TypeJeu.ROULETTE));
+		salle.ajouterJeu(new Jeu(-1, "nom3", "description3", "reglesJeu3", new Rectangle(70, 270, 220, 120), 2, 8, TypeJeu.ROULETTE));
+		salle.ajouterJeu(new Jeu(-1, "nom4", "description4", "reglesJeu4", new Rectangle(370, 320, 220, 120), 3, 5, TypeJeu.ROULETTE));
+		CtrlBD.BD.ajouterSalle(salle);
+		
 		/*ModeleClientServeur client2 = CtrlBD.BD.authentifierClient("username1", "mdp1");
 		
 		ModeleClientServeur client3 = CtrlBD.BD.getClientByIdUtilisateur(client.getIdUtilisateur());
@@ -35,6 +51,9 @@ public abstract class TestBD {
 	}
 	
 	public static void resetBD() {
+		CtrlBD.BD.execQuery("DROP TABLE typeJeu CASCADE CONSTRAINTS PURGE");
+		CtrlBD.BD.execQuery("DROP TABLE jeu CASCADE CONSTRAINTS PURGE");
+		CtrlBD.BD.execQuery("DROP TABLE salle CASCADE CONSTRAINTS PURGE");
 		CtrlBD.BD.execQuery("DROP TABLE donUnique CASCADE CONSTRAINTS PURGE");
 		CtrlBD.BD.execQuery("DROP TABLE partageGains CASCADE CONSTRAINTS PURGE");
 		CtrlBD.BD.execQuery("DROP TABLE fondation CASCADE CONSTRAINTS PURGE");
@@ -49,6 +68,8 @@ public abstract class TestBD {
 		CtrlBD.BD.execQuery("DROP SEQUENCE fondation_id_seq");
 		CtrlBD.BD.execQuery("DROP SEQUENCE donUnique_id_seq");
 		CtrlBD.BD.execQuery("DROP SEQUENCE partageGains_id_seq");
+		CtrlBD.BD.execQuery("DROP SEQUENCE jeu_id_seq");
+		CtrlBD.BD.execQuery("DROP SEQUENCE salle_id_seq");
 								
 								
 		String query =	"create table utilisateur" +
@@ -135,6 +156,50 @@ public abstract class TestBD {
 				"  constraint partageGains_fondation_fk foreign key (idFondation) references fondation (id) on delete cascade" +
 				")";
 		CtrlBD.BD.execQuery(query);
+		
+		query =	"CREATE TABLE SALLE" +
+				"(" +
+				"	ID 					NUMBER NOT NULL ENABLE," +
+				" 	NOM 				VARCHAR2(50) NOT NULL ENABLE," +
+				" 	CONSTRAINT SALLE_PK PRIMARY KEY (ID) ENABLE," +
+				" 	CONSTRAINT SALLE_UK1 UNIQUE (NOM) ENABLE" +
+				")";
+		CtrlBD.BD.execQuery(query);
+		
+		query =	"CREATE TABLE TYPEJEU" +
+				"(" +
+			    "	TYPE				VARCHAR2(50) NOT NULL," +
+			    "	CONSTRAINT TYPEJEU_PK PRIMARY KEY (TYPE) ENABLE" +
+			    ")";
+		CtrlBD.BD.execQuery(query);
+		
+		query =	"CREATE TABLE JEU" +
+				"(" +
+				" 	ID 					NUMBER NOT NULL ENABLE," +
+				"	IDSALLE				NUMBER NOT NULL ENABLE," +
+				"	TYPE				VARCHAR2(50) NOT NULL," +
+				" 	NOM 				VARCHAR2(50) NOT NULL ENABLE," +
+				" 	DESCRIPTION 		VARCHAR2(1024)," +
+				" 	REGLESJEU 			VARCHAR2(2048)," +
+				" 	NBRJOUEURSMIN 		NUMBER(2,0) NOT NULL ENABLE," +
+				" 	NBRJOUEURSMAX 		NUMBER(2,0) NOT NULL ENABLE," +
+				" 	POSX 				NUMBER(4,0) NOT NULL ENABLE," +
+				" 	POSY 				NUMBER(4,0) NOT NULL ENABLE," +
+				" 	LARGEUR 			NUMBER(4,0) NOT NULL ENABLE," +
+				" 	HAUTEUR 			NUMBER(4,0) NOT NULL ENABLE," +
+				" 	CONSTRAINT JEU_PK PRIMARY KEY (ID) ENABLE," + 
+				"	CONSTRAINT JEU_SALLE_FK FOREIGN KEY (IDSALLE) REFERENCES SALLE (ID) ON DELETE CASCADE ENABLE," +
+				"	CONSTRAINT JEU_TYPE_FK FOREIGN KEY (TYPE) REFERENCES TYPEJEU (TYPE) ON DELETE CASCADE ENABLE," +
+				" 	CONSTRAINT JEU_UK1 UNIQUE (NOM) ENABLE," +
+				" 	CONSTRAINT JEU_CK1 CHECK (NBRJOUEURSMIN > 0) ENABLE," +
+				" 	CONSTRAINT JEU_CK2 CHECK (NBRJOUEURSMAX > 0) ENABLE," +
+				" 	CONSTRAINT JEU_CK3 CHECK (POSX >= 0) ENABLE," +
+				" 	CONSTRAINT JEU_CK4 CHECK (POSY >= 0) ENABLE," +
+				" 	CONSTRAINT JEU_CK5 CHECK (LARGEUR > 0) ENABLE," +
+				" 	CONSTRAINT JEU_CK6 CHECK (HAUTEUR > 0) ENABLE" +
+				")";
+		CtrlBD.BD.execQuery(query);
+		
 				 
 				 
 				
@@ -144,17 +209,11 @@ public abstract class TestBD {
 		CtrlBD.BD.execQuery("create sequence fondation_id_seq start with 1 increment by 1 nocache");
 		CtrlBD.BD.execQuery("create sequence donUnique_id_seq start with 1 increment by 1 nocache");
 		CtrlBD.BD.execQuery("create sequence partageGains_id_seq start with 1 increment by 1 nocache");
-				
-				
-				
-		/*query =	"create trigger utilisateur_bir_id_trg\n" +
-				"  before insert on utilisateur\n" +
-				"  for each row\n" +
-				"  when (new.id is null)\n" +
-				"  begin\n" +
-				"    SELECT utilisateur_id_seq.nextval INTO :new.id from dual;\n" +
-				"  end;\n";
-		CtrlBD.BD.execQuery(query);*/
+		CtrlBD.BD.execQuery("create sequence JEU_ID_SEQ start with 1 increment by 1 nocache");
+		CtrlBD.BD.execQuery("create sequence SALLE_ID_SEQ start with 1 increment by 1 nocache");
+		
+		
+		
 		
 		query =	"create trigger utilisateur_bir_id_trg" +
 				"  before insert on utilisateur" +
@@ -217,5 +276,43 @@ public abstract class TestBD {
 				"        end if;" +
 				"      end;";
 		CtrlBD.BD.execQuery(query);
+		
+		query =	"create trigger JEU_BI_TRG" +
+				"  before insert on JEU" +
+				"  for each row" +
+				"    when (new.id is null)" +
+				"      begin" +
+				"        SELECT JEU_ID_SEQ.nextval INTO :new.id from dual;" +
+				"      end;";
+		CtrlBD.BD.execQuery(query);
+		
+		query =	"create trigger SALLE_BI_TRG" +
+				"  before insert on SALLE" +
+				"  for each row" +
+				"    when (new.id is null)" +
+				"      begin" +
+				"        SELECT SALLE_ID_SEQ.nextval INTO :new.id from dual;" +
+				"      end;";
+		CtrlBD.BD.execQuery(query);
+
+		/*query =	"CREATE TRIGGER JEU_BI_TRG" +
+				" before insert on JEU" +
+				"	for each row" +
+				"		begin" +
+				"			if NEW.ID is null then" +
+				"				select JEU_ID_SEQ.nextval into NEW.ID from dual;" +
+				"			end if;" +
+				"		end;";
+		CtrlBD.BD.execQuery(query);
+		
+		query =	"CREATE TRIGGER SALLE_BI_TRG" +
+				" before insert on SALLE" +
+				"	for each row" +
+				"		begin" +
+				"			if NEW.ID is null then" +
+				"				select SALLE_ID_SEQ.nextval into NEW.ID from dual;" +
+				"			end if;" +
+				"		end;";
+		CtrlBD.BD.execQuery(query);*/
 	}
 }

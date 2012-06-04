@@ -16,7 +16,7 @@ public class ControleurClientServeur extends ControleurServeur {
 		this.modele = modele;
 	}
 	
-	public void updateSolde(int montant) {
+	public void ajouterSolde(int montant) {
 		this.modifierSolde(this.modele.getSolde() + montant);
 	}
 	
