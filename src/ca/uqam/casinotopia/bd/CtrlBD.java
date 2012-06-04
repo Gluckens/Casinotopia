@@ -61,14 +61,10 @@ public enum CtrlBD {
 		
 		Connection conn = null;
 		
-
-		System.out.println(query);
-		
 		try {
 			conn = this.connecterBD();
 			conn.createStatement().execute(query);
 			succes = true;
-			System.out.println("MARCHE");
 		} catch (SQLException ex) {
 			if(ex.getErrorCode() != 942) {
 				System.err.println("erreur Client : " + ex.getMessage());
@@ -83,8 +79,6 @@ public enum CtrlBD {
 	}
 	
 	public ModeleClientServeur authentifierClient(String identifiant, String motDePasse) {
-		System.out.println("identifiant : " + identifiant + " , motDePasse : " + motDePasse);
-		
 		Connection conn = null;
 		ModeleClientServeur client = null;
 		
@@ -133,6 +127,7 @@ public enum CtrlBD {
 					rsClient.getInt("solde")
 				);
 				
+				client.setAvatar(this.getAvatar(client.getAvatar().getId()));
 				client.setListeAmis(this.getListeAmis(client.getId()));
 			}
 		} catch (SQLException ex) {
@@ -403,7 +398,7 @@ public enum CtrlBD {
 			ResultSet rsJeu = stmt.executeQuery("SELECT * FROM jeu WHERE idSalle = " + salle.getId());
 			
 			while(rsJeu.next()) {
-				Rectangle emplacement = new Rectangle(rsJeu.getInt("posX"), rsJeu.getInt("posX"), rsJeu.getInt("largeur"), rsJeu.getInt("hauteur"));
+				Rectangle emplacement = new Rectangle(rsJeu.getInt("posX"), rsJeu.getInt("posY"), rsJeu.getInt("largeur"), rsJeu.getInt("hauteur"));
 				salle.ajouterJeu(new Jeu(rsJeu.getInt("id"), rsJeu.getString("nom"), rsJeu.getString("description"), rsJeu.getString("reglesJeu"), emplacement, rsJeu.getInt("nbrJoueursMin"), rsJeu.getInt("nbrJoueursMax"), TypeJeu.valueOf(rsJeu.getString("type"))));
 			}
 		} catch (SQLException ex) {
@@ -421,7 +416,7 @@ public enum CtrlBD {
 			ResultSet rsJeu = stmt.executeQuery("SELECT * FROM jeu WHERE id = " + idJeu);
 			
 			if(rsJeu.next()) {
-				Rectangle emplacement = new Rectangle(rsJeu.getInt("posX"), rsJeu.getInt("posX"), rsJeu.getInt("largeur"), rsJeu.getInt("hauteur"));
+				Rectangle emplacement = new Rectangle(rsJeu.getInt("posX"), rsJeu.getInt("posY"), rsJeu.getInt("largeur"), rsJeu.getInt("hauteur"));
 				jeu = new Jeu(rsJeu.getInt("id"), rsJeu.getString("nom"), rsJeu.getString("description"), rsJeu.getString("reglesJeu"), emplacement, rsJeu.getInt("nbrJoueursMin"), rsJeu.getInt("nbrJoueursMax"), TypeJeu.valueOf(rsJeu.getString("type")));
 			}
 		} catch (SQLException ex) {
@@ -450,7 +445,6 @@ public enum CtrlBD {
 				OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 				cs.registerOutParameter(1, OracleTypes.NUMBER);
 				cs.execute();
-				System.out.println("Ajout client id : " + cs.getInt(1));
 				client.setId(cs.getInt(1));
 				succes = true;
 			}
@@ -476,7 +470,6 @@ public enum CtrlBD {
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
 			cs.execute();
-			System.out.println("Ajout utilisateur id : " + cs.getInt(1));
 			client.setIdUtilisateur(cs.getInt(1));
 			succes = true;
 		} catch (SQLException ex) {
@@ -665,8 +658,8 @@ public enum CtrlBD {
 		try {
 			conn = this.connecterBD();
 			String query = String.format(
-				"BEGIN INSERT INTO jeu (idSalle, nom, description, reglesJeu, nbrJoueursMin, nbrJoueursMax, posX, posY, largeur, hauteur) VALUES (%d, '%s', '%s', '%s', %d, %d, %d, %d, %d, %d) RETURNING id INTO ?; END;",
-				idSalle, jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), jeu.getEmplacement().getX(), jeu.getEmplacement().getY(), jeu.getEmplacement().getWidth(), jeu.getEmplacement().getHeight()
+				"BEGIN INSERT INTO jeu (idSalle, type, nom, description, reglesJeu, nbrJoueursMin, nbrJoueursMax, posX, posY, largeur, hauteur) VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, %d, %d, %d, %d) RETURNING id INTO ?; END;",
+				idSalle, jeu.getType().toString(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), jeu.getEmplacement().x, jeu.getEmplacement().y, jeu.getEmplacement().width, jeu.getEmplacement().height
 			);
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);
@@ -962,7 +955,16 @@ public enum CtrlBD {
 	}
 		
 	private void createDatabase() {
+		this.dropTables();
+		this.dropSequence();
+		this.createTable();
+		this.createSequence();
+		this.createTriggers();
+	}
 	
+	private void dropTables() {
+		System.out.println("Drop des tables...");
+		
 		this.execQuery("DROP TABLE typeJeu CASCADE CONSTRAINTS PURGE");
 		this.execQuery("DROP TABLE jeu CASCADE CONSTRAINTS PURGE");
 		this.execQuery("DROP TABLE salle CASCADE CONSTRAINTS PURGE");
@@ -973,7 +975,11 @@ public enum CtrlBD {
 		this.execQuery("DROP TABLE avatar CASCADE CONSTRAINTS PURGE");
 		this.execQuery("DROP TABLE utilisateur CASCADE CONSTRAINTS PURGE");
 		this.execQuery("DROP TABLE client CASCADE CONSTRAINTS PURGE");
-								
+	}
+	
+	private void dropSequence() {
+		System.out.println("Drop des sequences...");
+		
 		this.execQuery("DROP SEQUENCE utilisateur_id_seq");
 		this.execQuery("DROP SEQUENCE client_id_seq");
 		this.execQuery("DROP SEQUENCE avatar_id_seq");
@@ -982,8 +988,11 @@ public enum CtrlBD {
 		this.execQuery("DROP SEQUENCE partageGains_id_seq");
 		this.execQuery("DROP SEQUENCE jeu_id_seq");
 		this.execQuery("DROP SEQUENCE salle_id_seq");
-								
-								
+	}
+	
+	private void createTable() {
+		System.out.println("Création des tables...");
+		
 		String query =	"create table utilisateur" +
 				"(" +
 				"  id     				number not null," +
@@ -1111,10 +1120,11 @@ public enum CtrlBD {
 				" 	CONSTRAINT JEU_CK6 CHECK (HAUTEUR > 0) ENABLE" +
 				")";
 		this.execQuery(query);
+	}
+	
+	private void createSequence() {
+		System.out.println("Création des séquences...");
 		
-				 
-				 
-				
 		this.execQuery("create sequence utilisateur_id_seq start with 1 increment by 1 nocache");
 		this.execQuery("create sequence client_id_seq start with 1 increment by 1 nocache");
 		this.execQuery("create sequence avatar_id_seq start with 1 increment by 1 nocache");
@@ -1123,11 +1133,12 @@ public enum CtrlBD {
 		this.execQuery("create sequence partageGains_id_seq start with 1 increment by 1 nocache");
 		this.execQuery("create sequence JEU_ID_SEQ start with 1 increment by 1 nocache");
 		this.execQuery("create sequence SALLE_ID_SEQ start with 1 increment by 1 nocache");
+	}
+	
+	private void createTriggers() {
+		System.out.println("Création des triggers...");
 		
-		
-		
-		
-		query =	"create trigger utilisateur_bir_id_trg" +
+		String query =	"create trigger utilisateur_bir_id_trg" +
 				"  before insert on utilisateur" +
 				"  for each row" +
 				"    when (new.id is null)" +
@@ -1209,6 +1220,9 @@ public enum CtrlBD {
 	}
 	
 	public void initData() {
+		System.out.println("Initialisation des données de base...");
+		
+		
 		for(TypeJeu type : TypeJeu.values()) {
 			this.ajouterTypeJeu(type.toString());
 		}
