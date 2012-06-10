@@ -10,12 +10,9 @@ import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.TypeCase;
 import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
-import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.commande.client.CmdEnvoyerResultatRoulette;
 import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
@@ -32,7 +29,7 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	public ModelePartieRouletteServeur(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, Jeu infoJeu) {
 		super(id, typeMultijoueurs, typeArgent, infoJeu);
 
-		this.tableJeu = new ModeleTableJeuServeur();
+		this.tableJeu = new ModeleTableJeuServeur(this);
 		this.roueRoulette = new ModeleRoueRouletteServeur();
 	}
 	

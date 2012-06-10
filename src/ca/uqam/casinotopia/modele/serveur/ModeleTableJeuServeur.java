@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.TypeCouleurCase;
 import ca.uqam.casinotopia.TypePariteCase;
+import ca.uqam.casinotopia.commande.client.CmdModifierSolde;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.BaseObservable;
@@ -22,42 +24,59 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
 	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
+	
+	private ModelePartieRouletteServeur partieRoulette;
 
 	private BaseObservable sujet = new BaseObservable(this);
 
-	public ModeleTableJeuServeur() {
+	public ModeleTableJeuServeur(ModelePartieRouletteServeur partieRoulette) {
+		this.partieRoulette = partieRoulette;
 		this.initialiserCases();
 	}
 
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
-		int idJoueur, nbrJetonsMises;
-		Case caseMisee;
-		Map<Integer, Integer> misesCourantesCase;
 
 		System.out.println("avant foreach " + this.cases);
 
+		//Pour chaque joueur ayant misé
 		for (Map.Entry<Integer, Map<Case, Integer>> m : mises.entrySet()) {
-			idJoueur = m.getKey();
+			int nbrJetonsMises;
+			int totalMises = 0;
+			int idJoueur = m.getKey();
+			JoueurServeur joueur = this.partieRoulette.getJoueur(idJoueur);
+			Case caseMisee;
+			Map<Integer, Integer> misesCourantesCase;
+			//Pour chaque mises du joueur
 			for (Map.Entry<Case, Integer> m2 : m.getValue().entrySet()) {
 				caseMisee = m2.getKey();
 				nbrJetonsMises = m2.getValue();
 
 				misesCourantesCase = this.cases.get(caseMisee);
 				if (misesCourantesCase != null) {
+					totalMises += nbrJetonsMises;
+					
 					if (misesCourantesCase.containsKey(idJoueur)) {
 						nbrJetonsMises += misesCourantesCase.get(idJoueur);
 					}
-					
+					//Déplacement d'une mise existante
 					if(nbrJetonsMises == 0) {
 						misesCourantesCase.remove(idJoueur);
 					}
+					//Nouvelle mise
 					else {
 						misesCourantesCase.put(idJoueur, nbrJetonsMises);
 					}
 				}
 				else {
-					System.out.println(caseMisee.hashCode() + " est pas trouvable!");
+					System.out.println(caseMisee.hashCode() + " n'est pas trouvable!");
+					m.getValue().remove(caseMisee);
 				}
+			}
+			
+			if(totalMises != 0) {
+				System.out.println("Nouveau solde du joueur 1 = " + joueur.getClient().getSolde() + " - " + totalMises + " = " + (joueur.getClient().getSolde() - totalMises));
+				joueur.getClient().setSolde(joueur.getClient().getSolde() - totalMises);
+				joueur.getClient().getConnexion().envoyerCommande(new CmdModifierSolde(joueur.getClient().getSolde()));
 			}
 		}
 

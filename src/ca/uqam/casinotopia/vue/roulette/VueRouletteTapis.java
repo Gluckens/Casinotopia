@@ -323,21 +323,26 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 
 		//System.out.println("DROPPED CASE ==> " + droppedCase);
 		
-		//this.controleur.
-		
 		//Map<Integer, Map<Case, Integer>> mises = this.controleur.getMapMises(droppedCase, typeMise);
 		
 		//Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
 		
 		Map<Integer, Map<Case, Integer>> mises = this.controleur.creerMapMises();
-		this.controleur.ajouterMise(droppedCase, montant, mises);
 		
 		if(componentName.startsWith("lblMise_")) {
 			Case caseDepart = this.getCaseAt(posDepart);
-			this.controleur.ajouterMise(caseDepart, -montant, mises);
+			if(!droppedCase.equals(caseDepart)) {
+				this.controleur.ajouterMise(caseDepart, -montant, mises);
+				this.controleur.ajouterMise(droppedCase, montant, mises);
+			}
+		}
+		else {
+			this.controleur.ajouterMise(droppedCase, montant, mises);
 		}
 		
-		this.controleur.cmdMiserRoulette(mises);
+		if(!mises.isEmpty()) {
+			this.controleur.cmdMiserRoulette(mises);
+		}
 		
 		
 		

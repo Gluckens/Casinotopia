@@ -14,8 +14,6 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 
-//TODO étant donné que les controleurs serveur sont unique pour chaque client loggué, on pourrait rajouté un attribut client dans la classe ControleurServeur
-
 public class ControleurRouletteServeur extends ControleurServeur {
 
 	private static final long serialVersionUID = 5984983846828475123L;
@@ -29,6 +27,12 @@ public class ControleurRouletteServeur extends ControleurServeur {
 
 	public void actionEffectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		this.modele.effectuerMises(mises);
+		
+		/*for(JoueurServeur joueur : this.modele.getLstJoueurs()) {
+			((ControleurClientServeur) this.ctrlThread.getControleur("ControleurClientServeur")).ajouter
+			joueur.getClient().getConnexion().envoyerCommande(cmd);
+			joueur.getClient().getConnexion().envoyerCommande(new CmdModifierSolde(joueur.getClient().getSolde()));
+		}*/
 
 		this.cmdUpdateTableJoueurs(this.modele.getId());
 	}
@@ -53,16 +57,11 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		
 		for(JoueurServeur joueur : lstJoueurs) {
 			int gain = actionCalculerGainRoulette(joueur);
-			//TODO Trouver un moyen de récupérer le ControleurClientServeur pour modifier le solde par là.
-			//Faudrait passer par le ControleurPrincipalServeur pour récupérer le ControleurServerThread du client
-			//ControleurPrincipalServeur.getInstance().get
-			((ControleurClientServeur) this.ctrlThread.getControleur("ControleurClientServeur")).ajouterSolde(gain);
-			//joueur.getClient().updateSolde(gain);
-			joueur.getClient().getConnexion().envoyerCommande(new CmdModifierSolde(joueur.getClient().getSolde()));
+			//((ControleurClientServeur) this.ctrlThread.getControleur("ControleurClientServeur")).ajouterSolde(gain);
+			joueur.getClient().getConnexion().envoyerCommande(new CmdModifierSolde(joueur.getClient().getSolde() + gain));
 			
 			System.out.println("Vous avez gagné au total : " + gain);
-			Commande cmd = new CmdEnvoyerResultatRoulette(resultat, gain);
-			joueur.getClient().getConnexion().envoyerCommande(cmd);
+			joueur.getClient().getConnexion().envoyerCommande(new CmdEnvoyerResultatRoulette(resultat, gain));
 		}
 		
 		this.modele.resetMises();
