@@ -37,19 +37,15 @@ public class VueRoulette extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		/*gridBagLayout.columnWidths = new int[] { 400, 302, 242, 80 };
-		gridBagLayout.rowHeights = new int[] { 40, 260, 300, 80 };*/
 		gridBagLayout.columnWidths = new int[] { 400, 302, 322 };
 		gridBagLayout.rowHeights = new int[] { 300, 300, 80 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0 };
 		this.setLayout(gridBagLayout);
 
 		// setPreferredSize(new Dimension(1024, 740));
 		this.setPreferredSize(new Dimension(1024, 680));
 		this.setMaximumSize(new Dimension(1024, 680));
-		
-		VueRouletteRoue roue = new VueRouletteRoue(this.controleur, this.frame);
-		roue.setName("roue");
-		this.add(roue, new GridBagHelper().setXY(0, 0).setWH(1, 2).end());
 		
 		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, this.frame);
 		tapis.setName("tapis");
@@ -64,6 +60,10 @@ public class VueRoulette extends Vue {
 		VueRouletteActions actions = new VueRouletteActions(this.controleur, this.frame, tapis, tapis);
 		actions.setName("actions");
 		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).setFill(GridBagConstraints.HORIZONTAL).setAnchor(GridBagConstraints.SOUTH).end());
+		
+		VueRouletteRoue roue = new VueRouletteRoue(this.controleur, this.frame);
+		roue.setName("roue");
+		this.add(roue, new GridBagHelper().setXY(0, 0).setWH(1, 2).end());
 		
 
 	}

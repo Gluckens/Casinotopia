@@ -10,20 +10,20 @@ public class Case implements Serializable {
 	private TypeCouleurCase couleur;
 	private TypePariteCase parite;
 	private TypeCase type;
-	private int multiplicateurGain;
+	private double multiplicateurGain;
 	
 	/**
 	 * Constructeur de numero
 	 * @param numero
 	 * @param type
 	 */
-	public Case(int numero, TypeCase type, int multiplicateurGain) {
+	public Case(int numero, TypeCase type, double multiplicateurGain) {
 		this.numero = numero;
 		this.type = type;
 		this.multiplicateurGain = multiplicateurGain;
 	}
 	
-	public Case(int numero, TypeCouleurCase couleur, TypeCase type, int multiplicateurGain) {
+	public Case(int numero, TypeCouleurCase couleur, TypeCase type, double multiplicateurGain) {
 		this.numero = numero;
 		this.couleur = couleur;
 		this.type = type;
@@ -36,7 +36,7 @@ public class Case implements Serializable {
 	 * @param type
 	 * @param lstCases
 	 */
-	public Case(TypeCouleurCase couleur, TypeCase type, int multiplicateurGain) {
+	public Case(TypeCouleurCase couleur, TypeCase type, double multiplicateurGain) {
 		this.couleur = couleur;
 		this.type = type;
 		this.multiplicateurGain = multiplicateurGain;
@@ -47,7 +47,7 @@ public class Case implements Serializable {
 	 * @param type
 	 * @param lstCases
 	 */
-	public Case(TypePariteCase parite, TypeCase type, int multiplicateurGain) {
+	public Case(TypePariteCase parite, TypeCase type, double multiplicateurGain) {
 		this.type = type;
 		this.parite = parite;
 		this.multiplicateurGain = multiplicateurGain;
@@ -86,46 +86,8 @@ public class Case implements Serializable {
 	public TypeCase getType() {
 		return this.type;
 	}
-	
-	public int getMultiplicateurGain() {
-		return this.multiplicateurGain;
-	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((couleur == null) ? 0 : couleur.hashCode());
-		result = prime * result + multiplicateurGain;
-		result = prime * result + numero;
-		result = prime * result + ((parite == null) ? 0 : parite.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Case other = (Case) obj;
-		if (couleur != other.couleur)
-			return false;
-		if (multiplicateurGain != other.multiplicateurGain)
-			return false;
-		if (numero != other.numero)
-			return false;
-		if (parite != other.parite)
-			return false;
-		if (type != other.type)
-			return false;
-		return true;
-	}
-
-/*	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -137,7 +99,7 @@ public class Case implements Serializable {
 		result = prime * result + ((parite == null) ? 0 : parite.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
-	}*/
+	}
 
 //	@Override
 //	public boolean equals(Object obj) {
@@ -161,7 +123,7 @@ public class Case implements Serializable {
 //		return true;
 //	}
 	
-/*	@Override
+	@Override
 	public boolean equals(Object obj) {
 		boolean egale = false;
 		if (obj != null && obj.getClass()==this.getClass())
@@ -185,7 +147,7 @@ public class Case implements Serializable {
 			}
 		}
 		return egale;
-	}*/
+	}
 
 	/*@Override
 	public int hashCode() {

@@ -1,40 +1,21 @@
 package ca.uqam.casinotopia.drag_n_drop;
 
-import java.awt.Component;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 
-import javax.swing.SwingUtilities;
+import ca.uqam.casinotopia.TypeMise;
 
 public class MisesGhostComponentAdapter extends GhostComponentAdapter {
 
-	private int montant;
-	private String componentName;
-	private Point posDepart;
+	private TypeMise typeMise;
 
-	public MisesGhostComponentAdapter(GhostGlassPane glassPane, int montant, String componentName) {
+	public MisesGhostComponentAdapter(GhostGlassPane glassPane, TypeMise typeMise) {
 		super(glassPane);
-		this.montant = montant;
-		this.componentName = componentName;
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent e) {
-		System.out.println("MOUSEPRESSED MISES_GHOST");
-		
-		Component c = e.getComponent();
-		
-		Point p = (Point) e.getPoint().clone();
-		SwingUtilities.convertPointToScreen(p, c);
-		
-		this.posDepart = p;
-		
-		super.mousePressed(e);
+		this.typeMise = typeMise;
 	}
 
 	@Override
 	protected void sendGhostDropEvent(Point eventPoint) {
-		this.fireGhostDropEvent(new MisesGhostDropEvent(eventPoint, this.montant, this.componentName, this.posDepart));
+		this.fireGhostDropEvent(new MisesGhostDropEvent(eventPoint, this.typeMise));
 	}
 
 }

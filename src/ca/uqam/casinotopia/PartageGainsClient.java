@@ -4,33 +4,17 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
+/**
+ * 
+ * @author Alexei
+ */
 public class PartageGainsClient implements Serializable {
 	
 	private static final long serialVersionUID = -5080255358704810523L;
 	
-	private int id;
-	private ModeleClientServeur client;
-	private Fondation fondation;
 	private int pourcentage;
-	
-	public PartageGainsClient(ModeleClientServeur client, Fondation fondation, int pourcentage) {
-		this(-1, client, fondation, pourcentage);
-	}
-	
-	public PartageGainsClient(int id, ModeleClientServeur client, Fondation fondation, int pourcentage) {
-		this.id = id;
-		this.client = client;
-		this.fondation = fondation;
-		this.pourcentage = pourcentage;
-	}
-	
-	public int getId() {
-		return this.id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
+	public ModeleClientServeur client;
+	public Fondation fondation;
 
 	public ModeleClientServeur getClient() {
 		return this.client;
@@ -60,4 +44,5 @@ public class PartageGainsClient implements Serializable {
 	public String toString() {
 		return this.client.getPrenom() + " " + this.fondation.getNom() + " : " + this.getPourcentage();
 	}
+
 }

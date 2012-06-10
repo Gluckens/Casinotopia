@@ -13,15 +13,20 @@ public class ControleurBarreMenuBas extends ControleurClient {
 	
 	private VueBarreMenuBas vue;
 
+	// private ModelePartieRouletteClient modele;
+
 	public ControleurBarreMenuBas(ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		this(new Connexion(), client, modeleNav);
+		// TODO Auto-generated constructor stub
 	}
 
 	public ControleurBarreMenuBas(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		super(connexion, client, modeleNav);
 
 		this.vue = new VueBarreMenuBas(this);
-		this.client.ajouterObservateur(this.vue);
+		/*
+		 * this.modele = modele; this.modele.ajouterObservateur(this.vue);
+		 */
 	}
 	
 	public VueBarreMenuBas getVue() {

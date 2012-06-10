@@ -28,8 +28,4 @@ public abstract class ControleurClient extends Controleur {
 	public ModelePrincipalClient getModeleNav() {
 		return this.modeleNav;
 	}
-	
-	public ModeleClientClient getModeleClient() {
-		return this.client;
-	}
 }

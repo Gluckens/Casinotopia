@@ -41,8 +41,8 @@ public class ControleurMenuPrincipal extends ControleurClient {
 		((ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 	}
 	
-	public void cmdJoindreSalle(int idSalle) {
-		this.connexion.envoyerCommande(new CmdJoindreSalle(idSalle));
+	public void cmdJoindreSalle(String nomSalle) {
+		this.connexion.envoyerCommande(new CmdJoindreSalle(nomSalle));
 	}
 		
 	public void actionJouerMachine() {

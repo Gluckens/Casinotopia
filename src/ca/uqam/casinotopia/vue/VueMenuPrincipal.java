@@ -37,8 +37,7 @@ public class VueMenuPrincipal extends Vue {
 		btnSalle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.cmdJoindreSalle(1);
-				//controleur.cmdJoindreSalle("MEGAFUN");
+				controleur.cmdJoindreSalle("MEGAFUN");
 				//controleur.afficherSalle("MEGAFUN");
 			}
 		});

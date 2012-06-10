@@ -17,19 +17,4 @@ public enum TypeMise {
 				return 0;
 		}
 	}
-	
-	public static TypeMise getType(int montant) {
-		switch(montant) {
-			case 5 :
-				return MISE_5;
-			case 10 :
-				return MISE_10;
-			case 25 :
-				return MISE_25;
-			case 50 :
-				return MISE_50;
-			default :
-				return null;
-		}
-	}
 }

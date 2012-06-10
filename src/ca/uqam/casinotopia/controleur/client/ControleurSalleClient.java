@@ -2,8 +2,6 @@ package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.Point;
 
-import javax.swing.JPanel;
-
 import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
@@ -78,8 +76,7 @@ public class ControleurSalleClient extends ControleurClient {
 	}
 	
 	public boolean validerDeplacement(Point position) {
-		JPanel pnlAvatars = (JPanel) this.vue.getComponentByName("pnlAvatars");
-		return (pnlAvatars.getBounds().contains(this.client.getAvatar().getBounds(position))) && (this.modele.validerDeplacement(this.client.getAvatar(), position));
+		return (this.vue.getBounds().contains(this.client.getAvatar().getBounds(position))) && (this.modele.validerDeplacement(this.client.getAvatar(), position));
 	}
 
 	public void checkProximites(Point position) {

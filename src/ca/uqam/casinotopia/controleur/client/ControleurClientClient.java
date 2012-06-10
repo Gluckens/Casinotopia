@@ -12,8 +12,4 @@ public class ControleurClientClient extends ControleurClient {
 	public ControleurClientClient(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNavigation) {
 		super(connexion, client, modeleNavigation);
 	}
-	
-	public void modifierSolde(int nouveauSolde) {
-		this.client.setSolde(nouveauSolde);
-	}
 }

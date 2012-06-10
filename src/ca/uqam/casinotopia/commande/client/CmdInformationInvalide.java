@@ -1,11 +1,11 @@
 package ca.uqam.casinotopia.commande.client;
 
-import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
+import ca.uqam.casinotopia.commande.CommandeClientControleurClient;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
 //TODO Pas le bon controleur
-public class CmdInformationInvalide implements CommandeClientControleurPrincipal {
+public class CmdInformationInvalide implements CommandeClientControleurClient {
 
 	/**
 	 * 

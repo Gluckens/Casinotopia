@@ -3,11 +3,9 @@ package ca.uqam.casinotopia.vue;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurBarreMenuBas;
-import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.observateur.Observable;
 
 @SuppressWarnings("serial")
@@ -42,25 +40,12 @@ public class VueBarreMenuBas extends Vue {
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setName("btnMenu");
 		this.add(btnMenu, new GridBagHelper().setXY(0, 0).end());
-		
-		JLabel lblSoldeClient = new JLabel(String.valueOf(this.controleur.getModeleClient().getSolde()));
-		lblSoldeClient.setName("lblSoldeClient");
-		this.add(lblSoldeClient, new GridBagHelper().setXY(4, 0).end());
-	}
-	
-	private void updateSolde(int nouveauSolde) {
-		((JLabel)this.getComponentByName("lblSoldeClient")).setText(String.valueOf(nouveauSolde));
 	}
 
 	@Override
 	public void update(Observable observable) {
-		if(observable instanceof ModeleClientClient) {
-			ModeleClientClient modele = (ModeleClientClient) observable;
-			switch (modele.getTypeModif()) {
-				case UPDATE_SOLDE :
-					this.updateSolde(modele.getSolde());
-					break;
-			}
-		}
+		// TODO Auto-generated method stub
+
 	}
+
 }

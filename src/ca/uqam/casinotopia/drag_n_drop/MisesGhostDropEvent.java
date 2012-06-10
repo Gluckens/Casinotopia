@@ -2,29 +2,20 @@ package ca.uqam.casinotopia.drag_n_drop;
 
 import java.awt.Point;
 
+import ca.uqam.casinotopia.TypeMise;
+
 public class MisesGhostDropEvent extends GhostDropEvent {
 
-	private int montant;
-	private String componentName;
-	private Point pDepart;
+	TypeMise type;
 
-	public MisesGhostDropEvent(Point point, int montant, String componentName, Point pDepart) {
+	public MisesGhostDropEvent(Point point, TypeMise type) {
 		super(point);
 
-		this.montant = montant;
-		this.componentName = componentName;
-		this.pDepart = pDepart;
+		this.type = type;
 	}
 
-	public int getMontantMise() {
-		return this.montant;
+	public TypeMise getTypeMise() {
+		return this.type;
 	}
 
-	public String getComponentname() {
-		return this.componentName;
-	}
-
-	public Point getPositionDepart() {
-		return this.pDepart;
-	}
 }
