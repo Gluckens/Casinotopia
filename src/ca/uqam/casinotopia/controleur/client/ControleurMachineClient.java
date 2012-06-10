@@ -1,5 +1,7 @@
 package ca.uqam.casinotopia.controleur.client;
 
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterChat;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterMachine;
 import ca.uqam.casinotopia.commande.serveur.machine.CmdMachineMiser;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -31,6 +33,12 @@ public class ControleurMachineClient extends ControleurClient {
 
 
 	public void cmdMiser() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		connexion.envoyerCommande(new CmdMachineMiser(Integer.parseInt(vue.getTxtMontant().getText())));
 		
 	}
@@ -38,6 +46,12 @@ public class ControleurMachineClient extends ControleurClient {
 
 	public void afficherLeHasard(int int1, int int2, int int3) {
 		vue.setVal(int1, int2, int3);
+		
+	}
+
+
+	public void cmdQuitterPartie() {
+		this.connexion.envoyerCommande(new CmdQuitterMachine(this.client.getId()));
 		
 	}
 

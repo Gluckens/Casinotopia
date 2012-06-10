@@ -85,6 +85,7 @@ public class FrameConnexion extends JFrame implements Runnable {
 		this.contentPane.setLayout(null);
 
 		this.txtNomUtilisateur = new JTextField();
+		txtNomUtilisateur.setText("username2");
 		this.txtNomUtilisateur.setBounds(82, 209, 227, 20);
 		this.contentPane.add(this.txtNomUtilisateur);
 		this.txtNomUtilisateur.setColumns(10);
@@ -96,6 +97,7 @@ public class FrameConnexion extends JFrame implements Runnable {
 		this.contentPane.add(lblNomUtilisateur);
 
 		this.txtMotDePasse = new JPasswordField();
+		this.txtMotDePasse.setText("mdp2");
 		this.txtMotDePasse.setEchoChar('\u263B');
 		this.txtMotDePasse.setBounds(82, 249, 227, 20);
 		this.contentPane.add(this.txtMotDePasse);

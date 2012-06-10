@@ -3,6 +3,8 @@ package ca.uqam.casinotopia.controleur.client;
 import java.util.List;
 
 import ca.uqam.casinotopia.commande.serveur.CmdEnvoyerMessageChat;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterChat;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterPartieRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -27,6 +29,7 @@ public class ControleurChatClient extends ControleurClient {
 		this.vue.setLstConnecteModel(this.modele.getLstUtilisateurModel());
 	}
 
+
 	public VueChat getVue() {
 		return this.vue;
 	}
@@ -44,15 +47,16 @@ public class ControleurChatClient extends ControleurClient {
 		
 		this.modele.setMessages(listeMessages);
 		this.modele.setSalle(salle);
+		System.out.println("setter la salle : "+salle);
 	}
 
 
-	public void cmdSeConnecterAuChat() {
-		//changer le setSalle
-		this.modele.setSalle(this.vue.txtSeConnecterA.getText());
+	public void cmdSeConnecterAuChat(String salle) {
 		
-		//this.connexion.envoyerCommande(new CmdSeConnecterAuChat(salle));
-		this.connexion.envoyerCommande(new CmdSeConnecterAuChat(this.vue.txtSeConnecterA.getText()));
+		this.modele.setSalle(salle);
+		
+		this.connexion.envoyerCommande(new CmdSeConnecterAuChat(salle));
+		//this.connexion.envoyerCommande(new CmdSeConnecterAuChat(this.vue.txtSeConnecterA.getText()));
 	}
 	
 	public void actionChangementSalle(String salle) {
@@ -65,6 +69,9 @@ public class ControleurChatClient extends ControleurClient {
 		this.vue.txtMessage.setFocusable(true);
 	}
 
+	public void cmdQuitterPartie() {
+		this.connexion.envoyerCommande(new CmdQuitterChat(this.client.getId()));
+	}
 
 	public void actionAjouterMessageChat(String message) {
 		this.modele.setMessages(this.modele.getMessages() + "\n" + message);

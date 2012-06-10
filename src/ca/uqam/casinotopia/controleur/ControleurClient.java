@@ -32,4 +32,9 @@ public abstract class ControleurClient extends Controleur {
 	public ModeleClientClient getModeleClient() {
 		return this.client;
 	}
+	
+	public ModeleClientClient getClient() {
+		return client;
+	}
+	
 }

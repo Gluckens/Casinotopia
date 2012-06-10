@@ -19,6 +19,13 @@ public class CmdMachineEnvoyerLeHasard implements CommandeClientControleurMachin
 	
 	@Override
 	public void action(Controleur controleur) {
+		if(int1 == int2 && int3 == int2){
+			((ControleurMachineClient)controleur).getVue().setMessage("Vous avez gagné 2 fois votre mise");
+		}else if(int1 == int2 || int2  == int3 || int3 == int1){
+			((ControleurMachineClient)controleur).getVue().setMessage("Vous avez gagné votre mise");
+		}else{
+			((ControleurMachineClient)controleur).getVue().setMessage("Vous avez perdu votre mise");
+		}
 		((ControleurMachineClient)controleur).afficherLeHasard(int1, int2, int3);
 
 	}

@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -36,7 +37,7 @@ public class VueMachine extends Vue {
 	
 	private ControleurMachineClient controleur;
 	
-	private JLabel lblArgent;
+	private JLabel lblMessage;
 	private JButton btnMiser;
 	private JTextField txtMontant;
 	
@@ -49,6 +50,7 @@ public class VueMachine extends Vue {
 	private JLabel resultat3;
 	
 	public int val1 = 2, val2 = 5, val3 = 8;
+	private JButton btnQuitter;
 
 	/**
 	 * Create the panel.
@@ -82,17 +84,18 @@ public class VueMachine extends Vue {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, ICONWIDTH, ICONWIDTH, ICONWIDTH, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		lblArgent = new JLabel("argent");
-		GridBagConstraints gbc_lblArgent = new GridBagConstraints();
-		gbc_lblArgent.insets = new Insets(0, 0, 5, 5);
-		gbc_lblArgent.gridx = 1;
-		gbc_lblArgent.gridy = 1;
-		add(lblArgent, gbc_lblArgent);
+		lblMessage = new JLabel("");
+		GridBagConstraints gbc_lblMessage = new GridBagConstraints();
+		gbc_lblMessage.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMessage.gridwidth = 3;
+		gbc_lblMessage.gridx = 1;
+		gbc_lblMessage.gridy = 1;
+		add(lblMessage, gbc_lblMessage);
 		
 		txtMontant = new JTextField();
 		txtMontant.setText("2");
@@ -108,7 +111,7 @@ public class VueMachine extends Vue {
 		resultat1.setFont(new Font("Tahoma", Font.PLAIN, 150));
 		resultat1.setMinimumSize(new Dimension(ICONWIDTH, ICONHEIGHT));
 		GridBagConstraints gbc_resultat1 = new GridBagConstraints();
-		gbc_resultat1.insets = new Insets(0, 0, 0, 5);
+		gbc_resultat1.insets = new Insets(0, 0, 5, 5);
 		gbc_resultat1.gridx = 1;
 		gbc_resultat1.gridy = 2;
 		add(resultat1, gbc_resultat1);
@@ -117,7 +120,7 @@ public class VueMachine extends Vue {
 		resultat2.setFont(new Font("Tahoma", Font.PLAIN, 150));
 		resultat2.setMinimumSize(new Dimension(ICONWIDTH, ICONHEIGHT));
 		GridBagConstraints gbc_resultat2 = new GridBagConstraints();
-		gbc_resultat2.insets = new Insets(0, 0, 0, 5);
+		gbc_resultat2.insets = new Insets(0, 0, 5, 5);
 		gbc_resultat2.gridx = 2;
 		gbc_resultat2.gridy = 2;
 		add(resultat2, gbc_resultat2);
@@ -126,7 +129,7 @@ public class VueMachine extends Vue {
 		resultat3.setFont(new Font("Tahoma", Font.PLAIN, 150));
 		resultat3.setMinimumSize(new Dimension(ICONWIDTH, ICONHEIGHT));
 		GridBagConstraints gbc_resultat3 = new GridBagConstraints();
-		gbc_resultat3.insets = new Insets(0, 0, 0, 5);
+		gbc_resultat3.insets = new Insets(0, 0, 5, 5);
 		gbc_resultat3.gridx = 3;
 		gbc_resultat3.gridy = 2;
 		add(resultat3, gbc_resultat3);
@@ -138,9 +141,21 @@ public class VueMachine extends Vue {
 			}
 		});
 		GridBagConstraints gbc_btnMiser = new GridBagConstraints();
+		gbc_btnMiser.insets = new Insets(0, 0, 5, 0);
 		gbc_btnMiser.gridx = 4;
 		gbc_btnMiser.gridy = 2;
 		add(btnMiser, gbc_btnMiser);
+		
+		btnQuitter = new JButton("Quitter");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controleur.cmdQuitterPartie();
+			}
+		});
+		GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
+		gbc_btnQuitter.gridx = 4;
+		gbc_btnQuitter.gridy = 3;
+		add(btnQuitter, gbc_btnQuitter);
 		
 	}
 	
@@ -153,7 +168,11 @@ public class VueMachine extends Vue {
 		g.drawImage(icones[val3], resultat3.getX(), resultat3.getY(), null);
 	}
 	
-	
+	public void setMessage(String message){
+		this.lblMessage.print(getGraphics());
+		this.lblMessage.setText(message);
+		
+	}
 	
 	public JTextField getTxtMontant() {
 		return txtMontant;

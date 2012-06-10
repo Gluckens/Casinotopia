@@ -40,10 +40,23 @@ public class VueChat extends Vue {
 	private JPanel pnlChat;
 	private JPanel pnlListeUtilisateur;
 	private JScrollPane scrollPane;
+	private JButton btnQuitter;
 
 	public VueChat(ControleurChatClient ctrl){
 		this.addComponents();
 		this.controleur = ctrl;
+		
+		btnQuitter = new JButton("Quitter");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				controleur.cmdQuitterPartie();
+			}
+		});
+		GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
+		gbc_btnQuitter.gridx = 2;
+		gbc_btnQuitter.gridy = 3;
+		add(btnQuitter, gbc_btnQuitter);
 		btnSeConnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				seConnecterAuChat();
@@ -78,7 +91,7 @@ public class VueChat extends Vue {
 		if(txtSeConnecterA.getText().isEmpty()){
 			txtSeConnecterA.setText("entrez un nom de salle ici");
 		}else{
-			controleur.cmdSeConnecterAuChat();
+			controleur.cmdSeConnecterAuChat(txtSeConnecterA.getText());
 		}
 
 	}
@@ -91,10 +104,10 @@ public class VueChat extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{142, 93, 168, 0};
-		gridBagLayout.rowHeights = new int[]{15, 20, 23, 0};
+		gridBagLayout.columnWidths = new int[]{100, 64, 158, 0};
+		gridBagLayout.rowHeights = new int[]{15, 20, 23, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
 		pnlListeUtilisateur = new JPanel();
@@ -105,7 +118,7 @@ public class VueChat extends Vue {
 		gbc_pnlListeUtilisateur.gridy = 0;
 		add(pnlListeUtilisateur, gbc_pnlListeUtilisateur);
 		GridBagLayout gbl_pnlListeUtilisateur = new GridBagLayout();
-		gbl_pnlListeUtilisateur.columnWidths = new int[]{142, 0};
+		gbl_pnlListeUtilisateur.columnWidths = new int[]{100, 0};
 		gbl_pnlListeUtilisateur.rowHeights = new int[]{15, 228, 0};
 		gbl_pnlListeUtilisateur.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_pnlListeUtilisateur.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
@@ -138,7 +151,7 @@ public class VueChat extends Vue {
 		gbc_pnlChat.gridy = 0;
 		add(pnlChat, gbc_pnlChat);
 		GridBagLayout gbl_pnlChat = new GridBagLayout();
-		gbl_pnlChat.columnWidths = new int[]{258, 0};
+		gbl_pnlChat.columnWidths = new int[]{212, 0};
 		gbl_pnlChat.rowHeights = new int[]{255, 20, 0};
 		gbl_pnlChat.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_pnlChat.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
@@ -189,7 +202,7 @@ public class VueChat extends Vue {
 		txtSeConnecterA.setText("salle1");
 		GridBagConstraints gbc_txtSeConnecterA = new GridBagConstraints();
 		gbc_txtSeConnecterA.fill = GridBagConstraints.BOTH;
-		gbc_txtSeConnecterA.insets = new Insets(0, 0, 0, 5);
+		gbc_txtSeConnecterA.insets = new Insets(0, 0, 5, 5);
 		gbc_txtSeConnecterA.gridwidth = 2;
 		gbc_txtSeConnecterA.gridx = 0;
 		gbc_txtSeConnecterA.gridy = 2;
@@ -205,6 +218,7 @@ public class VueChat extends Vue {
 
 		btnSeConnecter = new JButton("Se connecter au chat");
 		GridBagConstraints gbc_btnSeConnecter = new GridBagConstraints();
+		gbc_btnSeConnecter.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSeConnecter.anchor = GridBagConstraints.NORTH;
 		gbc_btnSeConnecter.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSeConnecter.gridx = 2;
@@ -219,7 +233,7 @@ public class VueChat extends Vue {
 
 		DefaultListModel model = new DefaultListModel();
 
-		this.setSize(new Dimension(410, 400));
+		this.setSize(new Dimension(322, 335));
 
 	}
 		
@@ -253,4 +267,13 @@ public class VueChat extends Vue {
 			jsb.setValue(jsb.getMaximum());
 		}
 	}
+	
+	
+	public void cacherSalle(){
+		this.btnQuitter.setVisible(false);
+		this.btnSeConnecter.setVisible(false);
+		this.txtSeConnecterA.setVisible(false);
+	}
+	
+	
 }

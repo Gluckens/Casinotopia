@@ -10,4 +10,11 @@ public class ControleurChatServeur extends ControleurServeur {
 	public ControleurChatServeur(Connexion connexion, ControleurServeurThread ctrlThread) {
 		super(connexion, ctrlThread);
 	}
+
+	public void actionQuitterChat(int idJoueur) {
+		//this.modele.quitterPartie(idJoueur);
+		//if(this.modele.isPartieVide()) {
+		//	ControleurPrincipalServeur.getInstance().retirerPartie(this.modele);
+		//}
+	}
 }

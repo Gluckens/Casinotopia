@@ -32,6 +32,7 @@ import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.CmdAfficherSalle;
 import ca.uqam.casinotopia.commande.client.CmdAjouterClientSalle;
 import ca.uqam.casinotopia.commande.client.CmdInformationInvalide;
+import ca.uqam.casinotopia.commande.client.CmdQuitterPartieMachineClient;
 import ca.uqam.casinotopia.commande.client.machine.CmdAfficherJeuMachine;
 import ca.uqam.casinotopia.commande.client.CmdQuitterPartieRouletteClient;
 import ca.uqam.casinotopia.commande.client.CmdQuitterSalleClient;
@@ -326,7 +327,21 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void lancerPartieMachine() {
 		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, new ModeleMachineServeur()));
 		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
+	} 
+
+	
+	public void actionQuitterChat(int idJoueur) {
+		//TODO Utiliser la classe utilisater ou autre chose que danny a fait?
+		this.modele.deconnecter();
+		
+		//((ControleurChatServeur)this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat(idJoueur);
+		
+		//TODO Mettre à jour la vue de tous les joueurs de la partie
+		
+		this.lstControleurs.remove("ControleurChatServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
 	}
+	
 	
 	public void actionQuitterPartieRoulette(int idJoueur) {
 		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
@@ -344,5 +359,14 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		this.lstControleurs.remove("ControleurSalleServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
+	}
+
+	public void actionQuitterMachine(int idJoueur) {
+		
+		this.modele.deconnecter();
+
+		this.lstControleurs.remove("ControleurMachineServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterPartieMachineClient());
+		
 	}
 }
