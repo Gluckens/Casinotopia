@@ -35,6 +35,7 @@ import ca.uqam.casinotopia.vue.Vue;
 public class VueRouletteRoue extends Vue  implements ActionListener {
 
     BufferedImage image;
+    BufferedImage image2;
     private int vitesse;
     private double position;
     private double ajoutDegree;
@@ -54,6 +55,7 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 		this.frame = frame;		
         try {
             image = ImageIO.read(new File("src/img/rouletteRoue.gif"));
+            image2 = ImageIO.read(new File("src/img/bille.png"));
         } catch (IOException ex) {
             Logger.getLogger(VueRouletteRoue.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,6 +85,8 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 //            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 //            .addGap(0, 80, Short.MAX_VALUE)
 //        );
+    	
+
         
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		/*gridBagLayout.columnWidths = new int[]{75, 75, 75};
@@ -92,9 +96,40 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
 		gridBagLayout.columnWeights = new double[]{0.0};
 		gridBagLayout.rowWeights = new double[]{0.0};
 		setLayout(gridBagLayout);
-//		
-//
+		//setLayout(null);
+		
+
 		setPreferredSize(new Dimension(400, 400));
+//		
+//		
+//		
+//		
+//		JPanel jp = new JPanel();
+//		add(jp);
+//		jp.setLayout(null);
+//		JLabel lblCompte = new JLabel("vvvaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//		lblCompte.setFont(new Font("Tahoma", Font.PLAIN, 20));
+//		jp.add(lblCompte).setBounds(10, 5, 50, 50);
+//		jp.setSize(400, 400);
+//		jp.setVisible(true);
+
+		
+    	
+    	
+    	/////////////////////////////// TEST ///////////////////////////
+    	
+//    	JPanel jp = new JPanel();
+//    	add(jp);
+//    	jp.setLayout(null);
+//		JLabel lblCompte = new JLabel("vvvaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//		lblCompte.setFont(new Font("Tahoma", Font.PLAIN, 20));
+//		lblCompte.setLocation(100,100);
+//		lblCompte.setSize(150, 100);
+//		jp.add(lblCompte);
+//		jp.setVisible(true);
+//		setPreferredSize(new Dimension(400, 400));
+		
+		//setVisible(true);
 //		
 //		JLabel lblImgTapis = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/roulette-table.jpg")));
 //		lblImgTapis.setName("imgTapis");
@@ -109,9 +144,11 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
         if (image != null) {
             //System.out.println("test : " + position);
             Graphics2D g2d = (Graphics2D) g.create();
+            Graphics2D g2d2 = (Graphics2D) g.create();
             try {
                 g2d.rotate(Math.toRadians(position), image.getWidth() / 2, image.getHeight() / 2);
                 g2d.drawImage(image, 0, 0, null);
+                g2d2.drawImage(image2, 178, 4, 30, 30,  null);
             } finally {
                 g2d.dispose();
             }

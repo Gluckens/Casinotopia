@@ -38,4 +38,5 @@ public class ModeleMachineServeur implements Modele, Observable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

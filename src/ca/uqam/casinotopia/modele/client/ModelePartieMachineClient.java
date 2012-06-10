@@ -1,5 +1,7 @@
 package ca.uqam.casinotopia.modele.client;
 
+import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.Observable;
@@ -42,4 +44,5 @@ public class ModelePartieMachineClient implements Modele, Observable  {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

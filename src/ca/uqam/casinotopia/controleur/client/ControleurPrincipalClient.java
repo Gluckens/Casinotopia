@@ -3,8 +3,13 @@ package ca.uqam.casinotopia.controleur.client;
 import java.awt.EventQueue;
 import java.awt.Point;
 
+import javax.swing.JOptionPane;
+
+import ca.uqam.casinotopia.Client;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
+import ca.uqam.casinotopia.commande.serveur.CmdCreerCompte;
+import ca.uqam.casinotopia.commande.serveur.CmdModifierCompte;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
@@ -12,6 +17,7 @@ import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public class ControleurPrincipalClient extends ControleurClient {
 
@@ -28,7 +34,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
-		this.listeServeur = new String[] { "localhost", "dan.dnsd.me", "oli.dnsd.me" };
+		this.listeServeur = new String[] { "localhost", "oli.dnsd.me", "dan.dnsd.me" };
 		this.enReceptionDeCommande = false;
 		this.afficherConnexion();
 	}
@@ -87,7 +93,11 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionInitClient(ModeleClientClient modele) {
+		System.out.println("actionInitClient");
 		this.client = modele;
+		
+		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
 		
 		this.afficherFrameApplication();
 		this.afficherMenuPrincipal();
@@ -137,6 +147,8 @@ public class ControleurPrincipalClient extends ControleurClient {
 		ControleurRouletteClient ctrlRouletteClient = new ControleurRouletteClient(this.connexion, modele, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurRouletteClient", ctrlRouletteClient);
 		this.modeleNav.changerVueFrameApplication("VueRoulette", ctrlRouletteClient.getVue());
+		//TODO Forcer le refresh via le pattern observeur?
+		ctrlRouletteClient.actionUpdateTableJeu(modele.getTableJeu().getCases());
 	}
 
 	public void actionQuitterPartieRouletteClient() {
@@ -163,4 +175,67 @@ public class ControleurPrincipalClient extends ControleurClient {
 		
 		this.client.getAvatar().setPosition(new Point(0, 0));
 	}
+
+	public void cmdCreationCompte(ModeleClientClient modeleClientClient) {
+		if (!this.connexion.isConnected()) {
+			this.setMessageConnexion("recherche de serveur...");
+			int i = 0;
+			while (this.connexion.isConnected() == false && i < this.listeServeur.length) {
+				this.setConnexion(new Connexion(this.listeServeur[i], 7777));
+				i++;
+			}
+		}
+		
+		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
+		
+			Commande cmd = new CmdCreerCompte(modeleClientClient);
+			this.connexion.envoyerCommande(cmd);
+			this.receptionCommandes();
+		}
+
+
+	public void cmdCreationCompte() {
+		modeleNav.initFrameGestionCompte(this, true);
+		modeleNav.getFrameGestionCompte().show();		
+	}
+
+	public void setMessageInformationCreationCompte(String message) {
+		JOptionPane.showMessageDialog(null, message);
+	}
+
+	public void cmdModificationCompte() {
+		modeleNav.initFrameGestionCompte(this, false);
+		modeleNav.getFrameGestionCompte().show();		
+	}
+
+	public void cmdModificationCompte(ModeleClientClient modeleClientClient) {
+		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
+		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
+		
+			Commande cmd = new CmdModifierCompte(modeleClientClient);
+			this.connexion.envoyerCommande(cmd);
+			this.receptionCommandes();
+	}
+
+	public void modifierCompteClient(ModeleClientServeur modele, boolean modifReussi) {
+		if (modifReussi){
+			ModeleClientClient client = ((ControleurPrincipalClient)modeleNav.getControleur("ControleurPrincipalClient")).getModeleClient();
+			client.setNom(modele.getNom());
+			client.setPrenom(modele.getPrenom());
+			client.setDateNaissance(modele.getDateNaissance());
+			client.setCourriel(modele.getCourriel());
+			client.setPrcGlobal(modele.getPrcGlobal());
+			System.out.println("modification client sur client: " + client.getNom() + " " + client.getPrenom() + " " + client.getDateNaissance() + " " + client.getCourriel());
+			JOptionPane.showMessageDialog(null, "Modification de compte a réussi");
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Le compte n'a pas été modifié");
+		}
+	}
+
+
+
+
 }

@@ -8,6 +8,7 @@ import java.util.SortedSet;
 import java.util.Map.Entry;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
 public class Jeu implements Serializable {
@@ -21,7 +22,6 @@ public class Jeu implements Serializable {
 	private Rectangle emplacement;
 	private int nbrJoueursMin;
 	private int nbrJoueursMax;
-	private ModeleSalleServeur salle;
 
 	private Map<TypeEtatPartie, Map<Integer, Partie>> lstParties;
 
@@ -34,7 +34,7 @@ public class Jeu implements Serializable {
 	 * Partie>>(); //this.lstParties = new ArrayList<Partie>(); }
 	 */
 
-	public Jeu(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, ModeleSalleServeur salle, TypeJeu type) {
+	public Jeu(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
 		this.setId(id);
 		this.nom = nom;
 		this.description = description;
@@ -42,7 +42,6 @@ public class Jeu implements Serializable {
 		this.emplacement = emplacement;
 		this.nbrJoueursMin = nbrJoueursMin;
 		this.nbrJoueursMax = nbrJoueursMax;
-		this.salle = salle;
 
 		this.type = type;
 
@@ -102,6 +101,19 @@ public class Jeu implements Serializable {
 		}
 
 		return partieEnAttente;
+	}
+	
+	public JeuClient creerModeleClient() {
+		return new JeuClient(
+			this.id,
+			this.nom,
+			this.description,
+			this.reglesJeu,
+			this.emplacement,
+			this.nbrJoueursMin,
+			this.nbrJoueursMax,
+			this.type
+		);
 	}
 
 	/**
@@ -206,21 +218,6 @@ public class Jeu implements Serializable {
 	 */
 	public void setNbrJoueursMax(int nbrJoueursMax) {
 		this.nbrJoueursMax = nbrJoueursMax;
-	}
-
-	/**
-	 * @return the salle
-	 */
-	public ModeleSalleServeur getSalle() {
-		return this.salle;
-	}
-
-	/**
-	 * @param salle
-	 *            the salle to set
-	 */
-	public void setSalle(ModeleSalleServeur salle) {
-		this.salle = salle;
 	}
 
 	/**

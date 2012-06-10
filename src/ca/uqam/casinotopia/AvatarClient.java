@@ -32,7 +32,37 @@ public class AvatarClient implements Modele, Observable, Serializable {
 
 	private BaseObservable sujet = new BaseObservable(this);
 	
+	
 	public AvatarClient() {
+		
+	}
+	
+	public AvatarClient(int id, String pathImage) {
+		this(id, pathImage, "");
+	}
+	
+	public AvatarClient(int id, String pathImage, String texte) {
+		this(id, pathImage, texte, 40, 40);
+	}
+	
+	public AvatarClient(int id, String pathImage, int largeur, int hauteur) {
+		this(id, pathImage, "", largeur, hauteur);
+	}
+	
+	public AvatarClient(int id, String pathImage, String texte, int largeur, int hauteur) {
+		this(id, pathImage, "", largeur, hauteur, new Point(0, 0));
+	}
+	
+	public AvatarClient(int id, String pathImage, String texte, int largeur, int hauteur, Point position) {
+		this.id = id;
+		this.pathImage = pathImage;
+		this.texte = texte;
+		this.largeur = largeur;
+		this.hauteur = hauteur;
+		this.setPosition(position);
+	}
+	
+	/*public AvatarClient() {
 		
 	}
 	
@@ -57,7 +87,7 @@ public class AvatarClient implements Modele, Observable, Serializable {
 		this.texte = texte;
 		this.position = position;
 		//this.setPosition(position);
-	}
+	}*/
 
 	/**
 	 * @return the client

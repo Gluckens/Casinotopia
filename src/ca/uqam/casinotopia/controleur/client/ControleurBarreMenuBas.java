@@ -13,20 +13,15 @@ public class ControleurBarreMenuBas extends ControleurClient {
 	
 	private VueBarreMenuBas vue;
 
-	// private ModelePartieRouletteClient modele;
-
 	public ControleurBarreMenuBas(ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		this(new Connexion(), client, modeleNav);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ControleurBarreMenuBas(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		super(connexion, client, modeleNav);
 
 		this.vue = new VueBarreMenuBas(this);
-		/*
-		 * this.modele = modele; this.modele.ajouterObservateur(this.vue);
-		 */
+		this.client.ajouterObservateur(this.vue);
 	}
 	
 	public VueBarreMenuBas getVue() {
@@ -35,5 +30,10 @@ public class ControleurBarreMenuBas extends ControleurClient {
 
 	public FrameApplication getFrame() {
 		return this.modeleNav.getFrameApplication();
+	}
+
+	public void cmdGestionCompte() {
+		ControleurPrincipalClient controleur = (ControleurPrincipalClient) modeleNav.getControleur("ControleurPrincipalClient");
+		controleur.cmdModificationCompte();
 	}
 }

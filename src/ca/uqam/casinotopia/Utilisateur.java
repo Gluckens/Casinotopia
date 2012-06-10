@@ -11,7 +11,7 @@ public /*abstract*/ class Utilisateur implements Serializable {
 	
 	private static final long serialVersionUID = 1967013417447817664L;
 	
-	private int id;
+	protected int idUtilisateur;
 	protected String nomUtilisateur;
 	protected String motDePasse;
 	//public transient int number = 0;
@@ -25,20 +25,20 @@ public /*abstract*/ class Utilisateur implements Serializable {
 		this("", "", null);
 	}
 	
-	public Utilisateur(int id, String nomUtilisateur, String motDePasse) {
-		this(id, nomUtilisateur, motDePasse, null);
+	public Utilisateur(int idUtilisateur, String nomUtilisateur) {
+		this(idUtilisateur, nomUtilisateur, "");
 	}
 	
-	public Utilisateur(int id, String nomUtilisateur) {
-		this(nomUtilisateur, "", null);
+	public Utilisateur(int idUtilisateur, String nomUtilisateur, String motDePasse) {
+		this(idUtilisateur, nomUtilisateur, motDePasse, null);
 	}
 	
-	public Utilisateur(int id, String nomUtilisateur, Connexion connexion) {
-		this(nomUtilisateur, "", connexion);
+	public Utilisateur(int idUtilisateur, String nomUtilisateur, Connexion connexion) {
+		this(idUtilisateur, nomUtilisateur, "", connexion);
 	}
 	
-	public Utilisateur(int id, String nomUtilisateur, String motDePasse, Connexion connexion) {
-		this.id = id;
+	public Utilisateur(int idUtilisateur, String nomUtilisateur, String motDePasse, Connexion connexion) {
+		this.idUtilisateur = idUtilisateur;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motDePasse = motDePasse;
 		this.connexion = connexion;
@@ -88,19 +88,23 @@ public /*abstract*/ class Utilisateur implements Serializable {
 	 * @return the idUtilisateur
 	 */
 	public int getIdUtilisateur() {
-		return this.id;
+		return this.idUtilisateur;
 	}
 
 	/**
 	 * @param idUtilisateur
 	 *            the idUtilisateur to set
 	 */
-	public void setIdUtilisateur(int id) {
-		this.id = id;
+	public void setIdUtilisateur(int idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 
 	public Connexion getConnexion() {
 		return this.connexion;
+	}
+	
+	public void setConnexion(Connexion connexion) {
+		this.connexion = connexion;
 	}
 
 	public List<Connectable> getConnectables() {

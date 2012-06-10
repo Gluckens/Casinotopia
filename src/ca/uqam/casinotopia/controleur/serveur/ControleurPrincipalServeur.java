@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -24,6 +25,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
@@ -42,19 +44,20 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	private ModeleServeurPrincipal modele;
 	public static Thread[] thread = new Thread[NUMCONNEXION];
 	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
+	
 	private static Boolean actif = true;
 
 	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
 	private Map<Integer, Partie> lstParties;
 	
-	private Map<String, ModeleSalleServeur> lstSalles;
+	private Map<Integer, ModeleSalleServeur> lstSalles;
 
 	private ControleurPrincipalServeur() {
 		this.modele = new ModeleServeurPrincipal();
 
 		this.lstParties = new HashMap<Integer, Partie>();
 		
-		this.lstSalles = new HashMap<String, ModeleSalleServeur>();
+		this.lstSalles = new HashMap<Integer, ModeleSalleServeur>();
 
 		this.initJeux();
 	}
@@ -74,6 +77,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 				System.out.println("ATTENTE DE NOUVELLES CONNEXIONS...");
 				Socket skt = server.accept();
 				System.out.println("NOUVELLE CONNEXION RECUE");
+				
 				for (int i = 0; i < NUMCONNEXION; i++) {
 					if (thread[i] != null && !thread[i].isAlive()) {
 						thread[i] = null;
@@ -104,66 +108,25 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	}
 
 	private void initJeux() {
-		// TODO Créer les instance de jeux via la BD
-		
-		
-		this.lstSalles = new HashMap<String, ModeleSalleServeur>();
-		
-		ModeleSalleServeur salle = new ModeleSalleServeur("MEGAFUN");
-
+		this.lstSalles = CtrlBD.BD.getAllSalle();
 		this.lstJeux = new HashMap<TypeJeu, Map<Integer, Jeu>>();
-
 		this.lstJeux.put(TypeJeu.ROULETTE, new HashMap<Integer, Jeu>());
-		this.creerJeuTest(1, "nom1", "description1", "reglesJeu1", new Rectangle(70, 70, 220, 120), 4, 8, salle, TypeJeu.ROULETTE);
-		this.creerJeuTest(2, "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 220, 120), 2, 4, salle, TypeJeu.ROULETTE);
-		this.creerJeuTest(3, "nom3", "description3", "reglesJeu3", new Rectangle(70, 270, 220, 120), 2, 8, salle, TypeJeu.ROULETTE);
-		this.creerJeuTest(4, "nom4", "description4", "reglesJeu4", new Rectangle(370, 320, 220, 120), 3, 5, salle, TypeJeu.ROULETTE);
-
-		this.ajouterPartie(new ModelePartieRouletteServeur(3, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(5, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.SANS_ARGENT, this.getJeu(1)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(7, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(9, TypeJeuMultijoueurs.SEUL, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(11, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(1)), TypeEtatPartie.EN_ATTENTE);
-
-		this.ajouterPartie(new ModelePartieRouletteServeur(13, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(14, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(15, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.SANS_ARGENT, this.getJeu(2)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(8, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(16, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(2)), TypeEtatPartie.EN_ATTENTE);
-
-		((ModelePartieRouletteServeur) this.getPartie(8)).ajouterJoueur(new ModeleClientServeur());
-		//((ModelePartieRouletteServeur) this.getPartie(8)).ajouterJoueur(new ModeleClientServeur(), TypeCouleurJoueurRoulette.ROUGE);
-		((ModelePartieRouletteServeur) this.getPartie(8)).ajouterJoueur(new ModeleClientServeur());
-		((ModelePartieRouletteServeur) this.getPartie(16)).ajouterJoueur(new ModeleClientServeur());
-
-		this.ajouterPartie(new ModelePartieRouletteServeur(1, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(24, TypeJeuMultijoueurs.AMIS, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(6, TypeJeuMultijoueurs.SEUL, TypeJeuArgent.SANS_ARGENT, this.getJeu(4)), TypeEtatPartie.EN_COURS);
-		this.ajouterPartie(new ModelePartieRouletteServeur(4, TypeJeuMultijoueurs.SEUL, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_ATTENTE);
-		this.ajouterPartie(new ModelePartieRouletteServeur(18, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT, this.getJeu(4)), TypeEtatPartie.EN_COURS);
-
 		this.lstJeux.put(TypeJeu.BLACKJACK, new HashMap<Integer, Jeu>());
+		this.lstJeux.put(TypeJeu.MACHINE, new HashMap<Integer, Jeu>());
 		
-		this.lstSalles.put(salle.getNom(), salle);
-	}
-
-	@SuppressWarnings("unused")
-	private Jeu[] getArrJeux(TypeJeu type) {
-		ArrayList<Jeu> lstKeys = new ArrayList<Jeu>();
-
-		Collection<Jeu> colJeu = this.lstJeux.get(type).values();
-
-		for (Jeu j : colJeu) {
-			lstKeys.add(j);
+		/* TODO Générer des parties aléatoires?
+		Random randomGenerator = new Random();
+		for(ModeleSalleServeur salle : this.lstSalles.values()) {
+			for(Jeu jeu : salle.getLstJeux().values()) {
+				randomGenerator.
+			}
+		}*/
+		
+		for(ModeleSalleServeur salle : this.lstSalles.values()) {
+			for(Jeu jeu : salle.getLstJeux().values()) {
+				this.lstJeux.get(jeu.getType()).put(jeu.getId(), jeu);
+			}
 		}
-
-		return lstKeys.toArray(new Jeu[colJeu.size()]);
-	}
-
-	public void creerJeuTest(int id, String nomJeu, String descJeu, String reglesJeu, Rectangle emplacement, int minJoueursJeu, int maxJoueursJeu, ModeleSalleServeur salle, TypeJeu type) {
-		Jeu jeu = new Jeu(id, nomJeu, descJeu, reglesJeu, emplacement, minJoueursJeu, maxJoueursJeu, salle, type);
-		salle.ajouterJeu(jeu);
-		this.lstJeux.get(TypeJeu.ROULETTE).put(jeu.getId(), jeu);
 	}
 
 	public Partie getPartie(int idPartie) {
@@ -222,6 +185,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		this.retirerPartie(partie.getId());
 	}
 
+	//TODO Calculer le temps d'attente avant le lancement d'une partie et la lancer si elle atteint un certain seuil d'attente sans avoir le nombre maximale de joueur
 	public void transfererPartieEnAttenteVersEnCours(int idPartie) {
 		Partie partieEnAttente = this.getPartie(idPartie);
 		if (partieEnAttente != null) {
@@ -300,20 +264,20 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		return this.lstJeux;
 	}
 	
-	public ModeleSalleServeur getSalle(String nom) {
-		return this.lstSalles.get(nom);
+	public ModeleSalleServeur getSalle(int id) {
+		return this.lstSalles.get(id);
 	}
 	
 	public void ajouterSalle(ModeleSalleServeur salle) {
-		this.lstSalles.put(salle.getNom(), salle);
+		this.lstSalles.put(salle.getId(), salle);
 	}
 	
 	public void retirerSalle(ModeleSalleServeur salle) {
-		this.retirerSalle(salle.getNom());
+		this.retirerSalle(salle.getId());
 	}
 	
-	public void retirerSalle(String nom) {
-		this.lstSalles.remove(nom);
+	public void retirerSalle(int id) {
+		this.lstSalles.remove(id);
 	}
 
 	/**

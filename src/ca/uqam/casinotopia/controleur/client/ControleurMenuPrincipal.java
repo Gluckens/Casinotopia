@@ -2,6 +2,7 @@ package ca.uqam.casinotopia.controleur.client;
 
 import ca.uqam.casinotopia.commande.serveur.CmdJoindreSalle;
 import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdModifierCompte;
 import ca.uqam.casinotopia.commande.serveur.machine.CmdJouerMachine;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -41,12 +42,17 @@ public class ControleurMenuPrincipal extends ControleurClient {
 		((ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient")).actionAfficherChat(new ModeleChatClient());
 	}
 	
-	public void cmdJoindreSalle(String nomSalle) {
-		this.connexion.envoyerCommande(new CmdJoindreSalle(nomSalle));
+	public void cmdJoindreSalle(int idSalle) {
+		this.connexion.envoyerCommande(new CmdJoindreSalle(idSalle));
 	}
 		
 	public void actionJouerMachine() {
 		this.connexion.envoyerCommande(new CmdJouerMachine());
 		
+	}
+
+	public void actionGestionCompte() {
+		ControleurPrincipalClient controleur =  (ControleurPrincipalClient) this.modeleNav.getControleur("ControleurPrincipalClient");
+		this.connexion.envoyerCommande(new CmdModifierCompte(controleur.getModeleClient()));
 	}
 }

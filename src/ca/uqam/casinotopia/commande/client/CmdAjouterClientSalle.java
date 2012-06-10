@@ -7,8 +7,10 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class CmdAjouterClientSalle implements CommandeClientControleurSalle {
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 8836544415840517077L;
-	
 	private ModeleClientClient nouveauClient;
 	
 	public CmdAjouterClientSalle(ModeleClientClient nouveauClient) {

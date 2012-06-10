@@ -6,17 +6,17 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdJoindreSalle implements CommandeServeurControleurThread {
 	
-	private static final long serialVersionUID = 5538188636629172188L;
+	private static final long serialVersionUID = 6326456986609267799L;
 	
-	private String nomSalle;
+	private int idSalle;
 	
-	public CmdJoindreSalle(String nomSalle) {
-		this.nomSalle = nomSalle;
+	public CmdJoindreSalle(int idSalle) {
+		this.idSalle = idSalle;
 	}
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurServeurThread) controleur).actionJoindreSalle(this.nomSalle);
+		((ControleurServeurThread) controleur).actionJoindreSalle(this.idSalle);
 	}
 
 }

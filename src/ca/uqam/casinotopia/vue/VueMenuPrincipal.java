@@ -37,7 +37,8 @@ public class VueMenuPrincipal extends Vue {
 		btnSalle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.cmdJoindreSalle("MEGAFUN");
+				controleur.cmdJoindreSalle(1);
+				//controleur.cmdJoindreSalle("MEGAFUN");
 				//controleur.afficherSalle("MEGAFUN");
 			}
 		});
@@ -67,6 +68,14 @@ public class VueMenuPrincipal extends Vue {
 				controleur.actionJouerMachine();
 			}
 		});
+		
+		JButton btnComte = new JButton("Gestion compte");
+		btnComte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.actionGestionCompte();
+			}
+		});
+		
 		GridBagConstraints gbc_btnMachine = new GridBagConstraints();
 		gbc_btnMachine.gridx = 0;
 		gbc_btnMachine.gridy = 3;

@@ -21,7 +21,6 @@ public class JeuClient implements Serializable {
 	private Rectangle emplacement;
 	private int nbrJoueursMin;
 	private int nbrJoueursMax;
-	private ModeleSalleClient salle;
 
 	private Map<TypeEtatPartie, Map<Integer, Partie>> lstParties;
 
@@ -34,7 +33,7 @@ public class JeuClient implements Serializable {
 	 * Partie>>(); //this.lstParties = new ArrayList<Partie>(); }
 	 */
 
-	public JeuClient(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, ModeleSalleClient salleClient, TypeJeu type) {
+	public JeuClient(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
 		this.setId(id);
 		this.nom = nom;
 		this.description = description;
@@ -42,7 +41,6 @@ public class JeuClient implements Serializable {
 		this.emplacement = emplacement;
 		this.nbrJoueursMin = nbrJoueursMin;
 		this.nbrJoueursMax = nbrJoueursMax;
-		this.salle = salleClient;
 
 		this.type = type;
 
@@ -210,21 +208,6 @@ public class JeuClient implements Serializable {
 	 */
 	public void setNbrJoueursMax(int nbrJoueursMax) {
 		this.nbrJoueursMax = nbrJoueursMax;
-	}
-
-	/**
-	 * @return the salle
-	 */
-	public ModeleSalleClient getSalle() {
-		return this.salle;
-	}
-
-	/**
-	 * @param salle
-	 *            the salle to set
-	 */
-	public void setSalle(ModeleSalleClient salle) {
-		this.salle = salle;
 	}
 
 	/**

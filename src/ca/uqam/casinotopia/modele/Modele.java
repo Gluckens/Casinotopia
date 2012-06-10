@@ -1,5 +1,7 @@
 package ca.uqam.casinotopia.modele;
 
-public interface Modele {
+import java.io.Serializable;
+
+public interface Modele extends Serializable {
 
 }
