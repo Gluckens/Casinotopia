@@ -57,6 +57,13 @@ public class FrameConnexion extends JFrame implements Runnable {
 				controleur.cmdConnexionAuServeur(txtNomUtilisateur.getText(), txtMotDePasse.getPassword());
 			}
 		});
+		
+		this.btnCrerUnCompte.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.cmdCreationCompte();
+			}
+		});
 	}
 
 	/**

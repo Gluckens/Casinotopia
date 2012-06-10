@@ -431,6 +431,7 @@ public enum CtrlBD {
 	}
 	
 	public boolean ajouterClient(ModeleClientServeur client) {
+		System.out.println("aaa --> ajouterClient(ModeleClientServeur client) (CtrlBD) client :");
 		boolean succes = false;
 		
 		Connection conn = null;
@@ -707,6 +708,7 @@ public enum CtrlBD {
 	
 	public boolean modifierClient(int idClient, String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
 		boolean succes = false;
+		System.out.println("modification client sur serveur : " + idClient + " " + prenom + " " + nom + " " + dateNaissance + " " + courriel + " " + prcGlobal);
 		
 		Connection conn = null;
 		

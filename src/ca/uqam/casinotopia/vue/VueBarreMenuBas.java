@@ -1,6 +1,8 @@
 package ca.uqam.casinotopia.vue;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -42,6 +44,16 @@ public class VueBarreMenuBas extends Vue {
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setName("btnMenu");
 		this.add(btnMenu, new GridBagHelper().setXY(0, 0).end());
+		
+		JButton btnGestionCompte = new JButton("Gestion compte");
+		btnMenu.setName("btnGestionCompte");
+		btnGestionCompte.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.cmdGestionCompte();
+			}
+		});
+		this.add(btnGestionCompte, new GridBagHelper().setXY(1, 0).end());
 		
 		JLabel lblSoldeClient = new JLabel(String.valueOf(this.controleur.getModeleClient().getSolde()));
 		lblSoldeClient.setName("lblSoldeClient");

@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia.modele.serveur;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Vector;
 
@@ -16,7 +17,7 @@ import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 @SuppressWarnings("serial")
-public class ModeleClientServeur extends Utilisateur implements Modele {
+public class ModeleClientServeur extends Utilisateur implements Modele  {
 	
 	private int id;
 	private String prenom;

@@ -11,6 +11,7 @@ import java.util.Map;
 import ca.uqam.casinotopia.Avatar;
 import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.Clavardage;
+import ca.uqam.casinotopia.Client;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeEtatPartie;
@@ -27,6 +28,8 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurSalle;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 
+import ca.uqam.casinotopia.commande.client.CmdInformationCreationCompte;
+import ca.uqam.casinotopia.commande.client.CmdModificationCompte;
 import ca.uqam.casinotopia.commande.client.CmdInitClient;
 import ca.uqam.casinotopia.commande.client.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.CmdAfficherSalle;
@@ -81,7 +84,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				try {
 					//System.out.println("ATTENTE DE COMMANDE DU CLIENT");
 					cmd = (Commande) this.connexion.getObjectInputStream().readObject();
-					//System.out.println("COMMANDE CLIENT OBTENUE");
+					System.out.println("COMMANDE CLIENT OBTENUE");
 					if (cmd != null) {
 						if (cmd instanceof CommandeServeur) {
 							if (cmd instanceof CommandeServeurControleurThread) {
@@ -355,5 +358,54 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		this.lstControleurs.remove("ControleurSalleServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
+	}
+
+	public void actionCreerCompte(ModeleClientClient nouvClient) {	
+		modele =new ModeleClientServeur();
+		modele.setPrenom(nouvClient.getPrenom());
+		modele.setNom(nouvClient.getNom());
+		modele.setDateNaissance(nouvClient.getDateNaissance());
+		modele.setSolde(0);
+		modele.setMotDePasse(nouvClient.getMotDePasse());
+		modele.setDateNaissance(nouvClient.getDateNaissance());
+		modele.setCourriel(nouvClient.getCourriel());
+		modele.setNomUtilisateur(nouvClient.getNomUtilisateur());
+		modele.setAvatar(new Avatar(-1,nouvClient.getAvatar().getPathImage()));
+		
+		if (CtrlBD.BD.ajouterClient(modele))
+		{
+			this.modele.setConnexion(this.connexion);
+			this.initControleur();
+			this.connexion.envoyerCommande(new CmdInformationCreationCompte("Votre compte a été crée"));
+		}
+		
+		else {
+			this.connexion.envoyerCommande(new CmdInformationCreationCompte("La création du compte n'a pas réussi"));
+		}
+	}
+
+	public void actionModifierCompte(ModeleClientClient nouvClient) {
+		modele =new ModeleClientServeur();
+		modele.setPrenom(nouvClient.getPrenom());
+		modele.setNom(nouvClient.getNom());
+		modele.setDateNaissance(nouvClient.getDateNaissance());
+		modele.setMotDePasse(nouvClient.getMotDePasse());
+		modele.setDateNaissance(nouvClient.getDateNaissance());
+		modele.setCourriel(nouvClient.getCourriel());
+		modele.setNomUtilisateur(nouvClient.getNomUtilisateur());
+		modele.setAvatar(new Avatar(-1,nouvClient.getAvatar().getPathImage()));
+		modele.setId(nouvClient.getId());
+		
+		if (CtrlBD.BD.modifierClient(modele.getId(), modele.getPrenom(), modele.getNom(), modele.getDateNaissance(), modele.getCourriel(), modele.getPrcGlobal()))
+		{
+			this.modele.setConnexion(this.connexion);
+			this.initControleur();
+			this.connexion.envoyerCommande(new CmdModificationCompte(modele,true));
+		}
+		
+		else {
+			this.connexion.envoyerCommande(new CmdModificationCompte(modele,false));
+		}
+
 	}
 }

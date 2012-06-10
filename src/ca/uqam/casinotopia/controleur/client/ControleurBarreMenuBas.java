@@ -31,4 +31,9 @@ public class ControleurBarreMenuBas extends ControleurClient {
 	public FrameApplication getFrame() {
 		return this.modeleNav.getFrameApplication();
 	}
+
+	public void cmdGestionCompte() {
+		ControleurPrincipalClient controleur = (ControleurPrincipalClient) modeleNav.getControleur("ControleurPrincipalClient");
+		controleur.cmdModificationCompte();
+	}
 }
