@@ -230,16 +230,18 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
         repaint();
 
         if (nbTours == 2) {
-            
-            if ((position + ajoutDegree)>=positionsNumeros.get(resultat))
-            {
+            if ((position + ajoutDegree)>=positionsNumeros.get(resultat)) {
                 position = positionsNumeros.get(resultat).doubleValue();
                 repaint();
                 m_rotateTimer.stop();
-                JOptionPane.showMessageDialog(null, "Vous avez gagné : " + gain);
+                if(this.gain > 0) {
+                	JOptionPane.showMessageDialog(null, "Vous avez gagné : " + this.gain);
+                }
+                else {
+                	JOptionPane.showMessageDialog(null, "Vous n'avez pas gagné.");
+                }
             }
         }
-
     }
 
 	@Override

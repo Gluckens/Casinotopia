@@ -32,7 +32,6 @@ public class CmdEnvoyerResultatRoulette implements CommandeClientControleurRoule
 
 	@Override
 	public void action(Controleur controleur) {
-		System.out.println("cmdEnvoyerResultatRoulette : client");
 		((ControleurRouletteClient) controleur).actionUpdateResultat(this.resultat, this.gain);
 	}
 }

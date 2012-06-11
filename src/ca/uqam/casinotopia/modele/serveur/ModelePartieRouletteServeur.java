@@ -1,11 +1,14 @@
 package ca.uqam.casinotopia.modele.serveur;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JoueurClient;
 import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.ListeCases;
@@ -48,15 +51,15 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	private TypeCouleurJoueurRoulette getCouleurLibre() {
 		//TODO coder sa
 		
-		/*for(TypeCouleurJoueurRoulette typeCouleur : TypeCouleurJoueurRoulette.values()) {
+		for(TypeCouleurJoueurRoulette typeCouleur : TypeCouleurJoueurRoulette.values()) {
 			if(this.isCouleurJoueurLibre(typeCouleur)) {
 				return typeCouleur;
 			}
 		}
 		
-		return null;*/
+		return null;
 		
-		return TypeCouleurJoueurRoulette.BLEU;
+		//return TypeCouleurJoueurRoulette.BLEU;
 	}
 	
 	private boolean isCouleurJoueurLibre(TypeCouleurJoueurRoulette typeCouleur) {
@@ -110,12 +113,25 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	}
 	
 	public ModelePartieRouletteClient creerModeleClient() {
-		return new ModelePartieRouletteClient(
+		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(
 				this.id,
 				this.typeMultijoueurs,
 				this.typeArgent,
 				this.infoJeu.creerModeleClient()
 		);
+		
+		modeleClient.setLstJoueurs(this.creerSetJoueurClient(modeleClient));
+		
+		return modeleClient;
+	}
+	
+	private Set<JoueurClient> creerSetJoueurClient(ModelePartieRouletteClient modelePartieClient) {
+		Set<JoueurClient> lstJoueursClients = new HashSet<JoueurClient>();
+		for(JoueurServeur joueur : this.lstJoueurs) {
+			lstJoueursClients.add(joueur.creerModeleClient(modelePartieClient));
+		}
+		
+		return lstJoueursClients;
 	}
 	
 

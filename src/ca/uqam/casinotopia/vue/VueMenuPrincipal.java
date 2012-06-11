@@ -44,7 +44,7 @@ public class VueMenuPrincipal extends Vue {
 		});
 		this.add(btnSalle, new GridBagHelper().setXY(0, 0).end());
 
-		JButton btnRoulette = new JButton("Joueur \u00E0 la roulette");
+		JButton btnRoulette = new JButton("Jouer \u00E0 la roulette");
 		btnRoulette.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

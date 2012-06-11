@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+
 public abstract class Partie implements Comparable<Partie>, Serializable {
 	
 	private static final long serialVersionUID = 2847945782668066206L;
@@ -44,6 +46,8 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	public void retirerJoueur(JoueurServeur joueurServeur) {
 		this.lstJoueurs.remove(joueurServeur);
 	}
+	
+	public abstract PartieClient creerModeleClient();
 	
 	public JoueurServeur getJoueur(int idJoueur) {
 		JoueurServeur joueurTrouve = null;

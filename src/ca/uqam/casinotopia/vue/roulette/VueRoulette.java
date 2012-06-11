@@ -54,6 +54,10 @@ public class VueRoulette extends Vue {
 		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, this.frame);
 		tapis.setName("tapis");
 		this.add(tapis, new GridBagHelper().setXY(1, 0).setWH(1, 2).end());
+		
+		VueRouletteListeJoueurs lstJoueurs = new VueRouletteListeJoueurs(this.controleur);
+		lstJoueurs.setName("vueListeJoueurs");
+		this.add(lstJoueurs, new GridBagHelper().setXY(2, 0).end());
 
 		/*
 		 * VueRouletteTableau tableau = new VueRouletteTableau(this.controleur,

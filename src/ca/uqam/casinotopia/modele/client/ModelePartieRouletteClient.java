@@ -1,14 +1,18 @@
 package ca.uqam.casinotopia.modele.client;
 
 import java.util.Map;
+import java.util.Set;
 
 import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.JeuClient;
+import ca.uqam.casinotopia.JoueurClient;
 import ca.uqam.casinotopia.PartieClient;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modif.TypeModif;
+import ca.uqam.casinotopia.modif.TypeModifPartieRoulette;
+import ca.uqam.casinotopia.modif.TypeModifSalle;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
@@ -21,6 +25,8 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 	private Case caseResultat;
 	private ModeleTableJeuClient tableJeu;
 	private BaseObservable sujet = new BaseObservable(this);
+	
+	private TypeModifPartieRoulette typeModif;
 
 	public ModelePartieRouletteClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu) {
 		this(id, typeMultijoueurs, typeArgent, infoJeu, new ModeleTableJeuClient());
@@ -41,22 +47,23 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 	}
 	
 	public void setCaseResultat(Case caseResultat) {
-		System.out.println("Alexei --> ModelePartieRouletteClient.setCaseResultat()");
 		this.caseResultat = caseResultat;
-		
 	}
 	
 	public int getGain() {
 		return gain;
-		
 	}
 	
 	public void setGain(int gain) {
-		System.out.println("Alexei --> ModelePartieRouletteClient.setGain()");
 		this.gain = gain;
 		this.notifierObservateur();
 	}
 	
+	public void updateListeJoueurs(Set<JoueurClient> lstJoueurs) {
+		this.lstJoueurs = lstJoueurs;
+		this.typeModif = TypeModifPartieRoulette.MODIFICATION_JOUEURS;
+		this.notifierObservateur();
+	}
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.tableJeu.updateTableJeu(cases);
@@ -99,8 +106,7 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 	}
 
 	@Override
-	public TypeModif getTypeModif() {
-		// TODO Auto-generated method stub
-		return null;
+	public TypeModifPartieRoulette getTypeModif() {
+		return this.typeModif;
 	}
 }

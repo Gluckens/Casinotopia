@@ -4,17 +4,19 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
-public class JoueurServeur implements Serializable {
+public abstract class JoueurServeur implements Serializable {
 	
 	private static final long serialVersionUID = 3156168097836093668L;
 	
-	private ModeleClientServeur client;
-	private Partie partie;
+	protected ModeleClientServeur client;
+	protected Partie partie;
 	
 	public JoueurServeur(ModeleClientServeur client, Partie partie) {
 		this.client = client;
 		this.partie = partie;
 	}
+	
+	public abstract JoueurClient creerModeleClient(PartieClient partieClient);
 	
 	/**
 	 * @return the partie

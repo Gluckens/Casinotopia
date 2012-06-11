@@ -16,8 +16,10 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.JoueurRouletteClient;
 import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.TypeCouleurCase;
 import ca.uqam.casinotopia.TypeMise;
@@ -272,10 +274,11 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 			int i = 0;
 			for(Map.Entry<Integer, Integer> mapMises : mapCase.getValue().entrySet()) {
 				int idJoueur = mapMises.getKey();
+				JoueurRouletteClient joueur = (JoueurRouletteClient) this.controleur.getModele().getJoueur(idJoueur);
 				int mise = mapMises.getValue();//TODO gérer le shape du 0
 				
 				//Rectangle rect = (Rectangle) this.imageMapsCases.get(caseCourante);
-				JLabel lblMise = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/chip_bleu_plane.png")));
+				JLabel lblMise = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/" + joueur.getPathImgJeton())));
 				lblMise.setName("lblMise_" + caseCourante.toString() + "_" + idJoueur);
 				lblMise.setToolTipText("Joueur " + idJoueur + " : " + mise + " jetons");
 				Point p = this.imageMapsTapis.getPositionAt(caseCourante, i);
@@ -329,15 +332,23 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		
 		Map<Integer, Map<Case, Integer>> mises = this.controleur.creerMapMises();
 		
+		//S'il s'agit d'un déplacement d'une mise, on a pas besoin de revalider le solde.
 		if(componentName.startsWith("lblMise_")) {
 			Case caseDepart = this.getCaseAt(posDepart);
+			//S'il s'agit d'un déplacement d'une mise vers une case différente
 			if(!droppedCase.equals(caseDepart)) {
 				this.controleur.ajouterMise(caseDepart, -montant, mises);
 				this.controleur.ajouterMise(droppedCase, montant, mises);
 			}
 		}
+		//Sinon, on valide le solde avant d'accepter la mise
 		else {
-			this.controleur.ajouterMise(droppedCase, montant, mises);
+			if(this.controleur.validerMise(montant)) {
+				this.controleur.ajouterMise(droppedCase, montant, mises);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Vous n'avez pas assez d'argent dans votre compte.");
+			}
 		}
 		
 		if(!mises.isEmpty()) {

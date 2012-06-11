@@ -60,8 +60,6 @@ public class VueRouletteActions extends Vue {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 248, 151, 151 };
 		gridBagLayout.rowHeights = new int[] { 30, 50 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0 };
 		this.setLayout(gridBagLayout);
 
 		this.setPreferredSize(new Dimension(550, 80));

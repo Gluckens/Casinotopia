@@ -2,10 +2,11 @@ package ca.uqam.casinotopia.controleur.client;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ca.uqam.casinotopia.Case;
+import ca.uqam.casinotopia.JoueurClient;
 import ca.uqam.casinotopia.TypeMise;
-import ca.uqam.casinotopia.commande.serveur.CmdCalculerGainRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMiserRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdMisesTermineesRoulette;
 import ca.uqam.casinotopia.commande.serveur.CmdQuitterPartieRoulette;
@@ -17,6 +18,7 @@ import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.roulette.VueRoulette;
+import ca.uqam.casinotopia.vue.roulette.VueRouletteListeJoueurs;
 import ca.uqam.casinotopia.vue.roulette.VueRouletteTapis;
 
 public class ControleurRouletteClient extends ControleurClient {
@@ -29,10 +31,11 @@ public class ControleurRouletteClient extends ControleurClient {
 	public ControleurRouletteClient(Connexion connexion, ModelePartieRouletteClient modele, ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		super(connexion, client, modeleNav);
 
-		this.vue = new VueRoulette(this);
 		this.modele = modele;
-		this.modele.ajouterObservateur(this.vue);
+		this.vue = new VueRoulette(this);
 		
+		this.modele.ajouterObservateur(this.vue);
+		this.modele.ajouterObservateur((VueRouletteListeJoueurs)this.vue.getComponentByName("vueListeJoueurs"));
 		this.modele.getTableJeu().ajouterObservateur((VueRouletteTapis)this.vue.getComponentByName("tapis"));
 	}
 
@@ -51,6 +54,10 @@ public class ControleurRouletteClient extends ControleurClient {
 	public FrameApplication getFrame() {
 		return this.modeleNav.getFrameApplication();
 	}
+	
+	public Set<JoueurClient> getListeJoueurs() {
+		return this.modele.getLstJoueurs();
+	}
 
 	public void cmdMiserRoulette(Case caseMisee, TypeMise typeMise) {
 		Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
@@ -63,6 +70,10 @@ public class ControleurRouletteClient extends ControleurClient {
 	
 	public Map<Integer, Map<Case, Integer>> creerMapMises() {
 		return new HashMap<Integer, Map<Case, Integer>>();
+	}
+	
+	public boolean validerMise(int montant) {
+		return (this.client.getSolde() >= montant);
 	}
 	
 	public void ajouterMise(Case caseMisee, int montant, Map<Integer, Map<Case, Integer>> mises) {
@@ -82,14 +93,8 @@ public class ControleurRouletteClient extends ControleurClient {
 		this.connexion.envoyerCommande(new CmdMisesTermineesRoulette(this.client.getId()));
 	}
 
-	public void cmdTournerRoulette(){
-		System.out.println("TEST DE TOURNER ROULETTE");
+	public void cmdTournerRoulette() {
 		this.connexion.envoyerCommande(new CmdTournerRoulette());
-	}
-	
-	public void cmdCalculerGainRoulette(){
-		System.out.println("TEST DE CALCULER GAIN");
-		this.connexion.envoyerCommande(new CmdCalculerGainRoulette());
 	}
 
 	public void cmdQuitterPartie() {
@@ -97,9 +102,7 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 
 	public void actionUpdateResultat(Case resultat, int gain) {
-		System.out.println("Alexei --> ControleurRouletteClient.actionupdateResultat()");
 		this.modele.setCaseResultat(resultat);
 		this.modele.setGain(gain);
-		//this.client.updateSolde(gain);
 	}
 }

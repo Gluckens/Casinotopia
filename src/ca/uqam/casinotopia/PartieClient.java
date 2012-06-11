@@ -59,6 +59,10 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 	public Set<JoueurClient> getLstJoueurs() {
 		return this.lstJoueurs;
 	}
+	
+	public void setLstJoueurs(Set<JoueurClient> lstJoueurs) {
+		this.lstJoueurs = lstJoueurs;
+	}
 
 	public TypeJeu getTypeJeu() {
 		return this.infoJeu.getType();

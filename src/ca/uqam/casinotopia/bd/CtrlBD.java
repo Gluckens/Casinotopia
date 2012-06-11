@@ -34,7 +34,7 @@ public enum CtrlBD {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(ControleurBD.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(CtrlBD.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		Connection conn = null;
@@ -431,7 +431,6 @@ public enum CtrlBD {
 	}
 	
 	public boolean ajouterClient(ModeleClientServeur client) {
-		System.out.println("aaa --> ajouterClient(ModeleClientServeur client) (CtrlBD) client :");
 		boolean succes = false;
 		
 		Connection conn = null;

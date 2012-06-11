@@ -18,6 +18,14 @@ public class JoueurRoulette extends JoueurServeur {
 		this.misesTerminees = false;
 	}
 	
+	public JoueurClient creerModeleClient(PartieClient partieClient) {
+		return new JoueurRouletteClient(
+				this.client.creerModeleClient(),
+				partieClient,
+				this.getCouleur()
+		);
+	}
+	
 	public TypeCouleurJoueurRoulette getCouleur() {
 		return this.couleur;
 	}

@@ -88,5 +88,9 @@ public class ControleurRouletteServeur extends ControleurServeur {
 		if(this.modele.isPartieVide()) {
 			ControleurPrincipalServeur.getInstance().retirerPartie(this.modele);
 		}
+		else {
+			//TODO Mettre à jour la vue des joueurs restants
+			
+		}
 	}
 }

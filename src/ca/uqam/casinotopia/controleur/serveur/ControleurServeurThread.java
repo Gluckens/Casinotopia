@@ -245,7 +245,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		//TODO À enlever (pour des tests)
 		partieRoulette = null;
-		partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.getPartie(3);
+		partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.getPartie(1);
 
 		if (partieRoulette == null) {
 			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), typeMultijoueurs, typeArgent, ctrlPrincipal.getJeu(idJeu));
@@ -266,8 +266,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
 		//TODO ??? INITIALISER CASE SERVEUR POUR CLIENT
 		
-		ModelePartieRouletteClient modeleClient = modeleServeur.creerModeleClient();
-		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));
+		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleServeur.creerModeleClient()));
 		
 		//TODO WHAT A MESS!!!
 		//Trouver une facon de gerer correctement la génération des modeles clients... trop d'associations?

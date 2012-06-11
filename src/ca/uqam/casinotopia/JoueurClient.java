@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
-public class JoueurClient implements Serializable {
+public abstract class JoueurClient implements Serializable {
 	
 	private static final long serialVersionUID = -7961445341270338010L;
 	
