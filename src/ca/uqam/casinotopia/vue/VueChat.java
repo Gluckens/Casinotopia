@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
-import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
+import ca.uqam.casinotopia.commande.serveur.chat.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.observateur.Observable;

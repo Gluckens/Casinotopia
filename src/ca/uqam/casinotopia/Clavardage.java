@@ -3,9 +3,9 @@ package ca.uqam.casinotopia;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.uqam.casinotopia.commande.client.CmdAjouterMessageChat;
-import ca.uqam.casinotopia.commande.client.CmdEnvoyerInformationChat;
-import ca.uqam.casinotopia.commande.client.CmdMettreAJourUtilisateurChat;
+import ca.uqam.casinotopia.commande.client.chat.CmdAjouterMessageChat;
+import ca.uqam.casinotopia.commande.client.chat.CmdEnvoyerInformationChat;
+import ca.uqam.casinotopia.commande.client.chat.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
 
 public class Clavardage implements Connectable {

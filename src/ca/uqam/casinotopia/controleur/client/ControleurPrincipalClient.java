@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 
 import ca.uqam.casinotopia.Client;
 import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.commande.serveur.CmdAuthentifierClient;
-import ca.uqam.casinotopia.commande.serveur.CmdCreerCompte;
-import ca.uqam.casinotopia.commande.serveur.CmdModifierCompte;
+import ca.uqam.casinotopia.commande.serveur.authentification.CmdAuthentifierClient;
+import ca.uqam.casinotopia.commande.serveur.compte.CmdCreerCompte;
+import ca.uqam.casinotopia.commande.serveur.compte.CmdModifierCompte;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;

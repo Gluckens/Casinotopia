@@ -2,8 +2,8 @@ package ca.uqam.casinotopia.controleur.client;
 
 import java.util.List;
 
-import ca.uqam.casinotopia.commande.serveur.CmdEnvoyerMessageChat;
-import ca.uqam.casinotopia.commande.serveur.CmdSeConnecterAuChat;
+import ca.uqam.casinotopia.commande.serveur.chat.CmdEnvoyerMessageChat;
+import ca.uqam.casinotopia.commande.serveur.chat.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;

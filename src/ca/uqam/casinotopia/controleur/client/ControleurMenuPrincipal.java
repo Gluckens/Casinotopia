@@ -1,9 +1,9 @@
 package ca.uqam.casinotopia.controleur.client;
 
-import ca.uqam.casinotopia.commande.serveur.CmdJoindreSalle;
-import ca.uqam.casinotopia.commande.serveur.CmdJouerRoulette;
-import ca.uqam.casinotopia.commande.serveur.CmdModifierCompte;
+import ca.uqam.casinotopia.commande.serveur.compte.CmdModifierCompte;
 import ca.uqam.casinotopia.commande.serveur.machine.CmdJouerMachine;
+import ca.uqam.casinotopia.commande.serveur.roulette.CmdJouerRoulette;
+import ca.uqam.casinotopia.commande.serveur.salle.CmdJoindreSalle;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;

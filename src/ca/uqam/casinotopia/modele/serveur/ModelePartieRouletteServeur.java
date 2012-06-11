@@ -16,7 +16,7 @@ import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.TypeJeuArgent;
 import ca.uqam.casinotopia.TypeJeuMultijoueurs;
-import ca.uqam.casinotopia.commande.client.CmdUpdateCasesRoulette;
+import ca.uqam.casinotopia.commande.client.roulette.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;

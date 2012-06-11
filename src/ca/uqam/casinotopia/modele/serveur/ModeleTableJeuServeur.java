@@ -8,7 +8,7 @@ import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.TypeCouleurCase;
 import ca.uqam.casinotopia.TypePariteCase;
-import ca.uqam.casinotopia.commande.client.CmdModifierSolde;
+import ca.uqam.casinotopia.commande.client.compte.CmdModifierSolde;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.BaseObservable;

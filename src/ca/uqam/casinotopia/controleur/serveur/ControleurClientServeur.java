@@ -1,6 +1,6 @@
 package ca.uqam.casinotopia.controleur.serveur;
 
-import ca.uqam.casinotopia.commande.client.CmdModifierSolde;
+import ca.uqam.casinotopia.commande.client.compte.CmdModifierSolde;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;

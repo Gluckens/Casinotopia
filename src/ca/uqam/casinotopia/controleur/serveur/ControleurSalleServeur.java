@@ -3,8 +3,8 @@ package ca.uqam.casinotopia.controleur.serveur;
 import java.awt.Point;
 
 import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.commande.client.CmdAfficherDeplacementAvatar;
-import ca.uqam.casinotopia.commande.client.CmdRetirerClientSalle;
+import ca.uqam.casinotopia.commande.client.salle.CmdAfficherDeplacementAvatar;
+import ca.uqam.casinotopia.commande.client.salle.CmdRetirerClientSalle;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
