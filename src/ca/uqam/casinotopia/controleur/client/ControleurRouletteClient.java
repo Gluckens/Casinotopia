@@ -9,6 +9,7 @@ import ca.uqam.casinotopia.JoueurClient;
 import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.commande.serveur.roulette.CmdMiserRoulette;
 import ca.uqam.casinotopia.commande.serveur.roulette.CmdMisesTermineesRoulette;
+import ca.uqam.casinotopia.commande.serveur.CmdQuitterChat;
 import ca.uqam.casinotopia.commande.serveur.roulette.CmdQuitterPartieRoulette;
 import ca.uqam.casinotopia.commande.serveur.roulette.CmdTournerRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -98,6 +99,7 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 
 	public void cmdQuitterPartie() {
+		this.connexion.envoyerCommande(new CmdQuitterChat(this.client.getId()));
 		this.connexion.envoyerCommande(new CmdQuitterPartieRoulette(this.client.getId()));
 	}
 

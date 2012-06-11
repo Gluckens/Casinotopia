@@ -17,7 +17,10 @@ import ca.uqam.casinotopia.AvatarClient;
 import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.TypeDeplacement;
 import ca.uqam.casinotopia.controleur.ControleurClient;
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurSalleClient;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 import ca.uqam.casinotopia.observateur.Observable;
@@ -162,6 +165,21 @@ public class VueSalle extends Vue {
 		//btnQuitter.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnQuitter.setToolTipText("Quitter la salle");
 		this.add(btnQuitter, new GridBagHelper().setXY(1, 0).setAnchor(GridBagConstraints.EAST).end());
+		
+		
+
+		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), ((ControleurPrincipalClient) this.controleur.getModeleNav().getControleur("ControleurPrincipalClient")).getClient(), this.controleur.getModeleNav());
+		this.controleur.getModeleNav().ajouterControleur("ControleurChatClient", ctrlChatClient);
+		
+		
+		VueChat chat = ctrlChatClient.getVue();
+		chat.cacherSalle();
+		ctrlChatClient.cmdSeConnecterAuChat("SallePrincipal");
+		chat.setName("chat");
+		this.add(chat, new GridBagHelper().setXY(1, 2).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
+		
+		
+		
 	}
 	
 	/*public void afficherSelectionOptionJeu(JeuClient jeu) {

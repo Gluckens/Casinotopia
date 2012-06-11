@@ -21,7 +21,7 @@ public class CmdMachineMiser implements CommandeServeurControleurMachine {
 	
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurMachineServeur)controleur).cmdEnvoyerLeHasard();
+		((ControleurMachineServeur)controleur).cmdEnvoyerLeHasardEtCalculerGain(mise);
 
 	}
 

@@ -159,6 +159,15 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.modeleNav.retirerControleur("ControleurRouletteClient");
 		this.afficherMenuPrincipal();
 	}
+	
+	public void actionQuitterChatClient() {
+		//TODO Permet de coder des choses a faire dans la vue avant de quitter (et d'enlever le controleur)
+		//Si on voudrait appeler directement la cmd AfficherMenuPrincipal, il faudrait envoyer en param le nom du controleur a enlever (et on perd la customisation avant le quittage)
+		
+		//TODO Au lieu d'afficher le menu principal, il faudrait afficher la salle où le jeu était
+		this.modeleNav.retirerControleur("ControleurChatClient");
+		this.afficherMenuPrincipal();
+	}
 
 	public void actionAfficherJeuMachine() {
 		ControleurMachineClient ctrlMachineClient = new ControleurMachineClient(this.connexion, this.client, this.modeleNav);
@@ -233,6 +242,12 @@ public class ControleurPrincipalClient extends ControleurClient {
 		{
 			JOptionPane.showMessageDialog(null, "Le compte n'a pas été modifié");
 		}
+	}
+	
+	public void actionQuitterPartieMachineClient() {
+		this.modeleNav.retirerControleur("ControleurMachineClient");
+		this.afficherMenuPrincipal();
+		
 	}
 
 

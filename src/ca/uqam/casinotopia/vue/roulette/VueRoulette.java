@@ -5,12 +5,16 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
+import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
+import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
+import ca.uqam.casinotopia.vue.VueChat;
 
 import java.awt.GridBagLayout;
 
@@ -68,6 +72,19 @@ public class VueRoulette extends Vue {
 		VueRouletteActions actions = new VueRouletteActions(this.controleur, this.frame, tapis, tapis);
 		actions.setName("actions");
 		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).setFill(GridBagConstraints.HORIZONTAL).setAnchor(GridBagConstraints.SOUTH).end());
+		
+
+		
+		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), ((ControleurPrincipalClient) this.controleur.getModeleNav().getControleur("ControleurPrincipalClient")).getClient(), this.controleur.getModeleNav());
+		this.controleur.getModeleNav().ajouterControleur("ControleurChatClient", ctrlChatClient);
+		
+		
+		VueChat chat = ctrlChatClient.getVue();
+		chat.cacherSalle();
+		ctrlChatClient.cmdSeConnecterAuChat("RoulettePrincipal");//TODO ajouter un chiffre
+		chat.setName("chat");
+		this.add(chat, new GridBagHelper().setXY(2, 1).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
+		
 		
 
 	}
