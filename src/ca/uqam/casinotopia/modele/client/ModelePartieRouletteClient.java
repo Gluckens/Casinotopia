@@ -3,19 +3,17 @@ package ca.uqam.casinotopia.modele.client;
 import java.util.Map;
 import java.util.Set;
 
-import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.JeuClient;
-import ca.uqam.casinotopia.JoueurClient;
-import ca.uqam.casinotopia.PartieClient;
-import ca.uqam.casinotopia.TypeJeuArgent;
-import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModif;
-import ca.uqam.casinotopia.modif.TypeModifPartieRoulette;
-import ca.uqam.casinotopia.modif.TypeModifSalle;
+import ca.uqam.casinotopia.objet.Case;
+import ca.uqam.casinotopia.objet.JeuClient;
+import ca.uqam.casinotopia.objet.JoueurClient;
+import ca.uqam.casinotopia.objet.PartieClient;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
+import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
+import ca.uqam.casinotopia.type.modif.TypeModifPartieRoulette;
 
 public class ModelePartieRouletteClient extends PartieClient implements Modele, Observable {
 	

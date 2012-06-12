@@ -3,7 +3,6 @@ package ca.uqam.casinotopia.controleur.serveur;
 import java.util.Map;
 import java.util.Set;
 
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.commande.Commande;
@@ -13,6 +12,7 @@ import ca.uqam.casinotopia.commande.client.roulette.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
+import ca.uqam.casinotopia.objet.Case;
 
 public class ControleurRouletteServeur extends ControleurServeur {
 

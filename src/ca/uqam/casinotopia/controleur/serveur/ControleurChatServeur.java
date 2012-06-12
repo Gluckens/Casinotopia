@@ -17,4 +17,9 @@ public class ControleurChatServeur extends ControleurServeur {
 		//	ControleurPrincipalServeur.getInstance().retirerPartie(this.modele);
 		//}
 	}
+
+	public void actionEnvoyerMessage(String message, String salle) {
+		message = this.ctrlThread.getModeleClient().getNomUtilisateur() + " : " + message;
+		ControleurPrincipalServeur.getInstance().getModele().getChat(salle).addMessage(message);
+	}
 }

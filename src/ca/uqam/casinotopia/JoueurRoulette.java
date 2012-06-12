@@ -1,6 +1,10 @@
 package ca.uqam.casinotopia;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.objet.JoueurClient;
+import ca.uqam.casinotopia.objet.JoueurRouletteClient;
+import ca.uqam.casinotopia.objet.PartieClient;
+import ca.uqam.casinotopia.type.TypeCouleurJoueurRoulette;
 
 public class JoueurRoulette extends JoueurServeur {
 

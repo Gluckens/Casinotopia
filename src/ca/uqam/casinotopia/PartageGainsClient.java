@@ -3,6 +3,7 @@ package ca.uqam.casinotopia;
 import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.objet.Fondation;
 
 public class PartageGainsClient implements Serializable {
 	

@@ -4,7 +4,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
-import ca.uqam.casinotopia.vue.VueSelectionOptionJeu;
+import ca.uqam.casinotopia.vue.salle.VueSelectionOptionJeu;
 
 public class ControleurSelectionOptionJeu extends ControleurClient {
 	

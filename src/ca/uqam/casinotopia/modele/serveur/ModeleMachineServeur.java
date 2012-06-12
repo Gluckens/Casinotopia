@@ -1,9 +1,9 @@
 package ca.uqam.casinotopia.modele.serveur;
 
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModif;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
+import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class ModeleMachineServeur implements Modele, Observable {
 

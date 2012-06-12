@@ -2,10 +2,10 @@ package ca.uqam.casinotopia;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.objet.Fondation;
 
 public class DonUniqueClient implements Serializable {
 	
@@ -77,5 +77,4 @@ public class DonUniqueClient implements Serializable {
 	public void setDateDon(Date dateDon) {
 		this.dateDon = dateDon;
 	}
-
 }

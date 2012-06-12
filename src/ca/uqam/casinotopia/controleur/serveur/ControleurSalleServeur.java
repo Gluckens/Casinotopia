@@ -4,10 +4,8 @@ import java.awt.Point;
 
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.client.salle.CmdAfficherDeplacementAvatar;
-import ca.uqam.casinotopia.commande.client.salle.CmdRetirerClientSalle;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
@@ -42,6 +40,10 @@ public class ControleurSalleServeur extends ControleurServeur {
 	}
 	
 	public void quitterSalle() {
+		this.modele.deconnecter(this.getModeleClient());
+		
+		
+		/*
 		//TODO On envoie l'ID du client, ou bedon on se base sur le modele client qu'on connait déjà côté serveur?
 		this.modele.retirerClient(this.getModeleClient());
 		this.getModeleClient().getAvatar().setPosition(new Point(0, 0));
@@ -50,5 +52,7 @@ public class ControleurSalleServeur extends ControleurServeur {
 		for(ModeleClientServeur client : this.modele.getLstClients().values()) {
 			client.getConnexion().envoyerCommande(new CmdRetirerClientSalle(this.getModeleClient().getId()));
 		}
+		
+		this.getModeleClient().deconnecter();*/
 	}
 }

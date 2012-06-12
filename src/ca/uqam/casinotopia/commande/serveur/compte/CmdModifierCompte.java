@@ -1,11 +1,11 @@
 package ca.uqam.casinotopia.commande.serveur.compte;
 
 import ca.uqam.casinotopia.controleur.Controleur;
-import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
-import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
+import ca.uqam.casinotopia.controleur.serveur.ControleurClientServeur;
+import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
-public class CmdModifierCompte implements CommandeServeurControleurThread {
+public class CmdModifierCompte implements CommandeServeurControleurClient {
 
 	private static final long serialVersionUID = 4957505453240402020L;
 	
@@ -17,6 +17,6 @@ public class CmdModifierCompte implements CommandeServeurControleurThread {
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurServeurThread) controleur).actionModifierCompte(nouvClient);
+		((ControleurClientServeur) controleur).actionModifierCompte(nouvClient);
 	}
 }

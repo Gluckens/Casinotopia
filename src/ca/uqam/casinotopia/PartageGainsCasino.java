@@ -2,6 +2,8 @@ package ca.uqam.casinotopia;
 
 import java.io.Serializable;
 
+import ca.uqam.casinotopia.objet.Fondation;
+
 public class PartageGainsCasino implements Serializable {
 	
 	private static final long serialVersionUID = 6459672523482512318L;

@@ -18,20 +18,7 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.Vue;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * JPannelRoue.java
- *
- * Created on 2012-04-21, 07:52:52
- */
-/**
- *
- * @author Alexei
- */
+@SuppressWarnings("serial")
 public class VueRouletteRoue extends Vue  implements ActionListener {
 
     BufferedImage image;

@@ -1,10 +1,10 @@
 package ca.uqam.casinotopia.commande.serveur.roulette;
 
-import ca.uqam.casinotopia.TypeJeuArgent;
-import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
+import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public class CmdJouerRoulette implements CommandeServeurControleurThread {
 

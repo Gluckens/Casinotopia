@@ -3,7 +3,7 @@ package ca.uqam.casinotopia.modele.serveur;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.Clavardage;
+import ca.uqam.casinotopia.objet.Clavardage;
 
 public class ModeleServeurPrincipal {
 
@@ -16,5 +16,4 @@ public class ModeleServeurPrincipal {
 		}
 		return this.chats.get(salle);
 	}
-
 }

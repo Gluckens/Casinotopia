@@ -2,10 +2,10 @@ package ca.uqam.casinotopia.commande.client.roulette;
 
 import java.util.HashMap;
 import java.util.Map;
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
+import ca.uqam.casinotopia.objet.Case;
 
 public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette {
 

@@ -14,7 +14,7 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
-import ca.uqam.casinotopia.vue.VueChat;
+import ca.uqam.casinotopia.vue.chat.VueChat;
 
 import java.awt.GridBagLayout;
 

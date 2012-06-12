@@ -3,14 +3,14 @@ package ca.uqam.casinotopia.controleur.client;
 import java.util.List;
 
 import ca.uqam.casinotopia.commande.serveur.chat.CmdEnvoyerMessageChat;
-import ca.uqam.casinotopia.commande.serveur.CmdQuitterChat;
+import ca.uqam.casinotopia.commande.serveur.chat.CmdQuitterChat;
 import ca.uqam.casinotopia.commande.serveur.chat.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
-import ca.uqam.casinotopia.vue.VueChat;
+import ca.uqam.casinotopia.vue.chat.VueChat;
 
 public class ControleurChatClient extends ControleurClient {
 

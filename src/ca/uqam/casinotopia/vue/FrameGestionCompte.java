@@ -1,13 +1,7 @@
 package ca.uqam.casinotopia.vue;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
 
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;

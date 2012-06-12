@@ -4,19 +4,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Avatar;
-import ca.uqam.casinotopia.AvatarClient;
-import ca.uqam.casinotopia.Clavardage;
-import ca.uqam.casinotopia.Client;
-import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.JeuClient;
-import ca.uqam.casinotopia.TypeEtatPartie;
-import ca.uqam.casinotopia.TypeJeuArgent;
-import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
@@ -31,9 +22,9 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.commande.client.authentification.CmdInformationInvalide;
 import ca.uqam.casinotopia.commande.client.authentification.CmdInitClient;
 import ca.uqam.casinotopia.commande.client.compte.CmdInformationCreationCompte;
-import ca.uqam.casinotopia.commande.client.compte.CmdModificationCompte;
-import ca.uqam.casinotopia.commande.client.CmdQuitterPartieMachineClient;
 import ca.uqam.casinotopia.commande.client.machine.CmdAfficherJeuMachine;
+import ca.uqam.casinotopia.commande.client.machine.CmdQuitterPartieMachineClient;
+import ca.uqam.casinotopia.commande.client.navigation.CmdAfficherAttentePartie;
 import ca.uqam.casinotopia.commande.client.roulette.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.roulette.CmdQuitterPartieRouletteClient;
 import ca.uqam.casinotopia.commande.client.salle.CmdAfficherSalle;
@@ -42,12 +33,15 @@ import ca.uqam.casinotopia.commande.client.salle.CmdQuitterSalleClient;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
-import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
+import ca.uqam.casinotopia.objet.Clavardage;
+import ca.uqam.casinotopia.type.TypeEtatPartie;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
+import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 
@@ -163,32 +157,37 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		ModeleSalleServeur salle = ctrlPrincipal.getSalle(idSalle);
 		
 		if(salle != null) {
-			salle.ajouterClient(this.modele);
 			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
+			//TODO À voir
+			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this));
 			
-			this.cmdAfficherSalle(salle);
+			salle.connecter(this.modele);
+			
+			
+			
+			/*salle.ajouterClient(this.modele);
+			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
+			//TODO À voir
+			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this));
+			
+			this.cmdAfficherSalle(salle);*/
 		}
 		else {
 			//TODO Faire une commande pour donner du feedback au client
 			System.err.println("LA SALLE \"" + idSalle + "\" N'EXISTE PAS");
 		}
-		
-		/*if(salle == null) {
-			salle = new ModeleSalleServeur(nom);
-			ctrlPrincipal.ajouterSalle(salle);
-			System.out.println("AUCUNE SALLE \"" + nom + "\" N'EXISTE AVEC CE NOM, CRÉATION D'UNE NOUVELLE");
-		}
-		else {
-			System.out.println("LA SALLE \"" + nom + "\" EXISTE");
-		}
-		
-		salle.ajouterClient(this.modele);
-		this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
-		
-		this.cmdAfficherSalle(salle);*/
 	}
 	
-	private void cmdAfficherSalle(ModeleSalleServeur modeleServeur) {
+	public void actionQuitterSalle() {
+		((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).quitterSalle();
+		
+		//TODO Mettre à jour la vue de tous les joueurs de la partie
+		
+		this.lstControleurs.remove("ControleurSalleServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
+	}
+	
+	/*private void cmdAfficherSalle(ModeleSalleServeur modeleServeur) {
 		ModeleSalleClient modeleClient = modeleServeur.creerModeleClient();
 		ModeleClientClient modeleClientClient = this.modele.creerModeleClient();
 		
@@ -199,57 +198,35 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 		
 		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));
-		
-		
-		/*ModeleSalleClient modeleClient = new ModeleSalleClient(modeleServeur.getNom());
-		for(Jeu jeu : modeleServeur.getLstJeux().values()) {
-			modeleClient.ajouterJeu(new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), modeleClient, jeu.getType()));
-		}
-		
-		ModeleClientClient modeleClientClient = this.client.creerModeleClient();
-		
-		for(ModeleClientServeur client : modeleServeur.getLstClients()) {
-			//modeleClient.ajouterClient(new ModeleClientClient(client.getId(), client.getAvatar().getPathImage(), client.getAvatar().getPosition()));
-			modeleClient.ajouterClient(client.creerModeleClient());
-			if(client.getId() != this.client.getId()) {
-				client.getConnexion().envoyerCommande(new CmdAjouterClientSalle(modeleClientClient));
-			}
-		}
-		
-		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));*/
-	}
-	
-	
-
-	/*
-	 * public void actionAjouterJoueurDansPartie(TypeJeu type) { switch(type) {
-	 * case ROULETTE : ModelePartieRouletteServeur partieRoulette =
-	 * (ModelePartieRouletteServeur)
-	 * this.ctrlPrincipal.rechercherPartieEnAttente(TypeJeu.ROULETTE); break;
-	 * case BLACKJACK : ModelePartieBlackJackServeur partieBlackJack =
-	 * (ModelePartieBlackJackServeur)
-	 * this.ctrlPrincipal.rechercherPartieEnAttente(TypeJeu.BLACKJACK); break; }
-	 * }
-	 */
+	}*/
 
 	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
 		// TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
 
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
-
+		
+		ModelePartieRouletteServeur partieRoulette = null;
+		
 		//TODO Rechercher une partie en fonction des options choisies
 		//Si c'est seul, on en crée une nouvelle.
 		//Si c'est avec des amis, et qu'il est l'initiateur, on crée une nouvelle partie.
 		//Si c'est avec des amis, et qu'il est un invité, on récupère directement la partie (une autre fonction qui prends un id de partie directement actionAjouterJoueurDansRoulette(idPartie))
 		//Si c'est avec des inconnus, pattern de recherche de base (ie : on recherche la partie en attente dans laquelle il reste le moins de place de libre, et dont le typeArgent est le même. Si aucune, on en crée une nouvelle.
-		ModelePartieRouletteServeur partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu);
+		switch(typeMultijoueurs) {
+			case INCONNUS :
+			case AMIS :
+				partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu, typeArgent);
+				break;
+		}
+
+		
 		
 		//TODO À enlever (pour des tests)
-		partieRoulette = null;
-		partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.getPartie(1);
+		/*partieRoulette = null;
+		partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.getPartie(1);*/
 
 		if (partieRoulette == null) {
-			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), typeMultijoueurs, typeArgent, ctrlPrincipal.getJeu(idJeu));
+			partieRoulette = new ModelePartieRouletteServeur(ctrlPrincipal.getIdPartieLibre(), typeMultijoueurs, typeArgent, TypeEtatPartie.EN_ATTENTE, ctrlPrincipal.getJeu(idJeu));
 			ctrlPrincipal.ajouterPartie(partieRoulette, TypeEtatPartie.EN_ATTENTE);
 			System.out.println("AUCUNE PARTIE EN ATTENTE DISPONIBLE, CRÉATION D'UNE NOUVELLE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
@@ -260,27 +237,56 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		partieRoulette.ajouterJoueur(this.modele);
 
 		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this, partieRoulette));
+		//TODO À voir
+		//Où est le modèle du chat?
+		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this));
 
+		this.cmdAfficherAttentePartie();
+		
+		int nbrJoueursCourant = partieRoulette.getNbrJoueurs();
+		
+		//S'il s'agit d'un jeu à plusieurs
+		if(typeMultijoueurs != TypeJeuMultijoueurs.SEUL) {
+			while(partieRoulette.isEnAttente()) {
+				//Si le nombre minimal de joueur est atteint...
+				if(partieRoulette.isNbrMinimalJoueursAtteint()) {
+					//... et que le nombre maximal de joueur n'est pas atteint, on attends par tranche de 10sec de nouveau joueurs.
+					//Si un délai de 10 secondes s'écoule sans nouveau joueur, ou que le nombre maximal est atteint, on démarre la partie.
+					if(!partieRoulette.isNbrMaximalJoueursAtteint()) {
+						nbrJoueursCourant = partieRoulette.getNbrJoueurs();
+						
+						try {
+							Thread.sleep(10000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						//Si aucun nouveau joueur s'est ajouté depuis le dernier sleep, on sort de l'attente et on démarre la partie
+						if(nbrJoueursCourant == partieRoulette.getNbrJoueurs()) {
+							break;
+						}
+					}
+					else {
+						break;
+					}
+				}
+			}
+		}
+		
+		//TODO Synchronisation
+		ctrlPrincipal.transfererPartieEnAttenteVersEnCours(partieRoulette);
+		
 		this.cmdAfficherJeuRoulette(partieRoulette);
+	}
+	
+	private void cmdAfficherAttentePartie() {
+		this.connexion.envoyerCommande(new CmdAfficherAttentePartie());
 	}
 
 	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
 		//TODO ??? INITIALISER CASE SERVEUR POUR CLIENT
 		
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleServeur.creerModeleClient()));
-		
-		//TODO WHAT A MESS!!!
-		//Trouver une facon de gerer correctement la génération des modeles clients... trop d'associations?
-		/*Jeu jeuServeur = modeleServeur.getInfoJeu();
-		ModeleSalleServeur salleServeur = jeuServeur.getSalle();
-		ModeleSalleClient salleClient = new ModeleSalleClient(salleServeur.getNom());
-		for(Jeu jeu : salleServeur.getLstJeux().values()) {
-			salleClient.getLstJeux().put(jeu.getId(), new JeuClient(jeu.getId(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getEmplacement(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), salleClient, jeu.getType()));
-		}*/
-		/*ModeleSalleClient salleClient = new ModeleSalleClient(salleServeur.getNom(), lstJeux, lstClients, clavardage)
-		JeuClient jeuClient = new JeuClient(jeuServeur.getId(), jeuServeur.getNom(), jeuServeur.getDescription(), jeuServeur.getReglesJeu(), jeuServeur.getEmplacement(), jeuServeur.getNbrJoueursMin(), jeuServeur.getNbrJoueursMax(), jeuServeur.getSalle(), jeuServeur.getType());*/
-		/*ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(modeleServeur.getId(), modeleServeur.getTypeMultijoueurs(), modeleServeur.getTypeArgent(), salleClient.getLstJeux().get(modeleServeur.getInfoJeu().getId()), modeleServeur.getTableJeu().getCases());
-		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleClient));*/
 	}
 
 	public void actionAuthentifierClient(String nomUtilisateur, char[] motDePasse) {
@@ -364,71 +370,31 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.lstControleurs.remove("ControleurRouletteServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
 	}
-	
-	public void actionQuitterSalle() {
-		((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).quitterSalle();
-		
-		//TODO Mettre à jour la vue de tous les joueurs de la partie
-		
-		this.lstControleurs.remove("ControleurSalleServeur");		
-		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
-	}
 
-	public void actionCreerCompte(ModeleClientClient nouvClient) {	
-		modele =new ModeleClientServeur();
-		modele.setPrenom(nouvClient.getPrenom());
-		modele.setNom(nouvClient.getNom());
-		modele.setDateNaissance(nouvClient.getDateNaissance());
-		modele.setSolde(0);
-		modele.setMotDePasse(nouvClient.getMotDePasse());
-		modele.setDateNaissance(nouvClient.getDateNaissance());
-		modele.setCourriel(nouvClient.getCourriel());
-		modele.setNomUtilisateur(nouvClient.getNomUtilisateur());
-		modele.setAvatar(new Avatar(-1,nouvClient.getAvatar().getPathImage()));
+	public void actionCreerCompte(ModeleClientClient nouvClient) {
+		this.modele = new ModeleClientServeur(
+				nouvClient.getNomUtilisateur(),
+				nouvClient.getMotDePasse(),
+				nouvClient.getPrenom(),
+				nouvClient.getNom(),
+				nouvClient.getDateNaissance(),
+				nouvClient.getCourriel(),
+				0,
+				new Avatar(-1, nouvClient.getAvatar().getPathImage())
+		);
 		
-		if (CtrlBD.BD.ajouterClient(modele))
-		{
-			this.modele.setConnexion(this.connexion);
-			this.initControleur();
+		if (CtrlBD.BD.ajouterClient(this.modele)) {
 			this.connexion.envoyerCommande(new CmdInformationCreationCompte("Votre compte a été crée"));
 		}
-		
 		else {
 			this.connexion.envoyerCommande(new CmdInformationCreationCompte("La création du compte n'a pas réussi"));
 		}
 	}
-
-	public void actionModifierCompte(ModeleClientClient nouvClient) {
-		modele =new ModeleClientServeur();
-		modele.setPrenom(nouvClient.getPrenom());
-		modele.setNom(nouvClient.getNom());
-		modele.setDateNaissance(nouvClient.getDateNaissance());
-		modele.setMotDePasse(nouvClient.getMotDePasse());
-		modele.setDateNaissance(nouvClient.getDateNaissance());
-		modele.setCourriel(nouvClient.getCourriel());
-		modele.setNomUtilisateur(nouvClient.getNomUtilisateur());
-		modele.setAvatar(new Avatar(-1,nouvClient.getAvatar().getPathImage()));
-		modele.setId(nouvClient.getId());
-		
-		if (CtrlBD.BD.modifierClient(modele.getId(), modele.getPrenom(), modele.getNom(), modele.getDateNaissance(), modele.getCourriel(), modele.getPrcGlobal()))
-		{
-			this.modele.setConnexion(this.connexion);
-			this.initControleur();
-			this.connexion.envoyerCommande(new CmdModificationCompte(modele,true));
-		}
-		
-		else {
-			this.connexion.envoyerCommande(new CmdModificationCompte(modele,false));
-		}
-
-	}
 	
 	public void actionQuitterMachine(int idJoueur) {
-		
 		this.modele.deconnecter();
 
 		this.lstControleurs.remove("ControleurMachineServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterPartieMachineClient());
-		
 	}
 }

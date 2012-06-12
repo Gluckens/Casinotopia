@@ -3,7 +3,7 @@ package ca.uqam.casinotopia.observateur;
 import java.util.HashSet;
 import java.util.Set;
 
-import ca.uqam.casinotopia.modif.TypeModif;
+import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class BaseObservable implements Observable {
 

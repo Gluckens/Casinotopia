@@ -1,5 +1,7 @@
 package ca.uqam.casinotopia;
 
+import ca.uqam.casinotopia.objet.Fondation;
+
 public class DonUniqueCasino {
 	private int montant;
 	public CompteCasino unnamed_CompteCasino_;

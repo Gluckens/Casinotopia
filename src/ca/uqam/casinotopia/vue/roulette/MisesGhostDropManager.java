@@ -3,7 +3,6 @@ package ca.uqam.casinotopia.vue.roulette;
 import java.awt.Component;
 import java.awt.Point;
 
-import ca.uqam.casinotopia.TypeMise;
 import ca.uqam.casinotopia.drag_n_drop.AbstractGhostDropManager;
 import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
 import ca.uqam.casinotopia.drag_n_drop.GhostDropEvent;
@@ -31,5 +30,4 @@ public class MisesGhostDropManager extends AbstractGhostDropManager {
 			this.receiver.processDrop(p, montant, componentName, posDepart);
 		}
 	}
-
 }

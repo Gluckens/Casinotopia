@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
+import ca.uqam.casinotopia.objet.AvatarClient;
 
 public class Avatar implements Modele {
 	

@@ -5,7 +5,7 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.FrameApplication;
-import ca.uqam.casinotopia.vue.VueBarreMenuBas;
+import ca.uqam.casinotopia.vue.navigation.VueBarreMenuBas;
 
 public class ControleurBarreMenuBas extends ControleurClient {
 
@@ -32,8 +32,8 @@ public class ControleurBarreMenuBas extends ControleurClient {
 		return this.modeleNav.getFrameApplication();
 	}
 
-	public void cmdGestionCompte() {
+	public void afficherGestionCompte() {
 		ControleurPrincipalClient controleur = (ControleurPrincipalClient) modeleNav.getControleur("ControleurPrincipalClient");
-		controleur.cmdModificationCompte();
+		controleur.afficherModificationCompte();
 	}
 }

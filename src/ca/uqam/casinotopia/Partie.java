@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.objet.Clavardage;
+import ca.uqam.casinotopia.objet.PartieClient;
+import ca.uqam.casinotopia.type.TypeEtatPartie;
+import ca.uqam.casinotopia.type.TypeJeu;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
+import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public abstract class Partie implements Comparable<Partie>, Serializable {
 	
@@ -13,15 +18,17 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	protected int id;
 	protected TypeJeuMultijoueurs typeMultijoueurs;
 	protected TypeJeuArgent typeArgent;
+	protected TypeEtatPartie typeEtat;
 	protected Clavardage clavardage;
 	protected Set<JoueurServeur> lstJoueurs;
 	protected Jeu infoJeu;
 
 	//public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
-	public Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, Jeu infoJeu) {
+	public Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
 		this.id = id;
 		this.typeMultijoueurs = typeMultijoueurs;
 		this.typeArgent = typeArgent;
+		this.typeEtat = typeEtat;
 		this.clavardage = new Clavardage(infoJeu.getNom() + this.id);
 
 		this.infoJeu = infoJeu;
@@ -95,6 +102,18 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	
 	public boolean isAvecArgent() {
 		return this.typeArgent == TypeJeuArgent.ARGENT;
+	}
+	
+	public TypeEtatPartie getTypeEtat() {
+		return this.typeEtat;
+	}
+	
+	public boolean isEnAttente() {
+		return this.typeEtat == TypeEtatPartie.EN_ATTENTE;
+	}
+	
+	public void demarrerPartie() {
+		this.typeEtat = TypeEtatPartie.EN_COURS;
 	}
 
 	/**

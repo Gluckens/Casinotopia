@@ -3,15 +3,15 @@ package ca.uqam.casinotopia.modele.client;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.Case;
-import ca.uqam.casinotopia.ListeCases;
-import ca.uqam.casinotopia.TypeCouleurCase;
-import ca.uqam.casinotopia.TypePariteCase;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModif;
+import ca.uqam.casinotopia.objet.Case;
+import ca.uqam.casinotopia.objet.ListeCases;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
+import ca.uqam.casinotopia.type.TypeCouleurCase;
+import ca.uqam.casinotopia.type.TypePariteCase;
+import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class ModeleTableJeuClient implements Modele, Observable {
 

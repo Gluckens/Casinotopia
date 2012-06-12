@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.ImageIcon;
@@ -15,8 +14,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import ca.uqam.casinotopia.Avatar;
-import ca.uqam.casinotopia.Client;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
@@ -29,6 +26,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+@SuppressWarnings("serial")
 public class CompteClient extends JPanel implements FocusListener{
 	private JTextField txtPrenom;
 	private JTextField txtNom;
@@ -274,25 +272,24 @@ public class CompteClient extends JPanel implements FocusListener{
 				{
 					try
 					{
-						  String [] sd=txtDateDeNaissance.getText().split("-");
+						  String [] sd = txtDateDeNaissance.getText().split("-");
 						  int year=Integer.parseInt(sd[0].trim());
 						  int month=Integer.parseInt(sd[1].trim());
 						  int date=Integer.parseInt(sd[2].trim());
 
 						  Calendar cal=Calendar.getInstance();
 						  cal.set(year,month,date);
-						  java.sql.Date sD=new java.sql.Date(cal.getTimeInMillis());
+						  java.sql.Date sD = new java.sql.Date(cal.getTimeInMillis());
 						  if (creerCompte){
 							  System.out.println("creation compte");
-							  controleur.cmdCreationCompte(new ModeleClientClient(-1,txtUtilisateur.getText(),txtMotPasse.getText(), -1, txtPrenom.getText(),txtNom.getText(),sD, txtCourriel.getText(), 0,"/img/avatar/" + listeImagesAvatar.get(posAvatar)));
+							  controleur.cmdCreerCompte(new ModeleClientClient(-1, txtUtilisateur.getText(), txtMotPasse.getText(), -1, txtPrenom.getText(),txtNom.getText(), sD, txtCourriel.getText(), 0,"/img/avatar/" + listeImagesAvatar.get(posAvatar)));
 						  }
-						  else
-						  {
+						  else {
 							  //System.out.println("modification compte");
 							  //ModeleClientClient c = new ModeleClientClient(controleur.getModeleClient().getId(),txtUtilisateur.getText(),txtMotPasse.getText(), controleur.getModeleClient().getId(), txtPrenom.getText(),txtNom.getText(),sD, txtCourriel.getText(), controleur.getModeleClient().getSolde(),"/img/avatar/" + listeImagesAvatar.get(posAvatar));
 							  //System.out.println("modification : compte client " + " " + c.getId() + " " +  c.getNomUtilisateur() + " " +  c.getNom() + " " +  c.getPrenom() + " " +  c.getDateNaissance().toString());
 							  //controleur.cmdModificationCompte(c);
-							 controleur.cmdModificationCompte(new ModeleClientClient(controleur.getModeleClient().getId(),txtUtilisateur.getText(),txtMotPasse.getText(), controleur.getModeleClient().getId(), txtPrenom.getText(),txtNom.getText(),sD, txtCourriel.getText(), controleur.getModeleClient().getSolde(),"/img/avatar/" + listeImagesAvatar.get(posAvatar)));
+							 controleur.cmdModifierCompte(new ModeleClientClient(controleur.getModeleClient().getId(), txtUtilisateur.getText(), txtMotPasse.getText(), controleur.getModeleClient().getId(), txtPrenom.getText(), txtNom.getText(), sD, txtCourriel.getText(), controleur.getModeleClient().getSolde(), "/img/avatar/" + listeImagesAvatar.get(posAvatar)));
 						  }
 						  
 					}

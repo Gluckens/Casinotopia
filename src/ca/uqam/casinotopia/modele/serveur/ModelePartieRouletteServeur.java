@@ -6,20 +6,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.JoueurClient;
 import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
-import ca.uqam.casinotopia.ListeCases;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.TypeCouleurJoueurRoulette;
-import ca.uqam.casinotopia.TypeJeuArgent;
-import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.commande.client.roulette.CmdUpdateCasesRoulette;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.objet.Case;
+import ca.uqam.casinotopia.objet.JoueurClient;
+import ca.uqam.casinotopia.objet.ListeCases;
+import ca.uqam.casinotopia.type.TypeCouleurJoueurRoulette;
+import ca.uqam.casinotopia.type.TypeEtatPartie;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
+import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 @SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
@@ -29,8 +29,8 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	private ModeleTableJeuServeur tableJeu;
 	private ModeleRoueRouletteServeur roueRoulette;
 
-	public ModelePartieRouletteServeur(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, Jeu infoJeu) {
-		super(id, typeMultijoueurs, typeArgent, infoJeu);
+	public ModelePartieRouletteServeur(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
+		super(id, typeMultijoueurs, typeArgent, typeEtat, infoJeu);
 
 		this.tableJeu = new ModeleTableJeuServeur(this);
 		this.roueRoulette = new ModeleRoueRouletteServeur();
@@ -70,6 +70,18 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		}
 		
 		return true;
+	}
+	
+	public int getNbrJoueurs() {
+		return this.lstJoueurs.size();
+	}
+	
+	public boolean isNbrMinimalJoueursAtteint() {
+		return this.getNbrJoueurs() >= this.infoJeu.getNbrJoueursMin();
+	}
+	
+	public boolean isNbrMaximalJoueursAtteint() {
+		return this.getNbrJoueurs() == this.infoJeu.getNbrJoueursMax();
 	}
 	
 	public void ajouterJoueur(ModeleClientServeur client) {

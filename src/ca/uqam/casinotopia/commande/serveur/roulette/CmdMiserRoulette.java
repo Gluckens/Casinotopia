@@ -3,10 +3,10 @@ package ca.uqam.casinotopia.commande.serveur.roulette;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
+import ca.uqam.casinotopia.objet.Case;
 
 public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 

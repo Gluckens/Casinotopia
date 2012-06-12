@@ -61,7 +61,7 @@ public class FrameConnexion extends JFrame implements Runnable {
 		this.btnCrerUnCompte.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.cmdCreationCompte();
+				controleur.cmdAfficherCreationCompte();
 			}
 		});
 	}

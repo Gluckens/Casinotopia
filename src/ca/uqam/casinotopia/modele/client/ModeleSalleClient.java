@@ -4,14 +4,14 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.AvatarClient;
-import ca.uqam.casinotopia.Clavardage;
-import ca.uqam.casinotopia.JeuClient;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModifSalle;
+import ca.uqam.casinotopia.objet.AvatarClient;
+import ca.uqam.casinotopia.objet.Clavardage;
+import ca.uqam.casinotopia.objet.JeuClient;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
+import ca.uqam.casinotopia.type.modif.TypeModifSalle;
 
 public class ModeleSalleClient implements Modele, Observable {
 	

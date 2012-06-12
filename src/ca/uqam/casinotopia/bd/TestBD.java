@@ -3,9 +3,9 @@ package ca.uqam.casinotopia.bd;
 import java.awt.Rectangle;
 
 import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.TypeJeu;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
+import ca.uqam.casinotopia.type.TypeJeu;
 
 public abstract class TestBD {
 

@@ -2,7 +2,7 @@ package ca.uqam.casinotopia.connexion;
 
 import java.io.Serializable;
 
-import ca.uqam.casinotopia.Utilisateur;
+import ca.uqam.casinotopia.objet.Utilisateur;
 
 public interface Connectable extends Serializable {
 

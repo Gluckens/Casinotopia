@@ -5,7 +5,6 @@ import java.awt.Point;
 
 import javax.swing.JOptionPane;
 
-import ca.uqam.casinotopia.Client;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.serveur.authentification.CmdAuthentifierClient;
 import ca.uqam.casinotopia.commande.serveur.compte.CmdCreerCompte;
@@ -17,7 +16,6 @@ import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
-import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public class ControleurPrincipalClient extends ControleurClient {
 
@@ -176,16 +174,14 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionQuitterSalleClient() {
-		/*ControleurSalleClient ctrlSalle = (ControleurSalleClient) this.modeleNav.getControleur("ControleurSalleClient");
-		ctrlSalle.quitterSalleClient();*/
+		ControleurSalleClient ctrlSalle = (ControleurSalleClient) this.modeleNav.getControleur("ControleurSalleClient");
+		ctrlSalle.quitterSalleClient();
 		
 		this.modeleNav.retirerControleur("ControleurSalleClient");
 		this.afficherMenuPrincipal();
-		
-		this.client.getAvatar().setPosition(new Point(0, 0));
 	}
 
-	public void cmdCreationCompte(ModeleClientClient modeleClientClient) {
+	public void cmdCreerCompte(ModeleClientClient modeleClientClient) {
 		if (!this.connexion.isConnected()) {
 			this.setMessageConnexion("recherche de serveur...");
 			int i = 0;
@@ -198,59 +194,44 @@ public class ControleurPrincipalClient extends ControleurClient {
 		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
 		
-			Commande cmd = new CmdCreerCompte(modeleClientClient);
-			this.connexion.envoyerCommande(cmd);
-			this.receptionCommandes();
-		}
+		Commande cmd = new CmdCreerCompte(modeleClientClient);
+		this.connexion.envoyerCommande(cmd);
+		//TODO Pourquoi il faut réinitialiser la réception? Sa crée un autre thread...
+		//this.receptionCommandes();
+	}
 
 
-	public void cmdCreationCompte() {
+	public void cmdAfficherCreationCompte() {
 		modeleNav.initFrameGestionCompte(this, true);
-		modeleNav.getFrameGestionCompte().show();		
+		EventQueue.invokeLater(this.modeleNav.getFrameGestionCompte());	
 	}
 
 	public void setMessageInformationCreationCompte(String message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
 
-	public void cmdModificationCompte() {
+	public void afficherModificationCompte() {
 		modeleNav.initFrameGestionCompte(this, false);
-		modeleNav.getFrameGestionCompte().show();		
+		EventQueue.invokeLater(this.modeleNav.getFrameGestionCompte());	
 	}
 
-	public void cmdModificationCompte(ModeleClientClient modeleClientClient) {
+	public void cmdModifierCompte(ModeleClientClient modeleClientClient) {
 		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
 		this.modeleNav.ajouterControleur("ControleurClientClient", ctrlClient);
 		
-			Commande cmd = new CmdModifierCompte(modeleClientClient);
-			this.connexion.envoyerCommande(cmd);
-			this.receptionCommandes();
-	}
-
-	public void modifierCompteClient(ModeleClientServeur modele, boolean modifReussi) {
-		if (modifReussi){
-			ModeleClientClient client = ((ControleurPrincipalClient)modeleNav.getControleur("ControleurPrincipalClient")).getModeleClient();
-			client.setNom(modele.getNom());
-			client.setPrenom(modele.getPrenom());
-			client.setDateNaissance(modele.getDateNaissance());
-			client.setCourriel(modele.getCourriel());
-			client.setPrcGlobal(modele.getPrcGlobal());
-			System.out.println("modification client sur client: " + client.getNom() + " " + client.getPrenom() + " " + client.getDateNaissance() + " " + client.getCourriel());
-			JOptionPane.showMessageDialog(null, "Modification de compte a réussi");
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "Le compte n'a pas été modifié");
-		}
+		Commande cmd = new CmdModifierCompte(modeleClientClient);
+		this.connexion.envoyerCommande(cmd);
+		//TODO Pourquoi il faut réinitialiser la réception? Sa crée un autre thread...
+		//this.receptionCommandes();
 	}
 	
 	public void actionQuitterPartieMachineClient() {
 		this.modeleNav.retirerControleur("ControleurMachineClient");
 		this.afficherMenuPrincipal();
-		
 	}
 
-
-
-
+	public void actionAfficherAttentePartie() {
+		//TODO faire une vue/fenetre/popup
+		System.out.println("En attente d'autres joueurs...");
+	}
 }

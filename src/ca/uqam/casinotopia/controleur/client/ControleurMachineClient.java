@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.controleur.client;
 
-import ca.uqam.casinotopia.commande.serveur.CmdQuitterChat;
-import ca.uqam.casinotopia.commande.serveur.CmdQuitterMachine;
 import ca.uqam.casinotopia.commande.serveur.machine.CmdMachineMiser;
+import ca.uqam.casinotopia.commande.serveur.machine.CmdQuitterMachine;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
@@ -26,9 +25,12 @@ public class ControleurMachineClient extends ControleurClient {
 		
 	}
 	
+	public void actionAfficherMessage(String message) {
+		this.vue.setMessage(message);
+	}
 	
 	public VueMachine getVue() {
-		return vue;
+		return this.vue;
 	}
 
 
@@ -44,7 +46,7 @@ public class ControleurMachineClient extends ControleurClient {
 	}
 
 
-	public void afficherLeHasard(int int1, int int2, int int3) {
+	public void actionAfficherLeHasard(int int1, int int2, int int3) {
 		vue.setVal(int1, int2, int3);
 		
 	}

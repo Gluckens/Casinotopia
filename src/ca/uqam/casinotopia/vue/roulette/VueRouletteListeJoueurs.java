@@ -1,27 +1,22 @@
 package ca.uqam.casinotopia.vue.roulette;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Set;
-import java.util.Vector;
 
-import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
-import javax.swing.table.DefaultTableModel;
 
-import ca.uqam.casinotopia.JoueurClient;
-import ca.uqam.casinotopia.JoueurRouletteClient;
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
+import ca.uqam.casinotopia.objet.JoueurClient;
+import ca.uqam.casinotopia.objet.JoueurRouletteClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;

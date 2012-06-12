@@ -1,16 +1,23 @@
 package ca.uqam.casinotopia.modele.serveur;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.uqam.casinotopia.Clavardage;
 import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.JeuClient;
+import ca.uqam.casinotopia.commande.client.salle.CmdAfficherSalle;
+import ca.uqam.casinotopia.commande.client.salle.CmdAjouterClientSalle;
+import ca.uqam.casinotopia.commande.client.salle.CmdRetirerClientSalle;
+import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
+import ca.uqam.casinotopia.objet.Clavardage;
+import ca.uqam.casinotopia.objet.JeuClient;
+import ca.uqam.casinotopia.objet.Utilisateur;
 
-public class ModeleSalleServeur implements Modele {
+@SuppressWarnings("serial")
+public class ModeleSalleServeur implements Modele, Connectable {
 	
 	//TODO Nécessaire de mettre un id?
 	private int id;
@@ -50,7 +57,8 @@ public class ModeleSalleServeur implements Modele {
 		return this.nom;
 	}
 	
-	public void ajouterClient(ModeleClientServeur client) {
+	//TODO ou plutot connecter?
+	/*public void ajouterClient(ModeleClientServeur client) {
 		//this.lstClients.add(client);
 		this.lstClients.put(client.getId(), client);
 	}
@@ -58,7 +66,7 @@ public class ModeleSalleServeur implements Modele {
 	//TODO Ou bedon plutot déconnecter?
 	public void retirerClient(ModeleClientServeur client) {
 		this.lstClients.remove(client);
-	}
+	}*/
 	
 	//public Set<ModeleClientServeur> getLstClients() {
 	public Map<Integer, ModeleClientServeur> getLstClients() {
@@ -112,21 +120,29 @@ public class ModeleSalleServeur implements Modele {
 		
 		return mapClientClient;
 	}
-	
-	/*public void ajouterClient(ModeleClientServeur client) {
+
+	@Override
+	public void connecter(Utilisateur utilisateur) {
+		ModeleClientServeur client = (ModeleClientServeur) utilisateur;
 		this.lstClients.put(client.getId(), client);
+		
+		client.getConnexion().envoyerCommande(new CmdAfficherSalle(this.creerModeleClient()));
+		
+		for(ModeleClientServeur autreClient : this.lstClients.values()) {
+			if(autreClient.getId() != client.getId()) {
+				autreClient.getConnexion().envoyerCommande(new CmdAjouterClientSalle(client.creerModeleClient()));
+			}
+		}
 	}
-	
-	//TODO Ou bedon plutot déconnecter?
-	public void retirerClient(ModeleClientServeur client) {
-		this.retirerClient(client.getId());
+
+	@Override
+	public void deconnecter(Utilisateur utilisateur) {
+		ModeleClientServeur client = (ModeleClientServeur) utilisateur;
+		
+		this.lstClients.remove(client.getId());
+		client.getAvatar().setPosition(new Point(0, 0));
+		for(ModeleClientServeur autreClient : this.lstClients.values()) {
+			autreClient.getConnexion().envoyerCommande(new CmdRetirerClientSalle(client.getId()));
+		}
 	}
-	
-	public void retirerClient(int idClient) {
-		this.lstClients.remove(idClient);
-	}
-	
-	public Map<Integer, ModeleClientServeur> getLstClients() {
-		return this.lstClients;
-	}*/
 }

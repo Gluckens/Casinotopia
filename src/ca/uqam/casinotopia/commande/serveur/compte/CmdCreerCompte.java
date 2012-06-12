@@ -19,5 +19,4 @@ public class CmdCreerCompte implements CommandeServeurControleurThread{
 	public void action(Controleur controleur) {
 		((ControleurServeurThread) controleur).actionCreerCompte(nouvClient);
 	}
-
 }

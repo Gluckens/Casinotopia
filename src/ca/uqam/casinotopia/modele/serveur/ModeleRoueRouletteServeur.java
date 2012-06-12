@@ -2,12 +2,12 @@ package ca.uqam.casinotopia.modele.serveur;
 
 import java.util.HashMap;
 
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModif;
+import ca.uqam.casinotopia.objet.Case;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
+import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class ModeleRoueRouletteServeur implements Modele, Observable {
 	

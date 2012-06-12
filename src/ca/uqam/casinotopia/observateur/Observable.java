@@ -2,7 +2,7 @@ package ca.uqam.casinotopia.observateur;
 
 import java.io.Serializable;
 
-import ca.uqam.casinotopia.modif.TypeModif;
+import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public interface Observable extends Serializable {
 	

@@ -4,9 +4,6 @@ import java.awt.Point;
 
 import javax.swing.JPanel;
 
-import ca.uqam.casinotopia.JeuClient;
-import ca.uqam.casinotopia.TypeJeuArgent;
-import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.commande.serveur.roulette.CmdJouerRoulette;
 import ca.uqam.casinotopia.commande.serveur.salle.CmdDeplacerAvatar;
 import ca.uqam.casinotopia.commande.serveur.salle.CmdQuitterSalle;
@@ -15,7 +12,10 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
-import ca.uqam.casinotopia.vue.VueSalle;
+import ca.uqam.casinotopia.objet.JeuClient;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
+import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
+import ca.uqam.casinotopia.vue.salle.VueSalle;
 
 public class ControleurSalleClient extends ControleurClient {
 	
@@ -113,5 +113,15 @@ public class ControleurSalleClient extends ControleurClient {
 	
 	public ModeleSalleClient getModele() {
 		return this.modele;
+	}
+
+	public void actionAfficherAttentePartie() {
+		//TODO faire une vue/fenetre/popup
+		System.out.println("En attente d'autres joueurs...");
+	}
+
+	public void quitterSalleClient() {
+		this.client.getAvatar().retirerObservateur(this.vue);
+		this.client.getAvatar().setPosition(new Point(0, 0));
 	}
 }

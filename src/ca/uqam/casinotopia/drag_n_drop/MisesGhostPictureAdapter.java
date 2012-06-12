@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
-import ca.uqam.casinotopia.TypeMise;
-
 public class MisesGhostPictureAdapter extends GhostPictureAdapter {
 
 	private int montant;

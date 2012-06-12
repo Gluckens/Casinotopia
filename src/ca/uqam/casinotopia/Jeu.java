@@ -10,6 +10,10 @@ import java.util.Map.Entry;
 import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
+import ca.uqam.casinotopia.objet.JeuClient;
+import ca.uqam.casinotopia.type.TypeEtatPartie;
+import ca.uqam.casinotopia.type.TypeJeu;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
 
 public class Jeu implements Serializable {
 	
@@ -87,7 +91,7 @@ public class Jeu implements Serializable {
 	// Elle devra regarder dans la liste de partie s'il y en a une en attente et dont le nombre maximale de joueur n'est pas atteint
 	// (possible que le nbrMaxJoueur d'une partie en attente soit atteinte?
 	// quand le dernier joueur entre dans une partie en attente, elle ne s'en va directement dans partie en cours?)
-	public Partie rechercherPartieEnAttente() {
+	public Partie rechercherPartieEnAttente(TypeJeuArgent typeArgent) {
 		Partie partieEnAttente = null;
 
 		if (!this.lstParties.get(TypeEtatPartie.EN_ATTENTE).isEmpty()) {
@@ -96,8 +100,15 @@ public class Jeu implements Serializable {
 			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
 
 			//System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
+			
+			for(Map.Entry<Integer, Partie> entry : lstPartiesSorted) {
+				if(entry.getValue().getTypeArgent() == typeArgent) {
+					partieEnAttente = entry.getValue();
+					break;
+				}
+			}
 
-			partieEnAttente = lstPartiesSorted.first().getValue();
+			//partieEnAttente = lstPartiesSorted.first().getValue();
 		}
 
 		return partieEnAttente;

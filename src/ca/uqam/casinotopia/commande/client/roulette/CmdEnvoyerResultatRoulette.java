@@ -1,9 +1,9 @@
 package ca.uqam.casinotopia.commande.client.roulette;
 
-import ca.uqam.casinotopia.Case;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
+import ca.uqam.casinotopia.objet.Case;
 
 public class CmdEnvoyerResultatRoulette implements CommandeClientControleurRoulette {
 

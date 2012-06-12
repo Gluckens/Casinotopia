@@ -1,23 +1,18 @@
 package ca.uqam.casinotopia.modele.client;
 
-import java.awt.Point;
 import java.sql.Date;
 import java.util.Vector;
 
-import ca.uqam.casinotopia.Avatar;
-import ca.uqam.casinotopia.AvatarClient;
-import ca.uqam.casinotopia.DonUniqueClient;
-import ca.uqam.casinotopia.ListeAmis;
-import ca.uqam.casinotopia.PartageGainsClient;
-import ca.uqam.casinotopia.Salle;
-import ca.uqam.casinotopia.Utilisateur;
-import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modif.TypeModifClient;
-import ca.uqam.casinotopia.modif.TypeModifSalle;
+import ca.uqam.casinotopia.objet.AvatarClient;
+import ca.uqam.casinotopia.objet.DonUniqueClientClient;
+import ca.uqam.casinotopia.objet.ListeAmisClient;
+import ca.uqam.casinotopia.objet.PartageGainsClientClient;
+import ca.uqam.casinotopia.objet.Utilisateur;
 import ca.uqam.casinotopia.observateur.BaseObservable;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
+import ca.uqam.casinotopia.type.modif.TypeModifClient;
 
 public class ModeleClientClient extends Utilisateur implements Modele, Observable {
 
@@ -30,20 +25,15 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 	private String courriel;
 	private int solde;
 	private int prcGlobal;
-	private Salle salleCourante;
-	private Vector<PartageGainsClient> partageGains;
-	private Vector<DonUniqueClient> donsUniques;
-	private ListeAmis listeAmis;
+	private ModeleSalleClient salleCourante;
+	private Vector<PartageGainsClientClient> partageGains;
+	private Vector<DonUniqueClientClient> donsUniques;
+	private ListeAmisClient listeAmis;
 	private AvatarClient avatar;
 	
 	private TypeModifClient typeModif;
 
 	private BaseObservable sujet = new BaseObservable(this);
-	
-	public ModeleClientClient() {
-		
-	}
-	
 	
 	public ModeleClientClient(String nomUtilisateur, String motDePasse, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
 		this(-1, nomUtilisateur, motDePasse, -1, prenom, nom, dateNaissance, courriel, solde);
@@ -62,16 +52,16 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 	}
 	
 	public ModeleClientClient(int idUtilisateur, String nomUtilisateur, String motDePasse, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
-		this(idUtilisateur, nomUtilisateur, motDePasse, idClient, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), new AvatarClient(idClient, pathImage));
+		this(idUtilisateur, nomUtilisateur, motDePasse, idClient, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClientClient>(), new Vector<DonUniqueClientClient>(), new ListeAmisClient(), new AvatarClient(idClient, pathImage));
 	}
 	
 	public ModeleClientClient(int idUtilisateur, String nomUtilisateur, String motDePasse, int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde, AvatarClient avatar) {
-		this(idUtilisateur, nomUtilisateur, motDePasse, idClient, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), avatar);
+		this(idUtilisateur, nomUtilisateur, motDePasse, idClient, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClientClient>(), new Vector<DonUniqueClientClient>(), new ListeAmisClient(), avatar);
 	}
 	
 	private ModeleClientClient(int idUtilisateur, String nomUtilisateur, String motDePasse,
 								int idClient, String prenom, String nom, Date dateNaissance, String courriel, int solde, int prcGlobal,
-								Vector<PartageGainsClient> partageGains, Vector<DonUniqueClient> donsUniques, ListeAmis listeAmis, AvatarClient avatar) {
+								Vector<PartageGainsClientClient> partageGains, Vector<DonUniqueClientClient> donsUniques, ListeAmisClient listeAmis, AvatarClient avatar) {
 		super(idUtilisateur, nomUtilisateur, motDePasse);
 		
 		this.id = idClient;
@@ -88,128 +78,13 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		this.avatar = avatar;
 	}
 	
-	
-	
-	
-
-	/*public ModeleClientClient(int id) {
-		this.id = id;
-		this.avatar = new AvatarClient(this, id, "MON_SUPER_AVATAR");
-	}
-	
-	public ModeleClientClient(int id, String pathImage) {
-		this.id = id;
-		this.avatar = new AvatarClient(this, id, pathImage);
-	}
-	
-	public ModeleClientClient(int id, String pathImage, Point position) {
-		this.id = id;
-		this.avatar = new AvatarClient(this, id, pathImage, position);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(nomUtilisateur, connexion, id, prenom, nom, dateNaissance, courriel, solde, "AvatarClient" + id);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
-		this(nomUtilisateur, "", connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), pathImage);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, AvatarClient avatar) {
-		this(nomUtilisateur, "", connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), avatar);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, "AvatarClient" + id);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, String pathImage) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), pathImage);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, AvatarClient avatar) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), avatar);
-	}
-	
-	private ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion,
-								int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, int prcGlobal,
-								Vector<PartageGainsClient> partageGains, Vector<DonUniqueClient> donsUniques, ListeAmis listeAmis, String pathImage) {
-		super(nomUtilisateur, motDePasse, connexion);
-		
-		this.id = id;
+	public void modifierCompte(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
 		this.prenom = prenom;
 		this.nom = nom;
 		this.dateNaissance = dateNaissance;
 		this.courriel = courriel;
-		this.solde = solde;
-		this.pourcentageGlobal = prcGlobal;
-		this.partageGains = partageGains;
-		this.donsUniques = donsUniques;
-		this.listeAmis = listeAmis;
-		
-		this.avatar = new AvatarClient(this, this.id, pathImage);
+		this.prcGlobal = prcGlobal;
 	}
-	
-	private ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion,
-								int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, int prcGlobal,
-								Vector<PartageGainsClient> partageGains, Vector<DonUniqueClient> donsUniques, ListeAmis listeAmis, AvatarClient avatar) {
-		super(nomUtilisateur, motDePasse, connexion);
-		
-		this.id = id;
-		this.prenom = prenom;
-		this.nom = nom;
-		this.dateNaissance = dateNaissance;
-		this.courriel = courriel;
-		this.solde = solde;
-		this.pourcentageGlobal = prcGlobal;
-		this.partageGains = partageGains;
-		this.donsUniques = donsUniques;
-		this.listeAmis = listeAmis;
-		
-		this.avatar = avatar;
-	}*/
-	
-	//////////////////////
-	
-	
-	/*public ModeleClientClient(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(nomUtilisateur, connexion, id, prenom, nom, dateNaissance, courriel, solde, null);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, AvatarClient avatar) {
-		this(nomUtilisateur, "", connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), avatar);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, null);
-	}
-	
-	public ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion, int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, AvatarClient avatar) {
-		this(nomUtilisateur, motDePasse, connexion, id, prenom, nom, dateNaissance, courriel, solde, 0, new Vector<PartageGainsClient>(), new Vector<DonUniqueClient>(), new ListeAmis(), avatar);
-	}
-	
-	private ModeleClientClient(String nomUtilisateur, String motDePasse, Connexion connexion,
-								int id, String prenom, String nom, Date dateNaissance, String courriel, int solde, int prcGlobal,
-								Vector<PartageGainsClient> partageGains, Vector<DonUniqueClient> donsUniques, ListeAmis listeAmis, AvatarClient avatar) {
-		super(nomUtilisateur, motDePasse, connexion);
-		
-		this.id = id;
-		this.prenom = prenom;
-		this.nom = nom;
-		this.dateNaissance = dateNaissance;
-		this.courriel = courriel;
-		this.solde = solde;
-		this.pourcentageGlobal = prcGlobal;
-		this.partageGains = partageGains;
-		this.donsUniques = donsUniques;
-		this.listeAmis = listeAmis;
-		
-		if(avatar == null) {
-			avatar = new AvatarClient(this, this.id, "AvatarClient" + this.id);
-		}
-		
-		this.avatar = avatar;
-	}*/
 
 	public AvatarClient getAvatar() {
 		return this.avatar;
@@ -235,11 +110,11 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		this.dateNaissance = dateNaissance;
 	}
 
-	public Vector<DonUniqueClient> getDonsUniques() {
+	public Vector<DonUniqueClientClient> getDonsUniques() {
 		return this.donsUniques;
 	}
 
-	public void setDonsUniques(Vector<DonUniqueClient> donsUniques) {
+	public void setDonsUniques(Vector<DonUniqueClientClient> donsUniques) {
 		this.donsUniques = donsUniques;
 	}
 
@@ -251,11 +126,11 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		this.id = id;
 	}
 
-	public ListeAmis getListeAmis() {
+	public ListeAmisClient getListeAmis() {
 		return this.listeAmis;
 	}
 
-	public void setListeAmis(ListeAmis listeAmis) {
+	public void setListeAmis(ListeAmisClient listeAmis) {
 		this.listeAmis = listeAmis;
 	}
 
@@ -267,11 +142,11 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		this.nom = nom;
 	}
 
-	public Vector<PartageGainsClient> getPartageGains() {
+	public Vector<PartageGainsClientClient> getPartageGains() {
 		return this.partageGains;
 	}
 
-	public void setPartageGains(Vector<PartageGainsClient> partageGains) {
+	public void setPartageGains(Vector<PartageGainsClientClient> partageGains) {
 		this.partageGains = partageGains;
 	}
 
@@ -291,11 +166,11 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		this.prenom = prenom;
 	}
 
-	public Salle getSalleCourante() {
+	public ModeleSalleClient getSalleCourante() {
 		return this.salleCourante;
 	}
 
-	public void setSalleCourante(Salle salleCourante) {
+	public void setSalleCourante(ModeleSalleClient salleCourante) {
 		this.salleCourante = salleCourante;
 	}
 

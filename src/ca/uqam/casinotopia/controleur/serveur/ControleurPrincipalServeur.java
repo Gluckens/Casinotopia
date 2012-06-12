@@ -1,23 +1,15 @@
 package ca.uqam.casinotopia.controleur.serveur;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.Partie;
-import ca.uqam.casinotopia.TypeEtatPartie;
-import ca.uqam.casinotopia.TypeJeu;
-import ca.uqam.casinotopia.TypeJeuArgent;
-import ca.uqam.casinotopia.TypeJeuMultijoueurs;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.InetAddress;
@@ -27,10 +19,11 @@ import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
-import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
+import ca.uqam.casinotopia.type.TypeEtatPartie;
+import ca.uqam.casinotopia.type.TypeJeu;
+import ca.uqam.casinotopia.type.TypeJeuArgent;
 
 public final class ControleurPrincipalServeur extends ControleurServeur {
 
@@ -187,17 +180,19 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 
 	//TODO Calculer le temps d'attente avant le lancement d'une partie et la lancer si elle atteint un certain seuil d'attente sans avoir le nombre maximale de joueur
 	public void transfererPartieEnAttenteVersEnCours(int idPartie) {
-		Partie partieEnAttente = this.getPartie(idPartie);
-		if (partieEnAttente != null) {
-			// TODO est-ce que sa dérange si je supprime la partie avant de l'insérer?
-			// (Je peux pas faire l'inverse car retirer se retrouverait avec 2 parties identiques)
-			this.retirerPartie(idPartie);
-			this.ajouterPartie(partieEnAttente, TypeEtatPartie.EN_COURS);
-		}
+		this.transfererPartieEnAttenteVersEnCours(this.getPartie(idPartie));
 	}
 
 	public void transfererPartieEnAttenteVersEnCours(Partie partie) {
-		this.transfererPartieEnAttenteVersEnCours(partie.getId());
+		//TODO Synchronisation
+		if(partie != null && partie.isEnAttente()) {
+			// TODO est-ce que sa dérange si je supprime la partie avant de l'insérer?
+			// (Je peux pas faire l'inverse car retirer se retrouverait avec 2 parties identiques)
+			this.retirerPartie(partie.getId());
+			this.ajouterPartie(partie, TypeEtatPartie.EN_COURS);
+			
+			partie.demarrerPartie();
+		}
 	}
 
 	// Peut-être inutile... qu'est-ce qu'on fait quand une partie exige un nombre minimal de joueur et qu'un joueur quitte, entrainant la partie sous le seuil de joueurs?
@@ -215,12 +210,12 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		this.transfererPartieEnCoursVersEnAttente(partie.getId());
 	}
 
-	public Partie rechercherPartieEnAttente(int idJeu) {
+	public Partie rechercherPartieEnAttente(int idJeu, TypeJeuArgent typeArgent) {
 		Partie partieEnAttente = null;
 
 		Jeu jeu = this.getJeu(idJeu);
 		if (jeu != null) {
-			partieEnAttente = jeu.rechercherPartieEnAttente();
+			partieEnAttente = jeu.rechercherPartieEnAttente(typeArgent);
 		}
 
 		return partieEnAttente;
