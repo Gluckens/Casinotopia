@@ -16,6 +16,7 @@ import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.objet.Case;
 import ca.uqam.casinotopia.objet.JoueurClient;
 import ca.uqam.casinotopia.objet.ListeCases;
+import ca.uqam.casinotopia.objet.Utilisateur;
 import ca.uqam.casinotopia.type.TypeCouleurJoueurRoulette;
 import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
@@ -234,6 +235,18 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	public void quitterPartie(int idJoueur) {
 		JoueurServeur joueur = this.getJoueur(idJoueur);
 		this.retirerJoueur(joueur);
+	}
+
+	@Override
+	public void connecter(Utilisateur utilisateur) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deconnecter(Utilisateur utilisateur) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
