@@ -27,7 +27,6 @@ public class Clavardage implements Connectable {
 	}
 
 	public List<String> getMessage() {
-		// TODO Auto-generated method stub
 		return this.messages;
 	}
 
@@ -78,7 +77,6 @@ public class Clavardage implements Connectable {
 	@Override
 	public void deconnecter(Utilisateur utilisateur) {
 		if (this.participants.contains(utilisateur)) {
-			//TODO tu remove le user, donc pas besoin de tester a chaque tour de boucle?
 			this.participants.remove(utilisateur);
 			for (int i = 0; i < this.participants.size(); i++) {
 				if (!this.participants.get(i).equals(utilisateur)) {

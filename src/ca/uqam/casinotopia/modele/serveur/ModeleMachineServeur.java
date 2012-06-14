@@ -5,6 +5,7 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModif;
 
+//TODO extends Partie
 public class ModeleMachineServeur implements Modele, Observable {
 
 	private static final long serialVersionUID = 8854771788955204109L;
