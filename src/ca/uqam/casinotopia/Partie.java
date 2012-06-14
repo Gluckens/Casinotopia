@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.objet.Clavardage;
 import ca.uqam.casinotopia.objet.PartieClient;
 import ca.uqam.casinotopia.type.TypeEtatPartie;
@@ -11,7 +12,7 @@ import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
-public abstract class Partie implements Comparable<Partie>, Serializable {
+public abstract class Partie implements Comparable<Partie>, Serializable, Connectable {
 	
 	private static final long serialVersionUID = 2847945782668066206L;
 	
@@ -22,14 +23,32 @@ public abstract class Partie implements Comparable<Partie>, Serializable {
 	protected Clavardage clavardage;
 	protected Set<JoueurServeur> lstJoueurs;
 	protected Jeu infoJeu;
+	
+	public Partie(int id, Jeu infoJeu) {
+		this(id, TypeJeuMultijoueurs.NO_VALUE, TypeJeuArgent.NO_VALUE, TypeEtatPartie.NO_VALUE, infoJeu, null);
+	}
 
 	//public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
 	public Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
+		this(id, typeMultijoueurs, typeArgent, typeEtat, infoJeu, new Clavardage(infoJeu.getNom() + id));
+		
 		this.id = id;
 		this.typeMultijoueurs = typeMultijoueurs;
 		this.typeArgent = typeArgent;
 		this.typeEtat = typeEtat;
 		this.clavardage = new Clavardage(infoJeu.getNom() + this.id);
+
+		this.infoJeu = infoJeu;
+
+		this.lstJoueurs = new HashSet<JoueurServeur>();
+	}
+	
+	private Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu, Clavardage clavardage) {
+		this.id = id;
+		this.typeMultijoueurs = typeMultijoueurs;
+		this.typeArgent = typeArgent;
+		this.typeEtat = typeEtat;
+		this.clavardage = clavardage;
 
 		this.infoJeu = infoJeu;
 
