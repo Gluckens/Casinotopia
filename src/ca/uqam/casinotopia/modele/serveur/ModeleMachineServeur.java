@@ -1,11 +1,16 @@
 package ca.uqam.casinotopia.modele.serveur;
 
-import java.util.Random;
-
+import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.modele.Modele;
+import ca.uqam.casinotopia.objet.PartieClient;
+import ca.uqam.casinotopia.objet.Utilisateur;
 
 @SuppressWarnings("serial")
-public class ModeleMachineServeur implements Modele {
+public class ModeleMachineServeur extends Partie implements Modele, Observable {
+
+	public ModeleMachineServeur(int id, Jeu infoJeu) {
+		super(id, infoJeu);
+	}
 	
 	private int no1;
 	private int no2;
@@ -44,4 +49,22 @@ public class ModeleMachineServeur implements Modele {
 		
 		return gain;
 	}
+	@Override
+	public void connecter(Utilisateur utilisateur) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deconnecter(Utilisateur utilisateur) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PartieClient creerModeleClient() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
