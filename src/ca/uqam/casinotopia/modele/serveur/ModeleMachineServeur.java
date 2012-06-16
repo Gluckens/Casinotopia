@@ -1,42 +1,47 @@
 package ca.uqam.casinotopia.modele.serveur;
 
+import java.util.Random;
+
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.observateur.Observable;
-import ca.uqam.casinotopia.observateur.Observateur;
-import ca.uqam.casinotopia.type.modif.TypeModif;
 
-public class ModeleMachineServeur implements Modele, Observable {
+@SuppressWarnings("serial")
+public class ModeleMachineServeur implements Modele {
+	
+	private int no1;
+	private int no2;
+	private int no3;
 
-	private static final long serialVersionUID = 8854771788955204109L;
+	public void actionnerMachine() {
+		Random random = new Random();
+		this.no1 = random.nextInt(9);
+		this.no2 = random.nextInt(9);
+		this.no3 = random.nextInt(9);
+	}
+	
+	public int getNo1() {
+		return this.no1;
+	}
+	
+	public int getNo2() {
+		return this.no2;
+	}
+	
+	public int getNo3() {
+		return this.no3;
+	}
 
-	@Override
-	public void ajouterObservateur(Observateur obs) {
-		// TODO Auto-generated method stub
+	public int getGain(int mise) {
+		int gain = 0;
+		if(this.no1 == this.no2 && this.no2 == this.no3) {
+			gain = mise;
+		}
+		else if(this.no1 == this.no2 || this.no2 == this.no3 || this.no3 == this.no1) {
+			
+		}
+		else {
+			gain = -mise;
+		}
 		
+		return gain;
 	}
-
-	@Override
-	public void retirerObservateur(Observateur obs) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean estObservePar(Observateur obs) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void notifierObservateur() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public TypeModif getTypeModif() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

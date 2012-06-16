@@ -14,7 +14,7 @@ import ca.uqam.casinotopia.type.modif.TypeModifAvatar;
 
 public class AvatarClient implements Modele, Observable, Serializable {
 	
-	private static final long serialVersionUID = 6908585380935996326L;
+	private static final long serialVersionUID = -1566253627412224326L;
 	
 	//TODO Référence au client nécessaire?
 	private ModeleClientClient client;

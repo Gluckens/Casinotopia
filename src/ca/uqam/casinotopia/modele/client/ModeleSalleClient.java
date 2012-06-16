@@ -15,13 +15,14 @@ import ca.uqam.casinotopia.type.modif.TypeModifSalle;
 
 public class ModeleSalleClient implements Modele, Observable {
 	
-	private static final long serialVersionUID = 4068837934110957774L;
+	private static final long serialVersionUID = -6479440113594316065L;
 	
 	private int id;
+	@SuppressWarnings("unused")
 	private String nom;
 	private Map<Integer, JeuClient> lstJeux;
 	private Map<Integer, ModeleClientClient> lstClients;
-	//private Set<ModeleClientClient> lstClients;
+	@SuppressWarnings("unused")
 	private Clavardage clavardage;
 	
 	//TODO trouver une meilleure méthode...
@@ -99,18 +100,6 @@ public class ModeleSalleClient implements Modele, Observable {
 		return null;
 	}
 	
-	/*public void ajouterClient(ModeleClientClient client) {
-		this.lstClients.add(client);
-	}
-	
-	public void retirerClient(ModeleClientClient client) {
-		this.lstClients.remove(client);
-	}
-	
-	public Set<ModeleClientClient> getLstClients() {
-		return this.lstClients;
-	}*/
-	
 	public void ajouterClient(ModeleClientClient client) {
 		this.lstClients.put(client.getId(), client);
 		this.dernierClient = client;
@@ -118,7 +107,6 @@ public class ModeleSalleClient implements Modele, Observable {
 		this.notifierObservateur();
 	}
 	
-	//TODO Ou bedon plutot déconnecter?
 	public void retirerClient(ModeleClientClient client) {
 		this.retirerClient(client.getId());
 	}

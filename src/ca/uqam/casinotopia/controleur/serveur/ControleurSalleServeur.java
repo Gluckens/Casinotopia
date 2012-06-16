@@ -9,7 +9,6 @@ import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 
-@SuppressWarnings("serial")
 public class ControleurSalleServeur extends ControleurServeur {
 	
 	private ModeleSalleServeur modele;

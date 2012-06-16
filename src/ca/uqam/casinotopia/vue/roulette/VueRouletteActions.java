@@ -31,10 +31,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-//@SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class VueRouletteActions extends Vue {
-
-	private static final long serialVersionUID = -8953871997652793760L;
 	
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
@@ -145,5 +143,4 @@ public class VueRouletteActions extends Vue {
 		// TODO Auto-generated method stub
 
 	}
-
 }

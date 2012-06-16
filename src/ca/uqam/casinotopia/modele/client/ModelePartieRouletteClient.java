@@ -17,7 +17,7 @@ import ca.uqam.casinotopia.type.modif.TypeModifPartieRoulette;
 
 public class ModelePartieRouletteClient extends PartieClient implements Modele, Observable {
 	
-	private static final long serialVersionUID = -1713451671266579670L;
+	private static final long serialVersionUID = 8914475130716960096L;
 	
 	private int gain;
 	private Case caseResultat;
@@ -54,6 +54,7 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 	
 	public void setGain(int gain) {
 		this.gain = gain;
+		this.typeModif = TypeModifPartieRoulette.SET_GAINS;
 		this.notifierObservateur();
 	}
 	
@@ -99,7 +100,6 @@ public class ModelePartieRouletteClient extends PartieClient implements Modele, 
 
 	@Override
 	public void notifierObservateur() {
-		System.out.println("Alexei --> ModelePartieRouletteClient.notifierObservateur()");
 		this.sujet.notifierObservateur();
 	}
 

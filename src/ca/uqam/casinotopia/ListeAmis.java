@@ -1,14 +1,11 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
-public class ListeAmis implements Serializable {
-	
-	private static final long serialVersionUID = -5810268166115357333L;
+public class ListeAmis {
 	
 	private List<ModeleClientServeur> lstClients;
 	

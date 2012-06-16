@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdQuitterSalle implements CommandeServeurControleurThread {
 
-	private static final long serialVersionUID = -1064729897920097958L;
+	private static final long serialVersionUID = 6178184152147628993L;
 
 	@Override
 	public void action(Controleur controleur) {

@@ -7,8 +7,6 @@ import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
 public abstract class ControleurServeur extends Controleur {
 	
-	private static final long serialVersionUID = 8989454498758078372L;
-	
 	protected ControleurServeurThread ctrlThread;
 	
 	public ControleurServeur() {
@@ -35,5 +33,9 @@ public abstract class ControleurServeur extends Controleur {
 		}
 		
 		return ctrlClient.getModele();
+	}
+	
+	public void ajouterSoldeClient(int montant) {
+		((ControleurClientServeur) this.ctrlThread.getControleur("ControleurClientServeur")).ajouterSolde(montant);
 	}
 }

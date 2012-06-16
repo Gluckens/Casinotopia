@@ -1,23 +1,20 @@
 package ca.uqam.casinotopia.connexion;
 
-import java.io.Serializable;
-
 import ca.uqam.casinotopia.objet.Utilisateur;
 
-public interface Connectable extends Serializable {
+public interface Connectable {
 
 	/**
-	 * connecte l'utilisateur et ajoute this a la liste de connectable de
-	 * l'utilisateur
+	 * Connecter l'utilisateur à un objet
 	 * 
-	 * @param utilisateur
+	 * @param utilisateur L'utilisateur a connecter
 	 */
 	public void connecter(Utilisateur utilisateur);
 
 	/**
-	 * itère dans la liste de connectable de l'utilisateur pour le déconnecté
+	 * Parcourir la liste des connectables de l'utilisateur et afin de le déconnecter
 	 * 
-	 * @param utilisateur
+	 * @param utilisateur L'utilisateur à déconnecter
 	 */
 	public void deconnecter(Utilisateur utilisateur);
 

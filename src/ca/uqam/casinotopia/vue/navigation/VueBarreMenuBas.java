@@ -11,22 +11,19 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurBarreMenuBas;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.observateur.Observable;
-import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
 
 @SuppressWarnings("serial")
 public class VueBarreMenuBas extends Vue {
-
+	
 	private ControleurBarreMenuBas controleur;
-	private FrameApplication frame;
 
 	/**
 	 * Create the panel.
 	 */
 	public VueBarreMenuBas(ControleurClient controleur) {
 		this.controleur = (ControleurBarreMenuBas) controleur;
-		this.frame = this.controleur.getFrame();
 
 		this.setPanelOptions();
 		this.addComponents();

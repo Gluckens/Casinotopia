@@ -311,13 +311,6 @@ public class CompteClient extends JPanel implements FocusListener{
 		gbc_btnAppliquer.gridy = 8;
 		add(btnAppliquer, gbc_btnAppliquer);
 		
-//		JButton btnOk = new JButton("Ok");
-//		GridBagConstraints gbc_btnOk = new GridBagConstraints();
-//		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
-//		gbc_btnOk.gridx = 2;
-//		gbc_btnOk.gridy = 8;
-//		add(btnOk, gbc_btnOk);
-		
 		JButton btnFermer = new JButton("Fermer");
 		
 		btnFermer.addActionListener(new ActionListener() {
@@ -346,9 +339,7 @@ public class CompteClient extends JPanel implements FocusListener{
 			txtMotPasse.setEditable(false);
 			imageAvatar.setIcon(new ImageIcon("src/"+modeleClient.getAvatar().getPathImage()));
 			this.repaint();
-			
 		}
-
 	}
 	
 	private void changerImage() {
@@ -365,5 +356,4 @@ public class CompteClient extends JPanel implements FocusListener{
 	public void focusLost(FocusEvent arg0) {
 
 	}
-
 }

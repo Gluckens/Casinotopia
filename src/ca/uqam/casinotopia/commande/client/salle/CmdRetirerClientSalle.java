@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.controleur.client.ControleurSalleClient;
 
 public class CmdRetirerClientSalle implements CommandeClientControleurSalle {
 	
-	private static final long serialVersionUID = -5821954583094356578L;
+	private static final long serialVersionUID = -7782555866853287298L;
 	
 	private int idClient;
 	
@@ -17,7 +17,5 @@ public class CmdRetirerClientSalle implements CommandeClientControleurSalle {
 	@Override
 	public void action(Controleur controleur) {
 		((ControleurSalleClient) controleur).actionRetirerClientSalle(this.idClient);
-
 	}
-
 }

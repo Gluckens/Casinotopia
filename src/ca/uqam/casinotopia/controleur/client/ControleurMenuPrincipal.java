@@ -14,8 +14,6 @@ import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.vue.navigation.VueMenuPrincipal;
 
 public class ControleurMenuPrincipal extends ControleurClient {
-
-	private static final long serialVersionUID = -3188096152156233418L;
 	
 	private VueMenuPrincipal vue;
 
@@ -24,6 +22,7 @@ public class ControleurMenuPrincipal extends ControleurClient {
 		this.vue = new VueMenuPrincipal(this);
 	}
 
+	//TODO Enlever le bouton et obliger de passer par la salle pour joueur
 	public void cmdJouerRoulette() {
 		// TODO Récupérer l'id du jeu de roulette auquel le client veut jouer.
 

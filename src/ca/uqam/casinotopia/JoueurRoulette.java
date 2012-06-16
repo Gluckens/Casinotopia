@@ -7,8 +7,6 @@ import ca.uqam.casinotopia.objet.PartieClient;
 import ca.uqam.casinotopia.type.TypeCouleurJoueurRoulette;
 
 public class JoueurRoulette extends JoueurServeur {
-
-	private static final long serialVersionUID = 6359607753125692254L;
 	
 	private TypeCouleurJoueurRoulette couleur;
 	private boolean misesTerminees;

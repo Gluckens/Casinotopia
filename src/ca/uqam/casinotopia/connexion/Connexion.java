@@ -13,10 +13,14 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.commande.Commande;
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
+import ca.uqam.casinotopia.objet.Utilisateur;
 
 public class Connexion implements Serializable {
 	
-	private static final long serialVersionUID = 268756810206780744L;
+	private static final long serialVersionUID = 7987035909709182374L;
+	
+	private Utilisateur modeleUtilisateur;
 	
 	private Socket socket;
 	private boolean connected = false;
@@ -123,7 +127,13 @@ public class Connexion implements Serializable {
 			this.getObjectOutputStream().reset();
 		} catch (IOException e) {
 			System.err.println("la commande n'a pas pu être envoyé car le serveur ne répond pas");
+			/*if(this.modeleUtilisateur != null) {
+				this.modeleUtilisateur.deconnecter();
+			}*/
 		}
 	}
 
+	public void setModeleUtilisateur(Utilisateur modeleUtilisateur) {
+		this.modeleUtilisateur = modeleUtilisateur;
+	}
 }

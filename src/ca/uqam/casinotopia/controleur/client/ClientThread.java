@@ -10,13 +10,12 @@ import ca.uqam.casinotopia.commande.CommandeClientControleurMachine;
 import ca.uqam.casinotopia.commande.CommandeClientControleurPrincipal;
 import ca.uqam.casinotopia.commande.CommandeClientControleurRoulette;
 import ca.uqam.casinotopia.commande.CommandeClientControleurSalle;
+import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
 /**
- * écoute le serveur et exécute les actions envoyé
- * 
- * @author Olivier
- * 
+ * Écoute le serveur en attente de commandes
+ * Redirige les commandes reçues au bon controleur et exécute l'action
  */
 public class ClientThread implements Runnable {
 
@@ -40,34 +39,19 @@ public class ClientThread implements Runnable {
 							cmd.action(this.controleur);
 						}
 						else if (cmd instanceof CommandeClientControleurClient) {
-							if (!this.controleur.getModeleNav().hasControleur("ControleurClientClient")) {
-								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurClientClient)");
-							}
-							cmd.action(this.controleur.getModeleNav().getControleur("ControleurClientClient"));
+							this.executerCommande(cmd, "ControleurClientClient");
 						}
 						else if (cmd instanceof CommandeClientControleurRoulette) {
-							if (!this.controleur.getModeleNav().hasControleur("ControleurRouletteClient")) {
-								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurRouletteClient)");
-							}
-							cmd.action(this.controleur.getModeleNav().getControleur("ControleurRouletteClient"));
+							this.executerCommande(cmd, "ControleurRouletteClient");
 						}
 						else if (cmd instanceof CommandeClientControleurChat) {
-							if (!this.controleur.getModeleNav().hasControleur("ControleurChatClient")) {
-								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurChatClient)");
-							}
-							cmd.action(this.controleur.getModeleNav().getControleur("ControleurChatClient"));
+							this.executerCommande(cmd, "ControleurChatClient");
 						}
 						else if (cmd instanceof CommandeClientControleurMachine) {
-							if (!this.controleur.getModeleNav().hasControleur("ControleurMachineClient")) {
-								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurMachineClient)");
-							}
-							cmd.action(this.controleur.getModeleNav().getControleur("ControleurMachineClient"));
+							this.executerCommande(cmd, "ControleurMachineClient");
 						}
 						else if (cmd instanceof CommandeClientControleurSalle) {
-							if (!this.controleur.getModeleNav().hasControleur("ControleurSalleClient")) {
-								System.out.println("ERREUR : Envoie d'une commande à un controleur non-instancié! (ControleurSalleClient)");
-							}
-							cmd.action(this.controleur.getModeleNav().getControleur("ControleurSalleClient"));
+							this.executerCommande(cmd, "ControleurSalleClient");
 						}
 						else {
 							System.err.println("Ce type de commande n'est pas géré par le client");
@@ -89,5 +73,19 @@ public class ClientThread implements Runnable {
 				this.controleur.getConnexion().close();
 			}
 		}
+	}
+	
+	private void executerCommande(Commande cmd, String nomControleur) {
+		ControleurClient ctrl = this.getControleur(nomControleur);
+		if (ctrl == null) {
+			System.err.format("ERREUR : Envoie d'une commande à un controleur non-instancié! (%s)", nomControleur);
+		}
+		else {
+			cmd.action(ctrl);
+		}
+	}
+	
+	public ControleurClient getControleur(String nom) {
+		return this.controleur.getModeleNav().getControleur(nom);
 	}
 }

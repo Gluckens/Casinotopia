@@ -1,7 +1,6 @@
 package ca.uqam.casinotopia.controleur.client;
 
 import java.awt.EventQueue;
-import java.awt.Point;
 
 import javax.swing.JOptionPane;
 
@@ -18,8 +17,6 @@ import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 
 public class ControleurPrincipalClient extends ControleurClient {
-
-	private static final long serialVersionUID = 8686179456363168242L;
 
 	private String[] listeServeur;
 
@@ -66,8 +63,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		if (this.connexion.isConnected()) {
 			this.setMessageConnexion("connecté!");
 
-			Commande cmd = new CmdAuthentifierClient(nomUtilisateur, motDePasse);
-			this.connexion.envoyerCommande(cmd);
+			this.connexion.envoyerCommande(new CmdAuthentifierClient(nomUtilisateur, motDePasse));
 
 			this.receptionCommandes();
 

@@ -10,11 +10,8 @@ import ca.uqam.casinotopia.objet.Case;
 
 public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3728163550640486131L;
-
+	private static final long serialVersionUID = 7526961593433276571L;
+	
 	/**
 	 * Map<idJoueur, Map<CaseMisee, NbrJetonsMises>>
 	 */

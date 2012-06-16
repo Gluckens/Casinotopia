@@ -2,9 +2,9 @@ package ca.uqam.casinotopia.vue.roulette;
 
 import javax.swing.AbstractListModel;
 
+@SuppressWarnings("serial")
 public class TableHeaderListModel extends AbstractListModel {
 	
-	private static final long serialVersionUID = 1L;
 	String[] headers;
 	
 	public TableHeaderListModel() {
@@ -13,6 +13,10 @@ public class TableHeaderListModel extends AbstractListModel {
 	
 	public TableHeaderListModel(String[] headers) {
 		this.headers = headers;
+	}
+	
+	public void clear() {
+		this.headers = null;
 	}
 	
 	public void setHeaders(String[] headers) {

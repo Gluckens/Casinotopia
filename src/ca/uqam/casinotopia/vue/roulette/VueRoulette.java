@@ -1,4 +1,3 @@
-
 package ca.uqam.casinotopia.vue.roulette;
 
 import java.awt.Dimension;
@@ -18,10 +17,8 @@ import ca.uqam.casinotopia.vue.chat.VueChat;
 
 import java.awt.GridBagLayout;
 
-//@SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class VueRoulette extends Vue {
-
-	private static final long serialVersionUID = 318782139342189455L;
 	
 	private ControleurRouletteClient controleur;
 	private FrameApplication frame;
@@ -41,17 +38,14 @@ public class VueRoulette extends Vue {
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		/*gridBagLayout.columnWidths = new int[] { 400, 302, 242, 80 };
-		gridBagLayout.rowHeights = new int[] { 40, 260, 300, 80 };*/
 		gridBagLayout.columnWidths = new int[] { 400, 302, 322 };
 		gridBagLayout.rowHeights = new int[] { 300, 300, 80 };
 		this.setLayout(gridBagLayout);
 
-		// setPreferredSize(new Dimension(1024, 740));
 		this.setPreferredSize(new Dimension(1024, 680));
 		this.setMaximumSize(new Dimension(1024, 680));
 		
-		VueRouletteRoue roue = new VueRouletteRoue(this.controleur, this.frame);
+		VueRouletteRoue roue = new VueRouletteRoue(this.controleur);
 		roue.setName("roue");
 		this.add(roue, new GridBagHelper().setXY(0, 0).setWH(1, 2).end());
 		
@@ -63,16 +57,9 @@ public class VueRoulette extends Vue {
 		lstJoueurs.setName("vueListeJoueurs");
 		this.add(lstJoueurs, new GridBagHelper().setXY(2, 0).end());
 
-		/*
-		 * VueRouletteTableau tableau = new VueRouletteTableau(this.controleur,
-		 * this.frame); tableau.setName("tableau"); this.add(tableau, new
-		 * GridBagHelper().setXY(2, 0).end());
-		 */
-
 		VueRouletteActions actions = new VueRouletteActions(this.controleur, this.frame, tapis, tapis);
 		actions.setName("actions");
 		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).setFill(GridBagConstraints.HORIZONTAL).setAnchor(GridBagConstraints.SOUTH).end());
-		
 
 		
 		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), ((ControleurPrincipalClient) this.controleur.getModeleNav().getControleur("ControleurPrincipalClient")).getClient(), this.controleur.getModeleNav());
@@ -84,32 +71,13 @@ public class VueRoulette extends Vue {
 		ctrlChatClient.cmdSeConnecterAuChat("RoulettePrincipal");//TODO ajouter un chiffre
 		chat.setName("chat");
 		this.add(chat, new GridBagHelper().setXY(2, 1).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
-		
-		
-
 	}
-
-	/*
-	 * public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
-	 * JTextField txt = (JTextField) this.getComponentByName("txtDefault");
-	 * Calendar cal = Calendar.getInstance(); SimpleDateFormat sdf = new
-	 * SimpleDateFormat("HH:mm:ss"); String time = sdf.format(cal.getTime());
-	 * txt.setText(String.valueOf(cases.size()) + " " + time); }
-	 */
 
 	@Override
 	public void update(Observable observable) {
-		/*
-		 * if(observable instanceof ModelePartieRouletteClient) {
-		 * this.updateTableJeu
-		 * (((ModelePartieRouletteClient)observable).getTableJeu().getCases());
-		 * }
-		 */
-		
-		  if(observable instanceof ModelePartieRouletteClient) {
-			 VueRouletteRoue vR = (VueRouletteRoue)this.getComponentByName("roue");
-			 vR.update(controleur.getModele());
-		  }
+		if(observable instanceof ModelePartieRouletteClient) {
+			VueRouletteRoue vR = (VueRouletteRoue)this.getComponentByName("roue");
+			vR.update(controleur.getModele());
+		}
 	}
 }
-

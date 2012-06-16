@@ -5,12 +5,14 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
@@ -69,101 +71,69 @@ public class VueRouletteListeJoueurs extends Vue {
 	    rowHeader.setCellRenderer(new RowHeaderRenderer(tblLstJoueurs));
 
 	    rowHeader.setSize(new Dimension(150, 160));
-	    
-	    //dm.addColumn("", data);
 	 
 	    JScrollPane scroll = new JScrollPane(tblLstJoueurs); 
 	    scroll.setName("jspLstJoueurs");
 	    scroll.setRowHeaderView(rowHeader);
 	    
 	    this.add(scroll, new GridBagHelper().setXY(0, 1).setFill(GridBagConstraints.BOTH).end());
+	}
+	
+	private void updateListeJoueurs(Set<JoueurClient> lstJoueurs) {
+		//TODO Retirer les lblMises des joueurs qui ont quittés
 		
 		
+		/*JTable tblLstJoueurs = new JTable(new JoueursRouletteTableModel());
+		tblLstJoueurs.setName("tblLstJoueurs");
+		tblLstJoueurs.setRowHeight(40);
+		tblLstJoueurs.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		
-		
-		
-		
-		/*String[] headers = { "J1", "J2", "J3", "J4" };
-		
-		ImageIcon[] data =
-				{ 	new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_JAUNE.png")),
-					new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_ROUGE.png")),
-					new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_NOIR.png")),
-					new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_BLEU.png"))
-				};
-		
-		JoueursRouletteTableModel dm = new JoueursRouletteTableModel(); 
-	    JTable table = new JTable(dm);
-	    table.setRowHeight(40);
-	    //table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-	 
-	    JList rowHeader = new JList(new TableHeaderListModel(headers));    
+		JList rowHeader = new JList(new TableHeaderListModel());
+		rowHeader.setName("rowHeader");
 	    rowHeader.setFixedCellWidth(150); 
 	    rowHeader.setFixedCellHeight(40);
 	 
 	    //rowHeader.setFixedCellHeight(table.getRowHeight(0));
-	    rowHeader.setFixedCellHeight(table.getRowHeight());
-	    rowHeader.setCellRenderer(new RowHeaderRenderer(table));
+	    rowHeader.setFixedCellHeight(tblLstJoueurs.getRowHeight());
+	    rowHeader.setCellRenderer(new RowHeaderRenderer(tblLstJoueurs));
 
 	    rowHeader.setSize(new Dimension(150, 160));
-	    
-	    dm.addColumn("", data);
 	 
-	    JScrollPane scroll = new JScrollPane( table ); 
-	    scroll.setRowHeaderView(rowHeader); 
-	    //table.setTableHeader(null);
+	    JScrollPane scroll = new JScrollPane(tblLstJoueurs); 
+	    scroll.setName("jspLstJoueurs");
+	    scroll.setRowHeaderView(rowHeader);
 	    
-	    this.add(scroll, new GridBagHelper().setXY(0, 1).setFill(GridBagConstraints.BOTH).end());
-	    //getContentPane().add(scroll, BorderLayout.CENTER);*/
+	    this.add(scroll, new GridBagHelper().setXY(0, 1).setFill(GridBagConstraints.BOTH).end());*/
 		
 		
 		
 		
 		
 		
-		/*
-		JTable tblLstJoueurs = new JTable(new JoueursRouletteTableModel());
-		tblLstJoueurs.setName("tblLstJoueurs");
-		Vector<Vector<ImageIcon>> vectorImages = new Vector<Vector<ImageIcon>>();
-		Vector<ImageIcon> lstImages = new Vector<ImageIcon>();
-		lstImages.add(new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_JAUNE.png")));
-		lstImages.add(new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_ROUGE.png")));
-		lstImages.add(new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_NOIR.png")));
-		lstImages.add(new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/jeton_BLEU.png")));
-		vectorImages.add(lstImages);
 		
-		((JoueursRouletteTableModel) tblLstJoueurs.getModel()).addColumn("Couleur", vectorImages);
-		
-		
-		JScrollPane jsp = new JScrollPane();
-		//JScrollPane jsp = new JScrollPane(tblLstJoueurs);
-		
-		Vector<Vector<String>> vectorHeaders = new Vector<Vector<String>>();
-		Vector<String> lstHeaders = new Vector<String>();
-		lstHeaders.add("J1");
-		lstHeaders.add("J2");
-		lstHeaders.add("J3");
-		lstHeaders.add("J4");
-		vectorHeaders.add(lstHeaders);
-		
-		JTable tblHeaders = new JTable(new DefaultTableModel());
-		((DefaultTableModel) tblHeaders.getModel()).addColumn("HEaders", vectorHeaders);
-		jsp.setViewportView(tblLstJoueurs);
-		jsp.setRowHeaderView(tblHeaders);
-		
-		this.add(jsp, new GridBagHelper().setXY(0, 1).setFill(GridBagConstraints.BOTH).end());
-		
-		//this.add(new JScrollPane(tblLstJoueurs), new GridBagHelper().setXY(0, 1).setFill(GridBagConstraints.BOTH).end());*/
-	}
-	
-	private void updateListeJoueurs(Set<JoueurClient> lstJoueurs) {
 		//JoueursRouletteTableModel modeleTblLstJoueurs = (JoueursRouletteTableModel) ((JTable) this.getComponentByName("tblLstJoueurs")).getModel();
 		
 		JScrollPane jspLstJoueurs = (JScrollPane) this.getComponentByName("jspLstJoueurs");
 		JList rowHeader = (JList) jspLstJoueurs.getRowHeader().getView();
-		JoueursRouletteTableModel modeleTblLstJoueurs = (JoueursRouletteTableModel) ((JTable)jspLstJoueurs.getViewport().getView()).getModel();
+		/*jspLstJoueurs.getRowHeader().removeAll();
+		jspLstJoueurs.
+		jspLstJoueurs.getRowHeader().revalidate();
+		((TableHeaderListModel) rowHeader.getModel()).clear();
+		rowHeader.removeAll();
+		rowHeader.revalidate();*/
+		JTable tblLstJoueurs = (JTable)jspLstJoueurs.getViewport().getView();
+		//JoueursRouletteTableModel modeleTblLstJoueurs = (JoueursRouletteTableModel) tblLstJoueurs.getModel();
+		JoueursRouletteTableModel modeleTblLstJoueurs = new JoueursRouletteTableModel();
+		tblLstJoueurs.setModel(modeleTblLstJoueurs);
+		//JoueursRouletteTableModel modeleTblLstJoueurs = (JoueursRouletteTableModel) ((JTable)jspLstJoueurs.getViewport().getView()).getModel();
+		
+		/*if(tblLstJoueurs.getColumnCount() > 0) {
+			TableColumn tcol = tblLstJoueurs.getColumnModel().getColumn(0);
+			tblLstJoueurs.removeColumn(tcol);
+			
+			modeleTblLstJoueurs.fireTableStructureChanged();
+		}*/
+		
 		String[] headers = new String[lstJoueurs.size()];
 		ImageIcon[] images = new ImageIcon[lstJoueurs.size()];
 		int i = 0;
@@ -183,32 +153,14 @@ public class VueRouletteListeJoueurs extends Vue {
 			i++;
 		}
 		
-		((TableHeaderListModel) rowHeader.getModel()).setHeaders(headers);
+
+		rowHeader.setModel(new TableHeaderListModel(headers));
+		
+		//((TableHeaderListModel) rowHeader.getModel()).setHeaders(headers);
 		modeleTblLstJoueurs.addColumn("", images);
 		
-		
-		
-		
-		
-		
-		/*Vector<String> lstHeaders = new Vector<String>();
-		Vector<ImageIcon> lstImages = new Vector<ImageIcon>();
-		
-		for(JoueurClient joueur : lstJoueurs) {
-			JoueurRouletteClient joueurRoulette = (JoueurRouletteClient) joueur;
-			//modeleTblLstJoueurs.addColumn(joueurRoulette.getClient().getNomUtilisateur());
-
-			//ImageIcon imgJeton = new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/" + joueurRoulette.getPathImgJeton()));
-			//modeleTblLstJoueurs.setValueAt(imgJeton, row, column)
-			
-			lstHeaders.add(joueurRoulette.getClient().getNomUtilisateur());
-			lstImages.add(new ImageIcon(VueRouletteListeJoueurs.class.getResource("/img/" + joueurRoulette.getPathImgJeton())));
-		}
-		
-		JTable tblHeaders = new JTable(lstHeaders, null);
-		
-		modeleTblLstJoueurs.addRow(lstImages);*/
-		
+		tblLstJoueurs.revalidate();
+		tblLstJoueurs.repaint();
 	}
 
 	@Override

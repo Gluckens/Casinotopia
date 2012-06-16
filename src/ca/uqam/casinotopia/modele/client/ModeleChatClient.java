@@ -12,7 +12,7 @@ import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class ModeleChatClient implements Modele, Observable {
 
-	private static final long serialVersionUID = 1197460785333129913L;
+	private static final long serialVersionUID = -5918518651954748935L;
 
 	private String salle;
 
@@ -65,8 +65,6 @@ public class ModeleChatClient implements Modele, Observable {
 		
 		this.notifierObservateur();
 	}
-
-	
 	
 	public DefaultListModel getLstUtilisateurModel() {
 		return this.lstUtilisateurModel;
@@ -75,8 +73,6 @@ public class ModeleChatClient implements Modele, Observable {
 	public void setLstUtilisateurModel(DefaultListModel lstUtilisateurModel) {
 		this.lstUtilisateurModel = lstUtilisateurModel;
 	}
-	
-
 
 	public void setChatUtilisateur(List<String> listeUtilisateur){
 		this.lstUtilisateurModel.clear();
@@ -84,10 +80,6 @@ public class ModeleChatClient implements Modele, Observable {
 			this.lstUtilisateurModel.add(i, listeUtilisateur.get(i));
 		}
 	}
-	
-	
-	
-	
 	
 
 	@Override
@@ -114,5 +106,4 @@ public class ModeleChatClient implements Modele, Observable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

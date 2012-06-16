@@ -23,8 +23,6 @@ import ca.uqam.casinotopia.vue.roulette.VueRouletteListeJoueurs;
 import ca.uqam.casinotopia.vue.roulette.VueRouletteTapis;
 
 public class ControleurRouletteClient extends ControleurClient {
-
-	private static final long serialVersionUID = 4718341989471372885L;
 	
 	private VueRoulette vue;
 	private ModelePartieRouletteClient modele;
@@ -106,5 +104,9 @@ public class ControleurRouletteClient extends ControleurClient {
 	public void actionUpdateResultat(Case resultat, int gain) {
 		this.modele.setCaseResultat(resultat);
 		this.modele.setGain(gain);
+	}
+
+	public void actionUpdateListeJoueurs(Set<JoueurClient> lstJoueurs) {
+		this.modele.updateListeJoueurs(lstJoueurs);
 	}
 }

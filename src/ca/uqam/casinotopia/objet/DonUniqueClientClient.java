@@ -8,7 +8,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class DonUniqueClientClient implements Serializable {
 	
-	private static final long serialVersionUID = 1796189943288471211L;
+	private static final long serialVersionUID = -1286250629324268018L;
 	
 	private int id;
 	private ModeleClientClient client;
@@ -17,12 +17,7 @@ public class DonUniqueClientClient implements Serializable {
 	private Date dateDon;
 	
 	public DonUniqueClientClient(ModeleClientClient client, Fondation fondation, int montant) {
-		//TODO Au lieu de null, mettre la date du jour
 		this(-1, client, fondation, montant, (Date) Calendar.getInstance().getTime());
-		
-		/*Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		String time = sdf.format(cal.getTime());*/
 	}
 	
 	public DonUniqueClientClient(int id, ModeleClientClient client, Fondation fondation, int montant) {

@@ -1,7 +1,5 @@
 package ca.uqam.casinotopia.vue.salle;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -9,7 +7,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -56,7 +53,6 @@ public class VueSelectionOptionJeu extends Vue {
 		
 		JPanel pnlMultijoueurs = new JPanel(gblPnlMultijoueur);
 		pnlMultijoueurs.setName("pnlMultijoueurs");
-		//pnlMultijoueurs.setBackground(new Color(0, 0, 0, 50));
 		
 		JRadioButton radInconnus = new JRadioButton("Inconnus");
 		radInconnus.setName("radInconnus");
@@ -88,7 +84,6 @@ public class VueSelectionOptionJeu extends Vue {
 		
 		JPanel pnlArgent = new JPanel(gblPnlArgent);
 		pnlArgent.setName("pnlArgent");
-		//pnlArgent.setBackground(new Color(0, 0, 0, 50));
 		
 		JRadioButton radAvecArgent = new JRadioButton("Avec argent");
 		radAvecArgent.setName("radAvecArgent");
@@ -120,20 +115,6 @@ public class VueSelectionOptionJeu extends Vue {
 			}
 		});
 		this.add(btnSuivant, new GridBagHelper().setXY(0, 2).setWH(2, 1).end());
-		
-		//this.setBackground(new Color(128, 128, 128, 60));
-		//this.setBackgroundChildrens(this, new Color(0, 0, 0, 30));
-	}
-	
-	private void setBackgroundChildrens(JComponent comp, Color color) {
-		comp.setBackground(color);
-		for(Component child : comp.getComponents()) {
-			child.setBackground(color);
-			
-			if(((JComponent) child).getComponentCount() > 0) {
-				this.setBackgroundChildrens((JComponent) child, color);
-			}
-		}
 	}
 
 	@Override

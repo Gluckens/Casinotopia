@@ -7,7 +7,7 @@ import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class BaseObservable implements Observable {
 
-	private static final long serialVersionUID = -2611781316325159310L;
+	private static final long serialVersionUID = 618679120245722743L;
 
 	Set<Observateur> observateurs = new HashSet<Observateur>();
 
@@ -41,8 +41,6 @@ public class BaseObservable implements Observable {
 
 	@Override
 	public TypeModif getTypeModif() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

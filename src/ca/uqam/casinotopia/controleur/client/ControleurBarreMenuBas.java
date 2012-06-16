@@ -8,8 +8,6 @@ import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.navigation.VueBarreMenuBas;
 
 public class ControleurBarreMenuBas extends ControleurClient {
-
-	private static final long serialVersionUID = -2128979284720466267L;
 	
 	private VueBarreMenuBas vue;
 

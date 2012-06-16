@@ -19,8 +19,6 @@ import ca.uqam.casinotopia.vue.salle.VueSalle;
 
 public class ControleurSalleClient extends ControleurClient {
 	
-	private static final long serialVersionUID = 1861469835865268658L;
-	
 	private VueSalle vue;
 	private ModeleSalleClient modele;
 
@@ -31,20 +29,9 @@ public class ControleurSalleClient extends ControleurClient {
 		this.modele = modele;
 		this.modele.ajouterObservateur(this.vue);
 		
-		/*for(ModeleClientClient c : this.modele.getLstClients()) {
-			c.getAvatar().ajouterObservateur(this.vue);
-		}*/
-		
 		for(ModeleClientClient c : this.modele.getLstClients().values()) {
 			c.getAvatar().ajouterObservateur(this.vue);
 		}
-	}
-
-	public void demarrerMondeVirtuel() {
-		/*MondeVirtuel mondeVirtuel = new MondeVirtuel(this.client.getAvatar());
-		
-		Thread threadMondeVirtuel = new Thread(mondeVirtuel);
-		threadMondeVirtuel.start();*/
 	}
 	
 	public void cmdDeplacerAvatar(Point position) {

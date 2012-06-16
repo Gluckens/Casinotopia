@@ -15,8 +15,8 @@ import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModifClient;
 
 public class ModeleClientClient extends Utilisateur implements Modele, Observable {
-
-	private static final long serialVersionUID = -1820292102084346435L;
+	
+	private static final long serialVersionUID = -8344939066149150548L;
 	
 	private int id;
 	private String prenom;

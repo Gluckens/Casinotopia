@@ -5,9 +5,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 
 public abstract class ControleurClient extends Controleur {
-
-	private static final long serialVersionUID = 7316156272561396052L;
-
+	
 	protected ModelePrincipalClient modeleNav;
 	protected ModeleClientClient client;
 	
@@ -36,5 +34,4 @@ public abstract class ControleurClient extends Controleur {
 	public ModeleClientClient getClient() {
 		return client;
 	}
-	
 }

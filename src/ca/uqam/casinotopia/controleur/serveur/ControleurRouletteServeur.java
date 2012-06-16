@@ -15,9 +15,7 @@ import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.objet.Case;
 
 public class ControleurRouletteServeur extends ControleurServeur {
-
-	private static final long serialVersionUID = 5984983846828475123L;
-
+	
 	private ModelePartieRouletteServeur modele;
 
 	public ControleurRouletteServeur(Connexion connexion, ControleurServeurThread ctrlThread, ModelePartieRouletteServeur modele) {
@@ -84,13 +82,15 @@ public class ControleurRouletteServeur extends ControleurServeur {
 	public void actionQuitterPartie(int idJoueur) {
 		//TODO Comment on quitte une partie en cours? perd automatiquement ses gains misées?
 		//TODO On envoie l'ID du joueur, ou bedon on se base sur le modele client qu'on connait déjà côté serveur?
-		this.modele.quitterPartie(idJoueur);
+		/*this.modele.quitterPartie(idJoueur);
 		if(this.modele.isPartieVide()) {
 			ControleurPrincipalServeur.getInstance().retirerPartie(this.modele);
 		}
 		else {
 			//TODO Mettre à jour la vue des joueurs restants
 			
-		}
+		}*/
+		
+		this.modele.deconnecter(this.modele.getJoueur(idJoueur).getClient());
 	}
 }

@@ -7,7 +7,7 @@ import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class ModelePartieMachineClient implements Modele, Observable  {
 
-	private static final long serialVersionUID = -8592873550374651424L;
+	private static final long serialVersionUID = 2782995943789350730L;
 
 	public ModelePartieMachineClient() {
 		// TODO Auto-generated constructor stub
@@ -42,5 +42,4 @@ public class ModelePartieMachineClient implements Modele, Observable  {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

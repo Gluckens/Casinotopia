@@ -14,14 +14,11 @@ import ca.uqam.casinotopia.vue.Vue;
 
 public class ModelePrincipalClient implements Modele, Serializable {
 
-	private static final long serialVersionUID = -1636594066378148905L;
-
-	private Map<String, ControleurClient> lstControleurs = new HashMap<String, ControleurClient>();
-
-	private FrameConnexion frameConnexion;
-
-	private FrameApplication frameApplication;
+	private static final long serialVersionUID = -3999851928989097158L;
 	
+	private Map<String, ControleurClient> lstControleurs = new HashMap<String, ControleurClient>();
+	private FrameConnexion frameConnexion;
+	private FrameApplication frameApplication;
 	private FrameGestionCompte frameGestionCompte;
 
 	public ModelePrincipalClient() {

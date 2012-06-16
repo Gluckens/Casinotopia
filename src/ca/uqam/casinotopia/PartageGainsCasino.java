@@ -1,30 +1,54 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
-
 import ca.uqam.casinotopia.objet.Fondation;
 
-public class PartageGainsCasino implements Serializable {
+public class PartageGainsCasino {
 	
-	private static final long serialVersionUID = 6459672523482512318L;
-	
+	private int id;
+	private CompteCasino compte;
+	private Fondation fondation;
 	private int pourcentage;
-	public CompteCasino unnamed_CompteCasino_;
-	public Fondation unnamed_Fondation_;
-
-	public void setUnnamed_CompteCasino_(CompteCasino unnamed_CompteCasino_) {
-		this.unnamed_CompteCasino_ = unnamed_CompteCasino_;
+	
+	public PartageGainsCasino(CompteCasino compte, Fondation fondation, int pourcentage) {
+		this(-1, compte, fondation, pourcentage);
+	}
+	
+	public PartageGainsCasino(int id, CompteCasino compte, Fondation fondation, int pourcentage) {
+		this.id = id;
+		this.compte = compte;
+		this.fondation = fondation;
+		this.pourcentage = pourcentage;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public CompteCasino getUnnamed_CompteCasino_() {
-		return this.unnamed_CompteCasino_;
+	public void setCompteCasino(CompteCasino compte) {
+		this.compte = compte;
 	}
 
-	public void setUnnamed_Fondation_(Fondation unnamed_Fondation_) {
-		this.unnamed_Fondation_ = unnamed_Fondation_;
+	public CompteCasino getCompteCasino() {
+		return this.compte;
 	}
 
-	public Fondation getUnnamed_Fondation_() {
-		return this.unnamed_Fondation_;
+	public void setFondation(Fondation fondation) {
+		this.fondation = fondation;
+	}
+
+	public Fondation getFondation() {
+		return this.fondation;
+	}
+
+	public int getPourcentage() {
+		return this.pourcentage;
+	}
+
+	public void setPourcentage(int pourcentage) {
+		this.pourcentage = pourcentage;
 	}
 }

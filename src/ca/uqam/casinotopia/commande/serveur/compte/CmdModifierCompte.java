@@ -6,8 +6,8 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class CmdModifierCompte implements CommandeServeurControleurClient {
-
-	private static final long serialVersionUID = 4957505453240402020L;
+	
+	private static final long serialVersionUID = 5756097079721692071L;
 	
 	private ModeleClientClient nouvClient;
 

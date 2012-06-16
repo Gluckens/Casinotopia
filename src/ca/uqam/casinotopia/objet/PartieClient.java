@@ -10,7 +10,7 @@ import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public abstract class PartieClient implements Comparable<PartieClient>, Serializable {
 	
-	private static final long serialVersionUID = -2380888793385476200L;
+	private static final long serialVersionUID = 1720908538062497410L;
 	
 	protected int id;
 	protected TypeJeuMultijoueurs typeMultijoueurs;

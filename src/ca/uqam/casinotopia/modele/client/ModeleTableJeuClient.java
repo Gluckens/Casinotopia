@@ -15,7 +15,7 @@ import ca.uqam.casinotopia.type.modif.TypeModif;
 
 public class ModeleTableJeuClient implements Modele, Observable {
 
-	private static final long serialVersionUID = -6303122505634608518L;
+	private static final long serialVersionUID = -2424069893426119698L;
 
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
 
@@ -122,5 +122,4 @@ public class ModeleTableJeuClient implements Modele, Observable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

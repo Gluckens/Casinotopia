@@ -1,14 +1,10 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
-
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.objet.JoueurClient;
 import ca.uqam.casinotopia.objet.PartieClient;
 
-public abstract class JoueurServeur implements Serializable {
-	
-	private static final long serialVersionUID = 3156168097836093668L;
+public abstract class JoueurServeur {
 	
 	protected ModeleClientServeur client;
 	protected Partie partie;

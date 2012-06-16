@@ -9,7 +9,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 
 public abstract class Utilisateur implements Serializable {
 	
-	private static final long serialVersionUID = 1967013417447817664L;
+	private static final long serialVersionUID = -2940412174000490861L;
 	
 	protected int idUtilisateur;
 	protected String nomUtilisateur;
@@ -47,6 +47,10 @@ public abstract class Utilisateur implements Serializable {
 		this.nomUtilisateur = nomUtilisateur;
 		this.motDePasse = motDePasse;
 		this.connexion = connexion;
+	}
+	
+	public void ajouterConnectable(Connectable connectable) {
+		this.connectables.add(connectable);
 	}
 
 	/**
@@ -107,12 +111,8 @@ public abstract class Utilisateur implements Serializable {
 	}
 
 	public void deconnecter() {
-		//TODO Pourquoi instanceof?
-		//Pourquoi on ne voudrait pas se déconnecter de tous les connectables?
 		for(Connectable conn : this.connectables) {
-			if(conn instanceof Clavardage) {
-				conn.deconnecter(this);
-			}
+			conn.deconnecter(this);
 		}
 	}
 }

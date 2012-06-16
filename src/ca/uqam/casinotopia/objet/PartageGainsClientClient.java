@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class PartageGainsClientClient implements Serializable {
 	
-	private static final long serialVersionUID = -5080255358704810523L;
+	private static final long serialVersionUID = 6389582743473593802L;
 	
 	private int id;
 	private ModeleClientClient client;

@@ -5,9 +5,9 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 
 public class CmdAuthentifierClient implements CommandeServeurControleurThread {
-
-	private static final long serialVersionUID = 4957505453240402020L;
-
+	
+	private static final long serialVersionUID = 5809372922945650142L;
+	
 	private String nomUtilisateur;
 	private char[] motDePasse;
 

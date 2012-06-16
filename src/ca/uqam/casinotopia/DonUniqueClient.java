@@ -1,15 +1,12 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.objet.Fondation;
 
-public class DonUniqueClient implements Serializable {
-	
-	private static final long serialVersionUID = 1796189943288471211L;
+public class DonUniqueClient {
 	
 	private int id;
 	private ModeleClientServeur client;

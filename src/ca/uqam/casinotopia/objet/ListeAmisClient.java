@@ -8,7 +8,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class ListeAmisClient implements Serializable {
 	
-	private static final long serialVersionUID = -5810268166115357333L;
+	private static final long serialVersionUID = -4240442991200830831L;
 	
 	private List<ModeleClientClient> lstClients;
 

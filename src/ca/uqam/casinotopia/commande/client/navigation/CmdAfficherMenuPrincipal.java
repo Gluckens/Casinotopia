@@ -6,10 +6,7 @@ import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 
 public class CmdAfficherMenuPrincipal implements CommandeClientControleurPrincipal {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7507787639756100983L;
+	private static final long serialVersionUID = -6588156161831974889L;
 
 	@Override
 	public void action(Controleur controleur) {

@@ -9,12 +9,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.table.JTableHeader;
 
-public class RowHeaderRenderer extends JLabel implements ListCellRenderer { 
-	 
-	/**
-	 * 
-	*/
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 	 
 	public RowHeaderRenderer(JTable table) { 
 		JTableHeader header = table.getTableHeader(); 

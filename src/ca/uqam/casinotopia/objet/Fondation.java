@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Fondation implements Serializable {
 	
-	private static final long serialVersionUID = -816700186537050374L;
+	private static final long serialVersionUID = 5092416676324724960L;
 	
 	private int id;
 	private String nom;

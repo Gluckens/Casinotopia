@@ -1,23 +1,18 @@
 package ca.uqam.casinotopia;
 
 import java.awt.Rectangle;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.Map.Entry;
 
 import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
-import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
-import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 import ca.uqam.casinotopia.objet.JeuClient;
 import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 
-public class Jeu implements Serializable {
-	
-	private static final long serialVersionUID = 7375777588643978481L;
+public class Jeu {
 	
 	private int id;
 	private String nom;
@@ -29,14 +24,7 @@ public class Jeu implements Serializable {
 
 	private Map<TypeEtatPartie, Map<Integer, Partie>> lstParties;
 
-	// private List<Partie> lstParties;
-
 	private TypeJeu type;
-
-	/*
-	 * public Jeu() { this.lstParties = new HashMap<TypeEtatPartie, Map<Integer,
-	 * Partie>>(); //this.lstParties = new ArrayList<Partie>(); }
-	 */
 
 	public Jeu(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
 		this.setId(id);

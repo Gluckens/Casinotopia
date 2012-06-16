@@ -1,10 +1,10 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import ca.uqam.casinotopia.connexion.Connectable;
+import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.objet.Clavardage;
 import ca.uqam.casinotopia.objet.PartieClient;
 import ca.uqam.casinotopia.type.TypeEtatPartie;
@@ -12,9 +12,7 @@ import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
-public abstract class Partie implements Comparable<Partie>, Serializable, Connectable {
-	
-	private static final long serialVersionUID = 2847945782668066206L;
+public abstract class Partie implements Comparable<Partie>, Connectable {
 	
 	protected int id;
 	protected TypeJeuMultijoueurs typeMultijoueurs;
@@ -28,7 +26,6 @@ public abstract class Partie implements Comparable<Partie>, Serializable, Connec
 		this(id, TypeJeuMultijoueurs.NO_VALUE, TypeJeuArgent.NO_VALUE, TypeEtatPartie.NO_VALUE, infoJeu, null);
 	}
 
-	//public Partie(int id, boolean optionArgent, boolean optionMultijoueur, Jeu infoJeu) {
 	public Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
 		this(id, typeMultijoueurs, typeArgent, typeEtat, infoJeu, new Clavardage(infoJeu.getNom() + id));
 		
@@ -75,16 +72,18 @@ public abstract class Partie implements Comparable<Partie>, Serializable, Connec
 	
 	public abstract PartieClient creerModeleClient();
 	
+	public JoueurServeur getJoueur(ModeleClientServeur client) {
+		return this.getJoueur(client.getId());
+	}
+	
 	public JoueurServeur getJoueur(int idJoueur) {
-		JoueurServeur joueurTrouve = null;
-		
 		for(JoueurServeur joueur : this.lstJoueurs) {
 			if(joueur.getId() == idJoueur) {
-				joueurTrouve = joueur;
+				return joueur;
 			}
 		}
 		
-		return joueurTrouve;
+		return null;
 	}
 	
 	public Set<JoueurServeur> getLstJoueurs() {

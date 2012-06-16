@@ -7,9 +7,9 @@ import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public class CmdJouerRoulette implements CommandeServeurControleurThread {
-
-	private static final long serialVersionUID = -3726034859881126673L;
-
+	
+	private static final long serialVersionUID = -8080282481068281980L;
+	
 	private int idJeu;
 	private TypeJeuMultijoueurs typeMultijoueur;
 	private TypeJeuArgent typeArgent;

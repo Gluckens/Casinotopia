@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.uqam.casinotopia.Avatar;
+import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.bd.CtrlBD;
 import ca.uqam.casinotopia.commande.Commande;
 import ca.uqam.casinotopia.commande.CommandeServeur;
@@ -27,13 +28,10 @@ import ca.uqam.casinotopia.commande.client.machine.CmdQuitterPartieMachineClient
 import ca.uqam.casinotopia.commande.client.navigation.CmdAfficherAttentePartie;
 import ca.uqam.casinotopia.commande.client.roulette.CmdAfficherJeuRoulette;
 import ca.uqam.casinotopia.commande.client.roulette.CmdQuitterPartieRouletteClient;
-import ca.uqam.casinotopia.commande.client.salle.CmdAfficherSalle;
-import ca.uqam.casinotopia.commande.client.salle.CmdAjouterClientSalle;
 import ca.uqam.casinotopia.commande.client.salle.CmdQuitterSalleClient;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
-import ca.uqam.casinotopia.modele.client.ModeleSalleClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
@@ -44,13 +42,10 @@ import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
-
-	private static final long serialVersionUID = -656190032558998826L;
-
+	
 	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
 	private int number;
 
-	//private ModeleUtilisateurServeur modele;
 	private ModeleClientServeur modele;
 
 	public ControleurServeurThread(Socket clientSocket, int number) {
@@ -79,7 +74,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				try {
 					//System.out.println("ATTENTE DE COMMANDE DU CLIENT");
 					cmd = (Commande) this.connexion.getObjectInputStream().readObject();
-					System.out.println("COMMANDE CLIENT OBTENUE");
+					//System.out.println("COMMANDE CLIENT OBTENUE");
 					if (cmd != null) {
 						if (cmd instanceof CommandeServeur) {
 							if (cmd instanceof CommandeServeurControleurThread) {
@@ -121,7 +116,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 					// TODO Auto-generated catch block
 					System.out.println("Déconnexion du client " + this.number);
 					this.modele.deconnecter();
-					this.getConnexion().close();
+					this.connexion.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -234,7 +229,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			System.out.println("PARTIE EN ATTENTE TROUVÉE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
 		
-		partieRoulette.ajouterJoueur(this.modele);
+		//partieRoulette.ajouterJoueur(this.modele);
+		partieRoulette.connecter(this.modele);
 
 		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this, partieRoulette));
 		//TODO À voir
@@ -255,12 +251,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 					if(!partieRoulette.isNbrMaximalJoueursAtteint()) {
 						nbrJoueursCourant = partieRoulette.getNbrJoueurs();
 						
-						try {
-							Thread.sleep(10000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						this.sleepActifAttentePartie(partieRoulette, 10);
+						
 						//Si aucun nouveau joueur s'est ajouté depuis le dernier sleep, on sort de l'attente et on démarre la partie
 						if(nbrJoueursCourant == partieRoulette.getNbrJoueurs()) {
 							break;
@@ -270,13 +262,35 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 						break;
 					}
 				}
+				else {
+					this.sleepActifAttentePartie(partieRoulette, 10);
+				}
 			}
 		}
 		
-		//TODO Synchronisation
-		ctrlPrincipal.transfererPartieEnAttenteVersEnCours(partieRoulette);
-		
-		this.cmdAfficherJeuRoulette(partieRoulette);
+		if(!partieRoulette.isPartieVide()) {
+			//TODO Synchronisation
+			ctrlPrincipal.transfererPartieEnAttenteVersEnCours(partieRoulette);
+			
+			this.cmdAfficherJeuRoulette(partieRoulette);
+		}
+		else {
+			this.actionQuitterPartieRoulette(this.getModeleClient().getId());
+		}
+	}
+	
+	private void sleepActifAttentePartie(Partie partie, int secondes) {
+		for(int i=0; i<secondes; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			if(!partie.isEnAttente()) {
+				break;
+			}
+		}
 	}
 	
 	private void cmdAfficherAttentePartie() {
@@ -298,6 +312,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		if(client != null) {
 			this.modele = client;
 			this.modele.setConnexion(this.connexion);
+			this.connexion.setModeleUtilisateur(this.modele); 
 			
 			this.initControleur();
 			

@@ -13,6 +13,7 @@ import java.awt.GridBagLayout;
 public class FrameGestionCompte extends JFrame implements Runnable {
 
 	private JPanel pnlCompte;
+	@SuppressWarnings("unused")
 	private ControleurPrincipalClient controleur;
 
 
@@ -45,7 +46,6 @@ public class FrameGestionCompte extends JFrame implements Runnable {
 		this.setGlassPane(glassPane);
 	}
 
-
 	@Override
 	public void run() {
 		this.setVisible(true);
@@ -55,5 +55,4 @@ public class FrameGestionCompte extends JFrame implements Runnable {
 		this.setContentPane(contentPane);
 		this.setVisible(true);
 	}
-
 }

@@ -5,11 +5,10 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurMachineClient;
 
 public class CmdMachineEnvoyerLeHasard implements CommandeClientControleurMachine {
-
-	private static final long serialVersionUID = -5641712153365281012L;
 	
+	private static final long serialVersionUID = -4011148245381781701L;
 	
-	int int1,int2,int3;
+	private int int1, int2, int3;
 	
 	public CmdMachineEnvoyerLeHasard(int int1, int int2, int int3) {
 		this.int1 = int1;
@@ -19,18 +18,6 @@ public class CmdMachineEnvoyerLeHasard implements CommandeClientControleurMachin
 	
 	@Override
 	public void action(Controleur controleur) {
-		ControleurMachineClient ctrl = (ControleurMachineClient) controleur;
-		
-		if(int1 == int2 && int3 == int2) {
-			ctrl.actionAfficherMessage("Vous avez gagné 2 fois votre mise");
-		}
-		else if(int1 == int2 || int2  == int3 || int3 == int1) {
-			ctrl.actionAfficherMessage("Vous avez gagné votre mise");
-		}
-		else {
-			ctrl.actionAfficherMessage("Vous avez perdu votre mise");
-		}
-		
-		ctrl.actionAfficherLeHasard(int1, int2, int3);
+		((ControleurMachineClient) controleur).actionAfficherLeHasard(this.int1, this.int2, this.int3);
 	}
 }

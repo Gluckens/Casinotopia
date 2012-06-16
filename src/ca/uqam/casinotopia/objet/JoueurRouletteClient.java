@@ -5,14 +5,11 @@ import ca.uqam.casinotopia.type.TypeCouleurJoueurRoulette;
 
 public class JoueurRouletteClient extends JoueurClient {
 	
-	private static final long serialVersionUID = 4069831466240710967L;
+	private static final long serialVersionUID = 6920435969922018408L;
 	
 	private TypeCouleurJoueurRoulette couleur;
 	private String pathImgJeton;
 	private boolean misesTerminees;
-	
-	//TODO Mise dans joueur???
-	//private Vector<Case> mises = new Vector<Case>();
 
 	public JoueurRouletteClient(ModeleClientClient client, PartieClient partie, TypeCouleurJoueurRoulette couleur) {
 		super(client, partie);

@@ -3,9 +3,9 @@ package ca.uqam.casinotopia;
 import java.awt.Point;
 
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.objet.AvatarClient;
 
+@SuppressWarnings("serial")
 public class Avatar implements Modele {
 	
 	private int id;

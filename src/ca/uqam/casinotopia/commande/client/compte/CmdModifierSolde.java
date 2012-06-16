@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.controleur.client.ControleurClientClient;
 
 public class CmdModifierSolde implements CommandeClientControleurClient {
 	
-	private static final long serialVersionUID = -7652296837007011914L;
+	private static final long serialVersionUID = 2241781785607226481L;
 	
 	private int nouveauSolde;
 	

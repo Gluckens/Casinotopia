@@ -7,7 +7,7 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class CmdInitClient implements CommandeClientControleurPrincipal {
 	
-	private static final long serialVersionUID = 612826343037164614L;
+	private static final long serialVersionUID = -709701482763987352L;
 	
 	private ModeleClientClient modele;
 	
@@ -19,5 +19,4 @@ public class CmdInitClient implements CommandeClientControleurPrincipal {
 	public void action(Controleur controleur) {
 		((ControleurPrincipalClient) controleur).actionInitClient(this.modele);
 	}
-
 }

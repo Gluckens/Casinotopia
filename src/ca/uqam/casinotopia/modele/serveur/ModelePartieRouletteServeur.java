@@ -11,6 +11,8 @@ import ca.uqam.casinotopia.JoueurRoulette;
 import ca.uqam.casinotopia.JoueurServeur;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.commande.client.roulette.CmdUpdateCasesRoulette;
+import ca.uqam.casinotopia.commande.client.roulette.CmdUpdateListeJoueurs;
+import ca.uqam.casinotopia.controleur.serveur.ControleurPrincipalServeur;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.objet.Case;
@@ -28,13 +30,11 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	private Case caseResultat;
 	private Map <Integer, Integer> listeGains = new HashMap <Integer,Integer>();
 	private ModeleTableJeuServeur tableJeu;
-	private ModeleRoueRouletteServeur roueRoulette;
 
 	public ModelePartieRouletteServeur(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
 		super(id, typeMultijoueurs, typeArgent, typeEtat, infoJeu);
 
 		this.tableJeu = new ModeleTableJeuServeur(this);
-		this.roueRoulette = new ModeleRoueRouletteServeur();
 	}
 	
 	public Case getCaseResultat() {
@@ -50,8 +50,6 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 	}
 	
 	private TypeCouleurJoueurRoulette getCouleurLibre() {
-		//TODO coder sa
-		
 		for(TypeCouleurJoueurRoulette typeCouleur : TypeCouleurJoueurRoulette.values()) {
 			if(this.isCouleurJoueurLibre(typeCouleur)) {
 				return typeCouleur;
@@ -59,8 +57,6 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		}
 		
 		return null;
-		
-		//return TypeCouleurJoueurRoulette.BLEU;
 	}
 	
 	private boolean isCouleurJoueurLibre(TypeCouleurJoueurRoulette typeCouleur) {
@@ -146,7 +142,6 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		
 		return lstJoueursClients;
 	}
-	
 
 	/**
 	 * @return the tableJeu
@@ -163,15 +158,6 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		this.tableJeu = tableJeu;
 	}
 	
-	public ModeleRoueRouletteServeur getRoueRoulette() {
-		return this.roueRoulette;
-	}
-	
-	public void setRoueRoulette(ModeleRoueRouletteServeur roueRoulette) {
-		this.roueRoulette = roueRoulette;
-	}
-	
-	//aaa
 	public void tournerRoulette() {
 		int res;
         res = (int)(Math.random()*36);
@@ -217,36 +203,41 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		}
 		
 		//TODO On update son solde seulement apres le tour? (donc ses mises sont prise en compte seulement lorsque la roue est tournée
-		return gain - montantMise;
-		
-		/*if (caseResultat.equals(caseMise)) {
-			if (caseMise.getType()==TypeCase.COULEUR || caseMise.getType()==TypeCase.PARITE ){
-				//System.out.println("Le joueur gagne avec la case : " + caseMise + " le montant de " + (10*montantMise));
-				gain = 2 * montantMise;
-			}
-			else
-			{
-				gain = 36 * montantMise;
-			}
-		}
-		return gain;*/
+		return gain;
 	}
 
 	public void quitterPartie(int idJoueur) {
 		JoueurServeur joueur = this.getJoueur(idJoueur);
+		this.deconnecter(joueur.getClient());
 		this.retirerJoueur(joueur);
 	}
 
 	@Override
 	public void connecter(Utilisateur utilisateur) {
-		// TODO Auto-generated method stub
-		
+		ModeleClientServeur client = (ModeleClientServeur) utilisateur;
+		if(!this.isPartiePleine()) {
+			this.ajouterJoueur(new JoueurRoulette(client, this, this.getCouleurLibre()));
+			utilisateur.ajouterConnectable(this);
+		}
 	}
 
 	@Override
 	public void deconnecter(Utilisateur utilisateur) {
-		// TODO Auto-generated method stub
+		ModeleClientServeur client = (ModeleClientServeur) utilisateur;
+		JoueurServeur joueur = this.getJoueur(client);
 		
+		this.lstJoueurs.remove(joueur);
+		
+		if(this.isPartieVide()) {
+			ControleurPrincipalServeur.getInstance().retirerPartie(this);
+		}
+		else {
+			CmdUpdateListeJoueurs cmd = new CmdUpdateListeJoueurs(this.creerSetJoueurClient(this.creerModeleClient()));
+			
+			//TODO Faudrait rafraichir la vue des jetons, ie: retirer les mises du joueurs qui quitte
+			for(JoueurServeur autreJoueur : this.lstJoueurs) {
+				autreJoueur.getClient().getConnexion().envoyerCommande(cmd);
+			}
+		}
 	}
-
 }

@@ -13,8 +13,6 @@ import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.chat.VueChat;
 
 public class ControleurChatClient extends ControleurClient {
-
-	private static final long serialVersionUID = -6432521365486691646L;
 	
 	private ModeleChatClient modele;
 	private VueChat vue;

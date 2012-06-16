@@ -8,19 +8,11 @@ import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.objet.Case;
 
 public class CmdUpdateCasesRoulette implements CommandeClientControleurRoulette {
-
+	
+	private static final long serialVersionUID = -8878006879834817032L;
+	
 	/**
-	 * Map<idJoueur, Map<CaseMisee, NbrJetonsMises>>
-	 */
-	// private Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer,
-	// Map<Case, Integer>>();
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3520768426950865395L;
-	/**
-	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
+	 * Map<Case, Map<idJoueur, NbrJetonsMises>>
 	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
 

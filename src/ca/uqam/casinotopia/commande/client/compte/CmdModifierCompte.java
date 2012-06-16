@@ -9,8 +9,8 @@ import ca.uqam.casinotopia.controleur.client.ControleurClientClient;
 
 public class CmdModifierCompte implements CommandeClientControleurClient {
 
-	private static final long serialVersionUID = 8911438224598458768L;
-
+	private static final long serialVersionUID = 7595553223330667858L;
+	
 	private String prenom;
 	private String nom;
 	private Date dateNaissance;

@@ -26,9 +26,7 @@ import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 
 public final class ControleurPrincipalServeur extends ControleurServeur {
-
-	private static final long serialVersionUID = -1699550032814878802L;
-
+	
 	public static final int NUMCONNEXION = 10;
 	public static final int MAX_PARTIES = 10000;
 

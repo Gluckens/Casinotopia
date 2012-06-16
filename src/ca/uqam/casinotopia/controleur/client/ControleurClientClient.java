@@ -10,8 +10,6 @@ import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 
 public class ControleurClientClient extends ControleurClient {
 
-	private static final long serialVersionUID = 2062988942063244845L;
-
 	public ControleurClientClient(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNavigation) {
 		super(connexion, client, modeleNavigation);
 	}

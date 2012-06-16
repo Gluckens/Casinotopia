@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdQuitterPartieRoulette implements CommandeServeurControleurThread {
 	
-	private static final long serialVersionUID = -232195630606747437L;
+	private static final long serialVersionUID = -3753405540606140399L;
 	
 	private int idJoueur;
 	
@@ -18,5 +18,4 @@ public class CmdQuitterPartieRoulette implements CommandeServeurControleurThread
 	public void action(Controleur controleur) {
 		((ControleurServeurThread) controleur).actionQuitterPartieRoulette(this.idJoueur);
 	}
-
 }

@@ -1,13 +1,9 @@
 package ca.uqam.casinotopia;
 
-import java.io.Serializable;
-
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.objet.Fondation;
 
-public class PartageGainsClient implements Serializable {
-	
-	private static final long serialVersionUID = -5080255358704810523L;
+public class PartageGainsClient {
 	
 	private int id;
 	private ModeleClientServeur client;

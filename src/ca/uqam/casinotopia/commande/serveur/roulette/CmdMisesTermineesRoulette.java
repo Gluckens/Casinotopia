@@ -5,8 +5,8 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 
 public class CmdMisesTermineesRoulette implements CommandeServeurControleurRoulette {
-
-	private static final long serialVersionUID = -924725531305179986L;
+	
+	private static final long serialVersionUID = -5864787457870123976L;
 	
 	private int idJoueur;
 	
@@ -18,5 +18,4 @@ public class CmdMisesTermineesRoulette implements CommandeServeurControleurRoule
 	public void action(Controleur controleur) {
 		((ControleurRouletteServeur) controleur).actionMisesTerminees(this.idJoueur);
 	}
-
 }

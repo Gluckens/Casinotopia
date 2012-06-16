@@ -35,6 +35,7 @@ public abstract class TestBD {
 		CtrlBD.BD.ajouterAmiClient(client, client3);
 		CtrlBD.BD.ajouterAmiClient(client, client2);
 		
+		@SuppressWarnings("unused")
 		ModeleClientServeur client4 = CtrlBD.BD.authentifierClient("username1", "mdp1");
 		
 		

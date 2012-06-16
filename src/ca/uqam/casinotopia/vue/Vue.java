@@ -11,24 +11,16 @@ import ca.uqam.casinotopia.observateur.Observateur;
 
 @SuppressWarnings("serial")
 public abstract class Vue extends JPanel implements Observateur {
+	
 	protected Map<String, JComponent> componentMap = new HashMap<String, JComponent>();
 
 	protected abstract void addComponents();
-
-	/*
-	 * public Vue(Controleur controleur) { this.controleur = controleur; }
-	 */
 
 	protected void setPanelOptions() {
 		// this.setLayout(null);
 	}
 
 	protected void createComponentsMap() {
-		/*
-		 * Component[] components = this.getComponents(); for (int i=0; i <
-		 * components.length; i++) { if(components[i].getName() != null) {
-		 * this.componentMap.put(components[i].getName(), components[i]); } }
-		 */
 		this.componentMap = this.createComponentsMapRecursive(this);
 	}
 
@@ -60,11 +52,8 @@ public abstract class Vue extends JPanel implements Observateur {
 			return null;
 		}
 	}
-	
-
 
 	public Map<String, JComponent> getComponentMap() {
 		return this.componentMap;
 	}
-
 }

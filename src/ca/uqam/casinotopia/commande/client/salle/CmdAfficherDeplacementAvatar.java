@@ -8,10 +8,8 @@ import ca.uqam.casinotopia.controleur.client.ControleurSalleClient;
 
 public class CmdAfficherDeplacementAvatar implements CommandeClientControleurSalle {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2683720680472219714L;
+	private static final long serialVersionUID = -8489527504187952719L;
+	
 	private int idClient;
 	private Point position;
 	

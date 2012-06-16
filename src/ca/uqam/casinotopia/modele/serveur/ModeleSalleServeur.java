@@ -125,6 +125,7 @@ public class ModeleSalleServeur implements Modele, Connectable {
 	public void connecter(Utilisateur utilisateur) {
 		ModeleClientServeur client = (ModeleClientServeur) utilisateur;
 		this.lstClients.put(client.getId(), client);
+		utilisateur.ajouterConnectable(this);
 		
 		client.getConnexion().envoyerCommande(new CmdAfficherSalle(this.creerModeleClient()));
 		

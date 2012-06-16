@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VueMenuPrincipal extends Vue {
+	
 	private ControleurMenuPrincipal controleur;
 
 	/**

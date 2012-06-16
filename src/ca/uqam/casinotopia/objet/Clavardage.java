@@ -1,5 +1,6 @@
 package ca.uqam.casinotopia.objet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,16 +9,13 @@ import ca.uqam.casinotopia.commande.client.chat.CmdEnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.chat.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
 
-public class Clavardage implements Connectable {
+public class Clavardage implements Connectable, Serializable {
 
-	private static final long serialVersionUID = -2661913218185990338L;
-
+	private static final long serialVersionUID = 1221820908161003468L;
+	
 	private static int MAXMESSAGE = 10;
-
 	private String nom;
-
 	private List<String> messages = new ArrayList<String>();
-
 	private List<Utilisateur> participants = new ArrayList<Utilisateur>();
 
 	public Clavardage(String nom) {
@@ -27,7 +25,6 @@ public class Clavardage implements Connectable {
 	}
 
 	public List<String> getMessage() {
-		// TODO Auto-generated method stub
 		return this.messages;
 	}
 
@@ -47,23 +44,22 @@ public class Clavardage implements Connectable {
 	@Override
 	public void connecter(Utilisateur utilisateur) {
 		if (!this.participants.contains(utilisateur)) {
-			// déconnecté l'utilisateur des autres clavardages
-			for (int i = 0; i < utilisateur.getConnectables().size(); i++) {
-				if (utilisateur.getConnectables().get(i) instanceof Clavardage) {
-					utilisateur.getConnectables().get(i).deconnecter(utilisateur);
+			//Déconnecter l'utilisateur des autres clavardages
+			for(Connectable connectable : utilisateur.getConnectables()) {
+				if(connectable instanceof Clavardage) {
+					connectable.deconnecter(utilisateur);
 				}
 			}
 
-			// ajouter l'utilisateur au clavardage et le clavardage a
-			// l'utilisateur
+			//Ajouter l'utilisateur au clavardage et le clavardage à l'utilisateur
 			this.participants.add(utilisateur);
-			utilisateur.getConnectables().add(this);
+			utilisateur.ajouterConnectable(this);
 
-			// initialisé le chat coté client
+			//Initialiser le chat coté client
 			CmdEnvoyerInformationChat cmd = new CmdEnvoyerInformationChat(this.getParticipantsToString(), this.getMessage(), this.nom);
 			utilisateur.getConnexion().envoyerCommande(cmd);
 
-			// mettre a jour les autres utilisateurs du chat
+			//Mettre à jour les autres utilisateurs du chat
 			for (int i = 0; i < this.participants.size(); i++) {
 				if (!this.participants.get(i).equals(utilisateur)) {
 					this.participants.get(i).getConnexion().envoyerCommande(new CmdMettreAJourUtilisateurChat(this.getParticipantsToString()));
@@ -72,13 +68,11 @@ public class Clavardage implements Connectable {
 
 			this.addMessage("l'utilisateur " + utilisateur.getNomUtilisateur() + " s'est connecté");
 		}
-
 	}
 
 	@Override
 	public void deconnecter(Utilisateur utilisateur) {
 		if (this.participants.contains(utilisateur)) {
-			//TODO tu remove le user, donc pas besoin de tester a chaque tour de boucle?
 			this.participants.remove(utilisateur);
 			for (int i = 0; i < this.participants.size(); i++) {
 				if (!this.participants.get(i).equals(utilisateur)) {
