@@ -15,9 +15,14 @@ public abstract class Utilisateur implements Serializable {
 	protected String nomUtilisateur;
 	protected String motDePasse;
 
+	/**
+	 * liste d'object avec lequel l'utilisateur est connecté
+	 */
 	protected List<Connectable> connectables = new ArrayList<Connectable>();
 
-	//Les sockets ne sont pas serializable
+	/**
+	 * connexion de l'utilisateur
+	 */
 	private transient Connexion connexion;
 	
 	public Utilisateur(int idUtilisateur, String nomUtilisateur) {
@@ -94,14 +99,24 @@ public abstract class Utilisateur implements Serializable {
 		this.idUtilisateur = idUtilisateur;
 	}
 
+	/**
+	 * @return the connexion
+	 */
 	public Connexion getConnexion() {
 		return this.connexion;
 	}
-	
+
+	/**
+	 * @param connexion
+	 *            the connexion to set
+	 */
 	public void setConnexion(Connexion connexion) {
 		this.connexion = connexion;
 	}
 
+	/**
+	 * @return the connectables
+	 */
 	public List<Connectable> getConnectables() {
 		return this.connectables;
 	}

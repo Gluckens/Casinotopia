@@ -8,13 +8,22 @@ import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 
 public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1882263609311781756L;
 
+	/**
+	 * liste des utilisateurs courament connecté
+	 */
 	List<String> listeUtilisateurs = new ArrayList<String>();
+	
+	/**
+	 * les derniers messages du chat
+	 */
 	List<String> messages = new ArrayList<String>();
+	
+	/**
+	 * nom/salle du chat
+	 */
 	String nom;
 
 	public CmdEnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages, String nom) {

@@ -8,7 +8,14 @@ public class CmdEnvoyerMessageChat implements CommandeServeurControleurChat {
 
 	private static final long serialVersionUID = 2768135797514657051L;
 
+	/**
+	 * le message a envoyé au serveur
+	 */
 	private String message;
+	
+	/**
+	 * la salle de chat dans laquelle envoyé le message
+	 */
 	private String salle;
 
 	public CmdEnvoyerMessageChat(String message, String salle) {

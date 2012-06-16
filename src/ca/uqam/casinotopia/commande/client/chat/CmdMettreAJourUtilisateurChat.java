@@ -7,11 +7,11 @@ import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 
 public class CmdMettreAJourUtilisateurChat implements CommandeClientControleurChat {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7566185973021199708L;
 
+	/**
+	 * liste des utilisateur courant du chat
+	 */
 	private List<String> listeUtilisateur;
 
 	public CmdMettreAJourUtilisateurChat(List<String> listeUtilisateur) {

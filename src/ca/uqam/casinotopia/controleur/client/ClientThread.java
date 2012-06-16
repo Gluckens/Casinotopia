@@ -15,11 +15,12 @@ import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 /**
  * écoute le serveur et exécute les actions envoyé
  * 
- * @author Olivier
- * 
  */
 public class ClientThread implements Runnable {
 
+	/**
+	 * controleur du thread
+	 */
 	private ControleurPrincipalClient controleur;
 
 	public ClientThread(ControleurPrincipalClient controleur) {
@@ -28,6 +29,7 @@ public class ClientThread implements Runnable {
 
 	@Override
 	public void run() {
+		//tant que la connexion est ouverte, on vérifie si une commande a été envoyé et on exécute sont action
 		while (this.controleur.getConnexion().isConnected()) {
 			Commande cmd = null;
 			try {

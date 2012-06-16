@@ -16,24 +16,61 @@ import ca.uqam.casinotopia.commande.Commande;
 
 public class Connexion implements Serializable {
 	
+	//TODO pourquoi il a un serialize
 	private static final long serialVersionUID = 268756810206780744L;
 	
+	/**
+	 * le socket de la connexion
+	 */
 	private Socket socket;
+	
+	/**
+	 * indique si la connection est active
+	 */
 	private boolean connected = false;
 
+	/**
+	 * les données d'entré 
+	 */
 	private InputStream input;
+
+	/**
+	 * les données de sortie
+	 */
 	private OutputStream output;
 
+	/**
+	 * les données d'entré en objet
+	 */	
 	private ObjectOutputStream oOutputStream;
+
+	/**
+	 * les données de sortie en objet
+	 */	
 	private ObjectInputStream oInputStream;
 
+	/**
+	 * les données d'entré en DataStream
+	 */	
 	private DataOutputStream dOutputStream;
+
+	/**
+	 * les données de sortie en DataStream
+	 */	
 	private DataInputStream dInputStream;
 
+	/**
+	 * connexion vide
+	 */
 	public Connexion() {
 		this.connected = false;
 	}
 
+	/**
+	 * conexion à un serveur
+	 * @param ip l'adresse ip du serveur
+	 * @param port le port du serveur
+	 */
 	public Connexion(String ip, int port) {
 		System.out.println("Connection à " + ip);
 		int essaie = 2;
@@ -55,11 +92,18 @@ public class Connexion implements Serializable {
 		}
 	}
 
+	/**
+	 * création d'une connexion pour un serveur
+	 * @param socket le socket du serveur
+	 */
 	public Connexion(Socket socket) {
 		this.socket = socket;
 		this.init();
 	}
 
+	/**
+	 * initialize les données après une connexion
+	 */
 	private void init() {
 		this.connected = true;
 		try {
@@ -99,10 +143,17 @@ public class Connexion implements Serializable {
 		return this.oOutputStream;
 	}
 
+	/**
+	 * indique si la connexion est active
+	 * @return
+	 */
 	public boolean isConnected() {
 		return this.connected;
 	}
 
+	/**
+	 * fermer la connexion
+	 */
 	public void close() {
 
 		this.connected = false;
@@ -117,6 +168,10 @@ public class Connexion implements Serializable {
 		}
 	}
 
+	/**
+	 * envoyer une comande sur la connexion
+	 * @param cmd la commande à envoyer
+	 */
 	public void envoyerCommande(Commande cmd) {
 		try {
 			this.getObjectOutputStream().writeObject(cmd);
