@@ -12,7 +12,14 @@ import ca.uqam.casinotopia.vue.machine.VueMachine;
 @SuppressWarnings("serial")
 public class ControleurMachineClient extends ControleurClient {
 
+	/**
+	 * vue de la machine à sous
+	 */
 	private VueMachine vue;
+	
+	/**
+	 * modele de la manchine à sous
+	 */
 	private ModelePartieMachineClient modele;
 
 	public ControleurMachineClient(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNav) {
@@ -25,6 +32,10 @@ public class ControleurMachineClient extends ControleurClient {
 		
 	}
 	
+	/**
+	 * affiche un message à l'écran
+	 * @param message le message a afficher
+	 */
 	public void actionAfficherMessage(String message) {
 		this.vue.setMessage(message);
 	}
@@ -34,6 +45,9 @@ public class ControleurMachineClient extends ControleurClient {
 	}
 
 
+	/**
+	 * fait une mise dans la machine à sous et envoie la mise au serveur
+	 */
 	public void cmdMiser() {
 		try {
 			Thread.sleep(1000);
@@ -46,12 +60,18 @@ public class ControleurMachineClient extends ControleurClient {
 	}
 
 
+	/**
+	 * affiche 3 valeur de la machine à sous
+	 */
 	public void actionAfficherLeHasard(int int1, int int2, int int3) {
 		vue.setVal(int1, int2, int3);
 		
 	}
 
 
+	/**
+	 * déconnecte l'utilisateur de la machine à sous
+	 */
 	public void cmdQuitterPartie() {
 		this.connexion.envoyerCommande(new CmdQuitterMachine(this.client.getId()));
 		

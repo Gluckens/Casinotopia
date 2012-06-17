@@ -29,12 +29,24 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 
 	private static final long serialVersionUID = -1699550032814878802L;
 
+	/**
+	 * nombre de connexion simultané
+	 */
 	public static final int NUMCONNEXION = 10;
+	
+	/**
+	 * nombre de partie simultané
+	 */
 	public static final int MAX_PARTIES = 10000;
 
+	
 	private static ControleurPrincipalServeur instance;
 	private static ServerSocket server;
 	private ModeleServeurPrincipal modele;
+	
+	/**
+	 * les threads du serveur
+	 */
 	public static Thread[] thread = new Thread[NUMCONNEXION];
 	public static ControleurServeurThread[] serverThread = new ControleurServeurThread[NUMCONNEXION];
 	
@@ -55,10 +67,13 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		this.initJeux();
 	}
 
+	/**
+	 * écoute sur un port qu'un client se connecte et lui affecte un thread
+	 */
 	public void ecouterConnexions() {
 		try {
 			InetAddress address = InetAddress.getLocalHost();
-			System.out.println("Ton ip est surement : " + address.getHostAddress());
+			System.out.println("Ton ip : " + address.getHostAddress());
 		} catch (UnknownHostException e) {
 			System.out.println("Could not find this computer's address.");
 		}

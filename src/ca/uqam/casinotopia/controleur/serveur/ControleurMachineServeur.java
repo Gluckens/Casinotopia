@@ -16,7 +16,10 @@ public class ControleurMachineServeur extends ControleurServeur {
 		super(connexion, ctrlThread);
 		this.modele = modele;
 	}
-	
+	/**
+	 * envoie le hasard et calcule le gain selon la mise
+	 * @param mise mise du client
+	 */
 	public void cmdEnvoyerLeHasardEtCalculerGain(int mise){
 		Random random = new Random();
 		int int1 = random.nextInt(9);

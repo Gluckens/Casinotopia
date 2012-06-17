@@ -14,14 +14,25 @@ public class ModeleChatClient implements Modele, Observable {
 
 	private static final long serialVersionUID = 1197460785333129913L;
 
+	/**
+	 * nom du chat
+	 */
 	private String salle;
 
+	/**
+	 * les messages envoyés au chat
+	 */
 	private String messages;
 	
+	/**
+	 * liste des utilisateurs du chat
+	 */
 	private DefaultListModel lstUtilisateurModel;
+	
 	
 	private BaseObservable sujet = new BaseObservable(this);
 
+	
 	public ModeleChatClient() {
 		this.salle = "";
 		this.messages = "";
@@ -32,24 +43,45 @@ public class ModeleChatClient implements Modele, Observable {
 		this.messages = messages;
 		this.lstUtilisateurModel = lstUtilisateurModel;
 	}
+	
+	/**
+	 * obtien la salle
+	 * @return la salle
+	 */
 	public String getSalle() {
 		return this.salle;
 	}
 
+	/**
+	 * défini la salle
+	 * @param salle le nom de la salle
+	 */
 	public void setSalle(String salle) {
 		this.salle = salle;
 		this.notifierObservateur();
 	}
 	
+	/**
+	 * obtien le message
+	 * @return le message
+	 */
 	public String getMessages() {
 		return this.messages;
 	}
 	
+	/**
+	 * défini les messages
+	 * @param messages les messages
+	 */
 	public void setMessages(String messages) {
 		this.messages = messages;
 		this.notifierObservateur();
 	}
 	
+	/**
+	 * défini les messages à partir d'un array
+	 * @param listeMessages array de messages
+	 */
 	public void setMessages(List<String> listeMessages){
 		String messages = "";
 		for (int i = 0; i < listeMessages.size(); i++) {
@@ -67,17 +99,28 @@ public class ModeleChatClient implements Modele, Observable {
 	}
 
 	
-	
+	/**
+	 * obtien le modele de la liste d'utilisateur
+	 * @return le modele de la liste d'utilisateur
+	 */
 	public DefaultListModel getLstUtilisateurModel() {
 		return this.lstUtilisateurModel;
 	}
 	
+	/**
+	 * défini le modele de la liste d'utilisateur
+	 * @param lstUtilisateurModel le modele de la liste d'utilisateur
+	 */
 	public void setLstUtilisateurModel(DefaultListModel lstUtilisateurModel) {
 		this.lstUtilisateurModel = lstUtilisateurModel;
 	}
 	
 
 
+	/**
+	 * défini le modele de la liste d'utilisateur
+	 * @param lstUtilisateurModel le modele de la liste d'utilisateur
+	 */
 	public void setChatUtilisateur(List<String> listeUtilisateur){
 		this.lstUtilisateurModel.clear();
 		for (int i = 0; i < listeUtilisateur.size(); i++) {

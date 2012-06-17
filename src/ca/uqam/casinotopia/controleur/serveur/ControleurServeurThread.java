@@ -47,10 +47,13 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 	private static final long serialVersionUID = -656190032558998826L;
 
+	/**
+	 * liste des controleurs associé au thread
+	 */
 	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
 	private int number;
 
-	//private ModeleUtilisateurServeur modele;
+	
 	private ModeleClientServeur modele;
 
 	public ControleurServeurThread(Socket clientSocket, int number) {
@@ -72,6 +75,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 	@Override
 	public void run() {
+		//attend l'envoie d'une commande et l'exécute avec le bon controleur
 		try {
 			System.out.println("client no " + this.number + " connecté");
 			while (this.connexion.isConnected()) {

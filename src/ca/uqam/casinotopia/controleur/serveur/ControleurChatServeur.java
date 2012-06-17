@@ -18,6 +18,11 @@ public class ControleurChatServeur extends ControleurServeur {
 		//}
 	}
 
+	/**
+	 * ennvoie un message à un chat
+	 * @param message le message à envoyer
+	 * @param salle le chat auquel envoyé le message
+	 */
 	public void actionEnvoyerMessage(String message, String salle) {
 		message = this.ctrlThread.getModeleClient().getNomUtilisateur() + " : " + message;
 		ControleurPrincipalServeur.getInstance().getModele().getChat(salle).addMessage(message);
