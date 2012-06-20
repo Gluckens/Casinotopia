@@ -49,8 +49,7 @@ public class VueChat extends Vue {
 		btnQuitter = new JButton("Quitter");
 		btnQuitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO revoir cette fonction
-				controleur.cmdQuitterPartie();
+				controleur.cmdQuitterChat();
 			}
 		});
 		

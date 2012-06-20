@@ -3,6 +3,7 @@ package ca.uqam.casinotopia.controleur.client;
 import java.util.List;
 
 import ca.uqam.casinotopia.commande.serveur.chat.CmdEnvoyerMessageChat;
+import ca.uqam.casinotopia.commande.serveur.chat.CmdQuitterChat;
 import ca.uqam.casinotopia.commande.serveur.chat.CmdSeConnecterAuChat;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurClient;
@@ -65,6 +66,13 @@ public class ControleurChatClient extends ControleurClient {
 		this.modele.setSalle(salle);
 		
 		this.connexion.envoyerCommande(new CmdSeConnecterAuChat(salle));
+	}
+	
+	/**
+	 * envoie une commande au serveur pour se déconnecter du chat
+	 */
+	public void cmdQuitterChat() {
+		this.connexion.envoyerCommande(new CmdQuitterChat());
 	}
 	
 	/**

@@ -13,8 +13,9 @@ public class CmdMiserMachine implements CommandeServeurControleurMachine {
 	 */
 	private int mise;
 
-
+	/**
 	 * @param mise mise en sous
+	 */
 	public CmdMiserMachine(int mise) {
 		this.mise = mise;
 	}
