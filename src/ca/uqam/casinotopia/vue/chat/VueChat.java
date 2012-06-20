@@ -47,12 +47,13 @@ public class VueChat extends Vue {
 		this.controleur = ctrl;
 		
 		btnQuitter = new JButton("Quitter");
-		/*btnQuitter.addActionListener(new ActionListener() {
+		btnQuitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				//TODO revoir cette fonction
 				controleur.cmdQuitterPartie();
 			}
-		});*/
+		});
+		
 		GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
 		gbc_btnQuitter.gridx = 2;
 		gbc_btnQuitter.gridy = 3;
@@ -62,6 +63,7 @@ public class VueChat extends Vue {
 				seConnecterAuChat();
 			}
 		});
+		
 		txtSeConnecterA.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				seConnecterAuChat();
@@ -77,7 +79,6 @@ public class VueChat extends Vue {
 		this.setPanelOptions();
 	}
 
-
 	protected void envoyerMessageChat() {
 		if(!txtMessage.getText().isEmpty()){
 			controleur.cmdEnvoyerMessageChat();
@@ -85,19 +86,14 @@ public class VueChat extends Vue {
 	}
 
 	protected void seConnecterAuChat() {
-		if(txtSeConnecterA.getText().isEmpty()){
+		if(txtSeConnecterA.getText().isEmpty()) {
 			txtSeConnecterA.setText("entrez un nom de salle ici");
-		}else{
+		}
+		else {
 			controleur.cmdSeConnecterAuChat(txtSeConnecterA.getText());
 		}
-
 	}
 
-	/**
-	 * Create the panel.
-	 * 
-	 * @return
-	 */
 	@Override
 	protected void addComponents() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -247,6 +243,9 @@ public class VueChat extends Vue {
 		}
 	}
 	
+	/**
+	 * cache le bouton quitter, le bouton de connexion à une salle et le textbox
+	 */
 	public void cacherSalle(){
 		this.btnQuitter.setVisible(false);
 		this.btnSeConnecter.setVisible(false);

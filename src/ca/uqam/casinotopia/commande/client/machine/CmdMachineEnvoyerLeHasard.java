@@ -8,6 +8,9 @@ public class CmdMachineEnvoyerLeHasard implements CommandeClientControleurMachin
 	
 	private static final long serialVersionUID = -4011148245381781701L;
 	
+	/**
+	 * les 3 nombres aléatoires
+	 */
 	private int int1, int2, int3;
 	
 	public CmdMachineEnvoyerLeHasard(int int1, int int2, int int3) {

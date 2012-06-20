@@ -8,6 +8,9 @@ public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
 
 	private static final long serialVersionUID = -2302499804061663323L;
 	
+	/**
+	 * la salle de chat à laquelle se connecter
+	 */
 	private String salle;
 
 	public CmdSeConnecterAuChat(String salle) {

@@ -43,6 +43,9 @@ import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 	
+	/**
+	 * liste des controleurs associés au thread
+	 */
 	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
 	private int number;
 
@@ -65,6 +68,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 	@Override
 	public void run() {
+		//attend l'envoie d'une commande et l'exécute avec le bon controleur
 		try {
 			System.out.println("client no " + this.number + " connecté");
 			while (this.connexion.isConnected()) {

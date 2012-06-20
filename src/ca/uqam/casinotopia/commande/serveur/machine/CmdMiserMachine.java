@@ -8,12 +8,13 @@ public class CmdMiserMachine implements CommandeServeurControleurMachine {
 	
 	private static final long serialVersionUID = 273637580918256312L;
 	
-	private int mise;
-	
 	/**
-	 * 
-	 * @param mise La mise en sous
+	 * la mise utilisée sur la machine 
 	 */
+	private int mise;
+
+
+	 * @param mise mise en sous
 	public CmdMiserMachine(int mise) {
 		this.mise = mise;
 	}

@@ -9,6 +9,9 @@ public class CmdMettreAJourUtilisateurChat implements CommandeClientControleurCh
 
 	private static final long serialVersionUID = 8303784817286488858L;
 	
+	/**
+	 * liste des utilisateur courant du chat
+	 */
 	private List<String> listeUtilisateur;
 
 	public CmdMettreAJourUtilisateurChat(List<String> listeUtilisateur) {

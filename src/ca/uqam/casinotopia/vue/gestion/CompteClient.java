@@ -42,7 +42,6 @@ public class CompteClient extends JPanel implements FocusListener{
 
 	/**
 	 * Create the panel.
-	 * @param nouvCompte 
 	 */
 	public CompteClient(ControleurPrincipalClient ctrl, boolean nouvCompte) {
 		

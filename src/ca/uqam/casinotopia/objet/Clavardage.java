@@ -13,21 +13,46 @@ public class Clavardage implements Connectable, Serializable {
 
 	private static final long serialVersionUID = 1221820908161003468L;
 	
+	/**
+	 * nombre maximum de messages sauvegardés dans la mémoire
+	 */
 	private static int MAXMESSAGE = 10;
+	/**
+	 * le titre du chat
+	 */
 	private String nom;
+	/**
+	 * la liste des messages envoyés au chat
+	 */
 	private List<String> messages = new ArrayList<String>();
+	/**
+	 * liste des participants au chat
+	 */
 	private List<Utilisateur> participants = new ArrayList<Utilisateur>();
 
+	/**
+	 * constructeur
+	 * @param nom titre du chat
+	 */
 	public Clavardage(String nom) {
 		this.nom = nom;
 		this.messages.add("Serveur: Bonjour à toi!");
-
 	}
 
+	/**
+	 * récupère les derniers messages
+	 * @return liste des messages
+	 */
 	public List<String> getMessage() {
 		return this.messages;
 	}
 
+	/**
+	 * ajoute un message à la liste des messages
+	 * enlève le message le plus ancien si on dépasse le maximum de messages
+	 * indique à tous les participants qu'un nouveau message s'est ajouté
+	 * @param message le message à ajouter
+	 */
 	public void addMessage(String message) {
 		while (this.messages.size() >= MAXMESSAGE) {
 			this.messages.remove(0);
@@ -40,6 +65,7 @@ public class Clavardage implements Connectable, Serializable {
 			this.participants.get(i).getConnexion().envoyerCommande(new CmdAjouterMessageChat(message));
 		}
 	}
+
 
 	@Override
 	public void connecter(Utilisateur utilisateur) {
@@ -76,13 +102,19 @@ public class Clavardage implements Connectable, Serializable {
 			this.participants.remove(utilisateur);
 			for (int i = 0; i < this.participants.size(); i++) {
 				if (!this.participants.get(i).equals(utilisateur)) {
+					//indique aux autres participants que l'utilisateur a été déconnecté
 					this.participants.get(i).getConnexion().envoyerCommande(new CmdMettreAJourUtilisateurChat(this.getParticipantsToString()));
 				}
 			}
+			//ajoute un message au chat
 			this.addMessage("l'utilisateur " + utilisateur.getNomUtilisateur() + " s'est déconnecté");
 		}
 	}
 
+	/**
+	 * retourne le nom des participants sous une arrayliste
+	 * @return liste des participants
+	 */
 	public List<String> getParticipantsToString() {
 		ArrayList<String> liste = new ArrayList<String>();
 

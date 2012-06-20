@@ -13,7 +13,10 @@ public class ControleurMachineServeur extends ControleurServeur {
 		super(connexion, ctrlThread);
 		this.modele = modele;
 	}
-	
+	/**
+	 * actionne la machine et calcul le gain du joueur en fonction de sa mise
+	 * @param mise la mise du client
+	 */
 	public void actionMiserMachine(int mise) {
 		//this.ajouterSoldeClient(-mise);
 		this.modele.actionnerMachine();
