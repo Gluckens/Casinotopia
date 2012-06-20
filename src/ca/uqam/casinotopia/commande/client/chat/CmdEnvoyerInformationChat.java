@@ -26,6 +26,7 @@ public class CmdEnvoyerInformationChat implements CommandeClientControleurChat {
 	 */
 	String nom;
 
+	
 	public CmdEnvoyerInformationChat(List<String> listeUtilisateurs, List<String> messages, String nom) {
 		this.listeUtilisateurs = listeUtilisateurs;
 		this.messages = messages;
