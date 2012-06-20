@@ -51,8 +51,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public ControleurServeurThread(Socket clientSocket, int number) {
 		super(new Connexion(clientSocket));
 		this.number = number;
-		//TODO Hum...
-		//this.modele = this.getModeleClient();
 		this.modele = null;
 	}
 
@@ -72,9 +70,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			while (this.connexion.isConnected()) {
 				Commande cmd = null;
 				try {
-					//System.out.println("ATTENTE DE COMMANDE DU CLIENT");
 					cmd = (Commande) this.connexion.getObjectInputStream().readObject();
-					//System.out.println("COMMANDE CLIENT OBTENUE");
 					if (cmd != null) {
 						if (cmd instanceof CommandeServeur) {
 							if (cmd instanceof CommandeServeurControleurThread) {
@@ -143,8 +139,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public ControleurServeur getControleur(String nom) {
 		return this.lstControleurs.get(nom);
 	}
-	
-	
 
 	public void actionJoindreSalle(int idSalle) {
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
@@ -153,19 +147,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		if(salle != null) {
 			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
-			//TODO À voir
-			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this));
+			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, salle.getClavardage()));
 			
 			salle.connecter(this.modele);
-			
-			
-			
-			/*salle.ajouterClient(this.modele);
-			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
-			//TODO À voir
-			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this));
-			
-			this.cmdAfficherSalle(salle);*/
 		}
 		else {
 			//TODO Faire une commande pour donner du feedback au client
@@ -181,19 +165,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.lstControleurs.remove("ControleurSalleServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
 	}
-	
-	/*private void cmdAfficherSalle(ModeleSalleServeur modeleServeur) {
-		ModeleSalleClient modeleClient = modeleServeur.creerModeleClient();
-		ModeleClientClient modeleClientClient = this.modele.creerModeleClient();
-		
-		for(ModeleClientServeur modeleClientServeur : modeleServeur.getLstClients().values()) {
-			if(modeleClientServeur.getId() != this.modele.getId()) {
-				modeleClientServeur.getConnexion().envoyerCommande(new CmdAjouterClientSalle(modeleClientClient));
-			}
-		}
-		
-		this.connexion.envoyerCommande(new CmdAfficherSalle(modeleClient));
-	}*/
 
 	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
 		// TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
@@ -229,13 +200,10 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			System.out.println("PARTIE EN ATTENTE TROUVÉE, ID : " + String.valueOf(partieRoulette.getId()));
 		}
 		
-		//partieRoulette.ajouterJoueur(this.modele);
 		partieRoulette.connecter(this.modele);
 
 		this.ajouterControleur("ControleurRouletteServeur", new ControleurRouletteServeur(this.connexion, this, partieRoulette));
-		//TODO À voir
-		//Où est le modèle du chat?
-		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this));
+		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, partieRoulette.getClavardage()));
 
 		this.cmdAfficherAttentePartie();
 		
@@ -298,8 +266,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	}
 
 	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
-		//TODO ??? INITIALISER CASE SERVEUR POUR CLIENT
-		
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleServeur.creerModeleClient()));
 	}
 
@@ -312,7 +278,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		if(client != null) {
 			this.modele = client;
 			this.modele.setConnexion(this.connexion);
-			this.connexion.setModeleUtilisateur(this.modele); 
 			
 			this.initControleur();
 			
@@ -364,23 +329,15 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	} 
 
 	
-	public void actionQuitterChat(int idJoueur) {
-		//TODO Utiliser la classe utilisater ou autre chose que danny a fait?
-		this.modele.deconnecter();
+	public void actionQuitterChat() {
+		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 		
-		//((ControleurChatServeur)this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat(idJoueur);
-		
-		//TODO Mettre à jour la vue de tous les joueurs de la partie
-		
-		this.lstControleurs.remove("ControleurChatServeur");		
-		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
+		this.lstControleurs.remove("ControleurChatServeur");
 	}
 	
 	
 	public void actionQuitterPartieRoulette(int idJoueur) {
 		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
-		
-		//TODO Mettre à jour la vue de tous les joueurs de la partie
 		
 		this.lstControleurs.remove("ControleurRouletteServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());

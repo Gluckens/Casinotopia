@@ -38,13 +38,11 @@ public abstract class TestBD {
 		@SuppressWarnings("unused")
 		ModeleClientServeur client4 = CtrlBD.BD.authentifierClient("username1", "mdp1");
 		
-		
-		
 		ModeleSalleServeur salle = new ModeleSalleServeur(-1, "MEGAFUN");
-		salle.ajouterJeu(new Jeu(1, "nom1", "description1", "reglesJeu1", new Rectangle(70, 70, 220, 120), 4, 8, TypeJeu.ROULETTE));
-		salle.ajouterJeu(new Jeu(2, "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 220, 120), 2, 4, TypeJeu.ROULETTE));
-		salle.ajouterJeu(new Jeu(3, "nom3", "description3", "reglesJeu3", new Rectangle(70, 270, 220, 120), 2, 8, TypeJeu.ROULETTE));
-		salle.ajouterJeu(new Jeu(4, "nom4", "description4", "reglesJeu4", new Rectangle(370, 320, 220, 120), 3, 5, TypeJeu.ROULETTE));
 		CtrlBD.BD.ajouterSalle(salle);
+		CtrlBD.BD.ajouterJeu(new Jeu(1, salle.getId(), "nom1", "description1", "reglesJeu1", new Rectangle(70, 70, 180, 104), 1, 4, TypeJeu.ROULETTE));
+		CtrlBD.BD.ajouterJeu(new Jeu(2, salle.getId(), "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 180, 104), 2, 4, TypeJeu.ROULETTE));
+		CtrlBD.BD.ajouterJeu(new Jeu(3, salle.getId(), "nom3", "description3", "reglesJeu3", new Rectangle(70, 270, 180, 104), 3, 4, TypeJeu.ROULETTE));
+		CtrlBD.BD.ajouterJeu(new Jeu(4, salle.getId(), "nom4", "description4", "reglesJeu4", new Rectangle(370, 320, 180, 104), 4, 4, TypeJeu.ROULETTE));
 	}
 }

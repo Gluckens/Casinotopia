@@ -47,12 +47,12 @@ public class VueChat extends Vue {
 		this.controleur = ctrl;
 		
 		btnQuitter = new JButton("Quitter");
-		btnQuitter.addActionListener(new ActionListener() {
+		/*btnQuitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				controleur.cmdQuitterPartie();
 			}
-		});
+		});*/
 		GridBagConstraints gbc_btnQuitter = new GridBagConstraints();
 		gbc_btnQuitter.gridx = 2;
 		gbc_btnQuitter.gridy = 3;
@@ -82,10 +82,7 @@ public class VueChat extends Vue {
 		if(!txtMessage.getText().isEmpty()){
 			controleur.cmdEnvoyerMessageChat();
 		}
-
 	}
-
-
 
 	protected void seConnecterAuChat() {
 		if(txtSeConnecterA.getText().isEmpty()){
@@ -209,7 +206,6 @@ public class VueChat extends Vue {
 		add(txtSeConnecterA, gbc_txtSeConnecterA);
 		txtSeConnecterA.setColumns(10);
 
-
 		txtSeConnecterA.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				envoyerMessageChat();
@@ -244,31 +240,16 @@ public class VueChat extends Vue {
 			ModeleChatClient modele = (ModeleChatClient) observable;
 
 			this.lblTitre.setText(modele.getSalle());
-			// (récupérer dernier message)
-			//On pourrait potentiellement avec des enum de modif dans les modeles, et des méthodes get/set TypeModif.
-			// modeles, et des méthodes get/set TypeModif.
-			// Lors de la mise a jour du modele par le ctrl, on set le type de
-			//Lors de la mise a jour du modele par le ctrl, on set le type de modif si c'est une modif précise (sinon on changerait le modele au complet)
-			// au complet)
-			// Dans l'observateur (vue), on peux faire un switch sur le type et
-			//Dans l'observateur (vue), on peux faire un switch sur le type et faire des actions précises, et éviter de refresher toujours tout si pas besoin.
-			// si pas besoin.
-			//EX : String message = modele.getLastMessage();
-			
 			this.txtChat.setText(modele.getMessages());
-
 			this.txtChat.setCaretPosition(this.txtChat.getText().length());
 			JScrollBar jsb = this.scrollPane.getVerticalScrollBar();
 			jsb.setValue(jsb.getMaximum());
 		}
 	}
 	
-	
 	public void cacherSalle(){
 		this.btnQuitter.setVisible(false);
 		this.btnSeConnecter.setVisible(false);
 		this.txtSeConnecterA.setVisible(false);
 	}
-	
-	
 }

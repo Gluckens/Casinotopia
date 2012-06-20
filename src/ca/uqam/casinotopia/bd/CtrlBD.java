@@ -399,7 +399,7 @@ public enum CtrlBD {
 			
 			while(rsJeu.next()) {
 				Rectangle emplacement = new Rectangle(rsJeu.getInt("posX"), rsJeu.getInt("posY"), rsJeu.getInt("largeur"), rsJeu.getInt("hauteur"));
-				salle.ajouterJeu(new Jeu(rsJeu.getInt("id"), rsJeu.getString("nom"), rsJeu.getString("description"), rsJeu.getString("reglesJeu"), emplacement, rsJeu.getInt("nbrJoueursMin"), rsJeu.getInt("nbrJoueursMax"), TypeJeu.valueOf(rsJeu.getString("type"))));
+				salle.ajouterJeu(new Jeu(rsJeu.getInt("id"), rsJeu.getInt("idSalle"), rsJeu.getString("nom"), rsJeu.getString("description"), rsJeu.getString("reglesJeu"), emplacement, rsJeu.getInt("nbrJoueursMin"), rsJeu.getInt("nbrJoueursMax"), TypeJeu.valueOf(rsJeu.getString("type"))));
 			}
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
@@ -417,7 +417,7 @@ public enum CtrlBD {
 			
 			if(rsJeu.next()) {
 				Rectangle emplacement = new Rectangle(rsJeu.getInt("posX"), rsJeu.getInt("posY"), rsJeu.getInt("largeur"), rsJeu.getInt("hauteur"));
-				jeu = new Jeu(rsJeu.getInt("id"), rsJeu.getString("nom"), rsJeu.getString("description"), rsJeu.getString("reglesJeu"), emplacement, rsJeu.getInt("nbrJoueursMin"), rsJeu.getInt("nbrJoueursMax"), TypeJeu.valueOf(rsJeu.getString("type")));
+				jeu = new Jeu(rsJeu.getInt("id"), rsJeu.getInt("idSalle"), rsJeu.getString("nom"), rsJeu.getString("description"), rsJeu.getString("reglesJeu"), emplacement, rsJeu.getInt("nbrJoueursMin"), rsJeu.getInt("nbrJoueursMax"), TypeJeu.valueOf(rsJeu.getString("type")));
 			}
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
@@ -651,6 +651,11 @@ public enum CtrlBD {
 	}
 	
 	public boolean ajouterJeu(Jeu jeu, int idSalle) {
+		jeu.setIdSalle(idSalle);
+		return this.ajouterJeu(jeu);
+	}
+	
+	public boolean ajouterJeu(Jeu jeu) {
 		boolean succes = false;
 
 		Connection conn = null;
@@ -659,7 +664,7 @@ public enum CtrlBD {
 			conn = this.connecterBD();
 			String query = String.format(
 				"BEGIN INSERT INTO jeu (idSalle, type, nom, description, reglesJeu, nbrJoueursMin, nbrJoueursMax, posX, posY, largeur, hauteur) VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, %d, %d, %d, %d) RETURNING id INTO ?; END;",
-				idSalle, jeu.getType().toString(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), jeu.getEmplacement().x, jeu.getEmplacement().y, jeu.getEmplacement().width, jeu.getEmplacement().height
+				jeu.getIdSalle(), jeu.getType().toString(), jeu.getNom(), jeu.getDescription(), jeu.getReglesJeu(), jeu.getNbrJoueursMin(), jeu.getNbrJoueursMax(), jeu.getEmplacement().x, jeu.getEmplacement().y, jeu.getEmplacement().width, jeu.getEmplacement().height
 			);
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.registerOutParameter(1, OracleTypes.NUMBER);

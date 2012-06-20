@@ -5,11 +5,11 @@ import java.awt.GridBagLayout;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
-import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
 import ca.uqam.casinotopia.drag_n_drop.GhostDropListener;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.drag_n_drop.GhostMotionAdapter;
-import ca.uqam.casinotopia.drag_n_drop.MisesGhostComponentAdapter;
+import ca.uqam.casinotopia.drag_n_drop.mises.MisesDroppableReceiver;
+import ca.uqam.casinotopia.drag_n_drop.mises.MisesGhostComponentAdapter;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.type.TypeMise;
 import ca.uqam.casinotopia.vue.FrameApplication;

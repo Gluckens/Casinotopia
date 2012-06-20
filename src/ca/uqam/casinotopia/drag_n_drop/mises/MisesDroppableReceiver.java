@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.drag_n_drop;
+package ca.uqam.casinotopia.drag_n_drop.mises;
 
 import java.awt.Point;
 

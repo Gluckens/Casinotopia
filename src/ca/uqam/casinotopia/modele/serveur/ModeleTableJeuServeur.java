@@ -83,6 +83,12 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 		System.out.println("apres foreach " + this.cases);
 	}
 
+	public void retirerMises(int idJoueur) {
+		for(Map<Integer, Integer> map : this.cases.values()) {
+			map.remove(idJoueur);
+		}
+	}
+
 	private void initialiserCases() {
 		this.cases.put(ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.ROUGE), new HashMap<Integer, Integer>());
 		this.cases.put(ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.NOIRE), new HashMap<Integer, Integer>());

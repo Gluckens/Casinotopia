@@ -20,8 +20,8 @@ import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.drag_n_drop.GhostDropListener;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.drag_n_drop.GhostMotionAdapter;
-import ca.uqam.casinotopia.drag_n_drop.MisesDroppableReceiver;
-import ca.uqam.casinotopia.drag_n_drop.MisesGhostComponentAdapter;
+import ca.uqam.casinotopia.drag_n_drop.mises.MisesDroppableReceiver;
+import ca.uqam.casinotopia.drag_n_drop.mises.MisesGhostComponentAdapter;
 import ca.uqam.casinotopia.modele.client.ModeleTableJeuClient;
 import ca.uqam.casinotopia.objet.Case;
 import ca.uqam.casinotopia.objet.JoueurRouletteClient;
@@ -37,20 +37,23 @@ import ca.uqam.casinotopia.vue.Vue;
 public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 	
 	private ControleurRouletteClient controleur;
-	private FrameApplication frame;
+	
+	private GhostGlassPane glassPane;
 	
 	private ImageMap<Case> imageMapsTapis;
 	
 	private GhostDropListener ghostDropListener;
-
+	
 	/**
-	 * Create the panel.
+	 * 
 	 */
-	// TODO logiquement à la création de la Roulette, devrais-je envoyer
-	// l'attribut case du modele tableJeu?
-	public VueRouletteTapis(ControleurClient controleur, FrameApplication frame) {
+	/**
+	 * @param controleur Le controleur client qui gère la roulette
+	 * @param frame Le frame de l'application. Utilisé pour 
+	 */
+	public VueRouletteTapis(ControleurClient controleur, GhostGlassPane glassPane) {
 		this.controleur = (ControleurRouletteClient) controleur;
-		this.frame = frame;
+		this.glassPane = glassPane;
 		
 		this.initImageMaps();
 
@@ -66,16 +69,7 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 302 };
 		gridBagLayout.rowHeights = new int[] { 600 };
-		gridBagLayout.columnWeights = new double[] { 0.0 };
-		gridBagLayout.rowWeights = new double[] { 0.0 };
 		this.setLayout(gridBagLayout);
-
-		// setPreferredSize(new Dimension(302, 600));
-		/*
-		 * this.setPreferredSize(new Dimension(302, 600));
-		 * this.setMinimumSize(new Dimension(302, 600)); this.setMaximumSize(new Dimension(302, 600));
-		 */
-		
 
 		JLabel lblImgTapis = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/roulette-table-grand.jpg")));
 		lblImgTapis.setName("imgTapis");
@@ -94,7 +88,6 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		
 		
 		List<Point> lstPoints = new ArrayList<Point>();
-		//Collections.addAll(lstPoints, new Point(1,1));
 		
 		lstPoints.add(new Point(67, 41));
 		lstPoints.add(new Point(269, 41));
@@ -159,10 +152,10 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 	}
 
 	private void setMisesDragAndDrop(Component component, int montant) {
-		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), montant, component.getName());
+		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter(this.glassPane, montant, component.getName());
 		component.addMouseListener(misesGhostComponentAdapter);
 		misesGhostComponentAdapter.addGhostDropListener(this.ghostDropListener);
-		component.addMouseMotionListener(new GhostMotionAdapter((GhostGlassPane) this.frame.getGlassPane()));
+		component.addMouseMotionListener(new GhostMotionAdapter(this.glassPane));
 	}
 
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
@@ -176,11 +169,9 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 				JoueurRouletteClient joueur = (JoueurRouletteClient) this.controleur.getModele().getJoueur(idJoueur);
 				int mise = mapMises.getValue();
 				
-				//Rectangle rect = (Rectangle) this.imageMapsCases.get(caseCourante);
-				System.out.println("/img/" + joueur.getPathImgJeton());
 				JLabel lblMise = new JLabel(new ImageIcon(VueRouletteTapis.class.getResource("/img/" + joueur.getPathImgJeton())));
 				lblMise.setName("lblMise_" + caseCourante.toString() + "_" + idJoueur);
-				lblMise.setToolTipText("Joueur " + idJoueur + " : " + mise + " jetons");
+				lblMise.setToolTipText(joueur.getClient().getNomUtilisateur() + " : " + mise + " jetons");
 				Point p = this.imageMapsTapis.getPositionAt(caseCourante, i);
 				
 				lblMise.setBounds(p.x, p.y, 22, 23);
@@ -210,12 +201,6 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 	public void processDrop(Point p, int montant, String componentName, Point posDepart) {
 		Case droppedCase = this.getCaseAt(p);
 
-		//System.out.println("DROPPED CASE ==> " + droppedCase);
-		
-		//Map<Integer, Map<Case, Integer>> mises = this.controleur.getMapMises(droppedCase, typeMise);
-		
-		//Map<Integer, Map<Case, Integer>> mises = new HashMap<Integer, Map<Case, Integer>>();
-		
 		Map<Integer, Map<Case, Integer>> mises = this.controleur.creerMapMises();
 		
 		//S'il s'agit d'un déplacement d'une mise, on a pas besoin de revalider le solde.
@@ -241,13 +226,7 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 			this.controleur.cmdMiserRoulette(mises);
 		}
 		
-		
-		
-		//this.controleur.cmdMiserRoulette(droppedCase, typeMise);
-		
-		//TODO appeler une méthode du controleur en envoyant la case misée (vus qu'on update a chaque mise?)
-		//Le controleur pourra retrouver l'id du joueur via le modele, et envoyer sa au serveur.
-		//Ca ne devrait plus etre utile d'envoyer un map si on met à jour à chaque mise de chaque client (est-ce que ce sera trop demandant pour le serveur?)
+		//TODO Ca ne devrait plus etre utile d'envoyer un map si on met à jour à chaque mise de chaque client (est-ce que ce sera trop demandant pour le serveur?)
 	}
 
 	private Case getCaseAt(Point p) {

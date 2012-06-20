@@ -24,9 +24,7 @@ public class ControleurMenuPrincipal extends ControleurClient {
 
 	//TODO Enlever le bouton et obliger de passer par la salle pour joueur
 	public void cmdJouerRoulette() {
-		// TODO Récupérer l'id du jeu de roulette auquel le client veut jouer.
-
-		int idJeu = 2;
+		int idJeu = 1;
 
 		this.connexion.envoyerCommande(new CmdJouerRoulette(idJeu, TypeJeuMultijoueurs.INCONNUS, TypeJeuArgent.ARGENT));
 	}

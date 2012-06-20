@@ -97,7 +97,7 @@ public class ControleurRouletteClient extends ControleurClient {
 	}
 
 	public void cmdQuitterPartie() {
-		this.connexion.envoyerCommande(new CmdQuitterChat(this.client.getId()));
+		this.connexion.envoyerCommande(new CmdQuitterChat());
 		this.connexion.envoyerCommande(new CmdQuitterPartieRoulette(this.client.getId()));
 	}
 

@@ -29,54 +29,28 @@ public class FrameApplication extends JFrame implements Runnable {
 	public FrameApplication() {
 		setResizable(false);
 		this.setTitle("Casinotopia");
-		// this.setExtendedState(Frame.MAXIMIZED_BOTH);
-		// this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// this.setBounds(100, 100, 500, 400);
 		this.contentPane = new JPanel();
-		// this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// this.contentPane.setPreferredSize(new Dimension(1024, 768));
 		this.setContentPane(this.contentPane);
 		GridBagLayout gbl = new GridBagLayout();
 		gbl.columnWidths = new int[] { 1024 };
 		gbl.rowHeights = new int[] { 680, 50 };
-		gbl.columnWeights = new double[] { Double.MIN_VALUE };
-		gbl.rowWeights = new double[] { 0.0 };
 		this.contentPane.setLayout(gbl);
 
 		this.pnlVue = new JPanel();
-		// pnlVue.setSize(1024, 740);
-		// pnlVue.setSize(1024, 680);
-		// pnlVue.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 		this.pnlVue.setLayout(new GridBagLayout());
 		this.contentPane.add(this.pnlVue, new GridBagHelper().setXY(0, 0).setAnchor(GridBagConstraints.NORTH).end());
 
 		this.pnlMenu = new JPanel();
-		// pnlMenu.setSize(1024, 55);
 		this.pnlMenu.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 		this.pnlMenu.setLayout(new GridBagLayout());
-		// VueBarreMenuBas vueBarreMenuBas = new VueBarreMenuBas(this.con)
 		this.contentPane.add(this.pnlMenu, new GridBagHelper().setXY(0, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
-
-		// this.contentPane.add(new VueChat(null, this));
-
-		// this.setSize(1024, 768);
-
-		// this.contentPane.setSize(1024, 715);
+		
+		GhostGlassPane glassPane = new GhostGlassPane();
+		this.setGlassPane(glassPane);
 
 		this.setSize(1024, 768);
 		this.setLocationRelativeTo(null);
-
-		/*
-		 * Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		 * int x = (int) ((dimension.getWidth() - this.getWidth()) / 2); int y =
-		 * (int) ((dimension.getHeight() - this.getHeight()) / 2);
-		 * this.setBounds(x, y, 1024, 768);
-		 */
-		// this.setLocation(x, y);
-
-		GhostGlassPane glassPane = new GhostGlassPane();
-		this.setGlassPane(glassPane);
 	}
 
 	@Override

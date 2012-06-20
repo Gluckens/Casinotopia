@@ -137,9 +137,22 @@ public class VueSalle extends Vue {
 		});
 		
 		for(JeuClient jeu : this.lstJeux.values()) {
-			TableJeu table = new TableJeu(jeu.getEmplacement());
+			JLabel imgTable;
+			switch(jeu.getType()) {
+				case ROULETTE :
+					imgTable = new JLabel(new ImageIcon(VueSalle.class.getResource("/img/table/roulette.gif")));
+					imgTable.setName("tableJeu" + jeu.getId());
+					imgTable.setBounds(jeu.getEmplacement());
+					break;
+				default :
+					imgTable = null;
+			}
+			
+			pnlAvatars.add(imgTable);
+			
+			/*TableJeu table = new TableJeu(jeu.getEmplacement());
 			table.setName("tableJeu" + jeu.getId());
-			pnlAvatars.add(table);
+			pnlAvatars.add(table);*/
 		}
 		
 		
@@ -163,7 +176,6 @@ public class VueSalle extends Vue {
 				controleur.cmdQuitterSalle();
 			}
 		});
-		//btnQuitter.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnQuitter.setToolTipText("Quitter la salle");
 		this.add(btnQuitter, new GridBagHelper().setXY(1, 0).setAnchor(GridBagConstraints.EAST).end());
 		
@@ -172,70 +184,12 @@ public class VueSalle extends Vue {
 		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), ((ControleurPrincipalClient) this.controleur.getModeleNav().getControleur("ControleurPrincipalClient")).getClient(), this.controleur.getModeleNav());
 		this.controleur.getModeleNav().ajouterControleur("ControleurChatClient", ctrlChatClient);
 		
-		
 		VueChat chat = ctrlChatClient.getVue();
 		chat.cacherSalle();
 		ctrlChatClient.cmdSeConnecterAuChat("SallePrincipal");
 		chat.setName("chat");
 		this.add(chat, new GridBagHelper().setXY(1, 2).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
-		
-		
-		
 	}
-	
-	/*public void afficherSelectionOptionJeu(JeuClient jeu) {
-		VueSelectionOptionJeu vueOptionsJeu = (VueSelectionOptionJeu) this.getComponentByName("vueOptionsJeu");
-		
-		if(vueOptionsJeu == null) {
-			JPanel pnlAvatars = (JPanel) this.getComponentByName("pnlAvatars");
-			
-			vueOptionsJeu = new VueSelectionOptionJeu(this.controleur);
-			vueOptionsJeu.setName("vueOptionsJeu");
-			//vueOptionsJeu.setBounds(jeu.getEmplacement().x, jeu.getEmplacement().y, 260, 150);
-			//vueOptionsJeu.setBackground(new Color(255, 255, 255, 60));
-			
-			pnlAvatars.add(vueOptionsJeu);
-			
-			pnlAvatars.setComponentZOrder(vueOptionsJeu, 0);
-	
-			this.componentMap.put(vueOptionsJeu.getName(), vueOptionsJeu);
-			
-			revalidate();
-			repaint();
-		}
-	}*/
-	
-	/*public void afficherSelectionOptionJeu(JeuClient jeu) {
-		JInternalFrame frmOptionsJeu = (JInternalFrame) this.getComponentByName("frmOptionsJeu");
-		
-		if(frmOptionsJeu == null) {
-			JPanel pnlAvatars = (JPanel) this.getComponentByName("pnlAvatars");
-			
-			frmOptionsJeu = new JInternalFrame("Options Jeu", false, false, false, false);
-			frmOptionsJeu.setName("frmOptionsJeu");
-			frmOptionsJeu.setBounds(jeu.getEmplacement().x, jeu.getEmplacement().y, 260, 150);
-			frmOptionsJeu.setOpaque(false);
-			frmOptionsJeu.getContentPane().setBackground(new Color(0,0,0,30));
-			frmOptionsJeu.setVisible(true);
-			
-			VueSelectionOptionJeu vueOptionsJeu = new VueSelectionOptionJeu(this.controleur);
-			vueOptionsJeu.setName("vueOptionsJeu");
-			//vueOptionsJeu.setBounds(jeu.getEmplacement().x, jeu.getEmplacement().y, 260, 150);
-			//vueOptionsJeu.setBackground(new Color(255, 255, 255, 60));
-			
-			frmOptionsJeu.getContentPane().add(vueOptionsJeu);
-			
-			pnlAvatars.add(frmOptionsJeu);
-			
-			pnlAvatars.setComponentZOrder(frmOptionsJeu, 0);
-	
-			this.componentMap.put(frmOptionsJeu.getName(), frmOptionsJeu);
-			this.componentMap.put(vueOptionsJeu.getName(), vueOptionsJeu);
-			
-			revalidate();
-			repaint();
-		}
-	}*/
 	
 	public void afficherSelectionOptionJeu(JeuClient jeu) {
 		VueSelectionOptionJeu vueOptionsJeu = (VueSelectionOptionJeu) this.getComponentByName("vueOptionsJeu");
@@ -265,19 +219,6 @@ public class VueSalle extends Vue {
 			repaint();
 		}
 	}
-	
-	/*public void cacherSelectionOptionJeu() {
-		VueSelectionOptionJeu vueOptionsJeu = (VueSelectionOptionJeu) this.getComponentByName("vueOptionsJeu");
-		
-		if(vueOptionsJeu != null) {
-			JPanel pnlAvatars = (JPanel) this.getComponentByName("pnlAvatars");
-			pnlAvatars.remove(vueOptionsJeu);
-			this.componentMap.remove("vueOptionsJeu");
-			
-			revalidate();
-			repaint();
-		}
-	}*/
 	
 	private void updateAvatar(AvatarClient avatar) {
 		//System.out.println("CLIENT " + this.idClient + " : UPDATE D'AVATAR " + avatar.getId() + " : (" + avatar.getX() + ", " + avatar.getY() + ", " + avatar.getLargeur() + ", " + avatar.getHauteur() + ")");

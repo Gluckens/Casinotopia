@@ -15,7 +15,6 @@ public class GhostComponentAdapter extends GhostDropAdapter {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("MOUSEPRESSED GHOST");
 		Component c = e.getComponent();
 
 		BufferedImage image = new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_ARGB);

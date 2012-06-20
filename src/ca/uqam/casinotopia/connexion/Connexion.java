@@ -13,14 +13,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.commande.Commande;
-import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
-import ca.uqam.casinotopia.objet.Utilisateur;
 
 public class Connexion implements Serializable {
 	
 	private static final long serialVersionUID = 7987035909709182374L;
-	
-	private Utilisateur modeleUtilisateur;
 	
 	private Socket socket;
 	private boolean connected = false;
@@ -131,9 +127,5 @@ public class Connexion implements Serializable {
 				this.modeleUtilisateur.deconnecter();
 			}*/
 		}
-	}
-
-	public void setModeleUtilisateur(Utilisateur modeleUtilisateur) {
-		this.modeleUtilisateur = modeleUtilisateur;
 	}
 }

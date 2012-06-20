@@ -91,7 +91,7 @@ public class VueSelectionOptionJeu extends Vue {
 		radAvecArgent.setSelected(true);
 		pnlArgent.add(radAvecArgent, new GridBagHelper().setXY(0, 0).setAnchor(GridBagConstraints.WEST).end());
 		
-		JRadioButton radSansArgent = new JRadioButton("Amis");
+		JRadioButton radSansArgent = new JRadioButton("Sans argent");
 		radAmis.setName("radSansArgent");
 		radAmis.setActionCommand(TypeJeuArgent.SANS_ARGENT.toString());
 		pnlArgent.add(radSansArgent, new GridBagHelper().setXY(0, 1).setAnchor(GridBagConstraints.WEST).end());

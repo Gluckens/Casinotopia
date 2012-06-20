@@ -232,11 +232,17 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 			ControleurPrincipalServeur.getInstance().retirerPartie(this);
 		}
 		else {
-			CmdUpdateListeJoueurs cmd = new CmdUpdateListeJoueurs(this.creerSetJoueurClient(this.creerModeleClient()));
+			this.tableJeu.retirerMises(joueur.getId());
+			
+			
+			
+			CmdUpdateListeJoueurs cmdUpdateListeJoueurs = new CmdUpdateListeJoueurs(this.creerSetJoueurClient(this.creerModeleClient()));
+			CmdUpdateCasesRoulette cmdUpdateCasesRoulette = new CmdUpdateCasesRoulette(this.tableJeu.getCases());
 			
 			//TODO Faudrait rafraichir la vue des jetons, ie: retirer les mises du joueurs qui quitte
 			for(JoueurServeur autreJoueur : this.lstJoueurs) {
-				autreJoueur.getClient().getConnexion().envoyerCommande(cmd);
+				autreJoueur.getClient().getConnexion().envoyerCommande(cmdUpdateListeJoueurs);
+				autreJoueur.getClient().getConnexion().envoyerCommande(cmdUpdateCasesRoulette);
 			}
 		}
 	}

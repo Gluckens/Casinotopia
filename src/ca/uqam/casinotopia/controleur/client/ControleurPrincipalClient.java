@@ -22,11 +22,8 @@ public class ControleurPrincipalClient extends ControleurClient {
 
 	private boolean enReceptionDeCommande = false;
 
-	// private ModelePrincipalClient modele;
-
 	public ControleurPrincipalClient() {
 		super(new ModelePrincipalClient());
-		// this.modele = new ModelePrincipalClient();
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
 		this.listeServeur = new String[] { "localhost", "oli.dnsd.me", "dan.dnsd.me" };
@@ -87,7 +84,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionInitClient(ModeleClientClient modele) {
-		System.out.println("actionInitClient");
 		this.client = modele;
 		
 		ControleurClientClient ctrlClient = new ControleurClientClient(this.connexion, this.client, this.modeleNav);
@@ -98,10 +94,6 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionAfficherMenuPrincipal() {
-		/*if(this.modeleNav.getFrameApplication() == null) {
-			this.afficherFrameApplication();
-		}*/
-
 		this.afficherMenuPrincipal();
 	}
 	
@@ -146,19 +138,16 @@ public class ControleurPrincipalClient extends ControleurClient {
 	}
 
 	public void actionQuitterPartieRouletteClient() {
-		//TODO Permet de coder des choses a faire dans la vue avant de quitter (et d'enlever le controleur)
-		//Si on voudrait appeler directement la cmd AfficherMenuPrincipal, il faudrait envoyer en param le nom du controleur a enlever (et on perd la customisation avant le quittage)
-		
 		//TODO Au lieu d'afficher le menu principal, il faudrait afficher la salle où le jeu était
+		ControleurRouletteClient ctrlRoulette = (ControleurRouletteClient) this.modeleNav.getControleur("ControleurRouletteClient");
+		ControleurMenuPrincipal ctrlMenu = (ControleurMenuPrincipal) this.modeleNav.getControleur("ControleurMenuPrincipal");
+		
 		this.modeleNav.retirerControleur("ControleurRouletteClient");
-		this.afficherMenuPrincipal();
+		
+		ctrlMenu.cmdJoindreSalle(ctrlRoulette.getModele().getInfoJeu().getIdSalle());
 	}
 	
 	public void actionQuitterChatClient() {
-		//TODO Permet de coder des choses a faire dans la vue avant de quitter (et d'enlever le controleur)
-		//Si on voudrait appeler directement la cmd AfficherMenuPrincipal, il faudrait envoyer en param le nom du controleur a enlever (et on perd la customisation avant le quittage)
-		
-		//TODO Au lieu d'afficher le menu principal, il faudrait afficher la salle où le jeu était
 		this.modeleNav.retirerControleur("ControleurChatClient");
 		this.afficherMenuPrincipal();
 	}

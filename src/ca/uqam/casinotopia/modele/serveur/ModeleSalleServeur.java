@@ -57,6 +57,10 @@ public class ModeleSalleServeur implements Modele, Connectable {
 		return this.nom;
 	}
 	
+	public Clavardage getClavardage() {
+		return this.clavardage;
+	}
+	
 	//TODO ou plutot connecter?
 	/*public void ajouterClient(ModeleClientServeur client) {
 		//this.lstClients.add(client);

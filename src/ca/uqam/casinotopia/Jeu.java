@@ -15,6 +15,7 @@ import ca.uqam.casinotopia.type.TypeJeuArgent;
 public class Jeu {
 	
 	private int id;
+	private int idSalle;
 	private String nom;
 	private String description;
 	private String reglesJeu;
@@ -26,8 +27,9 @@ public class Jeu {
 
 	private TypeJeu type;
 
-	public Jeu(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
-		this.setId(id);
+	public Jeu(int id, int idSalle, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
+		this.id = id;
+		this.idSalle = idSalle;
 		this.nom = nom;
 		this.description = description;
 		this.reglesJeu = reglesJeu;
@@ -83,11 +85,7 @@ public class Jeu {
 		Partie partieEnAttente = null;
 
 		if (!this.lstParties.get(TypeEtatPartie.EN_ATTENTE).isEmpty()) {
-			//System.out.println("PartiesEnAttente : " + this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
-
 			SortedSet<Entry<Integer, Partie>> lstPartiesSorted = ControleurPrincipalServeur.entriesSortedByValues(this.lstParties.get(TypeEtatPartie.EN_ATTENTE));
-
-			//System.out.println("PartiesEnAttenteSORTED : " + lstPartiesSorted);
 			
 			for(Map.Entry<Integer, Partie> entry : lstPartiesSorted) {
 				if(entry.getValue().getTypeArgent() == typeArgent) {
@@ -95,8 +93,6 @@ public class Jeu {
 					break;
 				}
 			}
-
-			//partieEnAttente = lstPartiesSorted.first().getValue();
 		}
 
 		return partieEnAttente;
@@ -105,6 +101,7 @@ public class Jeu {
 	public JeuClient creerModeleClient() {
 		return new JeuClient(
 			this.id,
+			this.idSalle,
 			this.nom,
 			this.description,
 			this.reglesJeu,
@@ -128,6 +125,21 @@ public class Jeu {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	/**
+	 * @return the idSalle
+	 */
+	public int getIdSalle() {
+		return this.idSalle;
+	}
+
+	/**
+	 * @param idSalle
+	 *            the id to set
+	 */
+	public void setIdSalle(int idSalle) {
+		this.idSalle = idSalle;
 	}
 
 	/**

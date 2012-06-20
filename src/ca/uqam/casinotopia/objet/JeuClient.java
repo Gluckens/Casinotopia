@@ -10,6 +10,7 @@ public class JeuClient implements Serializable {
 	private static final long serialVersionUID = 6884430649210421242L;
 	
 	private int id;
+	private int idSalle;
 	private String nom;
 	private String description;
 	private String reglesJeu;
@@ -19,8 +20,9 @@ public class JeuClient implements Serializable {
 
 	private TypeJeu type;
 
-	public JeuClient(int id, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
-		this.setId(id);
+	public JeuClient(int id, int idSalle, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
+		this.id = id;
+		this.idSalle = idSalle;
 		this.nom = nom;
 		this.description = description;
 		this.reglesJeu = reglesJeu;
@@ -44,6 +46,21 @@ public class JeuClient implements Serializable {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	/**
+	 * @return the idSalle
+	 */
+	public int getIdSalle() {
+		return this.idSalle;
+	}
+
+	/**
+	 * @param idSalle
+	 *            the id to set
+	 */
+	public void setIdSalle(int idSalle) {
+		this.idSalle = idSalle;
 	}
 
 	/**

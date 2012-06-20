@@ -7,6 +7,7 @@ import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
+import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.observateur.Observable;
@@ -49,7 +50,7 @@ public class VueRoulette extends Vue {
 		roue.setName("roue");
 		this.add(roue, new GridBagHelper().setXY(0, 0).setWH(1, 2).end());
 		
-		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, this.frame);
+		VueRouletteTapis tapis = new VueRouletteTapis(this.controleur, (GhostGlassPane) this.frame.getGlassPane());
 		tapis.setName("tapis");
 		this.add(tapis, new GridBagHelper().setXY(1, 0).setWH(1, 2).end());
 		
