@@ -12,7 +12,9 @@ import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.chat.VueChat;
 
-
+/**
+ * Controleur gérant les actions du chat.
+ */
 public class ControleurChatClient extends ControleurClient {
 
 	/**

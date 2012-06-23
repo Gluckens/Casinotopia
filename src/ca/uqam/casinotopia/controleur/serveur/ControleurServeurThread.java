@@ -33,7 +33,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
+import ca.uqam.casinotopia.modele.serveur.ModelePartieMachineServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 import ca.uqam.casinotopia.objet.Clavardage;
@@ -169,10 +169,18 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.lstControleurs.remove("ControleurSalleServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
 	}
+	
+	public void actionJouerMachine(int idJeu) {
+		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		
+		ModelePartieMachineServeur partieMachine = new ModelePartieMachineServeur(this.number, ctrlPrincipal.getJeu(idJeu));
+		
+		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, partieMachine));
+		
+		this.cmdAfficherJeuMachine(partieMachine);
+	}
 
 	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
-		// TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
-
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
 		ModelePartieRouletteServeur partieRoulette = null;
@@ -188,8 +196,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu, typeArgent);
 				break;
 		}
-
-		
 		
 		//TODO À enlever (pour des tests)
 		/*partieRoulette = null;
@@ -273,6 +279,10 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleServeur.creerModeleClient()));
 	}
 
+	private void cmdAfficherJeuMachine(ModelePartieMachineServeur modeleServeur) {
+		this.connexion.envoyerCommande(new CmdAfficherJeuMachine(modeleServeur.creerModeleClient()));
+	}
+
 	public void actionAuthentifierClient(String nomUtilisateur, char[] motDePasse) {
 		int no = this.number;
 		System.out.println("le client " + no + " a envoyer le username " + nomUtilisateur + "!");
@@ -326,11 +336,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 			}
 		}
 	}
-	
-	public void lancerPartieMachine() {
-		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, new ModeleMachineServeur(number, null)));
-		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
-	} 
 
 	
 	public void actionQuitterChat() {

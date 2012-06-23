@@ -86,12 +86,6 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 			this.ajouterJoueur(new JoueurRoulette(client, this, this.getCouleurLibre()));
 		}
 	}
-	
-	/*public void ajouterJoueur(ModeleClientServeur client, TypeCouleurJoueurRoulette couleur) {
-		if(!this.isPartiePleine()) {
-			this.ajouterJoueur(new JoueurRoulette(client, this, couleur));
-		}
-	}*/
 
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		this.tableJeu.effectuerMises(mises);

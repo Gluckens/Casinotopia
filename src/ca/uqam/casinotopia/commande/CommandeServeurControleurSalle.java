@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.commande;
 
 /**
- * commande de salle
- *
+ * Commande destinée au controleur de salle
  */
 public interface CommandeServeurControleurSalle extends CommandeServeur {
 

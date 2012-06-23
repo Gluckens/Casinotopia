@@ -5,13 +5,13 @@ import java.util.Random;
 import ca.uqam.casinotopia.Jeu;
 import ca.uqam.casinotopia.Partie;
 import ca.uqam.casinotopia.modele.Modele;
-import ca.uqam.casinotopia.objet.PartieClient;
+import ca.uqam.casinotopia.modele.client.ModelePartieMachineClient;
 import ca.uqam.casinotopia.objet.Utilisateur;
 
 @SuppressWarnings("serial")
-public class ModeleMachineServeur extends Partie implements Modele {
+public class ModelePartieMachineServeur extends Partie implements Modele {
 
-	public ModeleMachineServeur(int id, Jeu infoJeu) {
+	public ModelePartieMachineServeur(int id, Jeu infoJeu) {
 		super(id, infoJeu);
 	}
 	
@@ -26,16 +26,13 @@ public class ModeleMachineServeur extends Partie implements Modele {
 		this.no3 = random.nextInt(9);
 	}
 	
-	public int getNo1() {
-		return this.no1;
-	}
-	
-	public int getNo2() {
-		return this.no2;
-	}
-	
-	public int getNo3() {
-		return this.no3;
+	public ModelePartieMachineClient creerModeleClient() {
+		ModelePartieMachineClient modeleClient = new ModelePartieMachineClient(
+				this.id,
+				this.infoJeu.creerModeleClient()
+		);
+		
+		return modeleClient;
 	}
 
 	public int getGain(int mise) {
@@ -52,11 +49,17 @@ public class ModeleMachineServeur extends Partie implements Modele {
 		
 		return gain;
 	}
-
-	@Override
-	public PartieClient creerModeleClient() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public int getNo1() {
+		return this.no1;
+	}
+	
+	public int getNo2() {
+		return this.no2;
+	}
+	
+	public int getNo3() {
+		return this.no3;
 	}
 
 	@Override

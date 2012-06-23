@@ -34,9 +34,7 @@ public class ClientThread implements Runnable {
 		while (this.controleur.getConnexion().isConnected()) {
 			Commande cmd = null;
 			try {
-				//System.out.println("ATTENTE DE COMMANDE DU SERVEUR");
 				cmd = (Commande) this.controleur.getConnexion().getObjectInputStream().readObject();
-				//System.out.println("COMMANDE SERVEUR OBTENUE");
 				if (cmd != null) {
 					if (cmd instanceof CommandeClient) {
 						if (cmd instanceof CommandeClientControleurPrincipal) {
@@ -79,6 +77,13 @@ public class ClientThread implements Runnable {
 		}
 	}
 	
+	/**
+	 * Récupère le controleur associé à la commande et exécute son action en envoyant le controleur en paramètre.
+	 * Si le controleur n'est pas déjà instancié, il s'agit d'une erreur.
+	 * 
+	 * @param cmd La commande reçue
+	 * @param nomControleur Le nom du controleur associé à la commande
+	 */
 	private void executerCommande(Commande cmd, String nomControleur) {
 		ControleurClient ctrl = this.getControleur(nomControleur);
 		if (ctrl == null) {
@@ -89,6 +94,12 @@ public class ClientThread implements Runnable {
 		}
 	}
 	
+	/**
+	 * Récupère un controleur par son nom
+	 * 
+	 * @param nom Le nom du controleur à récupérer
+	 * @return Le controleur demandé
+	 */
 	public ControleurClient getControleur(String nom) {
 		return this.controleur.getModeleNav().getControleur(nom);
 	}

@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.commande;
 
 /**
- * commande de Machine a sous
- *
+ * Commande destinée au controleur de machine à sous
  */
 public interface CommandeClientControleurMachine extends CommandeClient {
 

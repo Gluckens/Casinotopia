@@ -3,13 +3,13 @@ package ca.uqam.casinotopia.controleur.serveur;
 import ca.uqam.casinotopia.commande.client.machine.CmdMachineEnvoyerLeHasard;
 import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
+import ca.uqam.casinotopia.modele.serveur.ModelePartieMachineServeur;
 
 public class ControleurMachineServeur extends ControleurServeur {
 	
-	private ModeleMachineServeur modele;
+	private ModelePartieMachineServeur modele;
 	
-	public ControleurMachineServeur(Connexion connexion, ControleurServeurThread ctrlThread, ModeleMachineServeur modele) {
+	public ControleurMachineServeur(Connexion connexion, ControleurServeurThread ctrlThread, ModelePartieMachineServeur modele) {
 		super(connexion, ctrlThread);
 		this.modele = modele;
 	}

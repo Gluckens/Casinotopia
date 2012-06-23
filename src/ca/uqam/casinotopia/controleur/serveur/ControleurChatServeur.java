@@ -13,12 +13,16 @@ public class ControleurChatServeur extends ControleurServeur {
 		this.modele = modele;
 	}
 
+	/**
+	 * Quitter le chat.
+	 * Cette action est exécutée suite à la demande du serveur (commande)
+	 */
 	public void actionQuitterChat() {
 		this.modele.deconnecter(this.getModeleClient());
 	}
 
 	/**
-	 * ennvoie un message à un chat
+	 * Envoyer un message à un chat
 	 * @param message le message à envoyer
 	 * @param salle le chat auquel envoyé le message
 	 */

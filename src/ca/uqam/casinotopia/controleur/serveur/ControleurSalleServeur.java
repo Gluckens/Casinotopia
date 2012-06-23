@@ -19,9 +19,6 @@ public class ControleurSalleServeur extends ControleurServeur {
 	}
 	
 	public void actionDeplacerAvatar(Point p) {
-		//TODO Valider qu'il est possible de se déplacer à cet endroit?
-		//Devrait etre fait du coté client etant donnée que seule la vue le sait?
-		//System.out.println("CLIENT " + this.client.getId() + " : DEPLACEMENT SERVEUR (" + this.client.getAvatar().getPosition() + ") vers ( " + p + ")");
 		this.getModeleClient().getAvatar().setPosition(p);
 		
 		this.cmdAfficherDeplacementAvatar(p);
@@ -30,28 +27,12 @@ public class ControleurSalleServeur extends ControleurServeur {
 	private void cmdAfficherDeplacementAvatar(Point p) {
 		Commande cmd = new CmdAfficherDeplacementAvatar(this.getModeleClient().getId(), p);
 		
-		//System.out.println("UPDATE DE LA POSITION DU CLIENT " + this.client.getId() + " POUR LES " + this.modele.getLstClients().size() + " CLIENTS DE LA SALLE");
-		//for(ModeleClientServeur client : this.modele.getLstClients()) {
 		for(ModeleClientServeur client : this.modele.getLstClients().values()) {
-			//System.out.println("UPDATE DE LA POSITION DU CLIENT " + this.client.getId() + " POUR LE CLIENT " + client.getId());
 			client.getConnexion().envoyerCommande(cmd);
 		}
 	}
 	
 	public void quitterSalle() {
 		this.modele.deconnecter(this.getModeleClient());
-		
-		
-		/*
-		//TODO On envoie l'ID du client, ou bedon on se base sur le modele client qu'on connait déjà côté serveur?
-		this.modele.retirerClient(this.getModeleClient());
-		this.getModeleClient().getAvatar().setPosition(new Point(0, 0));
-		
-		//for(ModeleClientServeur client : this.modele.getLstClients()) {
-		for(ModeleClientServeur client : this.modele.getLstClients().values()) {
-			client.getConnexion().envoyerCommande(new CmdRetirerClientSalle(this.getModeleClient().getId()));
-		}
-		
-		this.getModeleClient().deconnecter();*/
 	}
 }

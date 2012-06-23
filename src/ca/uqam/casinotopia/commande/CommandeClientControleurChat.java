@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.commande;
 
 /**
- * commande de chat
- *
+ * Commande destinée au controleur de chat
  */
 public interface CommandeClientControleurChat extends CommandeClient {
 

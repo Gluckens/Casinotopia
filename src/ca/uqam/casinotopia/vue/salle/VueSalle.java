@@ -1,21 +1,16 @@
 package ca.uqam.casinotopia.vue.salle;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
-import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurSalleClient;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
@@ -144,15 +139,16 @@ public class VueSalle extends Vue {
 					imgTable.setName("tableJeu" + jeu.getId());
 					imgTable.setBounds(jeu.getEmplacement());
 					break;
+				case MACHINE :
+					imgTable = new JLabel(new ImageIcon(VueSalle.class.getResource("/img/table/machine.png")));
+					imgTable.setName("tableJeu" + jeu.getId());
+					imgTable.setBounds(jeu.getEmplacement());
+					break;
 				default :
 					imgTable = null;
 			}
 			
 			pnlAvatars.add(imgTable);
-			
-			/*TableJeu table = new TableJeu(jeu.getEmplacement());
-			table.setName("tableJeu" + jeu.getId());
-			pnlAvatars.add(table);*/
 		}
 		
 		
@@ -181,7 +177,7 @@ public class VueSalle extends Vue {
 		
 		
 
-		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), ((ControleurPrincipalClient) this.controleur.getModeleNav().getControleur("ControleurPrincipalClient")).getClient(), this.controleur.getModeleNav());
+		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), this.controleur.getModeleClient(), this.controleur.getModeleNav());
 		this.controleur.getModeleNav().ajouterControleur("ControleurChatClient", ctrlChatClient);
 		
 		VueChat chat = ctrlChatClient.getVue();
@@ -294,23 +290,5 @@ public class VueSalle extends Vue {
 	
 	public Map<TypeDeplacement, Boolean> getKeysPressed() {
 		return this.keysPressed;
-	}
-}
-
-@SuppressWarnings("serial")
-class TableJeu extends JComponent {
-	
-	private Rectangle emplacement;
-	
-	public TableJeu(Rectangle emplacement) {
-		this.emplacement = emplacement;
-		
-		this.setBounds(this.emplacement);
-	}
-
-	public void paint(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, this.emplacement.width, this.emplacement.height);
-		//g.fillRect(this.emplacement.x, this.emplacement.y, this.emplacement.width, this.emplacement.height);
 	}
 }

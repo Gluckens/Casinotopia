@@ -9,6 +9,9 @@ import ca.uqam.casinotopia.modele.client.ModelePartieMachineClient;
 import ca.uqam.casinotopia.modele.client.ModelePrincipalClient;
 import ca.uqam.casinotopia.vue.machine.VueMachine;
 
+/**
+ * Controleur gérant les actions du jeu de machine.
+ */
 public class ControleurMachineClient extends ControleurClient {
 	
 	/**
@@ -21,11 +24,11 @@ public class ControleurMachineClient extends ControleurClient {
 	 */
 	private ModelePartieMachineClient modele;
 
-	public ControleurMachineClient(Connexion connexion, ModeleClientClient client, ModelePrincipalClient modeleNav) {
+	public ControleurMachineClient(Connexion connexion, ModelePartieMachineClient modele, ModeleClientClient client, ModelePrincipalClient modeleNav) {
 		super(connexion, client, modeleNav);
 
 		this.vue = new VueMachine(this);
-		this.modele = new ModelePartieMachineClient();
+		this.modele = modele;
 		this.modele.ajouterObservateur(this.vue);
 	}
 	
@@ -39,6 +42,10 @@ public class ControleurMachineClient extends ControleurClient {
 	
 	public VueMachine getVue() {
 		return this.vue;
+	}
+	
+	public ModelePartieMachineClient getModele() {
+		return this.modele;
 	}
 
 	/**
@@ -55,7 +62,7 @@ public class ControleurMachineClient extends ControleurClient {
 	}
 
 	/**
-	 * affiche 3 valeur de la machine à sous
+	 * affiche les trois valeurs de la machine à sous
 	 */
 	public void actionAfficherLeHasard(int int1, int int2, int int3) {
 		this.vue.setVal(int1, int2, int3);

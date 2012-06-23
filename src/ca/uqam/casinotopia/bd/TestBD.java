@@ -44,5 +44,6 @@ public abstract class TestBD {
 		CtrlBD.BD.ajouterJeu(new Jeu(2, salle.getId(), "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 180, 104), 2, 4, TypeJeu.ROULETTE));
 		CtrlBD.BD.ajouterJeu(new Jeu(3, salle.getId(), "nom3", "description3", "reglesJeu3", new Rectangle(70, 270, 180, 104), 3, 4, TypeJeu.ROULETTE));
 		CtrlBD.BD.ajouterJeu(new Jeu(4, salle.getId(), "nom4", "description4", "reglesJeu4", new Rectangle(370, 320, 180, 104), 4, 4, TypeJeu.ROULETTE));
+		CtrlBD.BD.ajouterJeu(new Jeu(5, salle.getId(), "nom5", "description5", "reglesJeu5", new Rectangle(85, 450, 150, 117), 1, 1, TypeJeu.MACHINE));
 	}
 }

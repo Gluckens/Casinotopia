@@ -63,7 +63,7 @@ public class VueRoulette extends Vue {
 		this.add(actions, new GridBagHelper().setXY(0, 2).setWH(2, 1).setFill(GridBagConstraints.HORIZONTAL).setAnchor(GridBagConstraints.SOUTH).end());
 
 		
-		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), ((ControleurPrincipalClient) this.controleur.getModeleNav().getControleur("ControleurPrincipalClient")).getClient(), this.controleur.getModeleNav());
+		ControleurChatClient ctrlChatClient = new ControleurChatClient(this.controleur.getConnexion(), new ModeleChatClient(), this.controleur.getModeleClient(), this.controleur.getModeleNav());
 		this.controleur.getModeleNav().ajouterControleur("ControleurChatClient", ctrlChatClient);
 		
 		

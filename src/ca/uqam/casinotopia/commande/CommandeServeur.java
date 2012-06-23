@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.commande;
 
 /**
- * commande lu par le serveur
- *
+ * Commande envoyée par le client et reçue par le serveur
  */
 public interface CommandeServeur extends Commande {
 
