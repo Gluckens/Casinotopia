@@ -5,8 +5,14 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieMachineServeur;
 
+/**
+ * Controleur gérant les actions du jeu de machine.
+ */
 public class ControleurMachineServeur extends ControleurServeur {
 	
+	/**
+	 * Le modèle de la machine
+	 */
 	private ModelePartieMachineServeur modele;
 	
 	public ControleurMachineServeur(Connexion connexion, ControleurServeurThread ctrlThread, ModelePartieMachineServeur modele) {

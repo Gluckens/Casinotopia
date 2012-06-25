@@ -4,8 +4,14 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.objet.Clavardage;
 
+/**
+ * Controleur gérant les actions du chat.
+ */
 public class ControleurChatServeur extends ControleurServeur {
 	
+	/**
+	 * Modèle du chat
+	 */
 	private Clavardage modele;
 
 	public ControleurChatServeur(Connexion connexion, ControleurServeurThread ctrlThread, Clavardage modele) {

@@ -13,24 +13,56 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModifSalle;
 
+/**
+ * Représente une instance de salle
+ */
 public class ModeleSalleClient implements Modele, Observable {
 	
 	private static final long serialVersionUID = -6479440113594316065L;
 	
+	/**
+	 * Id de la salle
+	 */
 	private int id;
+	
+	/**
+	 * Nom de la salle
+	 */
 	@SuppressWarnings("unused")
 	private String nom;
+	
+	/**
+	 * Liste de jeux associés à la salle
+	 */
 	private Map<Integer, JeuClient> lstJeux;
+	
+	/**
+	 * Liste de clients dans la salle
+	 */
 	private Map<Integer, ModeleClientClient> lstClients;
+	
+	/**
+	 * Clavardage lié à la salle
+	 */
 	@SuppressWarnings("unused")
 	private Clavardage clavardage;
 	
+	/**
+	 * Gestiond es ajout/retrait de client dans la salle
+	 */
 	//TODO trouver une meilleure méthode...
 	private ModeleClientClient dernierClient;
 	private ModeleClientClient clientRetire;
 	
+	/**
+	 * Type de modification effectué sur le modèle.
+	 * Ceci sera lu par l'observateur pour savoir quelle fonction appeler
+	 */
 	private TypeModifSalle typeModif;
 
+	/**
+	 * Délégation des fonctions de l'interface observable à l'objet BaseObservable
+	 */
 	private BaseObservable sujet = new BaseObservable(this);
 	
 	public ModeleSalleClient(int id, String nom) {
@@ -49,9 +81,14 @@ public class ModeleSalleClient implements Modele, Observable {
 		this.clavardage = clavardage;
 	}
 	
+	/**
+	 * Valider un déplacement d'avatar selon les bornes des tables de jeux
+	 * 
+	 * @param avatar L'avatar qui tente de se déplacer
+	 * @return True si le déplacement est valide, false sinon.
+	 */
 	public boolean validerDeplacement(AvatarClient avatar) {
 		for(JeuClient jeu : this.lstJeux.values()) {
-			//if(jeu.getEmplacement().contains(position)) {
 			if(jeu.getEmplacement().intersects(avatar.getBounds())) {
 				return false;
 			}
@@ -60,9 +97,15 @@ public class ModeleSalleClient implements Modele, Observable {
 		return true;
 	}
 	
+	/**
+	 * Valider un déplacement d'avatar selon les bornes des tables de jeux
+	 * 
+	 * @param avatar L'avatar qui tente de se déplacer
+	 * @param position La nouvelle position demandée pour l'avatar
+	 * @return True si le déplacement est valide, false sinon.
+	 */
 	public boolean validerDeplacement(AvatarClient avatar, Point position) {
 		for(JeuClient jeu : this.lstJeux.values()) {
-			//if(jeu.getEmplacement().contains(position)) {
 			if(jeu.getEmplacement().intersects(avatar.getBounds(position))) {
 				return false;
 			}
@@ -75,11 +118,15 @@ public class ModeleSalleClient implements Modele, Observable {
 			}
 		}*/
 		
-		
-		
 		return true;
 	}
 	
+	/**
+	 * Valider si une position n'entre pas en conflit avec les bornes des tables de jeux
+	 * 
+	 * @param position La position à valider
+	 * @returnTrue si la position est valide, false sinon
+	 */
 	public boolean validerDeplacement(Point position) {
 		for(JeuClient jeu : this.lstJeux.values()) {
 			if(jeu.getEmplacement().contains(position)) {
@@ -90,6 +137,13 @@ public class ModeleSalleClient implements Modele, Observable {
 		return true;
 	}
 
+	/**
+	 * Détermine si le déplacement d'un avatar le fera entrer dans la zone de proximité d'un jeu, et ainsi faire apparaitre ses options.
+	 * 
+	 * @param avatar L'avatar qui veut se déplacer
+	 * @param position La nouvelle position de l'avatar
+	 * @return L'instance d'un jeu si l'avatar entre dans sa zone de proximitié, null sinon
+	 */
 	public JeuClient checkProximites(AvatarClient avatar, Point position) {
 		for(JeuClient jeu : this.lstJeux.values()) {
 			if(jeu.getEmplacement(20).intersects(avatar.getBounds(position))) {
@@ -100,6 +154,10 @@ public class ModeleSalleClient implements Modele, Observable {
 		return null;
 	}
 	
+	/**
+	 * Ajouter un client à la salle et notifier les observateurs
+	 * @param client
+	 */
 	public void ajouterClient(ModeleClientClient client) {
 		this.lstClients.put(client.getId(), client);
 		this.dernierClient = client;
@@ -107,10 +165,20 @@ public class ModeleSalleClient implements Modele, Observable {
 		this.notifierObservateur();
 	}
 	
+	/**
+	 * Retirer un client de la salle par son instance
+	 * 
+	 * @param client L'instance du client à retirer
+	 */
 	public void retirerClient(ModeleClientClient client) {
 		this.retirerClient(client.getId());
 	}
 	
+	/**
+	 * Retirer un client de la salle par son id
+	 * 
+	 * @param idClient L'id du client à retirer
+	 */
 	public void retirerClient(int idClient) {
 		this.clientRetire = this.lstClients.remove(idClient);
 		this.typeModif = TypeModifSalle.RETIRER_CLIENT;
@@ -133,30 +201,36 @@ public class ModeleSalleClient implements Modele, Observable {
 		return this.lstClients;
 	}
 	
-	
 	/**
-	 * @return the dernierClient
+	 * Récupérer le dernier client ajouté à la salle
+	 * 
+	 * @return Le dernier client
 	 */
 	public ModeleClientClient getDernierClient() {
 		return this.dernierClient;
 	}
 
 	/**
-	 * @param dernierClient the dernierClient to set
+	 * Définir le dernier client ajouté à la salle
+	 * 
+	 * @param dernierClient L'instance du client
 	 */
 	public void setDernierClient(ModeleClientClient dernierClient) {
 		this.dernierClient = dernierClient;
 	}
 	
 	/**
-	 * @return the clientRetire
+	 * Récupérer le dernier client qui a quitté la salle
+	 * 
+	 * @return Le dernier client qui a quitté
 	 */
 	public ModeleClientClient getClientRetire() {
 		return clientRetire;
 	}
 
 	/**
-	 * @param clientRetire the clientRetire to set
+	 * Définir le dernier client qui a quitté la salle
+	 * @param dernierClient L'instance du client
 	 */
 	public void setClientRetire(ModeleClientClient clientRetire) {
 		this.clientRetire = clientRetire;

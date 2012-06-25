@@ -8,6 +8,9 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModif;
 
+/**
+ * Représente une instance de partie de machine à sous
+ */
 public class ModelePartieMachineClient extends PartieClient implements Modele, Observable  {
 
 	private static final long serialVersionUID = 2782995943789350730L;

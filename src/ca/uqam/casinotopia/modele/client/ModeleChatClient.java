@@ -10,6 +10,9 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModif;
 
+/**
+ * Représente une instance de chat
+ */
 public class ModeleChatClient implements Modele, Observable {
 
 	private static final long serialVersionUID = -5918518651954748935L;

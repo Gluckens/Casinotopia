@@ -16,15 +16,35 @@ import ca.uqam.casinotopia.objet.Clavardage;
 import ca.uqam.casinotopia.objet.JeuClient;
 import ca.uqam.casinotopia.objet.Utilisateur;
 
+/**
+ * Représente une instance de salle
+ */
 @SuppressWarnings("serial")
 public class ModeleSalleServeur implements Modele, Connectable {
 	
-	//TODO Nécessaire de mettre un id?
+	/**
+	 * Id de la salle
+	 */
 	private int id;
+	
+	/**
+	 * Nom de la salle
+	 */
 	private String nom;
+	
+	/**
+	 * Liste de jeux associés à la salle
+	 */
 	private Map<Integer, Jeu> lstJeux;
+	
+	/**
+	 * Liste de clients dans la salle
+	 */
 	private Map<Integer, ModeleClientServeur> lstClients;
-	//private Set<ModeleClientServeur> lstClients;
+	
+	/**
+	 * Clavardage lié à la salle
+	 */
 	private Clavardage clavardage;
 	
 	public ModeleSalleServeur(int id, String nom) {
@@ -32,11 +52,9 @@ public class ModeleSalleServeur implements Modele, Connectable {
 	}
 	
 	public ModeleSalleServeur(int id, String nom, Map<Integer, Jeu> lstJeux) {
-		//this(id, nom, lstJeux, new HashSet<ModeleClientServeur>(), new Clavardage("Chat salle " + nom));
 		this(id, nom, lstJeux, new HashMap<Integer, ModeleClientServeur>(), new Clavardage("Chat salle " + nom));
 	}
 	
-	//public ModeleSalleServeur(int id, String nom, Map<Integer, Jeu> lstJeux, Set<ModeleClientServeur> lstClients, Clavardage clavardage) {
 	public ModeleSalleServeur(int id, String nom, Map<Integer, Jeu> lstJeux, Map<Integer, ModeleClientServeur> lstClients, Clavardage clavardage) {
 		this.id = id;
 		this.nom = nom;
@@ -61,18 +79,6 @@ public class ModeleSalleServeur implements Modele, Connectable {
 		return this.clavardage;
 	}
 	
-	//TODO ou plutot connecter?
-	/*public void ajouterClient(ModeleClientServeur client) {
-		//this.lstClients.add(client);
-		this.lstClients.put(client.getId(), client);
-	}
-	
-	//TODO Ou bedon plutot déconnecter?
-	public void retirerClient(ModeleClientServeur client) {
-		this.lstClients.remove(client);
-	}*/
-	
-	//public Set<ModeleClientServeur> getLstClients() {
 	public Map<Integer, ModeleClientServeur> getLstClients() {
 		return this.lstClients;
 	}
@@ -97,6 +103,11 @@ public class ModeleSalleServeur implements Modele, Connectable {
 		return this.lstJeux;
 	}
 	
+	/**
+	 * Créer la version client du modèle de salle
+	 * 
+	 * @return La version client du modèle de salle
+	 */
 	public ModeleSalleClient creerModeleClient() {
 		return new ModeleSalleClient(
 			this.id,
@@ -107,6 +118,11 @@ public class ModeleSalleServeur implements Modele, Connectable {
 		);
 	}
 	
+	/**
+	 * Créer la version client du Map de jeux
+	 * 
+	 * @return La version client du Map de jeux
+	 */
 	public Map<Integer, JeuClient> creerMapJeuClient() {
 		Map<Integer, JeuClient> mapJeuClient = new HashMap<Integer, JeuClient>();
 		for(Map.Entry<Integer, Jeu> entryServeur : this.lstJeux.entrySet()) {
@@ -116,6 +132,11 @@ public class ModeleSalleServeur implements Modele, Connectable {
 		return mapJeuClient;
 	}
 	
+	/**
+	 * Créer la version client du Map de clients
+	 * 
+	 * @return La version client du Map de clients
+	 */
 	public Map<Integer, ModeleClientClient> creerMapClientClient() {
 		Map<Integer, ModeleClientClient> mapClientClient = new HashMap<Integer, ModeleClientClient>();
 		for(Map.Entry<Integer, ModeleClientServeur> entryServeur : this.lstClients.entrySet()) {

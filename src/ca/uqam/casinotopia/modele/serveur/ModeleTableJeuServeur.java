@@ -8,32 +8,35 @@ import ca.uqam.casinotopia.commande.client.compte.CmdModifierSolde;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.objet.Case;
 import ca.uqam.casinotopia.objet.ListeCases;
-import ca.uqam.casinotopia.observateur.BaseObservable;
-import ca.uqam.casinotopia.observateur.Observable;
-import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.TypeCouleurCase;
 import ca.uqam.casinotopia.type.TypePariteCase;
-import ca.uqam.casinotopia.type.modif.TypeModif;
 
+/**
+ * Représente une instance de table de jeu
+ */
 @SuppressWarnings("serial")
-public class ModeleTableJeuServeur implements Modele, Observable {
-
-	// private Map<Case, ArrayList<Integer>> cases = new HashMap<Case,
-	// ArrayList<Integer>>();
+public class ModeleTableJeuServeur implements Modele {
+	
 	/**
+	 * Liste des cases de la table de jeu
 	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
 	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
 	
+	/**
+	 * Référence vers la partie dans laquelle la table de jeu est
+	 */
 	private ModelePartieRouletteServeur partieRoulette;
-
-	private BaseObservable sujet = new BaseObservable(this);
 
 	public ModeleTableJeuServeur(ModelePartieRouletteServeur partieRoulette) {
 		this.partieRoulette = partieRoulette;
 		this.initialiserCases();
 	}
 
+	/**
+	 * Effectuer les mises des joueurs
+	 * @param mises Les mises : Map<IdJoueur, Map<CaseMisee, NbrJetons>>
+	 */
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 
 		System.out.println("avant foreach " + this.cases);
@@ -73,8 +76,9 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 				}
 			}
 			
+			//Si la mise sur une case est différente de zéro, c'est qu'il s'agit d'une nouvelle mise.
+			//Sinon, c'est qu'il s'agit d'un déplacement de mise, et dans ce cas on a pas à envoyer de commande au client.
 			if(totalMises != 0) {
-				System.out.println("Nouveau solde du joueur 1 = " + joueur.getClient().getSolde() + " - " + totalMises + " = " + (joueur.getClient().getSolde() - totalMises));
 				joueur.getClient().setSolde(joueur.getClient().getSolde() - totalMises);
 				joueur.getClient().getConnexion().envoyerCommande(new CmdModifierSolde(joueur.getClient().getSolde()));
 			}
@@ -83,12 +87,20 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 		System.out.println("apres foreach " + this.cases);
 	}
 
+	/**
+	 * Retirer les mises d'un joueur
+	 * 
+	 * @param idJoueur L'id du joueur
+	 */
 	public void retirerMises(int idJoueur) {
 		for(Map<Integer, Integer> map : this.cases.values()) {
 			map.remove(idJoueur);
 		}
 	}
 
+	/**
+	 * Initialiser les cases
+	 */
 	private void initialiserCases() {
 		this.cases.put(ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.ROUGE), new HashMap<Integer, Integer>());
 		this.cases.put(ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.NOIRE), new HashMap<Integer, Integer>());
@@ -151,35 +163,12 @@ public class ModeleTableJeuServeur implements Modele, Observable {
 		return this.cases;
 	}
 	
+	/**
+	 * Supprimer toutes les mises
+	 */
 	public void resetMises() {
 		for(Map<Integer, Integer> mises : this.cases.values()) {
 			mises.clear();
 		}
-	}
-
-	@Override
-	public void ajouterObservateur(Observateur obs) {
-		this.sujet.ajouterObservateur(obs);
-	}
-
-	@Override
-	public void retirerObservateur(Observateur obs) {
-		this.sujet.retirerObservateur(obs);
-	}
-
-	@Override
-	public boolean estObservePar(Observateur obs) {
-		return this.sujet.estObservePar(obs);
-	}
-
-	@Override
-	public void notifierObservateur() {
-		this.sujet.notifierObservateur();
-	}
-
-	@Override
-	public TypeModif getTypeModif() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
