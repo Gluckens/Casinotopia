@@ -32,14 +32,12 @@ public class ControleurClientServeur extends ControleurServeur {
 	 * @param modeleClient Le modèle temporaire contenant les nouvelles informations
 	 */
 	public void actionModifierCompte(ModeleClientClient modeleClient) {
-		if (this.modifierInformations(modeleClient.getPrenom(), modeleClient.getNom(), modeleClient.getDateNaissance(), modeleClient.getCourriel(), modeleClient.getPrcGlobal())) {
-			this.connexion.envoyerCommande(new CmdModifierCompte(modeleClient.getPrenom(), modeleClient.getNom(), modeleClient.getDateNaissance(), modeleClient.getCourriel(), modeleClient.getPrcGlobal()));
+		if (this.modifierInformations(modeleClient.getPrenom(), modeleClient.getNom(), modeleClient.getDateNaissance(), modeleClient.getCourriel(), modeleClient.getPrcGlobal(), modeleClient.getAvatar().getId(), modeleClient.getAvatar().getPathImage())) {
+			this.connexion.envoyerCommande(new CmdModifierCompte(modeleClient.getPrenom(), modeleClient.getNom(), modeleClient.getDateNaissance(), modeleClient.getCourriel(), modeleClient.getPrcGlobal(), modeleClient.getAvatar().getPathImage()));
 		}
 		else {
 			this.connexion.envoyerCommande(new CmdInformationCreationCompte("Le compte n'a pas été modifié."));
 		}
-		
-		this.modifierInformations(modeleClient.getPrenom(), modeleClient.getNom(), modeleClient.getDateNaissance(), modeleClient.getCourriel(), modeleClient.getPrcGlobal());
 	}
 	
 	/**
@@ -52,8 +50,8 @@ public class ControleurClientServeur extends ControleurServeur {
 	 * @param prcGlobal Le nouveau pourcentage global
 	 * @return
 	 */
-	public boolean modifierInformations(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
-		return this.modele.modifierInformations(prenom, nom, dateNaissance, courriel, prcGlobal);
+	public boolean modifierInformations(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal, int idAvatar, String pathAvatar) {
+		return this.modele.modifierInformations(prenom, nom, dateNaissance, courriel, prcGlobal, idAvatar, pathAvatar);
 	}
 	
 	/**

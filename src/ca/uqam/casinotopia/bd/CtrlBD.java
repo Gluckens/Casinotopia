@@ -712,7 +712,6 @@ public enum CtrlBD {
 	
 	public boolean modifierClient(int idClient, String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
 		boolean succes = false;
-		System.out.println("modification client sur serveur : " + idClient + " " + prenom + " " + nom + " " + dateNaissance + " " + courriel + " " + prcGlobal);
 		
 		Connection conn = null;
 		
@@ -724,6 +723,7 @@ public enum CtrlBD {
 			);
 			OracleCallableStatement cs = (OracleCallableStatement) conn.prepareCall(query);
 			cs.execute();
+			
 			succes = true;
 
 		} catch (SQLException ex) {

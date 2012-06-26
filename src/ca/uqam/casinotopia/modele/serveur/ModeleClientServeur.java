@@ -133,13 +133,15 @@ public class ModeleClientServeur extends Utilisateur implements Modele  {
 	 * @param prcGlobal Son nouveau pourcentage global
 	 * @return True si les modifications ont réussi, false sinon
 	 */
-	public boolean modifierInformations(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
-		if(CtrlBD.BD.modifierClient(this.id, prenom, nom, dateNaissance, courriel, prcGlobal)) {
+	public boolean modifierInformations(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal, int idAvatar, String pathAvatar) {
+		if(CtrlBD.BD.modifierClient(this.id, prenom, nom, dateNaissance, courriel, prcGlobal)
+				&& CtrlBD.BD.modifierAvatar(idAvatar, pathAvatar, "")) {
 			this.prenom = prenom;
 			this.nom = nom;
 			this.dateNaissance = dateNaissance;
 			this.courriel = courriel;
 			this.prcGlobal = prcGlobal;
+			this.avatar.setPathImage(pathAvatar);
 			return true;
 		}
 		
