@@ -29,9 +29,11 @@ import ca.uqam.casinotopia.objet.ListeCases;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.type.TypeCouleurCase;
 import ca.uqam.casinotopia.type.TypePariteCase;
-import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
+import ca.uqam.casinotopia.vue.roulette.drag_n_drop.ImageMap;
+import ca.uqam.casinotopia.vue.roulette.drag_n_drop.ImagePosition;
+import ca.uqam.casinotopia.vue.roulette.drag_n_drop.MisesGhostDropManager;
 
 @SuppressWarnings("serial")
 public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
@@ -40,16 +42,16 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 	
 	private GhostGlassPane glassPane;
 	
+	/**
+	 * Regroupement des Case de la table de jeu avec leur position pour les drag and drop
+	 */
 	private ImageMap<Case> imageMapsTapis;
 	
 	private GhostDropListener ghostDropListener;
-	
-	/**
-	 * 
-	 */
+
 	/**
 	 * @param controleur Le controleur client qui gère la roulette
-	 * @param frame Le frame de l'application. Utilisé pour 
+	 * @param glassPane Le GlassPane utilisé pour les drag and drop
 	 */
 	public VueRouletteTapis(ControleurClient controleur, GhostGlassPane glassPane) {
 		this.controleur = (ControleurRouletteClient) controleur;
@@ -77,6 +79,9 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		this.add(lblImgTapis, new GridBagHelper().setXY(0, 0).end());
 	}
 	
+	/**
+	 * Initialisation du mapping entre les cases de la table de jeu et leur position dans l'image
+	 */
 	private void initImageMaps() {
 		this.imageMapsTapis = new ImageMap<Case>(22, 23);
 		
@@ -147,10 +152,22 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		this.imageMapsTapis.addMapping(ListeCases.INSTANCE.getCaseNumero(36), new Rectangle(new Point(217, 509), new Dimension(74, 38)));
 	}
 	
+	/**
+	 * Initialisation du drag and drop
+	 * 
+	 * @param target La cible pour les drag and drop de jetons
+	 * @param receiver L'élément qui sera notifié lors d'un drop
+	 */
 	public void initDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		this.ghostDropListener = new MisesGhostDropManager(target, receiver);
 	}
 
+	/**
+	 * Ajout d'un listener pour le drop d'un element en particulier
+	 * 
+	 * @param component Le component draggable (jeton)
+	 * @param montant Le montant associé au jeton
+	 */
 	private void setMisesDragAndDrop(Component component, int montant) {
 		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter(this.glassPane, montant, component.getName());
 		component.addMouseListener(misesGhostComponentAdapter);
@@ -158,6 +175,11 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		component.addMouseMotionListener(new GhostMotionAdapter(this.glassPane));
 	}
 
+	/**
+	 * Mises à jour de la table de jeu pour refléter les nouvelles mises des joueurs
+	 * 
+	 * @param cases Liste des cases avec leurs mises
+	 */
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		JLabel tapis = (JLabel) getComponentByName("imgTapis");
 		tapis.removeAll();
@@ -197,6 +219,9 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 		}
 	}
 
+	/**
+	 * Effectuer les actions nécessaires lors d'un drop d'un jeton sur la table de jeu
+	 */
 	@Override
 	public void processDrop(Point p, int montant, String componentName, Point posDepart) {
 		Case droppedCase = this.getCaseAt(p);
@@ -226,7 +251,7 @@ public class VueRouletteTapis extends Vue implements MisesDroppableReceiver {
 			this.controleur.cmdMiserRoulette(mises);
 		}
 		
-		//TODO Ca ne devrait plus etre utile d'envoyer un map si on met à jour à chaque mise de chaque client (est-ce que ce sera trop demandant pour le serveur?)
+		//TODO Ca ne devrait plus etre utile d'envoyer un map si on met à jour à chaque mise de chaque client
 	}
 
 	private Case getCaseAt(Point p) {

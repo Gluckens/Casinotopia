@@ -13,6 +13,9 @@ import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 
 import java.awt.GridBagLayout;
 
+/**
+ * Frame utilisé pour contenir toutes les vues de l'application lorsque l'utilisateur est authentifié
+ */
 @SuppressWarnings("serial")
 public class FrameApplication extends JFrame implements Runnable {
 
@@ -20,12 +23,16 @@ public class FrameApplication extends JFrame implements Runnable {
 	private JPanel pnlVue;
 	private JPanel pnlMenu;
 
+	/**
+	 * Map contenant tous les components de la section principale
+	 */
 	protected Map<String, Component> componentMapVue = new HashMap<String, Component>();
+	
+	/**
+	 * Map contenant tous les components de la section menu
+	 */
 	protected Map<String, Component> componentMapMenu = new HashMap<String, Component>();
 
-	/**
-	 * Create the frame.
-	 */
 	public FrameApplication() {
 		setResizable(false);
 		this.setTitle("Casinotopia");
@@ -78,19 +85,23 @@ public class FrameApplication extends JFrame implements Runnable {
 		return this.componentMapMenu.get(name);
 	}
 
+	/**
+	 * Changer le content pane du frame
+	 * 
+	 * @param contentPane Le nouveau contentPane
+	 */
 	public void changeContentPane(JPanel contentPane) {
 		this.setContentPane(contentPane);
 		this.setVisible(true);
 	}
 
+	/**
+	 * Ajouter un nouveau panel ou le remplacer (s'il existe déjà) dans la section principale
+	 * 
+	 * @param name Le nom du panel à ajouter/remplacer
+	 * @param panel Le panel à ajouter/remplacer
+	 */
 	public void addOrReplaceVue(String name, JPanel panel) {
-		/*System.out.println("Frame contient avant add : " + this.getComponentCount());
-		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelVue contient avant add : " + this.pnlVue.getComponentCount());*/
-
-		// Si je retourne le panel directement et que je le modifie, sa va pas
-		// modifier le vrai dans le frame?
-		// Comment positionner les vues dans le frame quand on les ajoutent?
 		Component component = this.getVueComponentByName(name);
 		if (component != null) {
 			if (component instanceof JPanel) {
@@ -101,29 +112,21 @@ public class FrameApplication extends JFrame implements Runnable {
 		else {
 			this.componentMapVue.put(name, panel);
 			this.pnlVue.add(panel, new GridBagHelper().setXY(0, 0).end());
-			// this.contentPane.add(panel, new GridBagHelper().setXY(0, 0).setFill(GridBagConstraints.BOTH).end());
 		}
-
-		/*this.setVisible(true);
-		this.invalidate();
-
-		this.repaint();*/
 
 		this.pnlVue.revalidate();
 		this.pnlVue.repaint();
 
 		this.setVisible(true);
-
-		/*System.out.println("Frame contient apres add : " + this.getComponentCount());
-		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelVue contient apres add : " + this.pnlVue.getComponentCount());*/
 	}
 
+	/**
+	 * Ajouter un nouveau panel ou le remplacer (s'il existe déjà) dans la section menu
+	 * 
+	 * @param name Le nom du panel à ajouter/remplacer
+	 * @param panel Le panel à ajouter/remplacer
+	 */
 	public void addOrReplaceMenu(String name, JPanel panel) {
-		/*System.out.println("Frame contient avant add : " + this.getComponentCount());
-		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelMenu contient avant add : " + this.pnlMenu.getComponentCount());*/
-
 		Component component = this.getMenuComponentByName(name);
 		if (component != null) {
 			if (component instanceof JPanel) {
@@ -134,18 +137,12 @@ public class FrameApplication extends JFrame implements Runnable {
 		else {
 			this.componentMapMenu.put(name, panel);
 			this.pnlMenu.add(panel, new GridBagHelper().setXY(0, 0).end());
-			// this.contentPane.add(panel, new GridBagHelper().setXY(0,
-			// 0).setFill(GridBagConstraints.BOTH).end());
 		}
 
 		this.pnlMenu.revalidate();
 		this.pnlMenu.repaint();
 
 		this.setVisible(true);
-
-		/*System.out.println("Frame contient apres add : " + this.getComponentCount());
-		System.out.println("ContentPane contient apres add : " + this.contentPane.getComponentCount());
-		System.out.println("PanelMenu contient apres add : " + this.pnlMenu.getComponentCount());*/
 	}
 
 	public Map<String, Component> getComponentMapVue() {
@@ -168,8 +165,6 @@ public class FrameApplication extends JFrame implements Runnable {
 	}
 
 	public void removeAllMenu() {
-		// super.removeAll();
-
 		this.pnlMenu.removeAll();
 		this.componentMapMenu.clear();
 	}

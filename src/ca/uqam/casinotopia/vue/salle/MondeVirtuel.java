@@ -4,22 +4,32 @@ import java.awt.Point;
 
 import ca.uqam.casinotopia.type.TypeDeplacement;
 
+/**
+ * Classe représentant la game loop de l'environnement virtuel
+ */
 public class MondeVirtuel implements Runnable {
 	
+	/**
+	 * Position courante de l'avatar du client
+	 */
 	private Point position;
 	
+	/**
+	 * Position précédente de l'avatar du client
+	 */
 	private Point lastPosition;
 	
 	private int lastX;
 	private int lastY;
 	
+	/**
+	 * La vue contenant le monde virtuel
+	 */
 	private VueSalle vue;
 	
 	private boolean running = false;
 	private int fps = 60;
 	private int frameCount = 0;
-	
-	
 
 	
 	public MondeVirtuel(VueSalle vue) {
@@ -37,6 +47,9 @@ public class MondeVirtuel implements Runnable {
 		this.movementLoop();
 	}
 	
+	/**
+	 * La game loop
+	 */
 	public void movementLoop() {
 		//This value would probably be stored elsewhere.
 		final double GAME_HERTZ = 30.0;
@@ -101,6 +114,9 @@ public class MondeVirtuel implements Runnable {
 		}
 	}
 	
+	/**
+	 * Mise à jour de la position de l'avatar
+	 */
 	private void update() {
 		Point temp = (Point) this.position.clone();
 		if(this.vue.getKeysPressed().get(TypeDeplacement.HAUT)) {
@@ -143,29 +159,18 @@ public class MondeVirtuel implements Runnable {
 		return this.vue.getControleur().validerDeplacement(p);
 	}
 	
+	/**
+	 * Dessiner la nouvelle position de l'avatar via l'envoi d'une commande au serveur (pour avertir tous les autres client de la salle)
+	 * 
+	 * @param interpolation L'interpolation, si nécessaire
+	 */
 	private void draw(float interpolation) {
 		//TODO Dépendamment d'où la validation de déplacement se fait, modifier ou non le client avant l'envoi de la commande
 		if(!this.position.equals(this.lastPosition)) {
-			//System.out.println("CLIENT " + this.vue.idClient + " VEUT SE DÉPLACER (" + this.lastPosition + ") vers (" + this.position + ")");
         	this.vue.getControleur().cmdDeplacerAvatar(this.position);
         	this.lastPosition = (Point) this.position.clone();
         	this.lastX = this.position.x;
     		this.lastY = this.position.y;
         }
-		
-		/*int drawX = (int) ((this.position.getX() - this.lastX) * interpolation + this.lastX - 40/2);
-        int drawY = (int) ((this.position.getY() - this.lastY) * interpolation + this.lastY - 40/2);
-        
-        this.position = new Point(drawX, drawY);
-        
-        System.out.println("(" + this.lastPosition.x + ", " + this.lastPosition.y + ") vers (" + this.position.x + ", " + this.position.y + ")");
-		
-        if(!this.position.equals(this.lastPosition)) {
-        	this.vue.getControleur().cmdDeplacerAvatar(this.position);
-        	
-        	this.lastPosition = (Point) this.position.clone();
-        	this.lastX = this.position.x;
-    		this.lastY = this.position.y;
-        }*/
 	}
 }

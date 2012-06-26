@@ -17,6 +17,10 @@ import ca.uqam.casinotopia.modele.client.ModelePartieRouletteClient;
 import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.Vue;
 
+/**
+ * Sous-vue de la roulette
+ * Contient la roue de la roulette
+ */
 @SuppressWarnings("serial")
 public class VueRouletteRoue extends Vue  implements ActionListener {
 
@@ -33,7 +37,6 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
     
 	private ControleurRouletteClient controleur;
 
-    /** Creates new form JPannelRoue */
     public VueRouletteRoue(ControleurClient controleur) {
 		this.controleur = (ControleurRouletteClient) controleur;
     	
@@ -78,6 +81,11 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
         }
     }
 
+    /**
+     * Initialiser les positions de chaque nombre sur la roue.
+     * 
+     * @return Un mapping des chiffre et de leur position sur la roue
+     */
     public HashMap<Integer, Double> initialiserPositions() {
     	this.positionsNumeros = new HashMap<Integer, Double>();
         
@@ -121,14 +129,12 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
         
         return this.positionsNumeros;
     }
-    
-//    public int genererResultat(){
-//        int res;
-//        res = (int)(Math.random()*36);
-//        tournerRoulette(res);
-//        return res;
-//    }
 
+    /**
+     * Paramétrer l'animation de la roulette en fonction du nombre obtenu lors du calcul du hasard
+     * 
+     * @param result Le nombre obtenu
+     */
     public void tournerRoulette(int result) {
         this.nbTours = 0;
         this.ajoutDegree = 5;
@@ -142,8 +148,10 @@ public class VueRouletteRoue extends Vue  implements ActionListener {
         }
     }
 
+    /**
+     * Tourner la roulette selon les paramètres définis
+     */
     public void tourner() {
-
         this.position += this.ajoutDegree;
         if ((this.position + this.ajoutDegree) > 360) {
             System.out.println("nbTours : " + this.nbTours);

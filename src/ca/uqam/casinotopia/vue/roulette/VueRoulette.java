@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 
 import ca.uqam.casinotopia.controleur.ControleurClient;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
-import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.drag_n_drop.GhostGlassPane;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
@@ -18,15 +17,22 @@ import ca.uqam.casinotopia.vue.chat.VueChat;
 
 import java.awt.GridBagLayout;
 
+/**
+ * Vue principale du jeu de roulette
+ */
 @SuppressWarnings("serial")
 public class VueRoulette extends Vue {
 	
+	/**
+	 * Controleur associé à la vue
+	 */
 	private ControleurRouletteClient controleur;
+	
+	/**
+	 * Instance du frame, nécessaire pour gérer les drag and drop
+	 */
 	private FrameApplication frame;
 
-	/**
-	 * Create the panel.
-	 */
 	public VueRoulette(ControleurClient controleur) {
 		this.controleur = (ControleurRouletteClient) controleur;
 		this.frame = this.controleur.getFrame();
@@ -69,7 +75,7 @@ public class VueRoulette extends Vue {
 		
 		VueChat chat = ctrlChatClient.getVue();
 		chat.cacherSalle();
-		ctrlChatClient.cmdSeConnecterAuChat("RoulettePrincipal");//TODO ajouter un chiffre
+		ctrlChatClient.cmdSeConnecterAuChat("Roulette" + this.controleur.getModele().getId());
 		chat.setName("chat");
 		this.add(chat, new GridBagHelper().setXY(2, 1).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
 	}

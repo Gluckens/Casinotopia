@@ -23,6 +23,9 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Vue principale du jeu de machine à sous
+ */
 @SuppressWarnings("serial")
 public class VueMachine extends Vue {
 
@@ -46,31 +49,20 @@ public class VueMachine extends Vue {
 	public int val1 = 2, val2 = 5, val3 = 8;
 	private JButton btnQuitter;
 
-	/**
-	 * Create the panel.
-	 */
 	public VueMachine(ControleurMachineClient controleurMachineClient) {
 
 		this.controleur = controleurMachineClient;
 		try {
 			img = ImageIO.read(FrameConnexion.class.getResource("/img/iconMachine.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//icones[0] = createImage(new FilteredImageSource(img.getSource(), new CropImageFilter(0, 0, ICONWIDTH, ICONHEIGHT)) );
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				icones[i*3+j] = img.getSubimage(ICONWIDTH*i, ICONHEIGHT*j, ICONWIDTH, ICONHEIGHT);
 			}
 		}
 		addComponents();
-	}
-
-	@Override
-	public void update(Observable observable) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -150,16 +142,17 @@ public class VueMachine extends Vue {
 		gbc_btnQuitter.gridx = 4;
 		gbc_btnQuitter.gridy = 3;
 		add(btnQuitter, gbc_btnQuitter);
-		
 	}
-	
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		//super.paintComponent(g);
 		g.drawImage(icones[val1], resultat1.getX(), resultat1.getY(), null);
 		g.drawImage(icones[val2], resultat2.getX(), resultat2.getY(), null);
 		g.drawImage(icones[val3], resultat3.getX(), resultat3.getY(), null);
+	}
+
+	@Override
+	public void update(Observable observable) {
 	}
 	
 	public void setMessage(String message){

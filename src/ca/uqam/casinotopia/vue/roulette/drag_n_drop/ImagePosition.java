@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.vue.roulette;
+package ca.uqam.casinotopia.vue.roulette.drag_n_drop;
 
 import java.awt.Point;
 import java.awt.Shape;
@@ -6,12 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImagePosition {
+	
+	/**
+	 * La shape contenant les mapping définis
+	 */
 	private Shape shape;
-	//private Point[] arrPoint;
+	
+	/**
+	 * Liste des points dans le mapping de la shape
+	 */
 	List<Point> lstPoints;
 	
 	public ImagePosition(Shape shape) {
-		//this(shape, new Point[4]);
 		this(shape, new ArrayList<Point>());
 	}
 	
@@ -20,10 +26,21 @@ public class ImagePosition {
 		this.lstPoints = lstPoints;
 	}
 	
+	/**
+	 * Ajouter un mapping dans la shape
+	 * 
+	 * @param p Le point associé au mapping
+	 */
 	public void addPoint(Point p) {
 		this.lstPoints.add(p);
 	}
 	
+	/**
+	 * Définir un nouveau mapping dans la shape à un index donné
+	 * 
+	 * @param index L'index du nouveau mapping
+	 * @param p Le point associé au mapping
+	 */
 	public void setPoint(int index, Point p) {
 		try {
 			this.lstPoints.add(index, p);
@@ -32,6 +49,11 @@ public class ImagePosition {
 		}
 	}
 	
+	/**
+	 * Récupérer le point à l'index demandé dans la shape
+	 * @param index L'index voulu
+	 * @return Le point relié à l'index
+	 */
 	public Point getPoint(int index) {
 		try {
 			return this.lstPoints.get(index);
@@ -43,14 +65,4 @@ public class ImagePosition {
 	public boolean contains(Point p) {
 		return shape.contains(p);
 	}
-	
-	/*public void setPoint(int indice, Point point) {
-		if(indice >= 0 && indice < 4) {
-			this.arrPoint[indice] = point;
-		}
-	}
-	
-	public Point getPoint(int indice) {
-		return this.arrPoint[indici]
-	}*/
 }

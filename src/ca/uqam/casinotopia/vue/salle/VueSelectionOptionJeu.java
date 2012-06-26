@@ -20,11 +20,20 @@ import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
 
+/**
+ * Vue regroupant l'affichage des options des jeux dans la salle
+ */
 @SuppressWarnings("serial")
 public class VueSelectionOptionJeu extends Vue {
 	
+	/**
+	 * Le controleur lié à la vue
+	 */
 	private ControleurSalleClient controleur;
 	
+	/**
+	 * Le jeu lié aux options
+	 */
 	//TODO Mettre dans un modele?
 	private JeuClient jeu;
 
@@ -102,7 +111,6 @@ public class VueSelectionOptionJeu extends Vue {
 		
 		this.add(pnlArgent, new GridBagHelper().setXY(1, 1).end());
 		
-		
 		//TODO Dans le cas d'un jeu avec amis, faut ouvrir une 2e fenetre pour choisir les amis.
 		JButton btnSuivant = new JButton("Suivant");
 		btnSuivant.setName("btnSuivant");
@@ -119,6 +127,5 @@ public class VueSelectionOptionJeu extends Vue {
 
 	@Override
 	public void update(Observable observable) {
-		
 	}
 }

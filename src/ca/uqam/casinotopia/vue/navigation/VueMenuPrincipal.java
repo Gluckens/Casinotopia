@@ -12,14 +12,17 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Vue principale du menu principal
+ */
 @SuppressWarnings("serial")
 public class VueMenuPrincipal extends Vue {
 	
+	/**
+	 * Controleur associé à la vue
+	 */
 	private ControleurMenuPrincipal controleur;
 
-	/**
-	 * Create the panel.
-	 */
 	public VueMenuPrincipal(ControleurMenuPrincipal controleur) {
 		this.controleur = controleur;
 
@@ -41,8 +44,6 @@ public class VueMenuPrincipal extends Vue {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controleur.cmdJoindreSalle(1);
-				//controleur.cmdJoindreSalle("MEGAFUN");
-				//controleur.afficherSalle("MEGAFUN");
 			}
 		});
 		this.add(btnSalle, new GridBagHelper().setXY(0, 0).end());
@@ -80,7 +81,5 @@ public class VueMenuPrincipal extends Vue {
 
 	@Override
 	public void update(Observable observable) {
-		// TODO Auto-generated method stub
-
 	}
 }
