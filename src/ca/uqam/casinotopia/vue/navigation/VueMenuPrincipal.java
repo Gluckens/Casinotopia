@@ -68,7 +68,7 @@ public class VueMenuPrincipal extends Vue {
 		JButton btnMachine = new JButton("Jouer \u00E0 la machine \u00E0 sous");
 		btnMachine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controleur.actionJouerMachine();
+				controleur.cmdJouerMachine();
 			}
 		});
 		

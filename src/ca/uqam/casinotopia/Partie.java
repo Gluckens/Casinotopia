@@ -28,16 +28,6 @@ public abstract class Partie implements Comparable<Partie>, Connectable {
 
 	public Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
 		this(id, typeMultijoueurs, typeArgent, typeEtat, infoJeu, new Clavardage(infoJeu.getNom() + id));
-		
-		this.id = id;
-		this.typeMultijoueurs = typeMultijoueurs;
-		this.typeArgent = typeArgent;
-		this.typeEtat = typeEtat;
-		this.clavardage = new Clavardage(infoJeu.getNom() + this.id);
-
-		this.infoJeu = infoJeu;
-
-		this.lstJoueurs = new HashSet<JoueurServeur>();
 	}
 	
 	private Partie(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu, Clavardage clavardage) {

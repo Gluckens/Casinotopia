@@ -14,25 +14,82 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModifClient;
 
+/**
+ * Représente une instance de client
+ */
 public class ModeleClientClient extends Utilisateur implements Modele, Observable {
 	
 	private static final long serialVersionUID = -8344939066149150548L;
 	
+	/**
+	 * Id du client
+	 */
 	private int id;
+	
+	/**
+	 * Prénom du client
+	 */
 	private String prenom;
+	
+	/**
+	 * Nom du client
+	 */
 	private String nom;
+	
+	/**
+	 * Date de naissance du client
+	 */
 	private Date dateNaissance;
+	
+	/**
+	 * Courriel du client
+	 */
 	private String courriel;
+	
+	/**
+	 * Solde du client
+	 */
 	private int solde;
+	
+	/**
+	 * Pourcentage globale de gains du client envoyé aux fondations
+	 */
 	private int prcGlobal;
+	
+	/**
+	 * La salle dans lequel le client est présentement
+	 */
 	private ModeleSalleClient salleCourante;
+	
+	/**
+	 * Liste des partages de gains du client
+	 */
 	private Vector<PartageGainsClientClient> partageGains;
+	
+	/**
+	 * Liste des dons unique du client
+	 */
 	private Vector<DonUniqueClientClient> donsUniques;
+	
+	/**
+	 * Liste des amis du client
+	 */
 	private ListeAmisClient listeAmis;
+	
+	/**
+	 * Avatar du client
+	 */
 	private AvatarClient avatar;
 	
+	/**
+	 * Type de modification effectué sur le modèle.
+	 * Ceci sera lu par l'observateur pour savoir quelle fonction appeler
+	 */
 	private TypeModifClient typeModif;
 
+	/**
+	 * Délégation des fonctions de l'interface observable à l'objet BaseObservable
+	 */
 	private BaseObservable sujet = new BaseObservable(this);
 	
 	public ModeleClientClient(String nomUtilisateur, String motDePasse, String prenom, String nom, Date dateNaissance, String courriel, int solde) {
@@ -78,6 +135,15 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		this.avatar = avatar;
 	}
 	
+	/**
+	 * Modifier les informations du client
+	 * 
+	 * @param prenom Son nouveau prénom
+	 * @param nom Son nouveau nom
+	 * @param dateNaissance Sa nouvelle date de naissaice
+	 * @param courriel Son nouveau courriel
+	 * @param prcGlobal Son nouveau pourcentage global
+	 */
 	public void modifierCompte(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
 		this.prenom = prenom;
 		this.nom = nom;
@@ -178,6 +244,11 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 		return this.solde;
 	}
 
+	/**
+	 * Définir le nouveau solde et notifier les observateurs
+	 * 
+	 * @param solde Le nouveau solde
+	 */
 	public void setSolde(int solde) {
 		this.solde = solde;
 		this.typeModif = TypeModifClient.UPDATE_SOLDE;

@@ -1,8 +1,7 @@
 package ca.uqam.casinotopia.commande;
 
 /**
- * commande de roulette
- *
+ * Commande destinée au controleur de roulette
  */
 public interface CommandeClientControleurRoulette extends CommandeClient {
 

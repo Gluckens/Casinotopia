@@ -7,9 +7,15 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 public class CmdJouerMachine implements CommandeServeurControleurThread {
 
 	private static final long serialVersionUID = 5503591568620208794L;
+	
+	private int idJeu;
+	
+	public CmdJouerMachine(int idJeu) {
+		this.idJeu = idJeu;
+	}
 
 	@Override
 	public void action(Controleur controleur) {
-		((ControleurServeurThread) controleur).lancerPartieMachine();
+		((ControleurServeurThread) controleur).actionJouerMachine(this.idJeu);
 	}
 }

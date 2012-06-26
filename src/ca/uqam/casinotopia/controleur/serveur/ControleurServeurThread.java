@@ -33,7 +33,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
-import ca.uqam.casinotopia.modele.serveur.ModeleMachineServeur;
+import ca.uqam.casinotopia.modele.serveur.ModelePartieMachineServeur;
 import ca.uqam.casinotopia.modele.serveur.ModelePartieRouletteServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 import ca.uqam.casinotopia.objet.Clavardage;
@@ -41,14 +41,25 @@ import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
+/**
+ * Controleur principal de chaque utilisateur côté serveur.
+ * C'est lui qui crée les autres controleur, au besoin.
+ */
 public class ControleurServeurThread extends ControleurServeur implements Runnable {
 	
 	/**
 	 * liste des controleurs associés au thread
 	 */
 	protected Map<String, ControleurServeur> lstControleurs = new HashMap<String, ControleurServeur>();
+	
+	/**
+	 * Le numéro du thread
+	 */
 	private int number;
 
+	/**
+	 * Le modèle du client associé au thread
+	 */
 	private ModeleClientServeur modele;
 
 	public ControleurServeurThread(Socket clientSocket, int number) {
@@ -57,15 +68,27 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		this.modele = null;
 	}
 
+	/**
+	 * Ajouter un nouveau controleur à l'environnement du client
+	 * 
+	 * @param nom Le nom du controleur
+	 * @param ctrl L'instance du controleur
+	 */
 	private void ajouterControleur(String nom, ControleurServeur ctrl) {
 		this.lstControleurs.put(nom, ctrl);
 	}
 	
+	/**
+	 * Initialiser les controleurs de base de l'environnement du client
+	 */
 	private void initControleur() {
 		this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
 		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), this, this.modele));
 	}
 
+	/**
+	 * La fonction principale du thread est d'attendre l'arrivée de commande du client et des les dispatcher au bon controleur
+	 */
 	@Override
 	public void run() {
 		//attend l'envoie d'une commande et l'exécute avec le bon controleur
@@ -130,6 +153,13 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 	}
 	
+	/**
+	 * Récupère le controleur associé à la commande et exécute son action en envoyant le controleur en paramètre.
+	 * Si le controleur n'est pas déjà instancié, il s'agit d'une erreur.
+	 * 
+	 * @param cmd La commande reçue
+	 * @param nomControleur Le nom du controleur associé à la commande
+	 */
 	private void executerCommande(Commande cmd, String nomControleur) {
 		ControleurServeur ctrl = this.getControleur(nomControleur);
 		if (ctrl == null) {
@@ -140,10 +170,86 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 	}
 	
+	/**
+	 * Récupère un controleur par son nom
+	 * 
+	 * @param nom Le nom du controleur à récupérer
+	 * @return Le controleur demandé
+	 */
 	public ControleurServeur getControleur(String nom) {
 		return this.lstControleurs.get(nom);
 	}
 
+	/**
+	 * Créer un nouveau client.
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 * 
+	 * @param nouvClient Le modèle temporaire contenant les informations du client.
+	 */
+	public void actionCreerCompte(ModeleClientClient nouvClient) {
+		this.modele = new ModeleClientServeur(
+				nouvClient.getNomUtilisateur(),
+				nouvClient.getMotDePasse(),
+				nouvClient.getPrenom(),
+				nouvClient.getNom(),
+				nouvClient.getDateNaissance(),
+				nouvClient.getCourriel(),
+				0,
+				new Avatar(-1, nouvClient.getAvatar().getPathImage())
+		);
+		
+		if (CtrlBD.BD.ajouterClient(this.modele)) {
+			this.connexion.envoyerCommande(new CmdInformationCreationCompte("Votre compte a été crée"));
+		}
+		else {
+			this.connexion.envoyerCommande(new CmdInformationCreationCompte("La création du compte n'a pas réussi"));
+		}
+	}
+
+	/**
+	 * Authentifier le client.
+	 * Si les informations sont valides, on envoi une commande au client pour initialiser l'interface.
+	 * Sinon, on envoi un message d'erreur au client.
+	 * 
+	 * @param nomUtilisateur Nom d'utilisateur envoyé
+	 * @param motDePasse Mot de passe envoyé
+	 */
+	public void actionAuthentifierClient(String nomUtilisateur, char[] motDePasse) {
+		int no = this.number;
+		System.out.println("le client " + no + " a envoyer le username " + nomUtilisateur + "!");
+		
+		ModeleClientServeur client = CtrlBD.BD.authentifierClient(nomUtilisateur, new String(motDePasse));
+		
+		if(client != null) {
+			this.modele = client;
+			this.modele.setConnexion(this.connexion);
+			
+			this.initControleur();
+			
+			ModeleClientClient modeleClient = this.modele.creerModeleClient();
+			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
+		}
+		else {
+			this.connexion.envoyerCommande(new CmdInformationInvalide("Les données d'authentification sont incorrectes."));
+		}
+	}
+	
+	/**
+	 * Ajouter le client à un chat (salle de conversation)
+	 * 
+	 * @param salle Le nom de la salle
+	 */
+	public void actionSeConnecterAuChat(String salle) {
+		Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
+		chat.connecter(this.modele);
+	}
+
+	/**
+	 * Ajouter le client à une salle.
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 * 
+	 * @param idSalle L'id de la salle
+	 */
 	public void actionJoindreSalle(int idSalle) {
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
@@ -161,18 +267,42 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 	}
 	
+	/**
+	 * Quitter la salle courante.
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 */
 	public void actionQuitterSalle() {
 		((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).quitterSalle();
-		
-		//TODO Mettre à jour la vue de tous les joueurs de la partie
 		
 		this.lstControleurs.remove("ControleurSalleServeur");		
 		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
 	}
+	
+	/**
+	 * Créer une nouvelle partie de machine à sous et y insérer le joueur.
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 * 
+	 * @param idJeu L'id du jeu de machine à sous
+	 */
+	public void actionJouerMachine(int idJeu) {
+		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		
+		ModelePartieMachineServeur partieMachine = new ModelePartieMachineServeur(this.number, ctrlPrincipal.getJeu(idJeu));
+		
+		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, partieMachine));
+		
+		this.cmdAfficherJeuMachine(partieMachine);
+	}
 
+	/**
+	 * Ajouter le joueur à une partie de roulette en attente ou à une nouvelle partie si aucune n'existe.
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 * 
+	 * @param idJeu L'id du jeu de roulette
+	 * @param typeMultijoueurs Le type de jeu multijoueur
+	 * @param typeArgent Le type de jeu d'argent
+	 */
 	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
-		// TODO créer la partie dans la liste de partie sur le controleur principal et aussi dans le controleurServeurThread du client
-
 		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
 		ModelePartieRouletteServeur partieRoulette = null;
@@ -188,8 +318,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 				partieRoulette = (ModelePartieRouletteServeur) ctrlPrincipal.rechercherPartieEnAttente(idJeu, typeArgent);
 				break;
 		}
-
-		
 		
 		//TODO À enlever (pour des tests)
 		/*partieRoulette = null;
@@ -251,6 +379,14 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 	}
 	
+	/**
+	 * Attente active pour le démarrage d'une partie.
+	 * À chaque seconde d'attente, on regarde si la partie a été démarrée.
+	 * Si c'est le cas, on arrete l'attente.
+	 * 
+	 * @param partie La partie sur laquelle attendre.
+	 * @param secondes Le nombre de secondes d'attente.
+	 */
 	private void sleepActifAttentePartie(Partie partie, int secondes) {
 		for(int i=0; i<secondes; i++) {
 			try {
@@ -265,48 +401,79 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		}
 	}
 	
+	/**
+	 * Envoyer une commande au client pour donner du feedback sur la recherche d'une partie.
+	 */
 	private void cmdAfficherAttentePartie() {
 		this.connexion.envoyerCommande(new CmdAfficherAttentePartie());
 	}
 
+	/**
+	 * Envoyer une commande au client pour afficher le jeu de machine à sous
+	 * 
+	 * @param modeleServeur Le modèle version serveur du jeu de machine à sous.
+	 */
+	private void cmdAfficherJeuMachine(ModelePartieMachineServeur modeleServeur) {
+		this.connexion.envoyerCommande(new CmdAfficherJeuMachine(modeleServeur.creerModeleClient()));
+	}
+
+	/**
+	 * Envoyer une commande au client pour afficher le jeu de roulette
+	 * 
+	 * @param modeleServeur Le modèle version serveur du jeu de roulette.
+	 */
 	private void cmdAfficherJeuRoulette(ModelePartieRouletteServeur modeleServeur) {
 		this.connexion.envoyerCommande(new CmdAfficherJeuRoulette(modeleServeur.creerModeleClient()));
 	}
 
-	public void actionAuthentifierClient(String nomUtilisateur, char[] motDePasse) {
-		int no = this.number;
-		System.out.println("le client " + no + " a envoyer le username " + nomUtilisateur + "!");
+	/**
+	 * Quitter le chat et retirer le controleur chat de l'environnement du client.
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 */
+	public void actionQuitterChat() {
+		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 		
-		ModeleClientServeur client = CtrlBD.BD.authentifierClient(nomUtilisateur, new String(motDePasse));
-		
-		if(client != null) {
-			this.modele = client;
-			this.modele.setConnexion(this.connexion);
-			
-			this.initControleur();
-			
-			ModeleClientClient modeleClient = this.modele.creerModeleClient();
-			this.connexion.envoyerCommande(new CmdInitClient(modeleClient));
-		}
-		else {
-			this.connexion.envoyerCommande(new CmdInformationInvalide("Les données d'authentification sont incorrectes."));
-		}
+		this.lstControleurs.remove("ControleurChatServeur");
 	}
 	
-	public void actionSeConnecterAuChat(String salle) {
-		Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
-		chat.connecter(this.modele);
+	/**
+	 * Quitter la partie de roulette
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 * 
+	 * @param idJoueur L'id du joueur qui quitte la partie
+	 */
+	//TODO Plus nécessaire d'envoyer l'id du joueur
+	public void actionQuitterPartieRoulette(int idJoueur) {
+		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
+		
+		this.lstControleurs.remove("ControleurRouletteServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
+	}
+	
+	/**
+	 * Quitter la partie de machine à sous
+	 * Cette action est exécutée suite à la demande du client (commande)
+	 * 
+	 * @param idJoueur L'id du joueur qui quitte la partie
+	 */
+	//TODO Plus nécessaire d'envoyer l'id du joueur
+	public void actionQuitterMachine(int idJoueur) {
+		this.modele.deconnecter();
+
+		this.lstControleurs.remove("ControleurMachineServeur");		
+		this.connexion.envoyerCommande(new CmdQuitterPartieMachineClient());
 	}
 
-	/**
-	 * @return the modele
-	 */
 	public ModeleClientServeur getModele() {
 		return this.modele;
 	}
 
+	/**
+	 * Récupérer la liste de tous les utilisateurs loggué
+	 * 
+	 * @return Liste de tous les utilisateurs
+	 */
 	public ArrayList<String> getAllUtilisateurs() {
-		System.out.println("GET_ALL_UTILISATEURS");
 		ArrayList<String> liste = new ArrayList<String>();
 		for (int i = 0; i < ControleurPrincipalServeur.NUMCONNEXION; i++) {
 			if (ControleurPrincipalServeur.thread[i] != null && ControleurPrincipalServeur.thread[i].isAlive()
@@ -317,60 +484,17 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		return liste;
 	}
 
+	/**
+	 * Envoyer une commande à tous les utilisateurs loggué
+	 * 
+	 * @param cmd La commande à envoyer
+	 */
 	public void envoyerCommandeATous(Commande cmd) {
-		System.out.println("ENVOYER_COMMANDE_TOUS");
 		for (int i = 0; i < ControleurPrincipalServeur.NUMCONNEXION; i++) {
 			if (ControleurPrincipalServeur.thread[i] != null && ControleurPrincipalServeur.thread[i].isAlive()
 					&& ControleurPrincipalServeur.serverThread[i].getModele().getNomUtilisateur() != null) {
 				ControleurPrincipalServeur.serverThread[i].getConnexion().envoyerCommande(cmd);
 			}
 		}
-	}
-	
-	public void lancerPartieMachine() {
-		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, new ModeleMachineServeur(number, null)));
-		this.connexion.envoyerCommande(new CmdAfficherJeuMachine());
-	} 
-
-	
-	public void actionQuitterChat() {
-		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
-		
-		this.lstControleurs.remove("ControleurChatServeur");
-	}
-	
-	
-	public void actionQuitterPartieRoulette(int idJoueur) {
-		((ControleurRouletteServeur) this.lstControleurs.get("ControleurRouletteServeur")).actionQuitterPartie(idJoueur);
-		
-		this.lstControleurs.remove("ControleurRouletteServeur");		
-		this.connexion.envoyerCommande(new CmdQuitterPartieRouletteClient());
-	}
-
-	public void actionCreerCompte(ModeleClientClient nouvClient) {
-		this.modele = new ModeleClientServeur(
-				nouvClient.getNomUtilisateur(),
-				nouvClient.getMotDePasse(),
-				nouvClient.getPrenom(),
-				nouvClient.getNom(),
-				nouvClient.getDateNaissance(),
-				nouvClient.getCourriel(),
-				0,
-				new Avatar(-1, nouvClient.getAvatar().getPathImage())
-		);
-		
-		if (CtrlBD.BD.ajouterClient(this.modele)) {
-			this.connexion.envoyerCommande(new CmdInformationCreationCompte("Votre compte a été crée"));
-		}
-		else {
-			this.connexion.envoyerCommande(new CmdInformationCreationCompte("La création du compte n'a pas réussi"));
-		}
-	}
-	
-	public void actionQuitterMachine(int idJoueur) {
-		this.modele.deconnecter();
-
-		this.lstControleurs.remove("ControleurMachineServeur");		
-		this.connexion.envoyerCommande(new CmdQuitterPartieMachineClient());
 	}
 }

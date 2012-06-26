@@ -13,12 +13,22 @@ import ca.uqam.casinotopia.type.TypeCouleurCase;
 import ca.uqam.casinotopia.type.TypePariteCase;
 import ca.uqam.casinotopia.type.modif.TypeModif;
 
+/**
+ * Représente une instance de table de jeu
+ */
 public class ModeleTableJeuClient implements Modele, Observable {
 
 	private static final long serialVersionUID = -2424069893426119698L;
 
+	/**
+	 * Liste des cases de la table de jeu
+	 * Map<Case, Map<idJoueur, nbrJetonsMises>>
+	 */
 	private Map<Case, Map<Integer, Integer>> cases = new HashMap<Case, Map<Integer, Integer>>();
 
+	/**
+	 * Délégation des fonctions de l'interface observable à l'objet BaseObservable
+	 */
 	private BaseObservable sujet = new BaseObservable(this);
 
 	public ModeleTableJeuClient() {
@@ -29,6 +39,9 @@ public class ModeleTableJeuClient implements Modele, Observable {
 		this.cases = cases;
 	}
 
+	/**
+	 * Initialiser les cases
+	 */
 	private void initialiserCases() {
 		this.cases.put(ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.ROUGE), new HashMap<Integer, Integer>());
 		this.cases.put(ListeCases.INSTANCE.getCaseCouleur(TypeCouleurCase.NOIRE), new HashMap<Integer, Integer>());
@@ -87,6 +100,11 @@ public class ModeleTableJeuClient implements Modele, Observable {
 		this.cases.put(ListeCases.INSTANCE.getCaseNumero(36), new HashMap<Integer, Integer>());
 	}
 
+	/**
+	 * Mettre à jour la table de jeu et notifier les observateurs
+	 * 
+	 * @param cases Les nouvelles cases de la table de jeu
+	 */
 	public void updateTableJeu(Map<Case, Map<Integer, Integer>> cases) {
 		this.cases = cases;
 

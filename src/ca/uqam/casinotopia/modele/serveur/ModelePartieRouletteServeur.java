@@ -24,11 +24,25 @@ import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
+/**
+ * Représente une instance de partie de roulette
+ */
 @SuppressWarnings("serial")
 public class ModelePartieRouletteServeur extends Partie implements Modele {
 	
+	/**
+	 * La case gagnante lors du dernier tour de roue.
+	 */
 	private Case caseResultat;
+	
+	/**
+	 * La liste des gains : Map<IdJoueur, Gains>
+	 */
 	private Map <Integer, Integer> listeGains = new HashMap <Integer,Integer>();
+	
+	/**
+	 * La table de jeu associée à la partie de roulette
+	 */
 	private ModeleTableJeuServeur tableJeu;
 
 	public ModelePartieRouletteServeur(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, TypeEtatPartie typeEtat, Jeu infoJeu) {
@@ -49,6 +63,11 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return listeGains;
 	}
 	
+	/**
+	 * Récupérer une couleur de jetons libre
+	 * 
+	 * @return Une couleur de jetons
+	 */
 	private TypeCouleurJoueurRoulette getCouleurLibre() {
 		for(TypeCouleurJoueurRoulette typeCouleur : TypeCouleurJoueurRoulette.values()) {
 			if(this.isCouleurJoueurLibre(typeCouleur)) {
@@ -59,6 +78,12 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return null;
 	}
 	
+	/**
+	 * Vérifier si la couleur est libree
+	 * 
+	 * @param typeCouleur La couleur à vérifier
+	 * @return True si la couleur n'est pas déjà utilisée, false sinon
+	 */
 	private boolean isCouleurJoueurLibre(TypeCouleurJoueurRoulette typeCouleur) {
 		for(JoueurServeur joueur : this.lstJoueurs) {
 			if(((JoueurRoulette) joueur).getCouleur() == typeCouleur ) {
@@ -73,30 +98,49 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return this.lstJoueurs.size();
 	}
 	
+	/**
+	 * Déterminer si le nombre de joueur minimal de la partie est atteint
+	 * 
+	 * @return True s'il est atteint, false sinon
+	 */
 	public boolean isNbrMinimalJoueursAtteint() {
 		return this.getNbrJoueurs() >= this.infoJeu.getNbrJoueursMin();
 	}
 	
+	/**
+	 * Déterminer si le nombre de joueur maximal de la partie est atteint
+	 * 
+	 * @return True s'il est atteint, false sinon
+	 */
 	public boolean isNbrMaximalJoueursAtteint() {
 		return this.getNbrJoueurs() == this.infoJeu.getNbrJoueursMax();
 	}
 	
+	/**
+	 * Ajouter un joueur à la partie, si elle n'est pas pleine.
+	 * 
+	 * @param client Le client à ajouter
+	 */
 	public void ajouterJoueur(ModeleClientServeur client) {
 		if(!this.isPartiePleine()) {
 			this.ajouterJoueur(new JoueurRoulette(client, this, this.getCouleurLibre()));
 		}
 	}
-	
-	/*public void ajouterJoueur(ModeleClientServeur client, TypeCouleurJoueurRoulette couleur) {
-		if(!this.isPartiePleine()) {
-			this.ajouterJoueur(new JoueurRoulette(client, this, couleur));
-		}
-	}*/
 
+	/**
+	 * Ajouter des mises sur la table de jeu
+	 * 
+	 * @param mises Les mises à ajouter : Map<IdJoueur, Map<CaseMisee, NbrJetons>>
+	 */
 	public void effectuerMises(Map<Integer, Map<Case, Integer>> mises) {
 		this.tableJeu.effectuerMises(mises);
 	}
 	
+	/**
+	 * Déterminer si tous les joueurs de la partie ont fini de miser
+	 * 
+	 * @return True si tous les joueurs ont terminés, false sinon.
+	 */
 	public boolean isToutesMisesTerminees() {
 		for(JoueurServeur joueur : this.lstJoueurs) {
 			if(!((JoueurRoulette) joueur).isMisesTerminees()) {
@@ -107,12 +151,19 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return true;
 	}
 	
+	/**
+	 * Réinitialiser les flags de mises terminées
+	 */
 	public void resetMisesTerminees() {
 		for(JoueurServeur joueur : this.lstJoueurs) {
 			((JoueurRoulette) joueur).setMisesTerminees(false);
 		}
 	}
 	
+	/**
+	 * Réinitialiser les mises côté serveur.
+	 * Envoyer une commande à tous les joueurs de la partie pour réinitiliaser l'environnement client
+	 */
 	public void resetMises() {
 		this.tableJeu.resetMises();
 		
@@ -121,6 +172,11 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		}
 	}
 	
+	/**
+	 * Créer la version client du modèle de roulette
+	 * 
+	 * @return La version client du modèle de roulette
+	 */
 	public ModelePartieRouletteClient creerModeleClient() {
 		ModelePartieRouletteClient modeleClient = new ModelePartieRouletteClient(
 				this.id,
@@ -134,6 +190,11 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return modeleClient;
 	}
 	
+	/**
+	 * Créer la version client du Set de joueurs
+	 * 
+	 * @return La version client du Set de joueurs
+	 */
 	private Set<JoueurClient> creerSetJoueurClient(ModelePartieRouletteClient modelePartieClient) {
 		Set<JoueurClient> lstJoueursClients = new HashSet<JoueurClient>();
 		for(JoueurServeur joueur : this.lstJoueurs) {
@@ -143,21 +204,17 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return lstJoueursClients;
 	}
 
-	/**
-	 * @return the tableJeu
-	 */
 	public ModeleTableJeuServeur getTableJeu() {
 		return this.tableJeu;
 	}
 
-	/**
-	 * @param tableJeu
-	 *            the tableJeu to set
-	 */
 	public void setTableJeu(ModeleTableJeuServeur tableJeu) {
 		this.tableJeu = tableJeu;
 	}
 	
+	/**
+	 * Calculer le hasard de la roulette
+	 */
 	public void tournerRoulette() {
 		int res;
         res = (int)(Math.random()*36);
@@ -166,6 +223,12 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
         System.out.println("le resultat est : " + caseResultat.toString());
 	}
 
+	/**
+	 * Calculer les gains d'un joueur
+	 * 
+	 * @param joueur Le joueur sur le quel on veut calculer les gains.
+	 * @return Les gains du joueur
+	 */
 	public int calculerGainRoulette(JoueurServeur joueur) {
 		int gainTotal = 0;
 		System.out.println("gain cases : " + this.tableJeu.getCases().toString());
@@ -181,6 +244,13 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		return gainTotal;
 	}
 
+	/**
+	 * Pour chaque case misée par le joueur, vérifier si elle est gagnante et calculer le gain.
+	 * 
+	 * @param caseMise La case misée
+	 * @param montantMise Le montant misé
+	 * @return Le gain réalisé
+	 */
 	private int calculerGainCase(Case caseMise, Integer montantMise) {
 		int gain = 0;
 		
@@ -202,10 +272,15 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 				break;
 		}
 		
-		//TODO On update son solde seulement apres le tour? (donc ses mises sont prise en compte seulement lorsque la roue est tournée
 		return gain;
 	}
 
+	/**
+	 * Quitter la partie de roulette
+	 * 
+	 * @param idJoueur L'id du joueur qui quitte
+	 */
+	//TODO L'id du joueur n'est plus nécessaire
 	public void quitterPartie(int idJoueur) {
 		JoueurServeur joueur = this.getJoueur(idJoueur);
 		this.deconnecter(joueur.getClient());

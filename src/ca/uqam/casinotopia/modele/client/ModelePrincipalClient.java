@@ -12,21 +12,38 @@ import ca.uqam.casinotopia.vue.FrameConnexion;
 import ca.uqam.casinotopia.vue.FrameGestionCompte;
 import ca.uqam.casinotopia.vue.Vue;
 
+/**
+ * Regroupe les informations générales sur l'environnement client du client.
+ */
 public class ModelePrincipalClient implements Modele, Serializable {
 
 	private static final long serialVersionUID = -3999851928989097158L;
 	
+	/**
+	 * La liste des controleurs actifs
+	 */
 	private Map<String, ControleurClient> lstControleurs = new HashMap<String, ControleurClient>();
+	
+	/**
+	 * Le frame de connexion
+	 */
 	private FrameConnexion frameConnexion;
-	private FrameApplication frameApplication;
+	
+	/**
+	 * Le frame de la gestion de compte
+	 */
 	private FrameGestionCompte frameGestionCompte;
+	
+	/**
+	 * Le frame générale de l'application
+	 */
+	private FrameApplication frameApplication;
 
 	public ModelePrincipalClient() {
-		// TODO initialiser les frame ici, apres avoir creer une vue de
-		// connexion au lieu de le faire dans le frame direct
+		// TODO initialiser les frame ici, apres avoir creer une vue de connexion au lieu de le faire dans le frame direct
 	}
 
-	public void initFrame() {
+	public void initFrameConnexion() {
 		// TODO Faudrait créer une vue séparée du frame pour la connexion
 		this.frameConnexion = new FrameConnexion((ControleurPrincipalClient) this.getControleur("ControleurPrincipalClient"));
 	}
@@ -51,10 +68,22 @@ public class ModelePrincipalClient implements Modele, Serializable {
 		return frameGestionCompte;
 	}
 
+	/**
+	 * Déterminer si un certain controleur est actif dans l'environnement du client
+	 * 
+	 * @param nom Le nom du controleur
+	 * @return True s'il est actif, false sinon
+	 */
 	public boolean hasControleur(String nom) {
 		return this.lstControleurs.containsKey(nom);
 	}
 
+	/**
+	 * Récupérer un controleur par son nom
+	 * 
+	 * @param nom Le nom du controleur
+	 * @return Le controleur demandé
+	 */
 	public ControleurClient getControleur(String nom) {
 		return this.lstControleurs.get(nom);
 	}
@@ -79,11 +108,23 @@ public class ModelePrincipalClient implements Modele, Serializable {
 		this.frameGestionCompte.dispose();
 	}
 
+	/**
+	 * Changer la vue active du frame application
+	 * 
+	 * @param nom Le nom de la nouvelle vue active
+	 * @param vue La nouvelle vue active
+	 */
 	public void changerVueFrameApplication(String nom, Vue vue) {
 		this.frameApplication.removeAllVue();
 		this.frameApplication.addOrReplaceVue(nom, vue);
 	}
 
+	/**
+	 * Changer la vue active du menu du frame application
+	 * 
+	 * @param nom Le nom de la nouvelle vue active du menu
+	 * @param vue La nouvelle vue active du menu
+	 */
 	public void changerMenuFrameApplication(String nom, Vue vue) {
 		this.frameApplication.removeAllMenu();
 		this.frameApplication.addOrReplaceMenu(nom, vue);

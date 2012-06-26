@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import ca.uqam.casinotopia.Jeu;
+import ca.uqam.casinotopia.JoueurServeur;
+import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
@@ -18,12 +21,20 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 	protected Clavardage clavardage;
 	protected Set<JoueurClient> lstJoueurs;
 	protected JeuClient infoJeu;
+	
+	public PartieClient(int id, JeuClient infoJeu) {
+		this(id, TypeJeuMultijoueurs.NO_VALUE, TypeJeuArgent.NO_VALUE, infoJeu, null);
+	}
 
 	public PartieClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu) {
+		this(id, typeMultijoueurs, typeArgent, infoJeu, new Clavardage(infoJeu.getNom() + id));
+	}
+	
+	private PartieClient(int id, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent, JeuClient infoJeu, Clavardage clavardage) {
 		this.id = id;
 		this.typeMultijoueurs = typeMultijoueurs;
 		this.typeArgent = typeArgent;
-		this.clavardage = new Clavardage(infoJeu.getNom() + this.id);
+		this.clavardage = clavardage;
 
 		this.infoJeu = infoJeu;
 

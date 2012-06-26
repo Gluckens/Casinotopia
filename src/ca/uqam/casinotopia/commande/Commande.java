@@ -5,14 +5,14 @@ import java.io.Serializable;
 import ca.uqam.casinotopia.controleur.Controleur;
 
 /**
- * commande envoyé par le client et le serveur
- *
+ * Interface de base représentant les commandes clients et serveurs
  */
 public interface Commande extends Serializable {
 
 	/**
-	 * action lancé lors de la lecture d'une commande
-	 * @param controleur le controleur sur leque on fait l'action
+	 * Action lancée lors de la réception de la commande
+	 * 
+	 * @param controleur Le controleur sur lequel on fait l'action
 	 */
 	public void action(Controleur controleur);
 }

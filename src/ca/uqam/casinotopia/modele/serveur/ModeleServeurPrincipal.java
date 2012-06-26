@@ -5,6 +5,10 @@ import java.util.Map;
 
 import ca.uqam.casinotopia.objet.Clavardage;
 
+/**
+ * Regroupe les informations générales sur le serveur.
+ */
+//TODO Transférer les données du controleur ici
 public class ModeleServeurPrincipal {
 
 	Map<String, Clavardage> chats = new HashMap<String, Clavardage>();
