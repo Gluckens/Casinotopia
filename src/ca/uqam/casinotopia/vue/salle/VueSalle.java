@@ -221,6 +221,8 @@ public class VueSalle extends Vue {
 		
 		JLabel imgAvatar = (JLabel) this.getComponentByName("avatarClient" + avatar.getId());
 		
+		imgAvatar.setIcon(new ImageIcon(VueSalle.class.getResource(avatar.getPathImage())));
+		
 		//TODO NullPointerException quand on est dans une salle et qu'on pèse sur le "X"
 		imgAvatar.setBounds(avatar.getX(), avatar.getY(), avatar.getLargeur(), avatar.getHauteur());
 		
