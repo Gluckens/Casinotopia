@@ -31,8 +31,8 @@ public class ControleurClientClient extends ControleurClient {
 	 * @param courriel Nouveau courriel
 	 * @param prcGlobal Nouveau prcGLobal
 	 */
-	public void actionModifierCompte(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
-		this.client.modifierCompte(prenom, nom, dateNaissance, courriel, prcGlobal);
+	public void actionModifierCompte(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal, String pathImage) {
+		this.client.modifierCompte(prenom, nom, dateNaissance, courriel, prcGlobal, pathImage);
 	}
 	
 	/**

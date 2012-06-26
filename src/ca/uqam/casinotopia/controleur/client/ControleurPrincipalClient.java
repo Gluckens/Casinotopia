@@ -153,8 +153,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		
 		Commande cmd = new CmdCreerCompte(modeleClientClient);
 		this.connexion.envoyerCommande(cmd);
-		//TODO Pourquoi il faut réinitialiser la réception? Sa crée un autre thread...?
-		//this.receptionCommandes();
+		this.receptionCommandes();
 	}
 
 	/**
@@ -185,7 +184,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		Commande cmd = new CmdModifierCompte(modeleClientClient);
 		this.connexion.envoyerCommande(cmd);
 		//TODO Pourquoi il faut réinitialiser la réception? Sa crée un autre thread...?
-		//this.receptionCommandes();
+		this.receptionCommandes();
 	}
 
 	/**

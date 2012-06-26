@@ -144,12 +144,13 @@ public class ModeleClientClient extends Utilisateur implements Modele, Observabl
 	 * @param courriel Son nouveau courriel
 	 * @param prcGlobal Son nouveau pourcentage global
 	 */
-	public void modifierCompte(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal) {
+	public void modifierCompte(String prenom, String nom, Date dateNaissance, String courriel, int prcGlobal, String pathImage) {
 		this.prenom = prenom;
 		this.nom = nom;
 		this.dateNaissance = dateNaissance;
 		this.courriel = courriel;
 		this.prcGlobal = prcGlobal;
+		this.avatar.setPathImage(pathImage);
 	}
 
 	public AvatarClient getAvatar() {
