@@ -26,6 +26,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Vue principale de la gestion de compte du client
+ */
 @SuppressWarnings("serial")
 public class CompteClient extends JPanel implements FocusListener{
 	private JTextField txtPrenom;
@@ -40,9 +43,6 @@ public class CompteClient extends JPanel implements FocusListener{
 	private ControleurPrincipalClient controleur;
 	private boolean creerCompte;
 
-	/**
-	 * Create the panel.
-	 */
 	public CompteClient(ControleurPrincipalClient ctrl, boolean nouvCompte) {
 		
 		this.controleur = ctrl;
@@ -267,29 +267,23 @@ public class CompteClient extends JPanel implements FocusListener{
 		btnAppliquer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (txtUtilisateur.getText().length()>0 && txtMotPasse.getText().length()>0 && txtPrenom.getText().length()>0 && txtNom.getText().length()>0 && txtCourriel.getText().length()>0)
-				{
-					try
-					{
-						  String [] sd = txtDateDeNaissance.getText().split("-");
-						  int year=Integer.parseInt(sd[0].trim());
-						  int month=Integer.parseInt(sd[1].trim());
-						  int date=Integer.parseInt(sd[2].trim());
-
-						  Calendar cal=Calendar.getInstance();
-						  cal.set(year,month,date);
-						  java.sql.Date sD = new java.sql.Date(cal.getTimeInMillis());
-						  if (creerCompte){
-							  System.out.println("creation compte");
-							  controleur.cmdCreerCompte(new ModeleClientClient(-1, txtUtilisateur.getText(), txtMotPasse.getText(), -1, txtPrenom.getText(),txtNom.getText(), sD, txtCourriel.getText(), 0,"/img/avatar/" + listeImagesAvatar.get(posAvatar)));
-						  }
-						  else {
-							  //System.out.println("modification compte");
-							  //ModeleClientClient c = new ModeleClientClient(controleur.getModeleClient().getId(),txtUtilisateur.getText(),txtMotPasse.getText(), controleur.getModeleClient().getId(), txtPrenom.getText(),txtNom.getText(),sD, txtCourriel.getText(), controleur.getModeleClient().getSolde(),"/img/avatar/" + listeImagesAvatar.get(posAvatar));
-							  //System.out.println("modification : compte client " + " " + c.getId() + " " +  c.getNomUtilisateur() + " " +  c.getNom() + " " +  c.getPrenom() + " " +  c.getDateNaissance().toString());
-							  //controleur.cmdModificationCompte(c);
-							 controleur.cmdModifierCompte(new ModeleClientClient(controleur.getModeleClient().getId(), txtUtilisateur.getText(), txtMotPasse.getText(), controleur.getModeleClient().getId(), txtPrenom.getText(), txtNom.getText(), sD, txtCourriel.getText(), controleur.getModeleClient().getSolde(), "/img/avatar/" + listeImagesAvatar.get(posAvatar)));
-						  }
+				if (txtUtilisateur.getText().length()>0 && txtMotPasse.getText().length()>0 && txtPrenom.getText().length()>0 && txtNom.getText().length()>0 && txtCourriel.getText().length()>0) {
+					try {
+					  String [] sd = txtDateDeNaissance.getText().split("-");
+					  int year=Integer.parseInt(sd[0].trim());
+					  int month=Integer.parseInt(sd[1].trim());
+					  int date=Integer.parseInt(sd[2].trim());
+					
+					  Calendar cal=Calendar.getInstance();
+					  cal.set(year,month,date);
+					  java.sql.Date sD = new java.sql.Date(cal.getTimeInMillis());
+					  if (creerCompte) {
+						  System.out.println("creation compte");
+					  controleur.cmdCreerCompte(new ModeleClientClient(-1, txtUtilisateur.getText(), txtMotPasse.getText(), -1, txtPrenom.getText(),txtNom.getText(), sD, txtCourriel.getText(), 0,"/img/avatar/" + listeImagesAvatar.get(posAvatar)));
+					  }
+					  else {
+						  controleur.cmdModifierCompte(new ModeleClientClient(controleur.getModeleClient().getId(), txtUtilisateur.getText(), txtMotPasse.getText(), controleur.getModeleClient().getId(), txtPrenom.getText(), txtNom.getText(), sD, txtCourriel.getText(), controleur.getModeleClient().getSolde(), "/img/avatar/" + listeImagesAvatar.get(posAvatar)));
+					  }
 						  
 					}
 					catch (Exception e) {

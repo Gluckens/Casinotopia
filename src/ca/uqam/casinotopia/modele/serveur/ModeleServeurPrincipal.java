@@ -11,7 +11,7 @@ import ca.uqam.casinotopia.objet.Clavardage;
 //TODO Transférer les données du controleur ici
 public class ModeleServeurPrincipal {
 
-	Map<String, Clavardage> chats = new HashMap<String, Clavardage>();
+	private Map<String, Clavardage> chats = new HashMap<String, Clavardage>();
 
 	public Clavardage getChat(String salle) {
 		// si le chat n'existe pas on le crée

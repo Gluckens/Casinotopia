@@ -15,6 +15,7 @@ import ca.uqam.casinotopia.type.TypeMise;
 import ca.uqam.casinotopia.vue.FrameApplication;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
+import ca.uqam.casinotopia.vue.roulette.drag_n_drop.MisesGhostDropManager;
 
 import javax.swing.JLabel;
 
@@ -31,16 +32,30 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Sous-vue de la roulette
+ * Contient les actions possibles par le joueurs
+ */
 @SuppressWarnings("serial")
 public class VueRouletteActions extends Vue {
 	
+	/**
+	 * Controleur associé à la vue
+	 */
 	private ControleurRouletteClient controleur;
+	
+	/**
+	 * Instance du frame, nécessaire pour gérer les drag and drop
+	 */
 	private FrameApplication frame;
 
 	/**
-	 * Create the panel.
+	 * Constructeur
 	 * 
-	 * @param tapis
+	 * @param controleur Le controleur associé à la vue
+	 * @param frame Le frame dans lequel la vue sera ajoutée
+	 * @param dropTarget La cible pour les drag and drop de jetons
+	 * @param dropReceiver L'élément qui sera notifié lors d'un drop
 	 */
 	public VueRouletteActions(ControleurClient controleur, FrameApplication frame, JComponent dropTarget, MisesDroppableReceiver dropReceiver) {
 		this.setMinimumSize(new Dimension(700, 80));
@@ -119,10 +134,22 @@ public class VueRouletteActions extends Vue {
 		this.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 	}
 
+	/**
+	 * Initialisation du drag and drop
+	 * 
+	 * @param target La cible pour les drag and drop de jetons
+	 * @param receiver L'élément qui sera notifié lors d'un drop
+	 */
 	public void initDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		this.initMisesDragAndDrop(target, receiver);
 	}
 
+	/**
+	 * Initialisation du drag and drop
+	 * 
+	 * @param target La cible pour les drag and drop de jetons
+	 * @param receiver L'élément qui sera notifié lors d'un drop
+	 */
 	private void initMisesDragAndDrop(JComponent target, MisesDroppableReceiver receiver) {
 		GhostDropListener ghostDropListener = new MisesGhostDropManager(target, receiver);
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip5"), TypeMise.MISE_5.getMontant());
@@ -131,6 +158,13 @@ public class VueRouletteActions extends Vue {
 		this.setMisesDragAndDrop(ghostDropListener, this.getComponentByName("lblChip50"), TypeMise.MISE_50.getMontant());
 	}
 
+	/**
+	 * Ajout d'un listener pour le drop d'un element en particulier
+	 * 
+	 * @param ghostDropListener Le listener des drop
+	 * @param component Le component draggable (jeton)
+	 * @param montant Le montant associé au jeton
+	 */
 	private void setMisesDragAndDrop(GhostDropListener ghostDropListener, Component component, int montant) {
 		MisesGhostComponentAdapter misesGhostComponentAdapter = new MisesGhostComponentAdapter((GhostGlassPane) this.frame.getGlassPane(), montant, component.getName());
 		component.addMouseListener(misesGhostComponentAdapter);
@@ -140,7 +174,5 @@ public class VueRouletteActions extends Vue {
 
 	@Override
 	public void update(Observable observable) {
-		// TODO Auto-generated method stub
-
 	}
 }

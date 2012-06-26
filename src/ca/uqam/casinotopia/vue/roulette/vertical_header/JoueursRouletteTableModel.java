@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.vue.roulette;
+package ca.uqam.casinotopia.vue.roulette.vertical_header;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

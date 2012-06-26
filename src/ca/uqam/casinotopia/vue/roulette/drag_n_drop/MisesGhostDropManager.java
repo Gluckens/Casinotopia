@@ -1,4 +1,4 @@
-package ca.uqam.casinotopia.vue.roulette;
+package ca.uqam.casinotopia.vue.roulette.drag_n_drop;
 
 import java.awt.Component;
 import java.awt.Point;

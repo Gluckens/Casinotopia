@@ -30,25 +30,35 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Vue principale des salles
+ */
 @SuppressWarnings("serial")
 public class VueSalle extends Vue {
 	
 	private ControleurSalleClient controleur;
 	
-	//private Avatar avatarClient;
-	
+	/**
+	 * La game loop associé à la salle
+	 */
 	private MondeVirtuel mondeVirtuel;
 	
-	//Sert a gérer les multiple keyPress
+	/**
+	 * Sert à gérer les multiples keyPressed
+	 */
 	private Map<TypeDeplacement, Boolean> keysPressed;
 	
+	/**
+	 * Liste de clients dans la salle
+	 */
 	private Map<Integer, ModeleClientClient> lstClients;
-	//private Set<ModeleClientClient> lstClients;
 	
+	/**
+	 * Liste des jeux de la salle
+	 */
 	private Map<Integer, JeuClient> lstJeux;
 	
 	public int idClient;
-	
 	
 
 	public VueSalle(ControleurClient controleur, Map<Integer, ModeleClientClient> lstClients, int idClient, Map<Integer, JeuClient> lstJeux) {
@@ -92,7 +102,6 @@ public class VueSalle extends Vue {
 		pnlAvatars.setLayout(null);
 		pnlAvatars.setFocusable(true);
 		pnlAvatars.requestFocus();
-		//pnlAvatars.addKeyListener(this.mondeVirtuel);
 		pnlAvatars.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
@@ -151,9 +160,6 @@ public class VueSalle extends Vue {
 			pnlAvatars.add(imgTable);
 		}
 		
-		
-		
-		//for(ModeleClientClient client : this.lstClients) {
 		for(ModeleClientClient client : this.lstClients.values()) {
 			AvatarClient avatar = client.getAvatar();
 			JLabel imgAvatar = new JLabel(new ImageIcon(VueSalle.class.getResource(avatar.getPathImage())));
@@ -187,6 +193,11 @@ public class VueSalle extends Vue {
 		this.add(chat, new GridBagHelper().setXY(1, 2).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
 	}
 	
+	/**
+	 * Afficher la vue de sélection des options d'un jeu.
+	 * 
+	 * @param jeu Le jeu lié aux options
+	 */
 	public void afficherSelectionOptionJeu(JeuClient jeu) {
 		VueSelectionOptionJeu vueOptionsJeu = (VueSelectionOptionJeu) this.getComponentByName("vueOptionsJeu");
 		
@@ -204,6 +215,9 @@ public class VueSalle extends Vue {
 		}
 	}
 	
+	/**
+	 * Cacher la vue de sélection des options d'un jeu.
+	 */
 	public void cacherSelectionOptionJeu() {
 		VueSelectionOptionJeu vueOptionsJeu = (VueSelectionOptionJeu) this.getComponentByName("vueOptionsJeu");
 		
@@ -216,20 +230,29 @@ public class VueSalle extends Vue {
 		}
 	}
 	
+	/**
+	 * Mise à jour d'un avatar dans la salle
+	 * Permet de modifier son image et sa position
+	 * 
+	 * @param avatar L'avatar a modifier
+	 */
 	private void updateAvatar(AvatarClient avatar) {
-		//System.out.println("CLIENT " + this.idClient + " : UPDATE D'AVATAR " + avatar.getId() + " : (" + avatar.getX() + ", " + avatar.getY() + ", " + avatar.getLargeur() + ", " + avatar.getHauteur() + ")");
-		
 		JLabel imgAvatar = (JLabel) this.getComponentByName("avatarClient" + avatar.getId());
 		
 		imgAvatar.setIcon(new ImageIcon(VueSalle.class.getResource(avatar.getPathImage())));
 		
-		//TODO NullPointerException quand on est dans une salle et qu'on pèse sur le "X"
+		//TODO NullPointerException quand on est dans une salle et qu'on pèse sur le "X"? Réglé?
 		imgAvatar.setBounds(avatar.getX(), avatar.getY(), avatar.getLargeur(), avatar.getHauteur());
 		
 		revalidate();
 		repaint();
 	}
 	
+	/**
+	 * Ajouter un client dans la salle
+	 * 
+	 * @param nouveauClient Le client à ajouter
+	 */
 	private void ajouterClient(ModeleClientClient nouveauClient) {
 		JPanel pnlAvatars = (JPanel) this.getComponentByName("pnlAvatars");
 		AvatarClient avatar = nouveauClient.getAvatar();
@@ -245,6 +268,11 @@ public class VueSalle extends Vue {
 		this.componentMap.put(imgAvatar.getName(), imgAvatar);
 	}
 	
+	/**
+	 * Retirer un client de la salle
+	 * 
+	 * @param clientRetire Le client à retirer
+	 */
 	private void retirerClient(ModeleClientClient clientRetire) {
 		JPanel pnlAvatars = (JPanel) this.getComponentByName("pnlAvatars");
 		
@@ -261,11 +289,8 @@ public class VueSalle extends Vue {
 
 	@Override
 	public void update(Observable observable) {
-		//System.out.println("UPDATE DE SALLE POUR CLIENT " + this.idClient);
-		//Regrouper les mouvements d'avatar en groupe?
 		if(observable instanceof AvatarClient) {
 			AvatarClient modele = (AvatarClient) observable;
-			//System.out.println("UPDATE D'AVATAR " + modele.getId() + " POUR CLIENT " + this.idClient + " (" + modele.getTypeModif() + ")");
 			switch (modele.getTypeModif()) {
 				case DEPLACEMENT :
 					this.updateAvatar(modele);

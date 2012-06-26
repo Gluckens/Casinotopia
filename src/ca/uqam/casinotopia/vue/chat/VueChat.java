@@ -26,6 +26,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+/**
+ * Vue principale du chat
+ */
 @SuppressWarnings("serial")
 public class VueChat extends Vue {
 

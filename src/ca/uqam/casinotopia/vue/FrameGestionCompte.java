@@ -17,9 +17,6 @@ public class FrameGestionCompte extends JFrame implements Runnable {
 	private ControleurPrincipalClient controleur;
 
 
-	/**
-	 * Create the frame.
-	 */
 	public FrameGestionCompte(ControleurPrincipalClient ctrl, boolean nouvCompte) {
 		this.controleur = ctrl;
 		setResizable(false);

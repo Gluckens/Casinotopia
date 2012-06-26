@@ -14,14 +14,17 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.vue.GridBagHelper;
 import ca.uqam.casinotopia.vue.Vue;
 
+/**
+ * Vue principale de la barre de menu au bas de l'application
+ */
 @SuppressWarnings("serial")
 public class VueBarreMenuBas extends Vue {
 	
+	/**
+	 * Controleur associé à la vue
+	 */
 	private ControleurBarreMenuBas controleur;
 
-	/**
-	 * Create the panel.
-	 */
 	public VueBarreMenuBas(ControleurClient controleur) {
 		this.controleur = (ControleurBarreMenuBas) controleur;
 
@@ -35,11 +38,7 @@ public class VueBarreMenuBas extends Vue {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 128, 128, 512, 128, 128 };
 		gridBagLayout.rowHeights = new int[] { 45 };
-		gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		this.setLayout(gridBagLayout);
-
-		//setPreferredSize(new Dimension(1024, 45));
 
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.setName("btnMenu");
@@ -60,6 +59,11 @@ public class VueBarreMenuBas extends Vue {
 		this.add(lblSoldeClient, new GridBagHelper().setXY(4, 0).end());
 	}
 	
+	/**
+	 * Mise à jour du solde du client dans l'interface
+	 * 
+	 * @param nouveauSolde Le nouveau solde du client
+	 */
 	private void updateSolde(int nouveauSolde) {
 		((JLabel)this.getComponentByName("lblSoldeClient")).setText(String.valueOf(nouveauSolde));
 	}
