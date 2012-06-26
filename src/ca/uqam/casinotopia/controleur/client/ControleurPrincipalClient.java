@@ -26,7 +26,7 @@ public class ControleurPrincipalClient extends ControleurClient {
 		super(new ModelePrincipalClient());
 		this.modeleNav.ajouterControleur("ControleurPrincipalClient", this);
 		this.modeleNav.initFrame();
-		this.listeServeur = new String[] { "localhost", "oli.dnsd.me", "dan.dnsd.me" };
+		this.listeServeur = new String[] { "76.10.153.177","localhost", "oli.dnsd.me", "dan.dnsd.me" };
 		this.enReceptionDeCommande = false;
 		this.afficherConnexion();
 	}
