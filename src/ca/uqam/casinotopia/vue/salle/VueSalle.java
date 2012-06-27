@@ -188,7 +188,7 @@ public class VueSalle extends Vue {
 		
 		VueChat chat = ctrlChatClient.getVue();
 		chat.cacherSalle();
-		ctrlChatClient.cmdSeConnecterAuChat("SallePrincipal");
+		ctrlChatClient.cmdSeConnecterAuChat("salle1");
 		chat.setName("chat");
 		this.add(chat, new GridBagHelper().setXY(1, 2).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
 	}

@@ -242,6 +242,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 */
 	public void actionSeConnecterAuChat(String salle) {
 		//Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
+		
+
+		//chat = ((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).getModeleSalleServeur().getClavardage();
 		Clavardage chat = ControleurPrincipalServeur.INSTANCE.getModele().getChat(salle);
 		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, chat));
 		
@@ -261,7 +264,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		if(salle != null) {
 			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
-			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, salle.getClavardage()));
+			//this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, salle.getClavardage()));
 			
 			salle.connecter(this.modele);
 		}
@@ -276,6 +279,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * Cette action est exécutée suite à la demande du client (commande)
 	 */
 	public void actionQuitterSalle() {
+		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 		((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).quitterSalle();
 		
 		this.lstControleurs.remove("ControleurSalleServeur");		
@@ -440,7 +444,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 
 		this.lstControleurs.remove("ControleurChatServeur");
-		//this.connexion.envoyerCommande(new CmdQuitterChatClient());
+		this.connexion.envoyerCommande(new CmdQuitterChatClient());
 
 	}
 	
