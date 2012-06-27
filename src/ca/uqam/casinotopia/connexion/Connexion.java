@@ -168,7 +168,7 @@ public class Connexion {
 	 * envoyer une commande sur la connexion
 	 * @param cmd la commande à envoyer
 	 */
-	public void envoyerCommande(Commande cmd) {
+	public synchronized void envoyerCommande(Commande cmd) {
 		try {
 			this.getObjectOutputStream().writeObject(cmd);
 			this.getObjectOutputStream().reset();

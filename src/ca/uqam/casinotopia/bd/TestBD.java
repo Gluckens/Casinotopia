@@ -38,7 +38,7 @@ public abstract class TestBD {
 		@SuppressWarnings("unused")
 		ModeleClientServeur client4 = CtrlBD.BD.authentifierClient("username1", "mdp1");
 		
-		ModeleSalleServeur salle = new ModeleSalleServeur(-1, "MEGAFUN");
+		ModeleSalleServeur salle = new ModeleSalleServeur(-1, "SallePrincipal");
 		CtrlBD.BD.ajouterSalle(salle);
 		CtrlBD.BD.ajouterJeu(new Jeu(1, salle.getId(), "nom1", "description1", "reglesJeu1", new Rectangle(70, 70, 180, 104), 1, 4, TypeJeu.ROULETTE));
 		CtrlBD.BD.ajouterJeu(new Jeu(2, salle.getId(), "nom2", "description2", "reglesJeu2", new Rectangle(370, 70, 180, 104), 2, 4, TypeJeu.ROULETTE));

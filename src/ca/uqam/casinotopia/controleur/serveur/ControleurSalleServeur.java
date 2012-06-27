@@ -35,4 +35,8 @@ public class ControleurSalleServeur extends ControleurServeur {
 	public void quitterSalle() {
 		this.modele.deconnecter(this.getModeleClient());
 	}
+	
+	public ModeleSalleServeur getModeleSalleServeur() {
+		return this.modele;
+	}
 }

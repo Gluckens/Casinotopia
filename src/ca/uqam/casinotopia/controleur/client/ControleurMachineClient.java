@@ -1,5 +1,7 @@
 package ca.uqam.casinotopia.controleur.client;
 
+import javax.swing.JOptionPane;
+
 import ca.uqam.casinotopia.commande.serveur.machine.CmdMiserMachine;
 import ca.uqam.casinotopia.commande.serveur.machine.CmdQuitterMachine;
 import ca.uqam.casinotopia.connexion.Connexion;
@@ -37,7 +39,7 @@ public class ControleurMachineClient extends ControleurClient {
 	 * @param message le message a afficher
 	 */
 	public void actionAfficherMessage(String message) {
-		this.vue.setMessage(message);
+    	JOptionPane.showMessageDialog(null, message);
 	}
 	
 	public VueMachine getVue() {

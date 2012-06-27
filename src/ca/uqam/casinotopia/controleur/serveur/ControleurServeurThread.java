@@ -242,13 +242,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 */
 	public void actionSeConnecterAuChat(String salle) {
 		//Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
-		Clavardage chat = ControleurPrincipalServeur.getModele().getChat(salle);
-		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, chat));
 		
-		chat.connecter(this.modele);
-	}
-	
-	public void connexionAuChat(Clavardage chat) {
+		Clavardage chat = ControleurPrincipalServeur.getModele().getChat(salle);
 		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, chat));
 		
 		chat.connecter(this.modele);
@@ -267,7 +262,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		if(salle != null) {
 			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
-			//this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, salle.getClavardage()));
 			
 			salle.connecter(this.modele);
 		}
@@ -454,7 +448,6 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 
 		this.lstControleurs.remove("ControleurChatServeur");
 		this.connexion.envoyerCommande(new CmdQuitterChatClient());
-
 	}
 	
 	/**
