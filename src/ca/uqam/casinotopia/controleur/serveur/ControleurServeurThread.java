@@ -22,6 +22,7 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 
 import ca.uqam.casinotopia.commande.client.authentification.CmdInformationInvalide;
 import ca.uqam.casinotopia.commande.client.authentification.CmdInitClient;
+import ca.uqam.casinotopia.commande.client.chat.CmdQuitterChatClient;
 import ca.uqam.casinotopia.commande.client.compte.CmdInformationCreationCompte;
 import ca.uqam.casinotopia.commande.client.machine.CmdAfficherJeuMachine;
 import ca.uqam.casinotopia.commande.client.machine.CmdQuitterPartieMachineClient;
@@ -242,6 +243,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	public void actionSeConnecterAuChat(String salle) {
 		//Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
 		Clavardage chat = ControleurPrincipalServeur.INSTANCE.getModele().getChat(salle);
+		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, chat));
+		
 		chat.connecter(this.modele);
 	}
 
@@ -433,9 +436,12 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * Cette action est exécutée suite à la demande du client (commande)
 	 */
 	public void actionQuitterChat() {
+
 		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
-		
+
 		this.lstControleurs.remove("ControleurChatServeur");
+		this.connexion.envoyerCommande(new CmdQuitterChatClient());
+
 	}
 	
 	/**

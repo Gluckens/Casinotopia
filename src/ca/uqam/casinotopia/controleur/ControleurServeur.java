@@ -55,6 +55,7 @@ public abstract class ControleurServeur extends Controleur {
 	public ModeleClientServeur getModeleClient() {
 		ControleurClientServeur ctrlClient = (ControleurClientServeur) this.getControleur("ControleurClientServeur");
 		if(ctrlClient == null) {
+			System.out.println("hein");
 			return null;
 		}
 		
