@@ -98,6 +98,7 @@ public class Clavardage implements Connectable, Serializable {
 
 	@Override
 	public void deconnecter(Utilisateur utilisateur) {
+
 		if (this.participants.contains(utilisateur)) {
 			this.participants.remove(utilisateur);
 			for (int i = 0; i < this.participants.size(); i++) {
