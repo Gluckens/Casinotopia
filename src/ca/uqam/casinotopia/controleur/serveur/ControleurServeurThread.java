@@ -440,7 +440,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 
 		this.lstControleurs.remove("ControleurChatServeur");
-		this.connexion.envoyerCommande(new CmdQuitterChatClient());
+		//this.connexion.envoyerCommande(new CmdQuitterChatClient());
 
 	}
 	
