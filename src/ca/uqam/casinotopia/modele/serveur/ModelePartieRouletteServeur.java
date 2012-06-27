@@ -304,7 +304,7 @@ public class ModelePartieRouletteServeur extends Partie implements Modele {
 		this.lstJoueurs.remove(joueur);
 		
 		if(this.isPartieVide()) {
-			ControleurPrincipalServeur.getInstance().retirerPartie(this);
+			ControleurPrincipalServeur.INSTANCE.retirerPartie(this);
 		}
 		else {
 			this.tableJeu.retirerMises(joueur.getId());

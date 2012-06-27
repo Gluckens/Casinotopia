@@ -8,7 +8,6 @@ public class ServeurMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ControleurPrincipalServeur.getInstance().ecouterConnexions();
+		ControleurPrincipalServeur.INSTANCE.ecouterConnexions();
 	}
-
 }

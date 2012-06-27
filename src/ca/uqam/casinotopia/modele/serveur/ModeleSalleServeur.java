@@ -53,7 +53,7 @@ public class ModeleSalleServeur implements Modele, Connectable {
 	}
 	
 	public ModeleSalleServeur(int id, String nom, Map<Integer, Jeu> lstJeux) {
-		this(id, nom, lstJeux, new HashMap<Integer, ModeleClientServeur>(), ControleurPrincipalServeur.getInstance().getModele().getChat(nom));
+		this(id, nom, lstJeux, new HashMap<Integer, ModeleClientServeur>(), ControleurPrincipalServeur.INSTANCE.getModele().getChat(nom));
 	}
 	
 	public ModeleSalleServeur(int id, String nom, Map<Integer, Jeu> lstJeux, Map<Integer, ModeleClientServeur> lstClients, Clavardage clavardage) {

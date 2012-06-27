@@ -82,7 +82,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * Initialiser les controleurs de base de l'environnement du client
 	 */
 	private void initControleur() {
-		this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
+		//this.ajouterControleur("ControleurPrincipalServeur", ControleurPrincipalServeur.getInstance());
 		this.ajouterControleur("ControleurClientServeur", new ControleurClientServeur(this.getConnexion(), this, this.modele));
 	}
 
@@ -240,7 +240,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * @param salle Le nom de la salle
 	 */
 	public void actionSeConnecterAuChat(String salle) {
-		Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
+		//Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
+		Clavardage chat = ControleurPrincipalServeur.INSTANCE.getModele().getChat(salle);
 		chat.connecter(this.modele);
 	}
 
@@ -251,9 +252,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * @param idSalle L'id de la salle
 	 */
 	public void actionJoindreSalle(int idSalle) {
-		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		//ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
-		ModeleSalleServeur salle = ctrlPrincipal.getSalle(idSalle);
+		ModeleSalleServeur salle = ControleurPrincipalServeur.INSTANCE.getSalle(idSalle);
 		
 		if(salle != null) {
 			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
@@ -285,9 +286,9 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * @param idJeu L'id du jeu de machine à sous
 	 */
 	public void actionJouerMachine(int idJeu) {
-		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		//ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		
-		ModelePartieMachineServeur partieMachine = new ModelePartieMachineServeur(this.number, ctrlPrincipal.getJeu(idJeu));
+		ModelePartieMachineServeur partieMachine = new ModelePartieMachineServeur(this.number, ControleurPrincipalServeur.INSTANCE.getJeu(idJeu));
 		
 		this.ajouterControleur("ControleurMachineServeur", new ControleurMachineServeur(this.getConnexion(), this, partieMachine));
 		
@@ -303,7 +304,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * @param typeArgent Le type de jeu d'argent
 	 */
 	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
-		ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		//ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		ControleurPrincipalServeur ctrlPrincipal = ControleurPrincipalServeur.INSTANCE;
 		
 		ModelePartieRouletteServeur partieRoulette = null;
 		

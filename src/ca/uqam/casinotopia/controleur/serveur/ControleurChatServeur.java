@@ -34,7 +34,7 @@ public class ControleurChatServeur extends ControleurServeur {
 	 */
 	public void actionEnvoyerMessage(String message, String salle) {
 		message = this.ctrlThread.getModeleClient().getNomUtilisateur() + " : " + message;
-		ControleurPrincipalServeur.getInstance().getModele().getChat(salle).addMessage(message);
+		ControleurPrincipalServeur.INSTANCE.getModele().getChat(salle).addMessage(message);
 	}
 	
 	public Clavardage getModele() {

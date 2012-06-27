@@ -30,6 +30,12 @@ import ca.uqam.casinotopia.type.TypeJeu;
 public enum CtrlBD {
 	BD;
 	
+	/**
+	 * Connexion à la base de données
+	 * 
+	 * @return La connexion
+	 * @throws Exception Si la connexion échoue
+	 */
 	private Connection connecterBD() throws Exception {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
@@ -48,6 +54,11 @@ public enum CtrlBD {
 		return conn;
 	}
 	
+	/**
+	 * Fermer une connexion
+	 * 
+	 * @param conn La connexion à fermer
+	 */
 	private void fermerConnexion(Connection conn) {
 		try {
 			if(conn != null) {
@@ -56,6 +67,12 @@ public enum CtrlBD {
 		} catch (Exception e) { }
 	}
 	
+	/**
+	 * Exécuter une requête dans la BD.
+	 * 
+	 * @param query La requête à exécuter
+	 * @return True si la requête à fonctionner, false sinon
+	 */
 	public boolean execQuery(String query) {
 		boolean succes = false;
 		
@@ -78,6 +95,13 @@ public enum CtrlBD {
 		return succes;
 	}
 	
+	/**
+	 * Authentifier le client
+	 * 
+	 * @param identifiant L'identifiant à valider
+	 * @param motDePasse Le mot de passe à valider
+	 * @return Le modele client si l'authentification a réussi, null sinon
+	 */
 	public ModeleClientServeur authentifierClient(String identifiant, String motDePasse) {
 		Connection conn = null;
 		ModeleClientServeur client = null;
@@ -101,6 +125,12 @@ public enum CtrlBD {
 		return client;
 	}
 	
+	/**
+	 * Récupérer un client dans la BD par son id d'utilisateur
+	 * 
+	 * @param id L'id d'utilisateur du client à récupérer
+	 * @return Le modèle du client demandé
+	 */
 	public ModeleClientServeur getClientByIdUtilisateur(int id) {
 		Connection conn = null;
 		ModeleClientServeur client = null;
@@ -141,6 +171,12 @@ public enum CtrlBD {
 		return client;
 	}
 	
+	/**
+	 * Récupérer un client dans la BD par son id
+	 * 
+	 * @param id L'id du client à récupérer
+	 * @return Le modèle du client demandé
+	 */
 	public ModeleClientServeur getClientById(int id) {
 		Connection conn = null;
 		ModeleClientServeur client = null;
@@ -181,6 +217,12 @@ public enum CtrlBD {
 		return client;
 	}
 	
+	/**
+	 * Récupérer un avatar dans la BD par son id
+	 * 
+	 * @param idAvatar L'id de l'avatar à récupérer
+	 * @return Le modèle de l'avatar demandé
+	 */
 	public Avatar getAvatar(int idAvatar) {
 		Connection conn = null;
 		Avatar avatar = null;
@@ -204,6 +246,12 @@ public enum CtrlBD {
 		return avatar;
 	}
 	
+	/**
+	 * Récupérer l'avatar associé à un client dans la BD
+	 * 
+	 * @param idClient L'id du client pour lequel on veut l'avatar
+	 * @return Le modèle de l'avatar demandé
+	 */
 	public Avatar getAvatarClient(int idClient) {
 		Connection conn = null;
 		Avatar avatar = null;
@@ -227,6 +275,12 @@ public enum CtrlBD {
 		return avatar;
 	}
 	
+	/**
+	 * Récupérer la liste d'amis d'un client dans la BD
+	 * 
+	 * @param idClient L'id du client pour lequel on veut récupérer la liste d'amis
+	 * @return La liste d'amis du client
+	 */
 	public ListeAmis getListeAmis(int idClient) {
 		Connection conn = null;
 		ListeAmis listeAmisClient = new ListeAmis();
@@ -251,6 +305,12 @@ public enum CtrlBD {
 		return listeAmisClient;
 	}
 	
+	/**
+	 * Récupérer dans la BD les dons uniques effectués par un client
+	 * 
+	 * @param idClient L'id du client
+	 * @return Les dons uniques effectués par ce client
+	 */
 	public List<DonUniqueClient> getDonsUniquesClient(int idClient) {
 		Connection conn = null;
 		List<DonUniqueClient> lstDonsUniques = new Vector<DonUniqueClient>();
@@ -285,6 +345,11 @@ public enum CtrlBD {
 		return lstDonsUniques;
 	}
 	
+	/**
+	 * Récupérer dans la BD les partages de gains d'un client
+	 * @param idClient L'id du client
+	 * @return Les partages de gain du client
+	 */
 	public List<PartageGainsClient> getPartageGainsClient(int idClient) {
 		Connection conn = null;
 		List<PartageGainsClient> lstPartageGains = new Vector<PartageGainsClient>();
@@ -318,6 +383,12 @@ public enum CtrlBD {
 		return lstPartageGains;
 	}
 	
+	/**
+	 * Récupérer une fondation par son id
+	 * 
+	 * @param idFondation L'id de la fondation
+	 * @return Le modèle de la fondation
+	 */
 	public Fondation getFondation(int idFondation) {
 		Connection conn = null;
 		Fondation fondation = null;
@@ -341,7 +412,11 @@ public enum CtrlBD {
 		return fondation;
 	}
 	
-	//TODO Map avec nom ou ID comme key?
+	/**
+	 * Récupérer toutes les salles de l'application dans la BD
+	 * 
+	 * @return Un mapping <Integer, Salle>
+	 */
 	public Map<Integer, ModeleSalleServeur> getAllSalle() {
 		Connection conn = null;
 		Map<Integer, ModeleSalleServeur> lstSalles = new HashMap<Integer, ModeleSalleServeur>();
@@ -367,6 +442,12 @@ public enum CtrlBD {
 		return lstSalles;
 	}
 	
+	/**
+	 * Récupérer une salle dans la BD par son id
+	 * 
+	 * @param idSalle L'id de la salle
+	 * @return Le modèle de la salle demandée
+	 */
 	public ModeleSalleServeur getSalle(int idSalle) {
 		Connection conn = null;
 		ModeleSalleServeur salle = null;
@@ -392,6 +473,12 @@ public enum CtrlBD {
 		return salle;
 	}
 	
+	/**
+	 * Récupérer tous les jeux associés à une salle dans la BD et les ajouter dans l'objet salle
+	 * 
+	 * @param salle La salle demandée
+	 * @param conn L'objet connexion
+	 */
 	private void getJeuDeSalle(ModeleSalleServeur salle, Connection conn) {
 		try {
 			Statement stmt = conn.createStatement();
@@ -406,6 +493,12 @@ public enum CtrlBD {
 		}
 	}
 	
+	/**
+	 * Récupérer un jeu dans la BD par son id
+	 * 
+	 * @param idJeu L'id du jeu demandé
+	 * @return Le modèle du jeu
+	 */
 	public Jeu getJeu(int idJeu) {
 		Connection conn = null;
 		Jeu jeu = null;

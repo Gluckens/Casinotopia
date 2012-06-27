@@ -18,7 +18,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import ca.uqam.casinotopia.bd.CtrlBD;
-import ca.uqam.casinotopia.controleur.ControleurServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleSalleServeur;
 import ca.uqam.casinotopia.modele.serveur.ModeleServeurPrincipal;
 import ca.uqam.casinotopia.type.TypeEtatPartie;
@@ -29,7 +28,9 @@ import ca.uqam.casinotopia.type.TypeJeuArgent;
  * Controleur principal du serveur.
  * C'est ici que les objets globaux sont stockés (les jeux, les parties, les salles)
  */
-public final class ControleurPrincipalServeur extends ControleurServeur {
+//public final class ControleurPrincipalServeur extends ControleurServeur {
+public enum ControleurPrincipalServeur{
+	INSTANCE;
 	
 	/**
 	 * nombre de connexions simultanées
@@ -44,7 +45,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	/**
 	 * Instance de singleton
 	 */
-	private static ControleurPrincipalServeur instance;
+	//private static ControleurPrincipalServeur instance;
 	
 	/**
 	 * Socket du serveur
@@ -54,7 +55,7 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	/**
 	 * Modèle du serveur
 	 */
-	private ModeleServeurPrincipal modele;
+	private static ModeleServeurPrincipal modele;
 	
 	/**
 	 * Threads des clients
@@ -67,26 +68,27 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	/**
 	 * Liste des jeux
 	 */
-	private Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
+	private static Map<TypeJeu, Map<Integer, Jeu>> lstJeux;
 	
 	/**
 	 * Liste des parties
 	 */
-	private Map<Integer, Partie> lstParties;
+	private static Map<Integer, Partie> lstParties;
 	
 	/**
 	 * Liste des salles
 	 */
-	private Map<Integer, ModeleSalleServeur> lstSalles;
+	private static Map<Integer, ModeleSalleServeur> lstSalles;
 
-	private ControleurPrincipalServeur() {
-		this.modele = new ModeleServeurPrincipal();
+	//ControleurPrincipalServeur() {
+	static {
+		modele = new ModeleServeurPrincipal();
 
-		this.lstParties = new HashMap<Integer, Partie>();
+		lstParties = new HashMap<Integer, Partie>();
 		
-		this.lstSalles = new HashMap<Integer, ModeleSalleServeur>();
+		lstSalles = new HashMap<Integer, ModeleSalleServeur>();
 
-		this.initJeux();
+		initJeux();
 	}
 
 	/**
@@ -130,22 +132,22 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		}
 	}
 
-	public static ControleurPrincipalServeur getInstance() {
+	/*public static ControleurPrincipalServeur getInstance() {
 		if (instance == null) {
 			instance = new ControleurPrincipalServeur();
 		}
 		return instance;
-	}
+	}*/
 
 	/**
 	 * Initialiser les jeux en fonction des données de la BD
 	 */
-	private void initJeux() {
-		this.lstSalles = CtrlBD.BD.getAllSalle();
-		this.lstJeux = new HashMap<TypeJeu, Map<Integer, Jeu>>();
-		this.lstJeux.put(TypeJeu.ROULETTE, new HashMap<Integer, Jeu>());
-		this.lstJeux.put(TypeJeu.BLACKJACK, new HashMap<Integer, Jeu>());
-		this.lstJeux.put(TypeJeu.MACHINE, new HashMap<Integer, Jeu>());
+	private static void initJeux() {
+		lstSalles = CtrlBD.BD.getAllSalle();
+		lstJeux = new HashMap<TypeJeu, Map<Integer, Jeu>>();
+		lstJeux.put(TypeJeu.ROULETTE, new HashMap<Integer, Jeu>());
+		lstJeux.put(TypeJeu.BLACKJACK, new HashMap<Integer, Jeu>());
+		lstJeux.put(TypeJeu.MACHINE, new HashMap<Integer, Jeu>());
 		
 		/* TODO Générer des parties aléatoires?
 		Random randomGenerator = new Random();
@@ -155,9 +157,9 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 			}
 		}*/
 		
-		for(ModeleSalleServeur salle : this.lstSalles.values()) {
+		for(ModeleSalleServeur salle : lstSalles.values()) {
 			for(Jeu jeu : salle.getLstJeux().values()) {
-				this.lstJeux.get(jeu.getType()).put(jeu.getId(), jeu);
+				lstJeux.get(jeu.getType()).put(jeu.getId(), jeu);
 			}
 		}
 	}
@@ -168,8 +170,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param idPartie L'id de la partie à récupérer
 	 * @return La partie demandée
 	 */
-	public Partie getPartie(int idPartie) {
-		return this.lstParties.get(idPartie);
+	public static Partie getPartie(int idPartie) {
+		return lstParties.get(idPartie);
 	}
 
 	/**
@@ -178,8 +180,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param partie La partie à récupérer
 	 * @return La partie demandée
 	 */
-	public Partie getPartie(Partie partie) {
-		return this.getPartie(partie.getId());
+	public static Partie getPartie(Partie partie) {
+		return getPartie(partie.getId());
 	}
 
 	/**
@@ -188,9 +190,9 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param idPartie l'id de la partie
 	 * @return Le map de la partie demandée
 	 */
-	private Map<Integer, Partie> getMapPartie(int idPartie) {
+	private static Map<Integer, Partie> getMapPartie(int idPartie) {
 		Map<Integer, Partie> mapPartie = null;
-		for (Map<Integer, Jeu> mapJeu : this.lstJeux.values()) {
+		for (Map<Integer, Jeu> mapJeu : lstJeux.values()) {
 			for (Jeu jeu : mapJeu.values()) {
 				mapPartie = jeu.getMapPartie(idPartie);
 				if (mapPartie != null) {
@@ -210,10 +212,10 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * 
 	 * @return un id de partie libre
 	 */
-	public int getIdPartieLibre() {
+	public static int getIdPartieLibre() {
 		do {
 			for (int i = 1; i < MAX_PARTIES; i++) {
-				if (this.lstParties.get(i) == null) {
+				if (lstParties.get(i) == null) {
 					return i;
 				}
 			}
@@ -233,9 +235,9 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param partie La partie à ajouter
 	 * @param etat L'état de la nouvelle partie
 	 */
-	public void ajouterPartie(Partie partie, TypeEtatPartie etat) {
-		this.lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu().getId()).ajouterPartie(partie, etat);
-		this.lstParties.put(partie.getId(), partie);
+	public static void ajouterPartie(Partie partie, TypeEtatPartie etat) {
+		lstJeux.get(partie.getTypeJeu()).get(partie.getInfoJeu().getId()).ajouterPartie(partie, etat);
+		lstParties.put(partie.getId(), partie);
 	}
 
 	/**
@@ -243,9 +245,9 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * 
 	 * @param idPartie L'id de la partie à retirer
 	 */
-	public void retirerPartie(int idPartie) {
-		this.getMapPartie(idPartie).remove(idPartie);
-		this.lstParties.remove(idPartie);
+	public static void retirerPartie(int idPartie) {
+		getMapPartie(idPartie).remove(idPartie);
+		lstParties.remove(idPartie);
 	}
 
 	/**
@@ -253,8 +255,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * 
 	 * @param partie L'instance de la partie à retirer
 	 */
-	public void retirerPartie(Partie partie) {
-		this.retirerPartie(partie.getId());
+	public static void retirerPartie(Partie partie) {
+		retirerPartie(partie.getId());
 	}
 
 	/**
@@ -262,8 +264,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * 
 	 * @param idPartie L'id de la partie à démarrer
 	 */
-	public void transfererPartieEnAttenteVersEnCours(int idPartie) {
-		this.transfererPartieEnAttenteVersEnCours(this.getPartie(idPartie));
+	public static void transfererPartieEnAttenteVersEnCours(int idPartie) {
+		transfererPartieEnAttenteVersEnCours(getPartie(idPartie));
 	}
 
 	/**
@@ -271,11 +273,11 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * 
 	 * @param partie L'instance de la partie à démarrer
 	 */
-	public void transfererPartieEnAttenteVersEnCours(Partie partie) {
+	public static void transfererPartieEnAttenteVersEnCours(Partie partie) {
 		//TODO Synchronisation
 		if(partie != null && partie.isEnAttente()) {
-			this.retirerPartie(partie.getId());
-			this.ajouterPartie(partie, TypeEtatPartie.EN_COURS);
+			retirerPartie(partie.getId());
+			ajouterPartie(partie, TypeEtatPartie.EN_COURS);
 			
 			partie.demarrerPartie();
 		}
@@ -287,13 +289,13 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param idPartie L'id de la partie à arrêter
 	 */
 	// Peut-être inutile... qu'est-ce qu'on fait quand une partie exige un nombre minimal de joueur et qu'un joueur quitte, entrainant la partie sous le seuil de joueurs?
-	public void transfererPartieEnCoursVersEnAttente(int idPartie) {
-		Partie partieEnCours = this.getPartie(idPartie);
+	public static void transfererPartieEnCoursVersEnAttente(int idPartie) {
+		Partie partieEnCours = getPartie(idPartie);
 		if (partieEnCours != null) {
 			// TODO est-ce que sa dérange si je supprime la partie avant de l'insérer?
 			// (Je peux pas faire l'inverse car retirer se retrouverait avec 2 parties identiques)
-			this.retirerPartie(idPartie);
-			this.ajouterPartie(partieEnCours, TypeEtatPartie.EN_ATTENTE);
+			retirerPartie(idPartie);
+			ajouterPartie(partieEnCours, TypeEtatPartie.EN_ATTENTE);
 		}
 	}
 
@@ -302,8 +304,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * 
 	 * @param partie L'instance de la partie à arrêter
 	 */
-	public void transfererPartieEnCoursVersEnAttente(Partie partie) {
-		this.transfererPartieEnCoursVersEnAttente(partie.getId());
+	public static void transfererPartieEnCoursVersEnAttente(Partie partie) {
+		transfererPartieEnCoursVersEnAttente(partie.getId());
 	}
 
 	/**
@@ -313,10 +315,10 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param typeArgent Le type de jeu d'argent
 	 * @return Une partie en attente, null si aucune
 	 */
-	public Partie rechercherPartieEnAttente(int idJeu, TypeJeuArgent typeArgent) {
+	public static Partie rechercherPartieEnAttente(int idJeu, TypeJeuArgent typeArgent) {
 		Partie partieEnAttente = null;
 
-		Jeu jeu = this.getJeu(idJeu);
+		Jeu jeu = getJeu(idJeu);
 		if (jeu != null) {
 			partieEnAttente = jeu.rechercherPartieEnAttente(typeArgent);
 		}
@@ -364,10 +366,10 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param idJeu l'id du jeu à récupérer
 	 * @return Le jeu demandé
 	 */
-	public Jeu getJeu(int idJeu) {
+	public static Jeu getJeu(int idJeu) {
 		Jeu jeu = null;
 
-		for (Map<Integer, Jeu> mapJeu : this.lstJeux.values()) {
+		for (Map<Integer, Jeu> mapJeu : lstJeux.values()) {
 			jeu = mapJeu.get(idJeu);
 			if (jeu != null) {
 				break;
@@ -377,8 +379,8 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 		return jeu;
 	}
 
-	public Map<TypeJeu, Map<Integer, Jeu>> getLstJeux() {
-		return this.lstJeux;
+	public static Map<TypeJeu, Map<Integer, Jeu>> getLstJeux() {
+		return lstJeux;
 	}
 	
 	/**
@@ -387,23 +389,23 @@ public final class ControleurPrincipalServeur extends ControleurServeur {
 	 * @param id L'id de la salle à récupérer
 	 * @return La salle demandée
 	 */
-	public ModeleSalleServeur getSalle(int id) {
-		return this.lstSalles.get(id);
+	public static ModeleSalleServeur getSalle(int id) {
+		return lstSalles.get(id);
 	}
 	
-	public void ajouterSalle(ModeleSalleServeur salle) {
-		this.lstSalles.put(salle.getId(), salle);
+	public static void ajouterSalle(ModeleSalleServeur salle) {
+		lstSalles.put(salle.getId(), salle);
 	}
 	
-	public void retirerSalle(ModeleSalleServeur salle) {
-		this.retirerSalle(salle.getId());
+	public static void retirerSalle(ModeleSalleServeur salle) {
+		retirerSalle(salle.getId());
 	}
 	
-	public void retirerSalle(int id) {
-		this.lstSalles.remove(id);
+	public static void retirerSalle(int id) {
+		lstSalles.remove(id);
 	}
 	
-	public ModeleServeurPrincipal getModele() {
-		return this.modele;
+	public static ModeleServeurPrincipal getModele() {
+		return modele;
 	}
 }
