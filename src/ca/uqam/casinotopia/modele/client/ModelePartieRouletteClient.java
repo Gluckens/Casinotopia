@@ -21,7 +21,7 @@ import ca.uqam.casinotopia.type.modif.TypeModifPartieRoulette;
 public class ModelePartieRouletteClient extends PartieClient implements Modele, Observable {
 	
 	private static final long serialVersionUID = 8914475130716960096L;
-	
+
 	/**
 	 * Le gain du joueur lors du dernier tour de roue.
 	 */

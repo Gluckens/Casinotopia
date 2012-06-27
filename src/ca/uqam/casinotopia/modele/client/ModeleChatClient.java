@@ -41,6 +41,16 @@ public class ModeleChatClient implements Modele, Observable {
 		this.messages = "";
 		this.lstUtilisateurModel = new DefaultListModel();
 	}
+	
+	public ModeleChatClient(String salle, List<String> lstMessages, List<String> lstParticipants) {
+		this.salle = salle;
+		this.lstUtilisateurModel = new DefaultListModel();
+		
+		this.setMessages(lstMessages);
+		
+		this.setChatUtilisateur(lstParticipants);
+	}
+	
 	public ModeleChatClient(String salle, String messages, DefaultListModel lstUtilisateurModel) {
 		this.salle = salle;
 		this.messages = messages;

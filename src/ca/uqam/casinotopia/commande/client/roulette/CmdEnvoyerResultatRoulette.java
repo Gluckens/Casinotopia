@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.controleur.client.ControleurRouletteClient;
 import ca.uqam.casinotopia.objet.Case;
 
 public class CmdEnvoyerResultatRoulette implements CommandeClientControleurRoulette {
-
+	
 	private static final long serialVersionUID = 4694218224528756031L;
 	
 	private Case resultat;

@@ -16,9 +16,9 @@ import ca.uqam.casinotopia.vue.Vue;
  * Regroupe les informations générales sur l'environnement client du client.
  */
 public class ModelePrincipalClient implements Modele, Serializable {
-
-	private static final long serialVersionUID = -3999851928989097158L;
 	
+	private static final long serialVersionUID = -1569542649289944732L;
+
 	/**
 	 * La liste des controleurs actifs
 	 */

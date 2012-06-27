@@ -188,7 +188,7 @@ public class VueSalle extends Vue {
 		
 		VueChat chat = ctrlChatClient.getVue();
 		chat.cacherSalle();
-		ctrlChatClient.cmdSeConnecterAuChat("SallePrincipal");
+		ctrlChatClient.cmdSeConnecterAuChat("Salle1");
 		chat.setName("chat");
 		this.add(chat, new GridBagHelper().setXY(1, 2).setWH(1, 1).setFill(GridBagConstraints.BOTH).setAnchor(GridBagConstraints.SOUTH).end());
 	}
@@ -276,15 +276,17 @@ public class VueSalle extends Vue {
 	private void retirerClient(ModeleClientClient clientRetire) {
 		JPanel pnlAvatars = (JPanel) this.getComponentByName("pnlAvatars");
 		
-		JLabel imgAvatar = (JLabel) this.getComponentByName("avatarClient" + clientRetire.getId());
-		pnlAvatars.remove(imgAvatar);
-		
-		revalidate();
-		repaint();
-		
-		//TODO Utile???
-		this.lstClients.remove(clientRetire.getId());
-		this.componentMap.remove(imgAvatar.getName());
+		if(clientRetire != null) {
+			JLabel imgAvatar = (JLabel) this.getComponentByName("avatarClient" + clientRetire.getId());
+			pnlAvatars.remove(imgAvatar);
+			
+			revalidate();
+			repaint();
+			
+			//TODO Utile???
+			this.lstClients.remove(clientRetire.getId());
+			this.componentMap.remove(imgAvatar.getName());
+		}
 	}
 
 	@Override

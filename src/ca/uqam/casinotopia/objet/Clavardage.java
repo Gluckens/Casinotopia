@@ -8,9 +8,10 @@ import ca.uqam.casinotopia.commande.client.chat.CmdAjouterMessageChat;
 import ca.uqam.casinotopia.commande.client.chat.CmdEnvoyerInformationChat;
 import ca.uqam.casinotopia.commande.client.chat.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
+import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 
 public class Clavardage implements Connectable, Serializable {
-
+	
 	private static final long serialVersionUID = 1221820908161003468L;
 	
 	/**
@@ -37,6 +38,14 @@ public class Clavardage implements Connectable, Serializable {
 	public Clavardage(String nom) {
 		this.nom = nom;
 		this.messages.add("Serveur: Bonjour à toi!");
+	}
+	
+	public ModeleChatClient creerModeleClient() {
+		return new ModeleChatClient(
+				this.nom,
+				this.messages,
+				this.getParticipantsToString()
+		);
 	}
 
 	/**

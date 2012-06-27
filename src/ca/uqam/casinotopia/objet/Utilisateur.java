@@ -9,7 +9,7 @@ import ca.uqam.casinotopia.connexion.Connexion;
 
 public abstract class Utilisateur implements Serializable {
 	
-	private static final long serialVersionUID = -2940412174000490861L;
+	private static final long serialVersionUID = 2224574184399249175L;
 	
 	protected int idUtilisateur;
 	protected String nomUtilisateur;

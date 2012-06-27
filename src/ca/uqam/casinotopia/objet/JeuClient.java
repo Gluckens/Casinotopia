@@ -7,7 +7,7 @@ import ca.uqam.casinotopia.type.TypeJeu;
 
 public class JeuClient implements Serializable {
 	
-	private static final long serialVersionUID = 6884430649210421242L;
+	private static final long serialVersionUID = -873683798526516175L;
 	
 	private int id;
 	private int idSalle;

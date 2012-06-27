@@ -5,10 +5,9 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.client.ControleurChatClient;
 
 public class CmdAjouterMessageChat implements CommandeClientControleurChat {
-
-
+	
 	private static final long serialVersionUID = -2254681516450936470L;
-
+	
 	/**
 	 * message à ajouter
 	 */

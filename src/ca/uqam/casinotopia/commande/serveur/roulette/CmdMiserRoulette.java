@@ -9,7 +9,7 @@ import ca.uqam.casinotopia.controleur.serveur.ControleurRouletteServeur;
 import ca.uqam.casinotopia.objet.Case;
 
 public class CmdMiserRoulette implements CommandeServeurControleurRoulette {
-
+	
 	private static final long serialVersionUID = 7526961593433276571L;
 	
 	/**

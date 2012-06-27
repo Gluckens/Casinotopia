@@ -6,8 +6,8 @@ import ca.uqam.casinotopia.controleur.client.ControleurPrincipalClient;
 import ca.uqam.casinotopia.modele.client.ModelePartieMachineClient;
 
 public class CmdAfficherJeuMachine implements CommandeClientControleurPrincipal {
-
-	private static final long serialVersionUID = 8314399057813220106L;
+	
+	private static final long serialVersionUID = -8893646225826752047L;
 	
 	private ModelePartieMachineClient modele;
 	

@@ -5,7 +5,7 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurServeurThread;
 
 public class CmdSeConnecterAuChat implements CommandeServeurControleurThread {
-
+	
 	private static final long serialVersionUID = -2302499804061663323L;
 	
 	/**

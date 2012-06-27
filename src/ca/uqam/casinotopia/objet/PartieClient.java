@@ -4,16 +4,13 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import ca.uqam.casinotopia.Jeu;
-import ca.uqam.casinotopia.JoueurServeur;
-import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
 public abstract class PartieClient implements Comparable<PartieClient>, Serializable {
 	
-	private static final long serialVersionUID = 1720908538062497410L;
+	private static final long serialVersionUID = -9165716931187429058L;
 	
 	protected int id;
 	protected TypeJeuMultijoueurs typeMultijoueurs;

@@ -6,7 +6,7 @@ import ca.uqam.casinotopia.commande.CommandeServeurControleurThread;
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
 public class CmdCreerCompte implements CommandeServeurControleurThread{
-
+	
 	private static final long serialVersionUID = -3215801310227922894L;
 	
 	private ModeleClientClient nouvClient;

@@ -19,8 +19,8 @@ import ca.uqam.casinotopia.type.modif.TypeModifClient;
  */
 public class ModeleClientClient extends Utilisateur implements Modele, Observable {
 	
-	private static final long serialVersionUID = -8344939066149150548L;
-	
+	private static final long serialVersionUID = -7475324917950638672L;
+
 	/**
 	 * Id du client
 	 */

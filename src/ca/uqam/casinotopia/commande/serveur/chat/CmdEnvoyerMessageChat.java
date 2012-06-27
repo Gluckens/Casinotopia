@@ -5,9 +5,9 @@ import ca.uqam.casinotopia.controleur.Controleur;
 import ca.uqam.casinotopia.controleur.serveur.ControleurChatServeur;
 
 public class CmdEnvoyerMessageChat implements CommandeServeurControleurChat {
-
-	private static final long serialVersionUID = -8919163426514030923L;
 	
+	private static final long serialVersionUID = -8919163426514030923L;
+
 	/**
 	 * le message à envoyer au serveur
 	 */

@@ -51,6 +51,9 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.modeleNav.ajouterControleur("ControleurBarreMenuBas", ctrl);
 		this.modeleNav.changerMenuFrameApplication("VueBarreMenuBas", ctrl.getVue());
 		EventQueue.invokeLater(this.modeleNav.getFrameApplication());
+		
+		
+		//this.modeleNav.ajouterControleur("ControleurChatClient", new ControleurChatClient(this.connexion, null, client, modeleNavigation));
 	}
 
 	/**
@@ -217,6 +220,8 @@ public class ControleurPrincipalClient extends ControleurClient {
 		this.modeleNav.ajouterControleur("ControleurSalleClient", ctrlSalle);
 		this.modeleNav.changerVueFrameApplication("VueSalle", ctrlSalle.getVue());
 		
+		//ControleurChatClient ctrlChat = new ControleurChatClient(this.connexion, new ModeleChatClient());
+		
 		ctrlSalle.getVue().demarrerMondeVirtuel();
 	}
 
@@ -304,11 +309,14 @@ public class ControleurPrincipalClient extends ControleurClient {
 	 * Quitter une salle et retourner au menu principal.
 	 * Supprime le controleur salle de l'environnement du client.
 	 */
-	public void actionQuitterSalleClient() {
+	public void actionQuitterSalleClient(boolean afficherMenu) {
 		ControleurSalleClient ctrlSalle = (ControleurSalleClient) this.modeleNav.getControleur("ControleurSalleClient");
 		ctrlSalle.quitterSalleClient();
 		
 		this.modeleNav.retirerControleur("ControleurSalleClient");
-		this.afficherMenuPrincipal();
+		
+		if(afficherMenu) {
+			this.afficherMenuPrincipal();
+		}
 	}
 }

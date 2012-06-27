@@ -242,7 +242,13 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 */
 	public void actionSeConnecterAuChat(String salle) {
 		//Clavardage chat = ((ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur")).getModele().getChat(salle);
-		Clavardage chat = ControleurPrincipalServeur.INSTANCE.getModele().getChat(salle);
+		Clavardage chat = ControleurPrincipalServeur.getModele().getChat(salle);
+		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, chat));
+		
+		chat.connecter(this.modele);
+	}
+	
+	public void connexionAuChat(Clavardage chat) {
 		this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, chat));
 		
 		chat.connecter(this.modele);
@@ -261,7 +267,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		
 		if(salle != null) {
 			this.ajouterControleur("ControleurSalleServeur", new ControleurSalleServeur(this.connexion, this, salle));
-			this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, salle.getClavardage()));
+			//this.ajouterControleur("ControleurChatServeur", new ControleurChatServeur(this.connexion, this, salle.getClavardage()));
 			
 			salle.connecter(this.modele);
 		}
@@ -275,11 +281,12 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * Quitter la salle courante.
 	 * Cette action est exécutée suite à la demande du client (commande)
 	 */
-	public void actionQuitterSalle() {
+	public void actionQuitterSalle(boolean afficherMenu) {
+		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 		((ControleurSalleServeur) this.lstControleurs.get("ControleurSalleServeur")).quitterSalle();
 		
 		this.lstControleurs.remove("ControleurSalleServeur");		
-		this.connexion.envoyerCommande(new CmdQuitterSalleClient());
+		this.connexion.envoyerCommande(new CmdQuitterSalleClient(afficherMenu));
 	}
 	
 	/**
@@ -290,6 +297,8 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 */
 	public void actionJouerMachine(int idJeu) {
 		//ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
+		
+		this.actionQuitterSalle(false);
 		
 		ModelePartieMachineServeur partieMachine = new ModelePartieMachineServeur(this.number, ControleurPrincipalServeur.INSTANCE.getJeu(idJeu));
 		
@@ -307,6 +316,10 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 	 * @param typeArgent Le type de jeu d'argent
 	 */
 	public void actionAjouterJoueurDansRoulette(int idJeu, TypeJeuMultijoueurs typeMultijoueurs, TypeJeuArgent typeArgent) {
+
+		
+		this.actionQuitterSalle(false);
+		
 		//ControleurPrincipalServeur ctrlPrincipal = (ControleurPrincipalServeur) this.lstControleurs.get("ControleurPrincipalServeur");
 		ControleurPrincipalServeur ctrlPrincipal = ControleurPrincipalServeur.INSTANCE;
 		
@@ -440,7 +453,7 @@ public class ControleurServeurThread extends ControleurServeur implements Runnab
 		((ControleurChatServeur) this.lstControleurs.get("ControleurChatServeur")).actionQuitterChat();
 
 		this.lstControleurs.remove("ControleurChatServeur");
-		//this.connexion.envoyerCommande(new CmdQuitterChatClient());
+		this.connexion.envoyerCommande(new CmdQuitterChatClient());
 
 	}
 	

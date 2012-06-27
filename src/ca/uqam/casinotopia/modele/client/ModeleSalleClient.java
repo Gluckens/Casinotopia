@@ -19,7 +19,7 @@ import ca.uqam.casinotopia.type.modif.TypeModifSalle;
 public class ModeleSalleClient implements Modele, Observable {
 	
 	private static final long serialVersionUID = -6479440113594316065L;
-	
+
 	/**
 	 * Id de la salle
 	 */
