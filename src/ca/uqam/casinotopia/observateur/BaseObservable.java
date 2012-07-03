@@ -9,8 +9,14 @@ public class BaseObservable implements Observable {
 
 	private static final long serialVersionUID = 618679120245722743L;
 
+	/**
+	 * Liste des observateurs
+	 */
 	Set<Observateur> observateurs = new HashSet<Observateur>();
 
+	/**
+	 * Sujet observé (délégation)
+	 */
 	Observable sujetConcret;
 
 	public BaseObservable(Observable sujetConcret) {
