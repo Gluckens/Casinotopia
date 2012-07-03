@@ -7,6 +7,9 @@ import java.util.List;
 import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.connexion.Connexion;
 
+/**
+ * Classe abstraite regroupant les informations d'un utilisateur
+ */
 public abstract class Utilisateur implements Serializable {
 	
 	private static final long serialVersionUID = 2224574184399249175L;
@@ -58,69 +61,38 @@ public abstract class Utilisateur implements Serializable {
 		this.connectables.add(connectable);
 	}
 
-	/**
-	 * @return the nomUtilisateur
-	 */
 	public String getNomUtilisateur() {
 		return this.nomUtilisateur;
 	}
 
-	/**
-	 * @param nomUtilisateur
-	 *            the nomUtilisateur to set
-	 */
 	public void setNomUtilisateur(String nomUtilisateur) {
 		this.nomUtilisateur = nomUtilisateur;
 	}
 
-	/**
-	 * @return the motDePasse
-	 */
 	public String getMotDePasse() {
 		return this.motDePasse;
 	}
 
-	/**
-	 * @param motDePasse
-	 *            the motDePasse to set
-	 */
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
 	}
 
-	/**
-	 * @return the idUtilisateur
-	 */
 	public int getIdUtilisateur() {
 		return this.idUtilisateur;
 	}
 
-	/**
-	 * @param idUtilisateur
-	 *            the idUtilisateur to set
-	 */
 	public void setIdUtilisateur(int idUtilisateur) {
 		this.idUtilisateur = idUtilisateur;
 	}
 
-	/**
-	 * @return the connexion
-	 */
 	public Connexion getConnexion() {
 		return this.connexion;
 	}
 
-	/**
-	 * @param connexion
-	 *            the connexion to set
-	 */
 	public void setConnexion(Connexion connexion) {
 		this.connexion = connexion;
 	}
 
-	/**
-	 * @return the connectables
-	 */
 	public List<Connectable> getConnectables() {
 		return this.connectables;
 	}

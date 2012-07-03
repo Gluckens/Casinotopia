@@ -6,10 +6,16 @@ import java.util.List;
 
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
+/**
+ * Regroupe les informations sur une liste d'amis d'un client côté client
+ */
 public class ListeAmisClient implements Serializable {
 	
 	private static final long serialVersionUID = -4240442991200830831L;
 	
+	/**
+	 * Liste des clients amis
+	 */
 	private List<ModeleClientClient> lstClients;
 
 	public ListeAmisClient() {

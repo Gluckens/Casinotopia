@@ -6,27 +6,46 @@ import ca.uqam.casinotopia.type.TypeCase;
 import ca.uqam.casinotopia.type.TypeCouleurCase;
 import ca.uqam.casinotopia.type.TypePariteCase;
 
+/**
+ * Regroupe les informations sur une case de la table de jeu de roulette
+ */
 public class Case implements Serializable {
 	
 	private static final long serialVersionUID = -266176186655432444L;
 	
+	/**
+	 * Le numéro associé à la case
+	 */
 	private int numero;
+	
+	/**
+	 * La couleur de la case
+	 */
 	private TypeCouleurCase couleur;
+	
+	/**
+	 * La parité de la case
+	 */
 	private TypePariteCase parite;
+	
+	/**
+	 * Le type de case : Chiffre, couleur, parité
+	 */
 	private TypeCase type;
+	
+	/**
+	 * Le multiplicateur des gains lorsque gagnante
+	 */
 	private int multiplicateurGain;
 	
 	/**
-	 * Constructeur de numero
-	 * @param numero
-	 * @param type
+	 * Constructeur de numéro
+	 * 
+	 * @param numero Le numéro de la case
+	 * @param couleur La couleur de la case
+	 * @param type Le type de la case
+	 * @param multiplicateurGain Le multiplicateur de gains de la case
 	 */
-	public Case(int numero, TypeCase type, int multiplicateurGain) {
-		this.numero = numero;
-		this.type = type;
-		this.multiplicateurGain = multiplicateurGain;
-	}
-	
 	public Case(int numero, TypeCouleurCase couleur, TypeCase type, int multiplicateurGain) {
 		this.numero = numero;
 		this.couleur = couleur;
@@ -36,9 +55,10 @@ public class Case implements Serializable {
 	
 	/**
 	 * Constructeur de couleur
-	 * @param couleur
-	 * @param type
-	 * @param lstCases
+	 * 
+	 * @param couleur La couleur de la case
+	 * @param type Le type de la case
+	 * @param multiplicateurGain Le multiplicateur de gains de la case
 	 */
 	public Case(TypeCouleurCase couleur, TypeCase type, int multiplicateurGain) {
 		this.couleur = couleur;
@@ -48,8 +68,10 @@ public class Case implements Serializable {
 	
 	/**
 	 * Constructeur de parité
-	 * @param type
-	 * @param lstCases
+	 * 
+	 * @param parite La parité de la case
+	 * @param type Le type de la case
+	 * @param multiplicateurGain Le multiplicateur de gains de la case
 	 */
 	public Case(TypePariteCase parite, TypeCase type, int multiplicateurGain) {
 		this.type = type;

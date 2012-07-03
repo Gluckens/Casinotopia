@@ -2,12 +2,26 @@ package ca.uqam.casinotopia.objet;
 
 import java.io.Serializable;
 
+/**
+ * Regroupe les informations sur les fondations
+ */
 public class Fondation implements Serializable {
 	
 	private static final long serialVersionUID = 5092416676324724960L;
 	
+	/**
+	 * Id de la fondation
+	 */
 	private int id;
+	
+	/**
+	 * Nom de la fondation
+	 */
 	private String nom;
+	
+	/**
+	 * Description de la fondation
+	 */
 	private String description;
 	
 	public Fondation(String nom, String description) {

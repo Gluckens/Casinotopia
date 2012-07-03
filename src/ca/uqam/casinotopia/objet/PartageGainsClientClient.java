@@ -4,13 +4,31 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
+/**
+ * Regroupe les informations d'un partage de gains d'un utilisateur côté client
+ */
 public class PartageGainsClientClient implements Serializable {
 	
 	private static final long serialVersionUID = 6389582743473593802L;
 	
+	/**
+	 * Id du partage
+	 */
 	private int id;
+	
+	/**
+	 * Client associé au partage de gains
+	 */
 	private ModeleClientClient client;
+	
+	/**
+	 * Fondation associée au partage de gains
+	 */
 	private Fondation fondation;
+	
+	/**
+	 * Pourcentage des gains envoyé à la fondation
+	 */
 	private int pourcentage;
 	
 	public PartageGainsClientClient(ModeleClientClient client, Fondation fondation, int pourcentage) {

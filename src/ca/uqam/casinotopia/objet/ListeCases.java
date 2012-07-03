@@ -8,9 +8,15 @@ import ca.uqam.casinotopia.type.TypeCase;
 import ca.uqam.casinotopia.type.TypeCouleurCase;
 import ca.uqam.casinotopia.type.TypePariteCase;
 
+/**
+ * Regroupe les informations sur toutes les cases d'une table de jeu de roulette sous forme de singleton
+ */
 public enum ListeCases {
 	INSTANCE;
-	
+
+	/**
+	 * Initialiser les cases de numéros
+	 */
 	private static final Map<Integer, Case> LST_CASES_NUMERO;
 	static
 	{
@@ -69,6 +75,9 @@ public enum ListeCases {
 		LST_CASES_NUMERO = Collections.unmodifiableMap(tempMap);
 	}
 	
+	/**
+	 * Initialiser les cases de couleurs
+	 */
 	private static final Map<TypeCouleurCase, Case> LST_CASES_COULEUR;
 	static
 	{
@@ -80,6 +89,9 @@ public enum ListeCases {
 		LST_CASES_COULEUR = Collections.unmodifiableMap(tempMap);
 	}
 	
+	/**
+	 * Initialiser les cases de parités
+	 */
 	private static final Map<TypePariteCase, Case> LST_CASES_PARITE;
 	static
 	{
@@ -91,14 +103,32 @@ public enum ListeCases {
 		LST_CASES_PARITE = Collections.unmodifiableMap(tempMap);
 	}
 	
+	/**
+	 * Récupérer une case selon son numéro
+	 * 
+	 * @param numero Le numéro demandée
+	 * @return La case selon le numéro
+	 */
 	public Case getCaseNumero(int numero) {
 		return LST_CASES_NUMERO.get(numero);
 	}
 	
+	/**
+	 * Récupérer une case de couleur selon sa couleur
+	 * 
+	 * @param typeCouleur La couleur demandée
+	 * @return La case de couleur
+	 */
 	public Case getCaseCouleur(TypeCouleurCase typeCouleur) {
 		return LST_CASES_COULEUR.get(typeCouleur);
 	}
 	
+	/**
+	 * Récupérer une case de parité selon sa parité
+	 * 
+	 * @param typeParite La parité demandée
+	 * @return La case de parité
+	 */
 	public Case getCaseParite(TypePariteCase typeParite) {
 		return LST_CASES_PARITE.get(typeParite);
 	}

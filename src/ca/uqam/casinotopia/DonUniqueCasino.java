@@ -2,25 +2,40 @@ package ca.uqam.casinotopia;
 
 import ca.uqam.casinotopia.objet.Fondation;
 
+/**
+ * Regroupe les informations d'un don du casino
+ */
 @SuppressWarnings("unused")
 public class DonUniqueCasino {
+	
+	/**
+	 * Montant du don
+	 */
 	private int montant;
-	public CompteCasino unnamed_CompteCasino_;
-	public Fondation unnamed_Fondation_;
+	
+	/**
+	 * Compte casino associé au don
+	 */
+	public CompteCasino compteCasino;
+	
+	/**
+	 * Fondation ayant reçu le don
+	 */
+	public Fondation fondation;
 
-	public void setUnnamed_CompteCasino_(CompteCasino unnamed_CompteCasino_) {
-		this.unnamed_CompteCasino_ = unnamed_CompteCasino_;
+	public void setUnnamed_CompteCasino_(CompteCasino compteCasino) {
+		this.compteCasino = compteCasino;
 	}
 
-	public CompteCasino getUnnamed_CompteCasino_() {
-		return this.unnamed_CompteCasino_;
+	public CompteCasino getCompteCasino() {
+		return this.compteCasino;
 	}
 
-	public void setUnnamed_Fondation_(Fondation unnamed_Fondation_) {
-		this.unnamed_Fondation_ = unnamed_Fondation_;
+	public void setFondation_(Fondation fondation) {
+		this.fondation = fondation;
 	}
 
-	public Fondation getUnnamed_Fondation_() {
-		return this.unnamed_Fondation_;
+	public Fondation getFondation() {
+		return this.fondation;
 	}
 }

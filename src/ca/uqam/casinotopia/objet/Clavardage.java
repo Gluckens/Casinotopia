@@ -10,6 +10,9 @@ import ca.uqam.casinotopia.commande.client.chat.CmdMettreAJourUtilisateurChat;
 import ca.uqam.casinotopia.connexion.Connectable;
 import ca.uqam.casinotopia.modele.client.ModeleChatClient;
 
+/**
+ * Modèle de chat coté serveur
+ */
 public class Clavardage implements Connectable, Serializable {
 	
 	private static final long serialVersionUID = 1221820908161003468L;

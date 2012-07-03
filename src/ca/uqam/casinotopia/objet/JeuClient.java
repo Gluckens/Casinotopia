@@ -5,19 +5,56 @@ import java.io.Serializable;
 
 import ca.uqam.casinotopia.type.TypeJeu;
 
+/**
+ * Regroupe les informations d'un jeu côté client
+ */
 public class JeuClient implements Serializable {
 	
 	private static final long serialVersionUID = -873683798526516175L;
 	
+	/**
+	 * Id du jeu
+	 */
 	private int id;
+	
+	/**
+	 * Id de la salle contenant le jeu
+	 */
 	private int idSalle;
+	
+	/**
+	 * Nom du jeu
+	 */
 	private String nom;
+	
+	/**
+	 * Description du jeu
+	 */
 	private String description;
+	
+	/**
+	 * Règles du jeu en texte
+	 */
 	private String reglesJeu;
+	
+	/**
+	 * Emplacement du jeu dans la salle
+	 */
 	private Rectangle emplacement;
+	
+	/**
+	 * Nombre de joueurs minimale dans une partie
+	 */
 	private int nbrJoueursMin;
+	
+	/**
+	 * Nombde de joueurs maximale dans une partie
+	 */
 	private int nbrJoueursMax;
 
+	/**
+	 * Type de jeu
+	 */
 	private TypeJeu type;
 
 	public JeuClient(int id, int idSalle, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
@@ -33,140 +70,84 @@ public class JeuClient implements Serializable {
 		this.type = type;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return this.id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	/**
-	 * @return the idSalle
-	 */
 	public int getIdSalle() {
 		return this.idSalle;
 	}
 
-	/**
-	 * @param idSalle
-	 *            the id to set
-	 */
 	public void setIdSalle(int idSalle) {
 		this.idSalle = idSalle;
 	}
 
-	/**
-	 * @return the nom
-	 */
 	public String getNom() {
 		return this.nom;
 	}
 
-	/**
-	 * @param nom
-	 *            the nom to set
-	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	/**
-	 * @return the description
-	 */
 	public String getDescription() {
 		return this.description;
 	}
 
-	/**
-	 * @param description
-	 *            the description to set
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	/**
-	 * @return the reglesJeu
-	 */
 	public String getReglesJeu() {
 		return this.reglesJeu;
 	}
 
-	/**
-	 * @param reglesJeu
-	 *            the reglesJeu to set
-	 */
 	public void setReglesJeu(String reglesJeu) {
 		this.reglesJeu = reglesJeu;
 	}
 
-	/**
-	 * @return the emplacement
-	 */
 	public Rectangle getEmplacement() {
 		return emplacement;
 	}
 	
+	/**
+	 * Récupérer le rectangle contenant le jeu dans la salle, en y ajoutant un radius autour
+	 * 
+	 * @param radius Le radius à ajouter
+	 * @return Le rectangle contenant le jeu en tenant compte du radius
+	 */
 	public Rectangle getEmplacement(int radius) {
 		return new Rectangle(this.emplacement.x - radius, this.emplacement.y - radius, this.emplacement.width + (2*radius), this.emplacement.height + (2*radius));
 	}
 
-	/**
-	 * @param emplacement the emplacement to set
-	 */
 	public void setEmplacement(Rectangle emplacement) {
 		this.emplacement = emplacement;
 	}
 
-	/**
-	 * @return the nbrJoueursMin
-	 */
 	public int getNbrJoueursMin() {
 		return this.nbrJoueursMin;
 	}
 
-	/**
-	 * @param nbrJoueursMin
-	 *            the nbrJoueursMin to set
-	 */
 	public void setNbrJoueursMin(int nbrJoueursMin) {
 		this.nbrJoueursMin = nbrJoueursMin;
 	}
 
-	/**
-	 * @return the nbrJoueursMax
-	 */
 	public int getNbrJoueursMax() {
 		return this.nbrJoueursMax;
 	}
 
-	/**
-	 * @param nbrJoueursMax
-	 *            the nbrJoueursMax to set
-	 */
 	public void setNbrJoueursMax(int nbrJoueursMax) {
 		this.nbrJoueursMax = nbrJoueursMax;
 	}
 
-	/**
-	 * @return the type
-	 */
 	public TypeJeu getType() {
 		return this.type;
 	}
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
 	public void setType(TypeJeu type) {
 		this.type = type;
 	}

@@ -5,8 +5,14 @@ import java.util.Vector;
 
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 
+/**
+ * Regroupe les informations sur une liste d'amis d'un client côté serveur
+ */
 public class ListeAmis {
 	
+	/**
+	 * Liste des clients amis
+	 */
 	private List<ModeleClientServeur> lstClients;
 	
 	public ListeAmis() {

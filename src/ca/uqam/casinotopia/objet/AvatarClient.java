@@ -12,21 +12,51 @@ import ca.uqam.casinotopia.observateur.Observable;
 import ca.uqam.casinotopia.observateur.Observateur;
 import ca.uqam.casinotopia.type.modif.TypeModifAvatar;
 
+/**
+ * Regroupe les informations d'un avatar côté client
+ */
 public class AvatarClient implements Modele, Observable, Serializable {
 	
 	private static final long serialVersionUID = -1566253627412224326L;
 	
-	//TODO Référence au client nécessaire?
+	/**
+	 * Client associé à l'avatar
+	 */
 	private ModeleClientClient client;
+	
+	/**
+	 * Id du client
+	 */
 	private int id;
+	
+	/**
+	 * Path vers l'image de l'avatar
+	 */
 	private String pathImage;
+	
+	/**
+	 * Texte de l'avatar
+	 */
 	private String texte;
 	
+	/**
+	 * Position actuelle de l'avatar
+	 */
 	private Point position;
 	
+	/**
+	 * Largeur de l'avatar
+	 */
 	private int largeur;
+	
+	/**
+	 * Hauteur de l'avatar
+	 */
 	private int hauteur;
 	
+	/**
+	 * Type de modif effectué (pour les observateurs)
+	 */
 	private TypeModifAvatar typeModif;
 
 	private BaseObservable sujet = new BaseObservable(this);
@@ -60,44 +90,11 @@ public class AvatarClient implements Modele, Observable, Serializable {
 		this.hauteur = hauteur;
 		this.setPosition(position);
 	}
-	
-	/*public AvatarClient() {
-		
-	}
-	
-	public AvatarClient(ModeleClientClient client, int id, String pathImage) {
-		this(client, id, pathImage, 40, 40);
-	}
-	
-	public AvatarClient(ModeleClientClient client, int id, String pathImage, Point position) {
-		this(client, id, pathImage, 40, 40, "", position);
-	}
-	
-	public AvatarClient(ModeleClientClient client, int id, String pathImage, int largeur, int hauteur) {
-		this(client, id, pathImage, largeur, hauteur, "", new Point(0, 0));
-	}
-	
-	public AvatarClient(ModeleClientClient client, int id, String pathImage, int largeur, int hauteur, String texte, Point position) {
-		this.setClient(client);
-		this.id = id;
-		this.pathImage = pathImage;
-		this.largeur = largeur;
-		this.hauteur = hauteur;
-		this.texte = texte;
-		this.position = position;
-		//this.setPosition(position);
-	}*/
 
-	/**
-	 * @return the client
-	 */
 	public ModeleClientClient getClient() {
 		return this.client;
 	}
 
-	/**
-	 * @param client the client to set
-	 */
 	public void setClient(ModeleClientClient client) {
 		this.client = client;
 	}
@@ -126,15 +123,13 @@ public class AvatarClient implements Modele, Observable, Serializable {
 		this.texte = texte;
 	}
 
-	/**
-	 * @return the position
-	 */
 	public Point getPosition() {
 		return this.position;
 	}
 
 	/**
-	 * @param position the position to set
+	 * Définir la position de l'avatar et notifier les observateurs du déplacement.
+	 * @param position La nouvelle position
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
@@ -170,11 +165,21 @@ public class AvatarClient implements Modele, Observable, Serializable {
 		return this.hauteur;
 	}
 	
+	/**
+	 * Récupérer le rectange de l'avatar à sa position actuelle
+	 * 
+	 * @return Le rectangle de l'avatar en fonction de sa position actuelle
+	 */
 	public Rectangle getBounds() {
-		//return new Rectangle(this.position, new Dimension(this.largeur, this.hauteur));
 		return this.getBounds(this.position);
 	}
 	
+	/**
+	 * Récupérer le rectange de l'avatar à une position donnée
+	 * 
+	 * @param p La position de l'avatar pour le calcul du rectangle
+	 * @return Le rectangle de l'avatar en fonction de la position en paramètre
+	 */
 	public Rectangle getBounds(Point p) {
 		return new Rectangle(p, new Dimension(this.largeur, this.hauteur));
 	}

@@ -8,15 +8,41 @@ import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
+/**
+ * Classe abstraite regroupant les informations d'une partie côté client
+ */
 public abstract class PartieClient implements Comparable<PartieClient>, Serializable {
 	
 	private static final long serialVersionUID = -9165716931187429058L;
 	
+	/**
+	 * Id de la partie
+	 */
 	protected int id;
+	
+	/**
+	 * Type de jeu multijoueur
+	 */
 	protected TypeJeuMultijoueurs typeMultijoueurs;
+	
+	/**
+	 * Type de jeu d'argent
+	 */
 	protected TypeJeuArgent typeArgent;
+	
+	/**
+	 * Clavardage associé à la partie
+	 */
 	protected Clavardage clavardage;
+	
+	/**
+	 * Liste des joueurs dans la partie
+	 */
 	protected Set<JoueurClient> lstJoueurs;
+	
+	/**
+	 * Jeu que représente la partie
+	 */
 	protected JeuClient infoJeu;
 	
 	public PartieClient(int id, JeuClient infoJeu) {
@@ -56,6 +82,12 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 		this.lstJoueurs.remove(joueur);
 	}
 	
+	/**
+	 * Récupérer un joueur par son id
+	 * 
+	 * @param idJoueur L'id du joueur demandé
+	 * @return Le joueur, null si inexistant
+	 */
 	public JoueurClient getJoueur(int idJoueur) {
 		JoueurClient joueurTrouve = null;
 		
@@ -100,32 +132,18 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 		return this.typeMultijoueurs == TypeJeuMultijoueurs.AMIS;
 	}
 
-	/**
-	 * @return the clavardage
-	 */
 	public Clavardage getClavardage() {
 		return this.clavardage;
 	}
 
-	/**
-	 * @param clavardage
-	 *            the clavardage to set
-	 */
 	public void setClavardage(Clavardage clavardage) {
 		this.clavardage = clavardage;
 	}
 
-	/**
-	 * @return the infoJeu
-	 */
 	public JeuClient getInfoJeu() {
 		return this.infoJeu;
 	}
 
-	/**
-	 * @param infoJeu
-	 *            the infoJeu to set
-	 */
 	public void setInfoJeu(JeuClient infoJeu) {
 		this.infoJeu = infoJeu;
 	}
@@ -134,8 +152,6 @@ public abstract class PartieClient implements Comparable<PartieClient>, Serializ
 	public int compareTo(PartieClient p) {
 		int placeRestante1 = this.infoJeu.getNbrJoueursMax() - this.lstJoueurs.size();
 		int placeRestante2 = p.infoJeu.getNbrJoueursMax() - p.lstJoueurs.size();
-
-		//System.out.println(this + " --> " + this.infoJeu.getNom() + "(" + String.valueOf(placeRestante1) + ") compareTo " + p + " --> " + p.infoJeu.getNom() + "(" + String.valueOf(placeRestante2) + ")");
 
 		return Integer.valueOf(placeRestante1).compareTo(placeRestante2);
 	}

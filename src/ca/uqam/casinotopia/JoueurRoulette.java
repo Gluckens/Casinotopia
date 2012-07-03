@@ -6,13 +6,20 @@ import ca.uqam.casinotopia.objet.JoueurRouletteClient;
 import ca.uqam.casinotopia.objet.PartieClient;
 import ca.uqam.casinotopia.type.TypeCouleurJoueurRoulette;
 
+/**
+ * Représente un joueur de roulette côté serveur
+ */
 public class JoueurRoulette extends JoueurServeur {
 	
+	/**
+	 * La couleur du joueur
+	 */
 	private TypeCouleurJoueurRoulette couleur;
-	private boolean misesTerminees;
 	
-	//TODO Mise dans joueur???
-	//private Vector<Case> mises = new Vector<Case>();
+	/**
+	 * Détermine si le joueur a terminé de miser
+	 */
+	private boolean misesTerminees;
 
 	public JoueurRoulette(ModeleClientServeur client, Partie partie, TypeCouleurJoueurRoulette couleur) {
 		super(client, partie);
@@ -20,6 +27,12 @@ public class JoueurRoulette extends JoueurServeur {
 		this.misesTerminees = false;
 	}
 	
+	/**
+	 * Créer la version client du modèle de joueur de roulette
+	 * 
+	 * @param partieClient La partie associée au joueur
+	 * @return La version client du modèle
+	 */
 	public JoueurClient creerModeleClient(PartieClient partieClient) {
 		return new JoueurRouletteClient(
 				this.client.creerModeleClient(),
@@ -32,16 +45,10 @@ public class JoueurRoulette extends JoueurServeur {
 		return this.couleur;
 	}
 
-	/**
-	 * @return the misesTerminees
-	 */
 	public boolean isMisesTerminees() {
 		return this.misesTerminees;
 	}
 
-	/**
-	 * @param misesTerminees the misesTerminees to set
-	 */
 	public void setMisesTerminees(boolean misesTerminees) {
 		this.misesTerminees = misesTerminees;
 	}

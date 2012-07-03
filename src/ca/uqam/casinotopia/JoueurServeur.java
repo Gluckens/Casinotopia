@@ -4,9 +4,19 @@ import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.objet.JoueurClient;
 import ca.uqam.casinotopia.objet.PartieClient;
 
+/**
+ * Classe abstraite représentant un joueur version serveur
+ */
 public abstract class JoueurServeur {
 	
+	/**
+	 * Le client derrière le joueur
+	 */
 	protected ModeleClientServeur client;
+	
+	/**
+	 * La partie dans lequel le joueur est
+	 */
 	protected Partie partie;
 	
 	public JoueurServeur(ModeleClientServeur client, Partie partie) {
@@ -16,23 +26,14 @@ public abstract class JoueurServeur {
 	
 	public abstract JoueurClient creerModeleClient(PartieClient partieClient);
 	
-	/**
-	 * @return the partie
-	 */
 	public ModeleClientServeur getClient() {
 		return this.client;
 	}
 	
-	/**
-	 * @return the partie
-	 */
 	public Partie getPartie() {
 		return this.partie;
 	}
 	
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return this.client.getId();
 	}

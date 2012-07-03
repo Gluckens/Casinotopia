@@ -6,14 +6,37 @@ import java.util.Calendar;
 
 import ca.uqam.casinotopia.modele.client.ModeleClientClient;
 
+
+/**
+ * Regroupe les informations d'un don d'un utilisateur côté client
+ */
 public class DonUniqueClientClient implements Serializable {
 	
 	private static final long serialVersionUID = -1286250629324268018L;
 	
+	/**
+	 * Id du don
+	 */
 	private int id;
+	
+	/**
+	 * Client ayant effectué le don
+	 */
 	private ModeleClientClient client;
+	
+	/**
+	 * Fondation ayant reçu le don
+	 */
 	private Fondation fondation;
+	
+	/**
+	 * Montant du don
+	 */
 	private int montant;
+	
+	/**
+	 * Date du don
+	 */
 	private Date dateDon;
 	
 	public DonUniqueClientClient(ModeleClientClient client, Fondation fondation, int montant) {

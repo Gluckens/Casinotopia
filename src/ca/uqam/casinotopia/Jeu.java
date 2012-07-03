@@ -12,19 +12,59 @@ import ca.uqam.casinotopia.type.TypeEtatPartie;
 import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 
+/**
+ * Regroupe les informations d'un jeu côté serveur
+ */
 public class Jeu {
 	
+	/**
+	 * Id du jeu
+	 */
 	private int id;
+	
+	/**
+	 * Id de la salle contenant le jeu
+	 */
 	private int idSalle;
+	
+	/**
+	 * Nom du jeu
+	 */
 	private String nom;
+	
+	/**
+	 * Description du jeu
+	 */
 	private String description;
+	
+	/**
+	 * Règles du jeu en texte
+	 */
 	private String reglesJeu;
+	
+	/**
+	 * Emplacement du jeu dans la salle
+	 */
 	private Rectangle emplacement;
+	
+	/**
+	 * Nombde de joueurs minimale dans une partie
+	 */
 	private int nbrJoueursMin;
+	
+	/**
+	 * Nombde de joueurs maximale dans une partie
+	 */
 	private int nbrJoueursMax;
 
+	/**
+	 * Liste des parties actives du jeu
+	 */
 	private Map<TypeEtatPartie, Map<Integer, Partie>> lstParties;
 
+	/**
+	 * Type de jeu
+	 */
 	private TypeJeu type;
 
 	public Jeu(int id, int idSalle, String nom, String description, String reglesJeu, Rectangle emplacement, int nbrJoueursMin, int nbrJoueursMax, TypeJeu type) {
@@ -42,12 +82,22 @@ public class Jeu {
 		this.initLstParties();
 	}
 
+	/**
+	 * Initialiser les listes de parties
+	 */
 	private void initLstParties() {
 		this.lstParties = new HashMap<TypeEtatPartie, Map<Integer, Partie>>();
 		this.lstParties.put(TypeEtatPartie.EN_ATTENTE, new HashMap<Integer, Partie>());
 		this.lstParties.put(TypeEtatPartie.EN_COURS, new HashMap<Integer, Partie>());
 	}
 
+	/**
+	 * Récupérer une partie par son id.
+	 * Recherche parmi les parties en attente et en cours
+	 * 
+	 * @param idPartie L'id de la partie recherchée
+	 * @return La partie demandée
+	 */
 	public Partie getPartie(int idPartie) {
 		Partie partie = this.lstParties.get(TypeEtatPartie.EN_ATTENTE).get(idPartie);
 		if (partie == null) {
@@ -56,10 +106,24 @@ public class Jeu {
 		return partie;
 	}
 
+	/**
+	 * Récupérer une partie par son instance.
+	 * Recherche parmi les parties en attente et en cours.
+	 * Retourne l'instance globale de la partie
+	 * 
+	 * @param partie L'instance de la partie recherchée
+	 * @return La partie demandée
+	 */
 	public Partie getPartie(Partie partie) {
 		return this.getPartie(partie.getId());
 	}
 
+	/**
+	 * Récupérer le mapping d'une partie par son id
+	 * 
+	 * @param idPartie L'id de la partie demandée
+	 * @return Le mapping de la partie
+	 */
 	public Map<Integer, Partie> getMapPartie(int idPartie) {
 		Map<Integer, Partie> mapPartie = null;
 		for (Map<Integer, Partie> mapPartieCourant : this.lstParties.values()) {
@@ -72,15 +136,24 @@ public class Jeu {
 		return mapPartie;
 	}
 
+	/**
+	 * Ajouter une partie à la liste appropriée (en attent ou en cours)
+	 * 
+	 * @param partie La partie à ajouter
+	 * @param etat L'état de la partie (en attente ou en cours)
+	 */
 	public void ajouterPartie(Partie partie, TypeEtatPartie etat) {
 		this.lstParties.get(etat).put(partie.getId(), partie);
 	}
 
-	// Quelle est la politique de recherche de partie en cours? On cherche celle avec le moins de joueur manquant avant d'attendre le nombre maximal?
-	// TODO Cette fonction sera appelé lorsqu'un joueur veut jouer à un jeu.
-	// Elle devra regarder dans la liste de partie s'il y en a une en attente et dont le nombre maximale de joueur n'est pas atteint
-	// (possible que le nbrMaxJoueur d'une partie en attente soit atteinte?
-	// quand le dernier joueur entre dans une partie en attente, elle ne s'en va directement dans partie en cours?)
+	/**
+	 * Rechercher une partie en attente selon les paramètres défini
+	 * Recherche la partie étant le plus proche de son masimum de joueurs, de sorte à comblé
+	 * les parties au maximum et d'éviter d'avoir plusieurs parties avec peu de joueurs
+	 * 
+	 * @param typeArgent Le type de jeu d'argent
+	 * @return La partie trouvé selon les paramètres, null si aucune 
+	 */
 	public Partie rechercherPartieEnAttente(TypeJeuArgent typeArgent) {
 		Partie partieEnAttente = null;
 
@@ -98,6 +171,11 @@ public class Jeu {
 		return partieEnAttente;
 	}
 	
+	/**
+	 * Créer la version client du moèdle de jeu
+	 * 
+	 * @return La version client du modèle
+	 */
 	public JeuClient creerModeleClient() {
 		return new JeuClient(
 			this.id,
@@ -112,151 +190,82 @@ public class Jeu {
 		);
 	}
 
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return this.id;
 	}
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	/**
-	 * @return the idSalle
-	 */
 	public int getIdSalle() {
 		return this.idSalle;
 	}
 
-	/**
-	 * @param idSalle
-	 *            the id to set
-	 */
 	public void setIdSalle(int idSalle) {
 		this.idSalle = idSalle;
 	}
 
-	/**
-	 * @return the nom
-	 */
 	public String getNom() {
 		return this.nom;
 	}
 
-	/**
-	 * @param nom
-	 *            the nom to set
-	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	/**
-	 * @return the description
-	 */
 	public String getDescription() {
 		return this.description;
 	}
 
-	/**
-	 * @param description
-	 *            the description to set
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	/**
-	 * @return the reglesJeu
-	 */
 	public String getReglesJeu() {
 		return this.reglesJeu;
 	}
 
-	/**
-	 * @param reglesJeu
-	 *            the reglesJeu to set
-	 */
 	public void setReglesJeu(String reglesJeu) {
 		this.reglesJeu = reglesJeu;
 	}
 
-	/**
-	 * @return the emplacement
-	 */
 	public Rectangle getEmplacement() {
 		return emplacement;
 	}
 
-	/**
-	 * @param emplacement the emplacement to set
-	 */
 	public void setEmplacement(Rectangle emplacement) {
 		this.emplacement = emplacement;
 	}
 
-	/**
-	 * @return the nbrJoueursMin
-	 */
 	public int getNbrJoueursMin() {
 		return this.nbrJoueursMin;
 	}
 
-	/**
-	 * @param nbrJoueursMin
-	 *            the nbrJoueursMin to set
-	 */
 	public void setNbrJoueursMin(int nbrJoueursMin) {
 		this.nbrJoueursMin = nbrJoueursMin;
 	}
 
-	/**
-	 * @return the nbrJoueursMax
-	 */
 	public int getNbrJoueursMax() {
 		return this.nbrJoueursMax;
 	}
 
-	/**
-	 * @param nbrJoueursMax
-	 *            the nbrJoueursMax to set
-	 */
 	public void setNbrJoueursMax(int nbrJoueursMax) {
 		this.nbrJoueursMax = nbrJoueursMax;
 	}
 
-	/**
-	 * @return the lstParties
-	 */
 	public Map<TypeEtatPartie, Map<Integer, Partie>> getLstParties() {
 		return this.lstParties;
 	}
 
-	/**
-	 * @param lstParties
-	 *            the lstParties to set
-	 */
 	public void setLstParties(Map<TypeEtatPartie, Map<Integer, Partie>> lstParties) {
 		this.lstParties = lstParties;
 	}
 
-	/**
-	 * @return the type
-	 */
 	public TypeJeu getType() {
 		return this.type;
 	}
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
 	public void setType(TypeJeu type) {
 		this.type = type;
 	}
@@ -275,5 +284,4 @@ public class Jeu {
 	public int hashCode() {
 		return this.id;
 	}
-
 }

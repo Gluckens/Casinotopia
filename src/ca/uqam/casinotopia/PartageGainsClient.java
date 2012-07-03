@@ -3,11 +3,29 @@ package ca.uqam.casinotopia;
 import ca.uqam.casinotopia.modele.serveur.ModeleClientServeur;
 import ca.uqam.casinotopia.objet.Fondation;
 
+/**
+ * Regroupe les informations d'un partage de gains d'un utilisateur côté serveur
+ */
 public class PartageGainsClient {
 	
+	/**
+	 * Id du partage
+	 */
 	private int id;
+	
+	/**
+	 * Client associé au partage de gains
+	 */
 	private ModeleClientServeur client;
+	
+	/**
+	 * Fondation associée au partage de gains
+	 */
 	private Fondation fondation;
+	
+	/**
+	 * Pourcentage des gains envoyé à la fondation
+	 */
 	private int pourcentage;
 	
 	public PartageGainsClient(ModeleClientServeur client, Fondation fondation, int pourcentage) {

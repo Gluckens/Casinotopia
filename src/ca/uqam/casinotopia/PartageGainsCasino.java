@@ -2,11 +2,29 @@ package ca.uqam.casinotopia;
 
 import ca.uqam.casinotopia.objet.Fondation;
 
+/**
+ * Regroupe les informations d'un partage de gains du casino
+ */
 public class PartageGainsCasino {
 	
+	/**
+	 * Id du partage
+	 */
 	private int id;
+	
+	/**
+	 * Compte casino associé au partage
+	 */
 	private CompteCasino compte;
+	
+	/**
+	 * Fondation associée au partage
+	 */
 	private Fondation fondation;
+	
+	/**
+	 * Pourcentage de gains envoyés à la fondation
+	 */
 	private int pourcentage;
 	
 	public PartageGainsCasino(CompteCasino compte, Fondation fondation, int pourcentage) {

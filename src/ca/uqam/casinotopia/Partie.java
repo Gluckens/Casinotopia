@@ -12,14 +12,44 @@ import ca.uqam.casinotopia.type.TypeJeu;
 import ca.uqam.casinotopia.type.TypeJeuArgent;
 import ca.uqam.casinotopia.type.TypeJeuMultijoueurs;
 
+/**
+ * Classe abstraite regroupant les informations d'une partie côté serveur
+ */
 public abstract class Partie implements Comparable<Partie>, Connectable {
 	
+	/**
+	 * Id de la partie
+	 */
 	protected int id;
+	
+	/**
+	 * Type de jeu multijoueur
+	 */
 	protected TypeJeuMultijoueurs typeMultijoueurs;
+	
+	/**
+	 * Type de jeu d'argent
+	 */
 	protected TypeJeuArgent typeArgent;
+	
+	/**
+	 * État de la partie (en attente ou en cours)
+	 */
 	protected TypeEtatPartie typeEtat;
+	
+	/**
+	 * Clavardage associé à la partie
+	 */
 	protected Clavardage clavardage;
+	
+	/**
+	 * Liste des joueurs dans la partie
+	 */
 	protected Set<JoueurServeur> lstJoueurs;
+	
+	/**
+	 * Jeu que représente la partie
+	 */
 	protected Jeu infoJeu;
 	
 	public Partie(int id, Jeu infoJeu) {
@@ -62,9 +92,23 @@ public abstract class Partie implements Comparable<Partie>, Connectable {
 	
 	public abstract PartieClient creerModeleClient();
 	
+	/**
+	 * Récupérer un joueur par son instance de client
+	 * 
+	 * @param client L'instance de client du joueur demandé
+	 * @return Le joueur
+	 */
+	
 	public JoueurServeur getJoueur(ModeleClientServeur client) {
 		return this.getJoueur(client.getId());
 	}
+	
+	/**
+	 * Récupérer un joueur par son id
+	 * 
+	 * @param idJoueur L'id du joueur demandé
+	 * @return Le joueur, null si inexistant
+	 */
 	
 	public JoueurServeur getJoueur(int idJoueur) {
 		for(JoueurServeur joueur : this.lstJoueurs) {
@@ -124,32 +168,18 @@ public abstract class Partie implements Comparable<Partie>, Connectable {
 		this.typeEtat = TypeEtatPartie.EN_COURS;
 	}
 
-	/**
-	 * @return the clavardage
-	 */
 	public Clavardage getClavardage() {
 		return this.clavardage;
 	}
 
-	/**
-	 * @param clavardage
-	 *            the clavardage to set
-	 */
 	public void setClavardage(Clavardage clavardage) {
 		this.clavardage = clavardage;
 	}
 
-	/**
-	 * @return the infoJeu
-	 */
 	public Jeu getInfoJeu() {
 		return this.infoJeu;
 	}
 
-	/**
-	 * @param infoJeu
-	 *            the infoJeu to set
-	 */
 	public void setInfoJeu(Jeu infoJeu) {
 		this.infoJeu = infoJeu;
 	}
@@ -158,8 +188,6 @@ public abstract class Partie implements Comparable<Partie>, Connectable {
 	public int compareTo(Partie p) {
 		int placeRestante1 = this.infoJeu.getNbrJoueursMax() - this.lstJoueurs.size();
 		int placeRestante2 = p.infoJeu.getNbrJoueursMax() - p.lstJoueurs.size();
-
-		//System.out.println(this + " --> " + this.infoJeu.getNom() + "(" + String.valueOf(placeRestante1) + ") compareTo " + p + " --> " + p.infoJeu.getNom() + "(" + String.valueOf(placeRestante2) + ")");
 
 		return Integer.valueOf(placeRestante1).compareTo(placeRestante2);
 	}

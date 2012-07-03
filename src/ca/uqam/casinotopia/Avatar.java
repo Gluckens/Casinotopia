@@ -5,16 +5,40 @@ import java.awt.Point;
 import ca.uqam.casinotopia.modele.Modele;
 import ca.uqam.casinotopia.objet.AvatarClient;
 
+/**
+ * Regroupe les informations d'un avatar côté serveur
+ */
 @SuppressWarnings("serial")
 public class Avatar implements Modele {
 	
+	/**
+	 * Id de l'avatar
+	 */
 	private int id;
+	
+	/**
+	 * Path vers l'image de l'avatar
+	 */
 	private String pathImage;
+	
+	/**
+	 * Texte de l'avatar
+	 */
 	private String texte;
 	
+	/**
+	 * Position actuelle de l'avatar
+	 */
 	private Point position;
 	
+	/**
+	 * Largeur de l'avatar
+	 */
 	private int largeur;
+	
+	/**
+	 * Hauteur de l'avatar
+	 */
 	private int hauteur;
 	
 	public Avatar() {
@@ -46,6 +70,11 @@ public class Avatar implements Modele {
 		this.setPosition(position);
 	}
 	
+	/**
+	 * Récupérer la version client du modele de l'avatar
+	 * 
+	 * @return La version client d'un avatar
+	 */
 	public AvatarClient creerModeleClient() {
 		return new AvatarClient(this.id, this.pathImage, this.texte, this.largeur, this.hauteur, this.position);
 	}
@@ -74,16 +103,10 @@ public class Avatar implements Modele {
 		this.texte = texte;
 	}
 
-	/**
-	 * @return the position
-	 */
 	public Point getPosition() {
 		return this.position;
 	}
 
-	/**
-	 * @param position the position to set
-	 */
 	public void setPosition(Point position) {
 		this.position = position;
 	}
